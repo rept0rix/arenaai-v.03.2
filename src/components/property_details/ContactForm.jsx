@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Phone, Calendar, MessageSquare } from 'lucide-react';
+import { Phone, Mail, Calendar, MessageSquare } from 'lucide-react';
 
 export default function ContactForm({ property }) {
   const [formData, setFormData] = useState({

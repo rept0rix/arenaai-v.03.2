@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { agentSDK } from "@/agents";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Bot } from 'lucide-react';
+import { MessageCircle, Send, Bot } from 'lucide-react';
 import { UploadFile } from "@/integrations/Core";
 
 export default function ArenaAgentChat({ agentName = "arena_property_advisor" }) {

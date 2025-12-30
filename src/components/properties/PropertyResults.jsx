@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import PropertyCard from './PropertyCard';
 import PropertyFilters from './PropertyFilters';
 import { Button } from '@/components/ui/button';
-import { ArrowLeftRight, Search, CheckSquare } from 'lucide-react';
+import { ArrowLeftRight, Search, X, Brain, Sparkles, Target, CheckSquare, Building } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function PropertyResults({

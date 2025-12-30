@@ -7,7 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import { Search, Sun, Mountain, ParkingSquare, Baby, Train, Recycle, Home, Building, ArrowUp, HeartPulse, School, TreePine, ShoppingCart, Dumbbell, DollarSign, BedDouble, MapPin, Calendar, Star, Info, Landmark } from 'lucide-react';
+import { Search, MessageCircle, Sun, Mountain, ParkingSquare, Baby, Train, Recycle, Home, Building, ArrowUp, HeartPulse, School, TreePine, ShoppingCart, Dumbbell, DollarSign, BedDouble, MapPin, Calendar, Star, Info, Landmark } from 'lucide-react';
 import { createPageUrl } from '@/utils';
 import TopNavigation from '../components/TopNavigation';
 

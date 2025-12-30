@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Home, Ruler, Building, Car, ArrowUp, Users, Check, X, Zap, Thermometer } from 'lucide-react';
+import { Home, Ruler, Building, Car, ArrowUp, Calendar, Users, Check, X, Zap, Droplets, Thermometer } from 'lucide-react';
 
 export default function PropertySpecs({ property }) {
   const mainStats = [

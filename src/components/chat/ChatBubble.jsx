@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle } from 'lucide-react';
+import QuestionCard from './QuestionCard';
 
 export default function ChatBubble({ message, isActiveQuestion, onSubmitAnswer }) {
   const [multiSelect, setMultiSelect] = useState([]);

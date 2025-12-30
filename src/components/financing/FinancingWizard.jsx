@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-// This is not used, but keeping for consistency if it was intended to be used later
-// This is not used in the new flow, but keeping for consistency
+import { Textarea } from '@/components/ui/textarea'; // This is not used, but keeping for consistency if it was intended to be used later
+import { Checkbox } from '@/components/ui/checkbox'; // This is not used in the new flow, but keeping for consistency
 import { Progress } from '@/components/ui/progress';
 import { ArrowRight, ArrowLeft, Lightbulb } from 'lucide-react';
 

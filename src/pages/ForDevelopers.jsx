@@ -1,6 +1,7 @@
 import React from 'react';
 import TopNavigation from '../components/TopNavigation';
 import DeveloperSubscriptionForm from '../components/forms/DeveloperSubscriptionForm';
+import { Button } from '@/components/ui/button';
 import { CheckCircle } from 'lucide-react';
 
 export default function ForDevelopers() {

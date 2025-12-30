@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Building2, Star, Award, Phone, Mail } from 'lucide-react';
+import { Building2, Star, Users, Award, Phone, Mail } from 'lucide-react';
 
 export default function CompanyInfo({ property }) {
   const companyData = {

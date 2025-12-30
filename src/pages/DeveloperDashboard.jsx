@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Building, Plus, Eye, CreditCard, Users, BarChart3, TrendingUp, Handshake, Pencil } from 'lucide-react';
+import { Building, Plus, Eye, Settings, CreditCard, Users, BarChart3, TrendingUp, Handshake, Pencil } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import TopNavigation from '../components/TopNavigation';

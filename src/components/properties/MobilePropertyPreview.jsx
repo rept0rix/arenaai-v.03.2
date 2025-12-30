@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
-import { Home } from 'lucide-react';
+import { Home, Info } from 'lucide-react';
 import PropertyInfoModal from './PropertyInfoModal';
 
 const PropertyPreviewCard = ({ property, onClick }) => {

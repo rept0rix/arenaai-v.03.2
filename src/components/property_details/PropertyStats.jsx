@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Home, Ruler, Building, Check, X } from 'lucide-react';
+import { Home, Ruler, Building, Car, ArrowUp, Sun, Users, Check, X } from 'lucide-react';
 
 export default function PropertyStats({ property, viewCount }) {
   const stats = [

@@ -1,7 +1,7 @@
 import React from "react";
 import { User } from '@/entities/User';
 import { createPageUrl } from '@/utils';
-import { Facebook, Linkedin, ArrowUp, Accessibility, X } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, ArrowUp, Accessibility, X } from 'lucide-react';
 
 export default function Layout({ children, currentPageName }) {
   const [user, setUser] = React.useState(null);

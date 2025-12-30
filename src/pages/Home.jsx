@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Settings, ArrowUp, Compass, History } from 'lucide-react';
+import { Settings, ArrowUp, User, Compass, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { User as UserEntity } from '@/entities/User';

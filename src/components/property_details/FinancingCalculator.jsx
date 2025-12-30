@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
-import { Calculator, PiggyBank, CreditCard } from 'lucide-react';
+import { Calculator, PiggyBank, CreditCard, TrendingUp } from 'lucide-react';
 
 export default function FinancingCalculator({ property }) {
   const [downPayment, setDownPayment] = useState(30);

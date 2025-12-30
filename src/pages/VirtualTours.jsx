@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Eye, Home, Compass, Clock, Sparkles, ArrowLeft } from 'lucide-react';
+import { Eye, Home, Compass, Clock, CheckCircle, Sparkles, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function VirtualTours() {

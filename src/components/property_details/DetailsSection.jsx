@@ -1,5 +1,5 @@
 import React from 'react';
-import { BedDouble, Ruler, ParkingCircle, Building, Calendar } from 'lucide-react';
+import { Home, Bath, BedDouble, Ruler, ParkingCircle, Building, Calendar, Wrench } from 'lucide-react';
 import MapComponent from './MapComponent';
 
 export default function DetailsSection({ property }) {

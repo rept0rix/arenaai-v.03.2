@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const SEARCH_PHRASES = [

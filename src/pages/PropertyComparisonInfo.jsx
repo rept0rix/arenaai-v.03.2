@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Target, TrendingUp, Clock, Brain, Sparkles, ArrowLeft, Scale, Home, Lightbulb, MessageCircle } from 'lucide-react';
+import { Target, TrendingUp, Clock, Brain, CheckCircle, Sparkles, ArrowLeft, Scale, Users, Rocket, Search, Home, Lightbulb, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function PropertyComparisonInfo() {

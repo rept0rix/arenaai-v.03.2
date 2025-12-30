@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { View, Video, ChevronLeft, ChevronRight } from 'lucide-react';
+import { View, Video, Camera, Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function PropertyGallery({ property }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

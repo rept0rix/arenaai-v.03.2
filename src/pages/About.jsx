@@ -1,9 +1,10 @@
 
 import React from 'react';
 import TopNavigation from '../components/TopNavigation';
-import { CheckCircle, TrendingUp, FileText, BarChart3 } from 'lucide-react';
+import { ArrowLeft, BrainCircuit, Users, Building, Linkedin, CheckCircle, TrendingUp, FileText, BarChart3, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import TeamMemberCard from '../components/about/TeamMemberCard';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { createPageUrl } from '@/utils';
 

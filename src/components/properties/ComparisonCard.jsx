@@ -2,7 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { BedDouble, Ruler, Building2, HardHat, Star, Eye, Phone, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { BedDouble, Ruler, Building2, HardHat, Star, Eye, Phone, RefreshCw, CheckCircle, AlertTriangle, ArrowRight } from 'lucide-react';
 import { createPageUrl } from '@/utils';
 
 const FactorItem = ({ factor, isPositive = true }) => {

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
 import { User as UserEntity } from '@/entities/User';
-import { ChevronDown, User, LogOut, UserCircle, Settings } from 'lucide-react';
+import { ChevronDown, User, LogOut, UserCircle, Settings, Shield, Heart, History, ArrowUp } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import PtPromotions from '../components/petah-tikva/PtPromotions';
 import PtAnimatedSearch from '../components/petah-tikva/PtAnimatedSearch';

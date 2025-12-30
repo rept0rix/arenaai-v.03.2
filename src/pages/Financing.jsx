@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Banknote, CheckCircle, TrendingUp, Calculator, Shield, ArrowLeft } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Banknote, CheckCircle, Lightbulb, TrendingUp, Calculator, Shield, ArrowLeft } from 'lucide-react';
 import FinancingWizard from '../components/financing/FinancingWizard';
 import FinancingResults from '../components/financing/FinancingResults';
 import { useNavigate } from 'react-router-dom';

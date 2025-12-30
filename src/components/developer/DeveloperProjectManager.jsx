@@ -4,7 +4,7 @@ import { Project } from '@/entities/Project';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Edit, Trash2, TrendingUp, Handshake } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, TrendingUp, Handshake } from 'lucide-react';
 import { toast } from "sonner";
 import ProjectForm from '../admin/ProjectForm';
 

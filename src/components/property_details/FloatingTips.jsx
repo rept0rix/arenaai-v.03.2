@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Lightbulb, Shield, TrendingUp, AlertTriangle, CheckCircle, Info, X, Send, Compass } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';

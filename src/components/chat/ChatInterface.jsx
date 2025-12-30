@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Compass, MessageSquareMore, Target } from "lucide-react";
+import { MessageCircle, Send, Compass, MessageSquareMore, Target } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ChatBubble from './ChatBubble';
 import QuestionCard from './QuestionCard';

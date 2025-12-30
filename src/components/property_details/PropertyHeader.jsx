@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ChevronLeft, Eye, Heart, Share2, Calendar, Phone, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 import { User } from '@/entities/User';
 import { toast } from "sonner";
 
