@@ -144,8 +144,8 @@ export default function PetahTikvaLanding() {
       </nav>
 
       {/* Hero Section with Background Image - Matching Home Page Structure */}
-      <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d4f4dd75d87c3bfdbcb02f/7f67df95a_WhatsAppImage2025-12-05at072148.jpg')"}}>
-        <div className="absolute inset-0 bg-black/20"></div>
+      <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-gradient-to-br from-cyan-50 via-blue-50 to-sky-100" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d4f4dd75d87c3bfdbcb02f/7f67df95a_WhatsAppImage2025-12-05at072148.jpg')"}}>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white/30"></div>
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center pt-10">
           
