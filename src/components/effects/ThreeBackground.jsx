@@ -7,15 +7,13 @@ export default function ThreeBackground() {
   const sceneRef = useRef(null);
   const cameraRef = useRef(null);
   const frameIdRef = useRef(null);
-  const cleanedUpRef = useRef(false);
+  const initializedRef = useRef(false);
 
   useEffect(() => {
-    if (!mountRef.current || cleanedUpRef.current === false) {
-      cleanedUpRef.current = false;
-    }
-
     const container = mountRef.current;
-    if (!container) return;
+    if (!container || initializedRef.current) return;
+    
+    initializedRef.current = true;
 
     // Create scene
     const scene = new THREE.Scene();
@@ -97,7 +95,7 @@ export default function ThreeBackground() {
     const clock = new THREE.Clock();
 
     const animate = () => {
-      if (cleanedUpRef.current) return;
+      if (!initializedRef.current) return;
 
       const elapsedTime = clock.getElapsedTime();
 
@@ -130,7 +128,7 @@ export default function ThreeBackground() {
 
     // Cleanup
     return () => {
-      cleanedUpRef.current = true;
+      initializedRef.current = false;
 
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
