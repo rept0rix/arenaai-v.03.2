@@ -6,7 +6,6 @@ import { ChevronDown, User, LogOut, UserCircle, Settings, Shield, Heart, History
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import FeatureCard from '../components/landing/FeatureCard';
 import FaqItem from '../components/landing/FaqItem';
-import ThreeBackground from '../components/effects/ThreeBackground';
 import { User as UserEntity } from '@/entities/User';
 
 export default function Landing() {
