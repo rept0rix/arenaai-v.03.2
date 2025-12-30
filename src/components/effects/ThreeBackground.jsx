@@ -145,8 +145,8 @@ export default function ThreeBackground() {
   return (
     <div 
       ref={containerRef} 
-      className="fixed inset-0 pointer-events-none opacity-30"
-      style={{ zIndex: 0, mixBlendMode: 'screen' }}
+      className="fixed inset-0 pointer-events-none"
+      style={{ zIndex: 1, mixBlendMode: 'soft-light', opacity: 0.4 }}
     />
   );
 }

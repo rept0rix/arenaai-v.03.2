@@ -197,7 +197,7 @@ export default function Landing() {
 
 
   return (
-    <div className="min-h-screen relative" dir="rtl">
+    <div className="min-h-screen" dir="rtl">
       <ThreeBackground />
       {/* Custom CSS for logo animation */}
       <style>{`
@@ -309,10 +309,10 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section with Background Image */}
-      <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/77d5dcf6a_HEROBG.jpg')", zIndex: 1}}>
-        <div className="absolute inset-0 bg-contain bg-center bg-no-repeat mix-blend-screen opacity-70" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/3ce95eb98_bgbulding.png')"}}></div>
+      <div className="relative min-h-screen flex items-center justify-center bg-cover bg-center" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/77d5dcf6a_HEROBG.jpg')"}}>
+        <div className="absolute inset-0 bg-contain bg-center bg-no-repeat mix-blend-screen opacity-40" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/3ce95eb98_bgbulding.png')"}}></div>
         
-        <div className="relative max-w-6xl mx-auto px-6 text-center" style={{ zIndex: 5 }}>
+        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           
           {/* Hero Text */}
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white" style={{textShadow: '0 2px 10px rgba(0,0,0,0.2)'}}>
