@@ -2,19 +2,26 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 export default function ThreeBackground() {
-  const containerRef = useRef(null);
-  const animationIdRef = useRef(null);
+  const mountRef = useRef(null);
   const rendererRef = useRef(null);
-  const isInitializedRef = useRef(false);
+  const sceneRef = useRef(null);
+  const cameraRef = useRef(null);
+  const frameIdRef = useRef(null);
+  const cleanedUpRef = useRef(false);
 
   useEffect(() => {
-    if (!containerRef.current || isInitializedRef.current) return;
-    isInitializedRef.current = true;
+    if (!mountRef.current || cleanedUpRef.current === false) {
+      cleanedUpRef.current = false;
+    }
 
-    // Scene setup
+    const container = mountRef.current;
+    if (!container) return;
+
+    // Create scene
     const scene = new THREE.Scene();
+    sceneRef.current = scene;
 
-    // Camera
+    // Create camera
     const camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -22,23 +29,17 @@ export default function ThreeBackground() {
       1000
     );
     camera.position.z = 5;
+    cameraRef.current = camera;
 
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({ 
-      alpha: true, 
-      antialias: true 
-    });
+    // Create renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    
-    // Make sure container is empty before appending
-    if (containerRef.current) {
-      while (containerRef.current.firstChild) {
-        containerRef.current.removeChild(containerRef.current.firstChild);
-      }
-      containerRef.current.appendChild(renderer.domElement);
-      rendererRef.current = renderer;
-    }
+    rendererRef.current = renderer;
+
+    // Clear container and append canvas
+    container.innerHTML = '';
+    container.appendChild(renderer.domElement);
 
     // Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -58,7 +59,6 @@ export default function ThreeBackground() {
       color: 0x0ea5e9,
       metalness: 0.7,
       roughness: 0.2,
-      wireframe: false,
     });
     const torusKnot = new THREE.Mesh(geometry, material);
     scene.add(torusKnot);
@@ -97,16 +97,15 @@ export default function ThreeBackground() {
     const clock = new THREE.Clock();
 
     const animate = () => {
+      if (cleanedUpRef.current) return;
+
       const elapsedTime = clock.getElapsedTime();
 
-      // Rotate torus knot
       torusKnot.rotation.x = elapsedTime * 0.3 + mouseY * 0.5;
       torusKnot.rotation.y = elapsedTime * 0.5 + mouseX * 0.5;
 
-      // Rotate particles
       particlesMesh.rotation.y = elapsedTime * 0.1;
 
-      // Update light positions
       pointLight1.position.x = Math.sin(elapsedTime) * 3;
       pointLight1.position.z = Math.cos(elapsedTime) * 3;
       
@@ -114,55 +113,49 @@ export default function ThreeBackground() {
       pointLight2.position.z = Math.sin(elapsedTime) * 3;
 
       renderer.render(scene, camera);
-      animationIdRef.current = requestAnimationFrame(animate);
+      frameIdRef.current = requestAnimationFrame(animate);
     };
 
     animate();
 
     // Handle resize
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      if (!cameraRef.current || !rendererRef.current) return;
+      cameraRef.current.aspect = window.innerWidth / window.innerHeight;
+      cameraRef.current.updateProjectionMatrix();
+      rendererRef.current.setSize(window.innerWidth, window.innerHeight);
     };
 
     window.addEventListener('resize', handleResize);
 
     // Cleanup
     return () => {
-      isInitializedRef.current = false;
+      cleanedUpRef.current = true;
+
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       
-      if (animationIdRef.current) {
-        cancelAnimationFrame(animationIdRef.current);
+      if (frameIdRef.current) {
+        cancelAnimationFrame(frameIdRef.current);
       }
+
+      geometry.dispose();
+      material.dispose();
+      particlesGeometry.dispose();
+      particlesMaterial.dispose();
       
-      if (containerRef.current && renderer.domElement) {
-        try {
-          if (containerRef.current.contains(renderer.domElement)) {
-            containerRef.current.removeChild(renderer.domElement);
-          }
-        } catch (e) {
-          console.error('Error removing canvas:', e);
-        }
-      }
-      
-      try {
-        geometry.dispose();
-        material.dispose();
-        particlesGeometry.dispose();
-        particlesMaterial.dispose();
+      if (renderer) {
         renderer.dispose();
-      } catch (e) {
-        console.error('Error disposing Three.js resources:', e);
+        if (container && renderer.domElement && container.contains(renderer.domElement)) {
+          container.removeChild(renderer.domElement);
+        }
       }
     };
   }, []);
 
   return (
     <div 
-      ref={containerRef} 
+      ref={mountRef}
       className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-20"
       style={{ zIndex: 0, mixBlendMode: 'screen' }}
     />
