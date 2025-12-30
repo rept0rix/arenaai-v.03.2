@@ -3,21 +3,16 @@ import * as THREE from 'three';
 
 export default function ThreeBackground() {
   const containerRef = useRef(null);
-  const sceneRef = useRef(null);
-  const rendererRef = useRef(null);
   const animationIdRef = useRef(null);
+  const rendererRef = useRef(null);
+  const isInitializedRef = useRef(false);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    // Clear any existing children
-    while (containerRef.current.firstChild) {
-      containerRef.current.removeChild(containerRef.current.firstChild);
-    }
+    if (!containerRef.current || isInitializedRef.current) return;
+    isInitializedRef.current = true;
 
     // Scene setup
     const scene = new THREE.Scene();
-    sceneRef.current = scene;
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
@@ -35,8 +30,15 @@ export default function ThreeBackground() {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
-    rendererRef.current = renderer;
+    
+    // Make sure container is empty before appending
+    if (containerRef.current) {
+      while (containerRef.current.firstChild) {
+        containerRef.current.removeChild(containerRef.current.firstChild);
+      }
+      containerRef.current.appendChild(renderer.domElement);
+      rendererRef.current = renderer;
+    }
 
     // Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -128,6 +130,7 @@ export default function ThreeBackground() {
 
     // Cleanup
     return () => {
+      isInitializedRef.current = false;
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       
@@ -135,15 +138,25 @@ export default function ThreeBackground() {
         cancelAnimationFrame(animationIdRef.current);
       }
       
-      if (containerRef.current && renderer.domElement && containerRef.current.contains(renderer.domElement)) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (containerRef.current && renderer.domElement) {
+        try {
+          if (containerRef.current.contains(renderer.domElement)) {
+            containerRef.current.removeChild(renderer.domElement);
+          }
+        } catch (e) {
+          console.error('Error removing canvas:', e);
+        }
       }
       
-      geometry.dispose();
-      material.dispose();
-      particlesGeometry.dispose();
-      particlesMaterial.dispose();
-      renderer.dispose();
+      try {
+        geometry.dispose();
+        material.dispose();
+        particlesGeometry.dispose();
+        particlesMaterial.dispose();
+        renderer.dispose();
+      } catch (e) {
+        console.error('Error disposing Three.js resources:', e);
+      }
     };
   }, []);
 
