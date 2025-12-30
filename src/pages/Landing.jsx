@@ -197,8 +197,7 @@ export default function Landing() {
 
 
   return (
-    <div className="min-h-screen relative" dir="rtl">
-      <ThreeBackground />
+    <div className="min-h-screen relative bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50" dir="rtl">
       {/* Custom CSS for logo animation */}
       <style>{`
         @keyframes scroll {
