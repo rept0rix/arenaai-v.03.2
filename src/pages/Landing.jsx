@@ -197,7 +197,7 @@ export default function Landing() {
 
 
   return (
-    <div className="min-h-screen" dir="rtl">
+    <div className="min-h-screen relative" dir="rtl">
       <ThreeBackground />
       {/* Custom CSS for logo animation */}
       <style>{`
