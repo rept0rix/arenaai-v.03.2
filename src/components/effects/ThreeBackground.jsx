@@ -10,6 +10,11 @@ export default function ThreeBackground() {
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Clear any existing children
+    while (containerRef.current.firstChild) {
+      containerRef.current.removeChild(containerRef.current.firstChild);
+    }
+
     // Scene setup
     const scene = new THREE.Scene();
     sceneRef.current = scene;
@@ -130,8 +135,8 @@ export default function ThreeBackground() {
         cancelAnimationFrame(animationIdRef.current);
       }
       
-      if (containerRef.current && rendererRef.current) {
-        containerRef.current.removeChild(rendererRef.current.domElement);
+      if (containerRef.current && renderer.domElement && containerRef.current.contains(renderer.domElement)) {
+        containerRef.current.removeChild(renderer.domElement);
       }
       
       geometry.dispose();
