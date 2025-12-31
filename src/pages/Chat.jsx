@@ -8,6 +8,7 @@ import ChatInterface from '../components/chat/ChatInterface';
 import TopNavigation from '../components/TopNavigation';
 import PropertyQuickView from '../components/properties/PropertyQuickView';
 import { createPageUrl } from '@/utils';
+import { mockProperties, getBestFitPropertiesPerProject } from '../components/properties/mockPropertiesData';
 
 export default function Chat() {
   const [isLoading, setIsLoading] = useState(true);
@@ -102,17 +103,18 @@ export default function Chat() {
     try {
       console.log('Loading data...');
       
-      const [propertiesData, questionsData] = await Promise.all([
-        Property.list("-created_date"),
-        ChatQuestion.list('order')
-      ]);
+      // Use mock data with "best fit" logic to avoid showing all properties from same project
+      const bestFitProperties = getBestFitPropertiesPerProject(mockProperties);
       
-      setProperties(propertiesData);
-      setFilteredProperties(propertiesData); // Initial set before filters are applied by useEffect
+      const questionsData = await ChatQuestion.list('order');
+      
+      setProperties(bestFitProperties);
+      setFilteredProperties(bestFitProperties); // Initial set before filters are applied by useEffect
       
       const activeQuestions = questionsData.filter(q => q.is_active);
       setQuestions(activeQuestions);
-      console.log('Properties loaded:', propertiesData.length);
+      console.log('Mock properties loaded:', bestFitProperties.length);
+      console.log('Total mock properties available:', mockProperties.length);
       console.log('Questions loaded:', activeQuestions.length);
 
       const purpose = searchParams.get('purpose') || 'general';

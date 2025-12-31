@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -137,13 +136,40 @@ export default function PropertyCard({
               <span>{property.size} מ"ר</span>
             </div>
           )}
-          {property.floor && (
+          {property.floor !== undefined && (
             <div className="flex items-center gap-1">
               <Building className="w-4 h-4" />
               <span>קומה {property.floor}</span>
             </div>
           )}
         </div>
+
+        {/* Unit Type and Facing */}
+        {(property.unit_type || property.facing) && (
+          <div className="flex gap-2 mb-3">
+            {property.unit_type && (
+              <Badge variant="outline" className="text-xs">טיפוס {property.unit_type}</Badge>
+            )}
+            {property.facing && (
+              <Badge variant="outline" className="text-xs">{property.facing}</Badge>
+            )}
+          </div>
+        )}
+
+        {/* Project Badge */}
+        {property.other_properties_in_project_count > 0 && property.project_name && (
+          <div className="mb-3 p-2 bg-sky-50 rounded-lg border border-sky-200 hover:bg-sky-100 transition-colors cursor-pointer">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Building className="w-4 h-4 text-sky-600" />
+                <span className="text-xs font-medium text-sky-700">{property.project_name}</span>
+              </div>
+              <Badge className="bg-sky-600 text-white text-xs">
+                +{property.other_properties_in_project_count} דירות
+              </Badge>
+            </div>
+          </div>
+        )}
         
         <Button
           variant="outline"
