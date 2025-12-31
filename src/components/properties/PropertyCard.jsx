@@ -48,6 +48,13 @@ export default function PropertyCard({
     });
   };
 
+  const handleProjectClick = (e) => {
+    e.stopPropagation();
+    if (property.projectId) {
+      navigate(createPageUrl(`ProjectDetails?id=${property.projectId}`));
+    }
+  };
+
   const handleQuickViewClick = (e) => {
     e.stopPropagation();
     onQuickView(property);
@@ -158,7 +165,10 @@ export default function PropertyCard({
 
         {/* Project Badge */}
         {property.other_properties_in_project_count > 0 && property.project_name && (
-          <div className="mb-3 p-2 bg-sky-50 rounded-lg border border-sky-200 hover:bg-sky-100 transition-colors cursor-pointer">
+          <div 
+            onClick={handleProjectClick}
+            className="mb-3 p-2 bg-sky-50 rounded-lg border border-sky-200 hover:bg-sky-100 transition-colors cursor-pointer"
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Building className="w-4 h-4 text-sky-600" />
