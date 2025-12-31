@@ -1,65 +1,65 @@
-import Admin from './pages/Admin';
-import Home from './pages/Home';
-import Chat from './pages/Chat';
-import PropertyDetails from './pages/PropertyDetails';
-import Landing from './pages/Landing';
-import DeveloperAdmin from './pages/DeveloperAdmin';
-import PropertyComparison from './pages/PropertyComparison';
-import Filters from './pages/Filters';
 import About from './pages/About';
-import Financing from './pages/Financing';
-import History from './pages/History';
-import UserProfile from './pages/UserProfile';
-import Settings from './pages/Settings';
-import TermsOfService from './pages/TermsOfService';
-import Contact from './pages/Contact';
-import BuyingGuide from './pages/BuyingGuide';
-import Blog from './pages/Blog';
-import PrivacyPolicy from './pages/PrivacyPolicy';
 import AccessibilityStatement from './pages/AccessibilityStatement';
+import Admin from './pages/Admin';
 import ArenaClub from './pages/ArenaClub';
-import SavedProperties from './pages/SavedProperties';
+import Blog from './pages/Blog';
+import BuyingGuide from './pages/BuyingGuide';
+import Chat from './pages/Chat';
+import Contact from './pages/Contact';
+import DeveloperAdmin from './pages/DeveloperAdmin';
+import DeveloperDashboard from './pages/DeveloperDashboard';
+import DeveloperThankYou from './pages/DeveloperThankYou';
+import Filters from './pages/Filters';
+import Financing from './pages/Financing';
 import FinancingConfirmation from './pages/FinancingConfirmation';
 import ForDevelopers from './pages/ForDevelopers';
-import DeveloperThankYou from './pages/DeveloperThankYou';
-import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
-import DeveloperDashboard from './pages/DeveloperDashboard';
-import VirtualTours from './pages/VirtualTours';
-import PropertyComparisonInfo from './pages/PropertyComparisonInfo';
+import History from './pages/History';
+import Home from './pages/Home';
+import Landing from './pages/Landing';
 import PetahTikvaLanding from './pages/PetahTikvaLanding';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import PropertyComparison from './pages/PropertyComparison';
+import PropertyComparisonInfo from './pages/PropertyComparisonInfo';
+import PropertyDetails from './pages/PropertyDetails';
+import SavedProperties from './pages/SavedProperties';
+import Settings from './pages/Settings';
+import TermsOfService from './pages/TermsOfService';
+import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
+import UserProfile from './pages/UserProfile';
+import VirtualTours from './pages/VirtualTours';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Admin": Admin,
-    "Home": Home,
-    "Chat": Chat,
-    "PropertyDetails": PropertyDetails,
-    "Landing": Landing,
-    "DeveloperAdmin": DeveloperAdmin,
-    "PropertyComparison": PropertyComparison,
-    "Filters": Filters,
     "About": About,
-    "Financing": Financing,
-    "History": History,
-    "UserProfile": UserProfile,
-    "Settings": Settings,
-    "TermsOfService": TermsOfService,
-    "Contact": Contact,
-    "BuyingGuide": BuyingGuide,
-    "Blog": Blog,
-    "PrivacyPolicy": PrivacyPolicy,
     "AccessibilityStatement": AccessibilityStatement,
+    "Admin": Admin,
     "ArenaClub": ArenaClub,
-    "SavedProperties": SavedProperties,
+    "Blog": Blog,
+    "BuyingGuide": BuyingGuide,
+    "Chat": Chat,
+    "Contact": Contact,
+    "DeveloperAdmin": DeveloperAdmin,
+    "DeveloperDashboard": DeveloperDashboard,
+    "DeveloperThankYou": DeveloperThankYou,
+    "Filters": Filters,
+    "Financing": Financing,
     "FinancingConfirmation": FinancingConfirmation,
     "ForDevelopers": ForDevelopers,
-    "DeveloperThankYou": DeveloperThankYou,
-    "TermsOfServiceDevelopers": TermsOfServiceDevelopers,
-    "DeveloperDashboard": DeveloperDashboard,
-    "VirtualTours": VirtualTours,
-    "PropertyComparisonInfo": PropertyComparisonInfo,
+    "History": History,
+    "Home": Home,
+    "Landing": Landing,
     "PetahTikvaLanding": PetahTikvaLanding,
+    "PrivacyPolicy": PrivacyPolicy,
+    "PropertyComparison": PropertyComparison,
+    "PropertyComparisonInfo": PropertyComparisonInfo,
+    "PropertyDetails": PropertyDetails,
+    "SavedProperties": SavedProperties,
+    "Settings": Settings,
+    "TermsOfService": TermsOfService,
+    "TermsOfServiceDevelopers": TermsOfServiceDevelopers,
+    "UserProfile": UserProfile,
+    "VirtualTours": VirtualTours,
 }
 
 export const pagesConfig = {
