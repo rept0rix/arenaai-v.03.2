@@ -167,38 +167,38 @@ export default function ProjectFloorplan({ projectId, properties }) {
             <div className="flex items-center gap-4">
               <Filter className="w-5 h-5 text-slate-600" />
               <div className="flex gap-2 flex-wrap">
-              <Button
-                variant={filterStatus === 'all' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setFilterStatus('all')}
-                className={filterStatus === 'all' ? 'bg-sky-500' : ''}
-              >
-                הכל
-              </Button>
-              <Button
-                variant={filterStatus === 'available' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setFilterStatus('available')}
-                className={filterStatus === 'available' ? 'bg-green-500' : ''}
-              >
-                פנוי
-              </Button>
-              <Button
-                variant={filterStatus === 'reserved' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setFilterStatus('reserved')}
-                className={filterStatus === 'reserved' ? 'bg-orange-500' : ''}
-              >
-                שמור
-              </Button>
-              <Button
-                variant={filterStatus === 'sold' ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setFilterStatus('sold')}
-                className={filterStatus === 'sold' ? 'bg-red-500' : ''}
-              >
-                נמכר
-              </Button>
+                <Button
+                  variant={filterStatus === 'all' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFilterStatus('all')}
+                  className={filterStatus === 'all' ? 'bg-sky-500' : ''}
+                >
+                  הכל
+                </Button>
+                <Button
+                  variant={filterStatus === 'available' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFilterStatus('available')}
+                  className={filterStatus === 'available' ? 'bg-green-500' : ''}
+                >
+                  פנוי
+                </Button>
+                <Button
+                  variant={filterStatus === 'reserved' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFilterStatus('reserved')}
+                  className={filterStatus === 'reserved' ? 'bg-orange-500' : ''}
+                >
+                  שמור
+                </Button>
+                <Button
+                  variant={filterStatus === 'sold' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFilterStatus('sold')}
+                  className={filterStatus === 'sold' ? 'bg-red-500' : ''}
+                >
+                  נמכר
+                </Button>
               </div>
             </div>
             <Button
@@ -209,6 +209,7 @@ export default function ProjectFloorplan({ projectId, properties }) {
               {isCompareMode ? 'מצב השוואה פעיל' : 'השווה דירות'}
             </Button>
           </div>
+          
           <div className="flex items-center gap-4">
             <div className="h-6 w-px bg-slate-300"></div>
             <div className="flex gap-2">
