@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Property } from "@/entities/Property";
@@ -21,7 +20,7 @@ export default function Chat() {
   const [selectedProperties, setSelectedProperties] = useState([]);
   const [isCompareMode, setIsCompareMode] = useState(false);
   const navigate = useNavigate();
-  const [quickViewProperty, setQuickViewProperty] = useState(null);
+  const [selectedPropertyForDetails, setSelectedPropertyForDetails] = useState(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [forceShowResults, setForceShowResults] = useState(false);
 
@@ -242,32 +241,38 @@ export default function Chat() {
       </div>
 
       <div className="flex-1 min-h-0 flex flex-row">
-        <div className="flex-1 h-full border-l border-slate-200 relative">
-          {quickViewProperty && (
-            <PropertyQuickView 
-              property={quickViewProperty}
-              onClose={() => setQuickViewProperty(null)}
+        <div className="flex-1 h-full border-l border-slate-200 relative flex">
+          <div className={`transition-all duration-300 ${selectedPropertyForDetails ? 'w-1/2' : 'w-full'}`}>
+            <PropertyResults
+              properties={filteredProperties}
+              totalProperties={properties.length}
+              isLoading={isLoading}
+              filters={filters}
+              selectedProperties={selectedProperties}
+              onSelectProperty={handleSelectProperty}
+              onCompare={handleCompare}
+              isCompareMode={isCompareMode}
+              setIsCompareMode={setIsCompareMode}
+              onQuickView={setSelectedPropertyForDetails}
+              onFiltersChange={handleFiltersChange}
+              onViewAll={handleViewAll}
+              forceShowResults={forceShowResults}
+              developerId={searchParams.get('developer')}
+              isGuided={searchParams.get('guided') === 'true'}
+              currentSession={currentSession}
+              questions={questions}
             />
+          </div>
+          
+          {selectedPropertyForDetails && (
+            <div className="w-1/2 h-full border-r border-slate-200 overflow-y-auto">
+              <PropertyQuickView 
+                property={selectedPropertyForDetails}
+                onClose={() => setSelectedPropertyForDetails(null)}
+                isInline={true}
+              />
+            </div>
           )}
-          <PropertyResults
-            properties={filteredProperties}
-            totalProperties={properties.length}
-            isLoading={isLoading}
-            filters={filters}
-            selectedProperties={selectedProperties}
-            onSelectProperty={handleSelectProperty}
-            onCompare={handleCompare}
-            isCompareMode={isCompareMode}
-            setIsCompareMode={setIsCompareMode}
-            onQuickView={setQuickViewProperty}
-            onFiltersChange={handleFiltersChange}
-            onViewAll={handleViewAll}
-            forceShowResults={forceShowResults}
-            developerId={searchParams.get('developer')}
-            isGuided={searchParams.get('guided') === 'true'}
-            currentSession={currentSession}
-            questions={questions}
-          />
         </div>
         <div className="w-96 h-full flex-shrink-0 border-r border-slate-200">
           <ChatInterface
