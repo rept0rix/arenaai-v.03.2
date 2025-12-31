@@ -16,8 +16,9 @@ import PropertyReviews from '../components/property_details/PropertyReviews';
 import FloatingTips from '../components/property_details/FloatingTips';
 import ChatInterface from '../components/chat/ChatInterface';
 import { Loader2, MessageCircle, X } from 'lucide-react';
-import { Property } from '@/entities/Property'; // Import the Property entity
+import { Property } from '@/entities/Property';
 import { ChatSession } from '@/entities/ChatSession';
+import { ChatQuestion } from '@/entities/ChatQuestion';
 import { User as UserEntity } from '@/entities/User';
 
 // This transformation function might become redundant if the Property entity handles it internally.
@@ -55,10 +56,12 @@ export default function PropertyDetails() {
     const [error, setError] = useState(null);
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatSession, setChatSession] = useState(null);
+    const [questions, setQuestions] = useState([]);
     const [user, setUser] = useState(null);
 
     useEffect(() => {
         checkUser();
+        loadQuestions();
         const propertyId = searchParams.get('id');
         setViewCount(Math.floor(Math.random() * 150) + 50);
         
@@ -70,6 +73,17 @@ export default function PropertyDetails() {
             fetchSimilar(location.state.property);
         }
     }, [searchParams]);
+
+    const loadQuestions = async () => {
+        try {
+            const questionsData = await ChatQuestion.list('order');
+            const activeQuestions = questionsData.filter(q => q.is_active);
+            setQuestions(activeQuestions);
+        } catch (error) {
+            console.error('Failed to load questions:', error);
+            setQuestions([]);
+        }
+    };
 
     useEffect(() => {
         if (user && !chatSession) {
@@ -251,9 +265,13 @@ export default function PropertyDetails() {
                             </div>
                         ) : (
                             <ChatInterface
-                                sessionId={chatSession.id}
-                                purpose="living"
-                                initialQuery={`תן לי מידע נוסף על ${property.title}`}
+                                questions={questions}
+                                currentSession={chatSession}
+                                onUpdateAnswer={async () => chatSession}
+                                filteredCount={0}
+                                isMobile={false}
+                                isSelectionMode={false}
+                                setIsSelectionMode={() => {}}
                             />
                         )}
                     </div>
