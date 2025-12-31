@@ -11,6 +11,8 @@ export default function ProjectFloorplan({ projectId, properties }) {
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterType, setFilterType] = useState('all');
+  const [isCompareMode, setIsCompareMode] = useState(false);
+  const [selectedForCompare, setSelectedForCompare] = useState([]);
   const navigate = useNavigate();
 
   if (!properties || properties.length === 0) {
@@ -56,7 +58,32 @@ export default function ProjectFloorplan({ projectId, properties }) {
   };
 
   const handleUnitClick = (property) => {
-    setSelectedUnit(property);
+    if (isCompareMode) {
+      toggleCompareSelection(property.id);
+    } else {
+      setSelectedUnit(property);
+    }
+  };
+
+  const toggleCompareSelection = (propertyId) => {
+    setSelectedForCompare(prev => {
+      if (prev.includes(propertyId)) {
+        return prev.filter(id => id !== propertyId);
+      }
+      if (prev.length >= 5) {
+        alert('ניתן לבחור עד 5 דירות להשוואה');
+        return prev;
+      }
+      return [...prev, propertyId];
+    });
+  };
+
+  const handleCompare = () => {
+    if (selectedForCompare.length < 2) {
+      alert('יש לבחור לפחות 2 דירות להשוואה');
+      return;
+    }
+    navigate(createPageUrl(`ProjectComparison?projectId=${projectId}&ids=${selectedForCompare.join(',')}`));
   };
 
   const handleViewDetails = (property) => {
@@ -89,12 +116,57 @@ export default function ProjectFloorplan({ projectId, properties }) {
         </CardHeader>
       </Card>
 
+      {/* Compare Mode Bar */}
+      {isCompareMode && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-sky-50 border-2 border-sky-500 rounded-lg p-4"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="text-lg font-bold text-sky-900">
+                נבחרו {selectedForCompare.length} דירות להשוואה
+              </div>
+              {selectedForCompare.length > 0 && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSelectedForCompare([])}
+                >
+                  נקה בחירה
+                </Button>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Button
+                onClick={handleCompare}
+                disabled={selectedForCompare.length < 2}
+                className="bg-sky-500 hover:bg-sky-600"
+              >
+                השווה דירות ({selectedForCompare.length})
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsCompareMode(false);
+                  setSelectedForCompare([]);
+                }}
+              >
+                ביטול
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Filters */}
       <Card>
         <CardContent className="pt-6">
-          <div className="flex items-center gap-4">
-            <Filter className="w-5 h-5 text-slate-600" />
-            <div className="flex gap-2 flex-wrap">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-4">
+              <Filter className="w-5 h-5 text-slate-600" />
+              <div className="flex gap-2 flex-wrap">
               <Button
                 variant={filterStatus === 'all' ? 'default' : 'outline'}
                 size="sm"
@@ -199,9 +271,18 @@ export default function ProjectFloorplan({ projectId, properties }) {
                                 <button
                                   key={prop.id}
                                   onClick={() => handleUnitClick(prop)}
-                                  className={`${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all transform hover:scale-105 cursor-pointer`}
+                                  className={`${
+                                    isCompareMode && selectedForCompare.includes(prop.id)
+                                      ? 'ring-2 ring-sky-500 ring-offset-2'
+                                      : ''
+                                  } ${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all transform hover:scale-105 cursor-pointer relative`}
                                   title={`${getStatusText(prop.status)} - ${prop.rooms} חדרים - ₪${prop.price?.toLocaleString()}`}
                                 >
+                                  {isCompareMode && selectedForCompare.includes(prop.id) && (
+                                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
+                                      ✓
+                                    </div>
+                                  )}
                                   {prop.rooms}ח׳ - ₪{(prop.price / 1000000).toFixed(1)}M
                                 </button>
                               ))

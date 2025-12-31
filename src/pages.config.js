@@ -28,6 +28,7 @@ import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import ProjectDetails from './pages/ProjectDetails';
+import ProjectComparison from './pages/ProjectComparison';
 import __Layout from './Layout.jsx';
 
 
@@ -62,6 +63,7 @@ export const PAGES = {
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
     "ProjectDetails": ProjectDetails,
+    "ProjectComparison": ProjectComparison,
 }
 
 export const pagesConfig = {
