@@ -200,16 +200,6 @@ export default function Landing() {
 
           {/* Trusted indicator */}
           <div className="flex items-center justify-center gap-3 mb-8 mt-12">
-            <div className="flex -space-x-2">
-              {avatarImages.map((img, i) => (
-                <img 
-                  key={i} 
-                  src={img}
-                  alt={`user ${i+1}`}
-                  className="w-8 h-8 object-cover bg-white/40 rounded-full border-2 border-white/60"
-                />
-              ))}
-            </div>
             <span className="text-sm text-slate-800 font-medium">מוביל לאלפי משפחות שמצאו את ביתם</span>
           </div>
         </div>
