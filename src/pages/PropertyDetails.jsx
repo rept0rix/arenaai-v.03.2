@@ -70,6 +70,12 @@ export default function PropertyDetails() {
         setViewCount(Math.floor(Math.random() * 150) + 50);
     }, [property, searchParams]);
 
+    useEffect(() => {
+        if (user && !chatSession) {
+            initializeChatSession();
+        }
+    }, [user]);
+
     const checkUser = async () => {
         try {
             const currentUser = await UserEntity.me();
@@ -177,67 +183,72 @@ export default function PropertyDetails() {
     }
 
     return (
-        <div className="bg-slate-50 flex">
-            <div className={`flex-1 transition-all duration-300 ${isChatOpen ? 'mr-0 lg:mr-96' : ''}`}>
+        <div className="h-screen w-full flex flex-col bg-slate-50">
+            {/* Header */}
+            <div className="flex-shrink-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                 <TopNavigation currentPage="PropertyDetails" />
-                <PropertyHeader property={property} viewCount={viewCount} />
-                
-                <div className="max-w-7xl mx-auto px-4 py-8">
-                    <div className="grid grid-cols-12 gap-8">
-                        {/* Main Content */}
-                        <div className="col-span-12 lg:col-span-8">
-                            <div className="space-y-8">
-                                <PropertyGallery property={property} />
-                                <PropertySpecs property={property} />
-                                <PropertyDescription property={property} />
-                                <PropertyFeatures property={property} />
-                                <LocationMap property={property} />
-                                <PriceAnalysis property={property} />
-                                <FinancingCalculator property={property} />
-                                <CompanyInfo property={property} />
+            </div>
+
+            {/* Main Content - Split View */}
+            <div className="flex-1 min-h-0 flex flex-row">
+                {/* Property Details - Left Side */}
+                <div className="flex-1 h-full overflow-y-auto border-l border-slate-200">
+                    <PropertyHeader property={property} viewCount={viewCount} />
+                    
+                    <div className="max-w-7xl mx-auto px-4 py-8">
+                        <div className="grid grid-cols-12 gap-8">
+                            {/* Main Content */}
+                            <div className="col-span-12 lg:col-span-8">
+                                <div className="space-y-8">
+                                    <PropertyGallery property={property} />
+                                    <PropertySpecs property={property} />
+                                    <PropertyDescription property={property} />
+                                    <PropertyFeatures property={property} />
+                                    <LocationMap property={property} />
+                                    <PriceAnalysis property={property} />
+                                    <FinancingCalculator property={property} />
+                                    <CompanyInfo property={property} />
+                                </div>
+                            </div>
+                            
+                            {/* Right Sidebar */}
+                            <div className="col-span-12 lg:col-span-4">
+                                <PropertyServices property={property} />
                             </div>
                         </div>
                         
-                        {/* Right Sidebar */}
-                        <div className="col-span-12 lg:col-span-4">
-                            <PropertyServices property={property} />
+                        {/* Full Width Sections */}
+                        <div className="mt-12 space-y-12">
+                            <PropertyReviews />
+                            <SimilarProperties properties={similarProperties} />
                         </div>
                     </div>
-                    
-                    {/* Full Width Sections */}
-                    <div className="mt-12 space-y-12">
-                        <PropertyReviews />
-                        <SimilarProperties properties={similarProperties} />
-                    </div>
                 </div>
-                
-                <FloatingTips />
-            </div>
 
-            {/* Chat Toggle Button */}
-            {!isChatOpen && (
-                <button
-                    onClick={handleChatOpen}
-                    className="fixed bottom-6 left-6 bg-sky-500 text-white p-4 rounded-full shadow-lg hover:bg-sky-600 transition-colors z-50"
-                >
-                    <MessageCircle className="w-6 h-6" />
-                </button>
-            )}
-
-            {/* Sliding Chat Panel */}
-            {isChatOpen && (
-                <div className="fixed top-0 left-0 h-screen w-full lg:w-96 bg-white shadow-2xl z-50 flex flex-col">
+                {/* Chat Panel - Right Side */}
+                <div className="w-96 h-full flex-shrink-0 border-r border-slate-200 bg-white flex flex-col">
                     <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-slate-50">
                         <h3 className="text-lg font-semibold text-slate-900">שאלו את ארנה</h3>
-                        <button
-                            onClick={() => setIsChatOpen(false)}
-                            className="text-slate-500 hover:text-slate-700"
-                        >
-                            <X className="w-5 h-5" />
-                        </button>
                     </div>
                     <div className="flex-1 overflow-hidden">
-                        {user && chatSession && (
+                        {!user ? (
+                            <div className="flex items-center justify-center h-full p-6">
+                                <div className="text-center">
+                                    <MessageCircle className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                                    <p className="text-slate-600 mb-4">התחבר כדי לשאול שאלות על הנכס</p>
+                                    <button
+                                        onClick={handleChatOpen}
+                                        className="bg-sky-500 text-white px-6 py-2 rounded-lg hover:bg-sky-600 transition-colors"
+                                    >
+                                        התחבר
+                                    </button>
+                                </div>
+                            </div>
+                        ) : !chatSession ? (
+                            <div className="flex items-center justify-center h-full">
+                                <Loader2 className="w-8 h-8 animate-spin text-sky-500" />
+                            </div>
+                        ) : (
                             <ChatInterface
                                 sessionId={chatSession.id}
                                 purpose="living"
@@ -246,7 +257,7 @@ export default function PropertyDetails() {
                         )}
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 }

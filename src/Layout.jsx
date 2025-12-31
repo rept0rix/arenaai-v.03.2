@@ -21,7 +21,7 @@ export default function Layout({ children, currentPageName }) {
   };
 
   const getFooterType = () => {
-    if (currentPageName === 'Chat') return 'none';
+    if (currentPageName === 'Chat' || currentPageName === 'PropertyDetails') return 'none';
     if (user && (currentPageName === 'Admin' || currentPageName === 'DeveloperAdmin')) {
         return 'app-logged-in'
     }
@@ -244,7 +244,7 @@ export default function Layout({ children, currentPageName }) {
         {children}
       </div>
 
-      {showAccessibilityButton && (
+      {showAccessibilityButton && currentPageName !== 'PropertyDetails' && currentPageName !== 'Chat' && (
         <div className="fixed bottom-6 left-6 z-50">
           <button
             onClick={() => setShowAccessibilityButton(false)}
