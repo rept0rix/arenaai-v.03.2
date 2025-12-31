@@ -60,21 +60,22 @@ export default function PropertyDetails() {
     useEffect(() => {
         checkUser();
         const propertyId = searchParams.get('id');
-        // If property data wasn't passed through navigation state, fetch it.
-        if (!property && propertyId) {
-            fetchData(propertyId);
-        } else if (property) {
-             // If property exists, fetch similar properties.
-            fetchSimilar(property);
-        }
         setViewCount(Math.floor(Math.random() * 150) + 50);
-    }, [property, searchParams]);
+        
+        // If property data wasn't passed through navigation state, fetch it.
+        if (!location.state?.property && propertyId) {
+            fetchData(propertyId);
+        } else if (location.state?.property) {
+            // If property exists in location state, fetch similar properties.
+            fetchSimilar(location.state.property);
+        }
+    }, [searchParams]);
 
     useEffect(() => {
         if (user && !chatSession) {
             initializeChatSession();
         }
-    }, [user]);
+    }, [user, chatSession]);
 
     const checkUser = async () => {
         try {
