@@ -199,7 +199,17 @@ export default function ProjectFloorplan({ projectId, properties }) {
               >
                 נמכר
               </Button>
+              </div>
             </div>
+            <Button
+              variant={isCompareMode ? 'default' : 'outline'}
+              onClick={() => setIsCompareMode(!isCompareMode)}
+              className={isCompareMode ? 'bg-sky-500' : ''}
+            >
+              {isCompareMode ? 'מצב השוואה פעיל' : 'השווה דירות'}
+            </Button>
+          </div>
+          <div className="flex items-center gap-4">
             <div className="h-6 w-px bg-slate-300"></div>
             <div className="flex gap-2">
               {types.map(type => (
