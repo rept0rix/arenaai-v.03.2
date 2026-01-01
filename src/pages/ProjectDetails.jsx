@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Loader2, ArrowRight } from 'lucide-react';
+import { Loader2, ArrowRight, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import TopNavigation from '../components/TopNavigation';
 import ProjectFloorplan from '../components/properties/ProjectFloorplan';
+import ChatInterface from '../components/chat/ChatInterface';
 import { mockProperties, getPropertiesByProject } from '../components/properties/mockPropertiesData';
 import { createPageUrl } from '@/utils';
+import { ChatSession } from '@/entities/ChatSession';
+import { ChatQuestion } from '@/entities/ChatQuestion';
+import { User as UserEntity } from '@/entities/User';
 
 export default function ProjectDetails() {
   const [searchParams] = useSearchParams();
@@ -13,16 +17,80 @@ export default function ProjectDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [projectProperties, setProjectProperties] = useState([]);
   const [projectInfo, setProjectInfo] = useState(null);
+  const [chatSession, setChatSession] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [user, setUser] = useState(null);
 
   const projectId = searchParams.get('id');
 
   useEffect(() => {
+    checkUser();
+    loadQuestions();
     if (projectId) {
       loadProjectData(projectId);
     } else {
       setIsLoading(false);
     }
   }, [projectId]);
+
+  useEffect(() => {
+    if (user && !chatSession && projectInfo) {
+      initializeChatSession();
+    }
+  }, [user, chatSession, projectInfo]);
+
+  const checkUser = async () => {
+    try {
+      const currentUser = await UserEntity.me();
+      setUser(currentUser);
+    } catch (error) {
+      setUser(null);
+    }
+  };
+
+  const loadQuestions = async () => {
+    try {
+      const questionsData = await ChatQuestion.list('order');
+      const activeQuestions = questionsData.filter(q => q.is_active);
+      setQuestions(activeQuestions);
+    } catch (error) {
+      console.error('Failed to load questions:', error);
+      setQuestions([]);
+    }
+  };
+
+  const initializeChatSession = async () => {
+    if (!chatSession && user && projectInfo) {
+      try {
+        const projectContext = {
+          viewing_project_id: projectInfo.id,
+          viewing_project_name: projectInfo.name,
+          project_developer: projectInfo.developer,
+          project_location: projectInfo.location,
+          total_units: projectInfo.totalUnits
+        };
+        
+        const newSession = await ChatSession.create({
+          answers: { project_context: projectContext },
+          current_question: 0,
+          completed: false,
+          purpose: 'living',
+          is_guided: false
+        });
+        setChatSession(newSession);
+      } catch (err) {
+        console.error("Failed to create chat session:", err);
+      }
+    }
+  };
+
+  const handleChatOpen = () => {
+    if (!user) {
+      UserEntity.loginWithRedirect(window.location.href);
+      return;
+    }
+    initializeChatSession();
+  };
 
   const loadProjectData = async (id) => {
     setIsLoading(true);
@@ -78,9 +146,9 @@ export default function ProjectDetails() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="h-screen w-full flex flex-col bg-slate-50">
       {/* Header */}
-      <div className="bg-white border-b border-slate-200 px-6 py-4 shadow-sm sticky top-0 z-10">
+      <div className="flex-shrink-0 bg-white border-b border-slate-200 px-6 py-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Button
             variant="ghost"
@@ -94,12 +162,71 @@ export default function ProjectDetails() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <ProjectFloorplan
-          projectId={projectId}
-          properties={projectProperties}
-        />
+      {/* Main Content - Split View */}
+      <div className="flex-1 min-h-0 flex flex-row">
+        {/* Project Details - Left Side */}
+        <div className="flex-1 h-full overflow-y-auto border-l border-slate-200">
+          <div className="max-w-7xl mx-auto px-6 py-8">
+            <ProjectFloorplan
+              projectId={projectId}
+              properties={projectProperties}
+            />
+          </div>
+        </div>
+
+        {/* Chat Panel - Right Side */}
+        <div className="w-96 h-full flex-shrink-0 border-r border-slate-200 bg-white flex flex-col">
+          <div className="p-4 border-b border-slate-200 bg-gradient-to-br from-sky-50 to-purple-50">
+            <h3 className="text-lg font-semibold text-slate-900 mb-2">💬 שיחה עם ארנה</h3>
+            {projectInfo && (
+              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-sm space-y-2">
+                <div>
+                  <div className="text-sky-700 font-medium mb-1">מסתכל עכשיו על:</div>
+                  <div className="text-slate-900 font-semibold">{projectInfo.name}</div>
+                  <div className="text-slate-600 text-xs mt-1">
+                    {projectInfo.developer} • {projectInfo.location}
+                  </div>
+                  <div className="text-slate-600 text-xs">
+                    {projectProperties.length} דירות זמינות
+                  </div>
+                </div>
+                <div className="border-t border-sky-200 pt-2">
+                  <div className="text-xs text-sky-600">אני כאן כדי לעזור לך להחליט!</div>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="flex-1 overflow-hidden">
+            {!user ? (
+              <div className="flex items-center justify-center h-full p-6">
+                <div className="text-center">
+                  <MessageCircle className="w-12 h-12 text-slate-300 mx-auto mb-4" />
+                  <p className="text-slate-600 mb-4">התחבר כדי לשאול שאלות על הפרויקט</p>
+                  <button
+                    onClick={handleChatOpen}
+                    className="bg-sky-500 text-white px-6 py-2 rounded-lg hover:bg-sky-600 transition-colors"
+                  >
+                    התחבר
+                  </button>
+                </div>
+              </div>
+            ) : !chatSession ? (
+              <div className="flex items-center justify-center h-full">
+                <Loader2 className="w-8 h-8 animate-spin text-sky-500" />
+              </div>
+            ) : (
+              <ChatInterface
+                questions={questions}
+                currentSession={chatSession}
+                onUpdateAnswer={async () => chatSession}
+                filteredCount={projectProperties.length}
+                isMobile={false}
+                isSelectionMode={false}
+                setIsSelectionMode={() => {}}
+              />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
