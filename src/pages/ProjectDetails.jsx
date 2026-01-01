@@ -177,24 +177,7 @@ export default function ProjectDetails() {
         {/* Chat Panel - Right Side */}
         <div className="w-96 h-full flex-shrink-0 border-r border-slate-200 bg-white flex flex-col">
           <div className="p-4 border-b border-slate-200 bg-gradient-to-br from-sky-50 to-purple-50">
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">💬 שיחה עם ארנה</h3>
-            {projectInfo && (
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-sm space-y-2">
-                <div>
-                  <div className="text-sky-700 font-medium mb-1">מסתכל עכשיו על:</div>
-                  <div className="text-slate-900 font-semibold">{projectInfo.name}</div>
-                  <div className="text-slate-600 text-xs mt-1">
-                    {projectInfo.developer} • {projectInfo.location}
-                  </div>
-                  <div className="text-slate-600 text-xs">
-                    {projectProperties.length} דירות זמינות
-                  </div>
-                </div>
-                <div className="border-t border-sky-200 pt-2">
-                  <div className="text-xs text-sky-600">אני כאן כדי לעזור לך להחליט!</div>
-                </div>
-              </div>
-            )}
+            <h3 className="text-lg font-semibold text-slate-900">💬 שיחה עם ארנה</h3>
           </div>
           <div className="flex-1 overflow-hidden">
             {!user ? (
@@ -223,6 +206,12 @@ export default function ProjectDetails() {
                 isMobile={false}
                 isSelectionMode={false}
                 setIsSelectionMode={() => {}}
+                contextMessage={projectInfo ? {
+                  type: 'project_view',
+                  title: `מסתכל עכשיו על: ${projectInfo.name}`,
+                  details: `${projectInfo.developer} • ${projectInfo.location} • ${projectProperties.length} דירות זמינות`,
+                  message: 'אני כאן כדי לעזור לך להחליט!'
+                } : null}
               />
             )}
           </div>
