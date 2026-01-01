@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { Loader2, ArrowRight, MessageCircle } from 'lucide-react';
+import { Loader2, ArrowRight, MessageCircle, Building, LayoutGrid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import TopNavigation from '../components/TopNavigation';
 import ProjectFloorplan from '../components/properties/ProjectFloorplan';
+import BuildingInfo from '../components/properties/BuildingInfo';
 import ChatInterface from '../components/chat/ChatInterface';
 import { mockProperties, getPropertiesByProject } from '../components/properties/mockPropertiesData';
 import { createPageUrl } from '@/utils';
@@ -167,11 +169,28 @@ export default function ProjectDetails() {
         {/* Project Details - Left Side */}
         <div className="flex-1 h-full overflow-y-auto border-l border-slate-200">
           <div className="max-w-7xl mx-auto px-6 py-8">
-            <ProjectFloorplan
-              projectId={projectId}
-              properties={projectProperties}
-              userFilters={chatSession?.answers || {}}
-            />
+            <Tabs defaultValue="floorplan" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="floorplan" className="gap-2">
+                  <LayoutGrid className="w-4 h-4" />
+                  מפת דירות
+                </TabsTrigger>
+                <TabsTrigger value="building" className="gap-2">
+                  <Building className="w-4 h-4" />
+                  מידע על הבניין
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="floorplan">
+                <ProjectFloorplan
+                  projectId={projectId}
+                  properties={projectProperties}
+                  userFilters={chatSession?.answers || {}}
+                />
+              </TabsContent>
+              <TabsContent value="building">
+                <BuildingInfo project={projectInfo} />
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
 

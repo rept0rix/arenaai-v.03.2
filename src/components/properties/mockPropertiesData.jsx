@@ -1,5 +1,70 @@
 // Mock data for properties with enhanced project information
+// Helper function to generate properties for all floors in a building
+const generateBuildingProperties = (projectId, projectName, developer, baseConfig) => {
+  const properties = [];
+  const { floors, types, basePrice, roomsRange, sizeRange } = baseConfig;
+  
+  for (let floor = 0; floor <= floors; floor++) {
+    types.forEach(type => {
+      const numUnits = Math.floor(Math.random() * 2) + 1; // 1-2 units per type per floor
+      
+      for (let unit = 0; unit < numUnits; unit++) {
+        const rooms = Math.floor(Math.random() * (roomsRange[1] - roomsRange[0] + 1)) + roomsRange[0];
+        const size = Math.floor(Math.random() * (sizeRange[1] - sizeRange[0] + 1)) + sizeRange[0];
+        const floorMultiplier = 1 + (floor * 0.005); // Price increases slightly with floor
+        const price = Math.floor(basePrice * floorMultiplier * (rooms / 3.5));
+        
+        const statuses = ['available', 'available', 'available', 'reserved', 'sold'];
+        const status = statuses[Math.floor(Math.random() * statuses.length)];
+        
+        properties.push({
+          id: `${projectId}_floor${floor}_${type}_${unit}`,
+          projectId: projectId,
+          project_name: projectName,
+          developer: developer,
+          title: `דירת ${rooms} חדרים קומה ${floor}`,
+          description: `דירה מרווחת ומעוצבת ב${projectName}`,
+          price: price,
+          location: 'תל אביב',
+          address: 'רחוב רוטשילד 1',
+          city: 'תל אביב',
+          property_type: 'דירה',
+          rooms: rooms,
+          size: size,
+          floor: floor,
+          total_floors: floors,
+          unit_type: type,
+          parking: Math.random() > 0.3,
+          parking_spots: Math.random() > 0.5 ? 1 : 2,
+          elevator: true,
+          balcony: Math.random() > 0.2,
+          balcony_size: Math.floor(Math.random() * 15) + 8,
+          storage: Math.random() > 0.4,
+          storage_size: Math.floor(Math.random() * 6) + 4,
+          facing: ['צפון', 'דרום', 'מזרח', 'מערב', 'דרום-מזרח', 'צפון-מערב'][Math.floor(Math.random() * 6)],
+          status: status,
+          condition: 'חדש מקבלן',
+          year_built: 2024,
+          image_url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+          project_total_units: floors * types.length * 1.5
+        });
+      }
+    });
+  }
+  
+  return properties;
+};
+
 export const mockProperties = [
+  // Generate 60-floor building
+  ...generateBuildingProperties('proj_001', 'בוגם רטוביר', 'בוגם נדל"ן', {
+    floors: 60,
+    types: ['A', 'B', 'C', 'D', 'P'],
+    basePrice: 3500000,
+    roomsRange: [2, 5],
+    sizeRange: [70, 140]
+  }),
+  // Original properties follow below
   // Project 1: "בוגם רטוביר" - Tel Aviv Luxury Project
   {
     id: "p1_a_5",
