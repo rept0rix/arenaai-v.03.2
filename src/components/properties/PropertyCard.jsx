@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { BedDouble, Ruler, Building, MapPin, Eye, ExternalLink, CheckSquare } from 'lucide-react';
+import { BedDouble, Ruler, Building, MapPin, Eye, ExternalLink, CheckSquare, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
@@ -108,13 +108,32 @@ export default function PropertyCard({
       </div>
       
       <CardHeader className="pb-3">
+        {/* Project Name and Address */}
+        {property.project_name && (
+          <div className="mb-2 pb-2 border-b border-slate-200">
+            <div className="flex items-center gap-2 mb-1">
+              <Building className="w-4 h-4 text-sky-600 flex-shrink-0" />
+              <span className="text-sm font-bold text-sky-700 line-clamp-1">{property.project_name}</span>
+            </div>
+            {property.address && (
+              <div className="flex items-center text-slate-500 text-xs mr-6">
+                <MapPin className="w-3 h-3 ml-1 flex-shrink-0" />
+                <span className="line-clamp-1">{property.address}</span>
+              </div>
+            )}
+          </div>
+        )}
+        
         <CardTitle className="text-lg line-clamp-2 leading-tight">
           {property.title}
         </CardTitle>
-        <div className="flex items-center text-slate-600 text-sm">
-          <MapPin className="w-4 h-4 ml-1 flex-shrink-0" />
-          <span className="line-clamp-1">{property.location}</span>
-        </div>
+        
+        {!property.project_name && (
+          <div className="flex items-center text-slate-600 text-sm">
+            <MapPin className="w-4 h-4 ml-1 flex-shrink-0" />
+            <span className="line-clamp-1">{property.location}</span>
+          </div>
+        )}
         
         {/* Match Score Bar */}
         <div className="mt-3 space-y-2">
@@ -163,20 +182,31 @@ export default function PropertyCard({
           </div>
         )}
 
-        {/* Project Badge */}
-        {property.other_properties_in_project_count > 0 && property.project_name && (
-          <div 
-            onClick={handleProjectClick}
-            className="mb-3 p-2 bg-sky-50 rounded-lg border border-sky-200 hover:bg-sky-100 transition-colors cursor-pointer"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Building className="w-4 h-4 text-sky-600" />
-                <span className="text-xs font-medium text-sky-700">{property.project_name}</span>
+        {/* Recommended Badge + View Project Button */}
+        {property.projectId && (
+          <div className="mb-3 space-y-2">
+            {property.isRecommended && (
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-50 to-sky-50 rounded-lg border border-purple-200">
+                <Sparkles className="w-4 h-4 text-purple-600" />
+                <span className="text-xs font-medium text-purple-700">דירה מומלצת בבניין זה</span>
               </div>
-              <Badge className="bg-sky-600 text-white text-xs">
-                +{property.other_properties_in_project_count} דירות
-              </Badge>
+            )}
+            
+            <div 
+              onClick={handleProjectClick}
+              className="p-2 bg-sky-50 rounded-lg border border-sky-200 hover:bg-sky-100 transition-colors cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Building className="w-4 h-4 text-sky-600" />
+                  <span className="text-xs font-medium text-sky-700">צפה בכל הדירות בפרויקט</span>
+                </div>
+                {property.other_properties_in_project_count > 0 && (
+                  <Badge className="bg-sky-600 text-white text-xs">
+                    +{property.other_properties_in_project_count}
+                  </Badge>
+                )}
+              </div>
             </div>
           </div>
         )}

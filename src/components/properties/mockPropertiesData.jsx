@@ -407,6 +407,20 @@ export const getUniqueProjects = () => {
   return Object.values(projects);
 };
 
+// Helper function to calculate match score for a property
+const calculateMatchScore = (property) => {
+  let score = 70; // Base score
+  
+  if (property.price && property.price < 4000000) score += 10;
+  if (property.rooms && property.rooms >= 3) score += 8;
+  if (property.parking) score += 7;
+  if (property.elevator) score += 5;
+  if (property.balcony) score += 6;
+  if (property.location?.includes('תל אביב')) score += 12;
+  
+  return Math.min(score, 98); // Cap at 98%
+};
+
 // Helper function to get "best fit" properties from each project (for search results)
 export const getBestFitPropertiesPerProject = (allProperties = mockProperties) => {
   const projectMap = new Map();
@@ -422,14 +436,31 @@ export const getBestFitPropertiesPerProject = (allProperties = mockProperties) =
   
   const bestFitProperties = [];
   
-  // For each project, select up to 2 "best fit" properties
+  // For each project, select only 1 "recommended" property
   projectMap.forEach((properties, projectId) => {
     // Prioritize available properties
     const available = properties.filter(p => p.status === 'available');
-    const sorted = available.length > 0 ? available : properties;
+    const propertiesPool = available.length > 0 ? available : properties;
     
-    // Take up to 2 properties from each project
-    bestFitProperties.push(...sorted.slice(0, 2));
+    // Calculate match scores and sort
+    const withScores = propertiesPool.map(p => ({
+      ...p,
+      matchScore: calculateMatchScore(p)
+    }));
+    
+    // Sort by match score (desc), then by floor (asc) for consistency
+    withScores.sort((a, b) => {
+      if (b.matchScore !== a.matchScore) {
+        return b.matchScore - a.matchScore;
+      }
+      return (a.floor || 0) - (b.floor || 0);
+    });
+    
+    // Take only the top 1 property and mark it as recommended
+    if (withScores.length > 0) {
+      const recommended = { ...withScores[0], isRecommended: true };
+      bestFitProperties.push(recommended);
+    }
   });
   
   // Add single properties (not part of projects)
