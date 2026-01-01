@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 import TopNavigation from '../components/TopNavigation';
 import PropertyHeader from '../components/property_details/PropertyHeader';
 import PropertyGallery from '../components/property_details/PropertyGallery';
@@ -16,7 +17,7 @@ import PropertyReviews from '../components/property_details/PropertyReviews';
 import FloatingTips from '../components/property_details/FloatingTips';
 import ChatInterface from '../components/chat/ChatInterface';
 import { Loader2, MessageCircle, X, Building2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import { Property } from '@/entities/Property';
 import { ChatSession } from '@/entities/ChatSession';
 import { ChatQuestion } from '@/entities/ChatQuestion';
@@ -49,7 +50,6 @@ const transformPropertyData = (item) => {
 export default function PropertyDetails() {
     const [searchParams] = useSearchParams();
     const location = useLocation();
-    const navigate = useNavigate();
     
     const [property, setProperty] = useState(location.state?.property || null);
     const [similarProperties, setSimilarProperties] = useState([]);
@@ -255,7 +255,7 @@ export default function PropertyDetails() {
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => navigate(createPageUrl(`ProjectDetails?id=${property.projectId}`))}
+                                            onClick={() => window.location.href = createPageUrl(`ProjectDetails?id=${property.projectId}`)}
                                             className="border-sky-300 text-sky-700 hover:bg-sky-100"
                                         >
                                             <Building2 className="w-4 h-4 ml-2" />
