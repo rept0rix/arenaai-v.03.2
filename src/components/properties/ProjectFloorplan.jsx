@@ -245,11 +245,22 @@ export default function ProjectFloorplan({ projectId, properties }) {
       {/* Floorplan Table */}
       <Card>
         <CardHeader>
-          <CardTitle>מפת דירות</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle>מפת דירות</CardTitle>
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={() => alert('הדמיה תלת-ממדית של הבניין - בקרוב!')}
+            >
+              <Building2 className="w-4 h-4" />
+              הדמיה של הבניין
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+            <div className="max-h-[600px] overflow-y-auto border border-slate-200 rounded-lg">
+              <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 p-3 text-center font-bold">קומה</th>
@@ -312,6 +323,7 @@ export default function ProjectFloorplan({ projectId, properties }) {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
 
           {/* Legend */}
@@ -332,15 +344,24 @@ export default function ProjectFloorplan({ projectId, properties }) {
         </CardContent>
       </Card>
 
-      {/* Selected Unit Details */}
+      {/* Selected Unit Details - Popup */}
       <AnimatePresence>
         {selectedUnit && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            onClick={() => setSelectedUnit(null)}
           >
-            <Card className="border-2 border-sky-500">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="max-w-2xl w-full"
+            >
+            <Card className="border-2 border-sky-500 shadow-2xl">
               <CardHeader className="bg-sky-50">
                 <div className="flex items-center justify-between">
                   <CardTitle>פרטי דירה - קומה {selectedUnit.floor}, טיפוס {selectedUnit.unit_type}</CardTitle>
@@ -387,6 +408,14 @@ export default function ProjectFloorplan({ projectId, properties }) {
 
                 <div className="flex gap-2">
                   <Button
+                    variant="outline"
+                    onClick={() => alert('הדמיה תלת-ממדית של הדירה - בקרוב!')}
+                    className="flex-1"
+                  >
+                    <Building2 className="w-4 h-4 ml-2" />
+                    הדמיה של הדירה
+                  </Button>
+                  <Button
                     onClick={() => handleViewDetails(selectedUnit)}
                     className="flex-1 bg-sky-500 hover:bg-sky-600"
                   >
@@ -396,6 +425,7 @@ export default function ProjectFloorplan({ projectId, properties }) {
                 </div>
               </CardContent>
             </Card>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
