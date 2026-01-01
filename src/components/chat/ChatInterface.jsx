@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,7 +7,7 @@ import ChatBubble from './ChatBubble';
 import QuestionCard from './QuestionCard';
 import { InvokeLLM } from "@/integrations/Core";
 
-export default function ChatInterface({ questions, currentSession, onUpdateAnswer, filteredCount, isMobile, isSelectionMode, setIsSelectionMode }) {
+export default function ChatInterface({ questions, currentSession, onUpdateAnswer, filteredCount, isMobile, isSelectionMode, setIsSelectionMode, contextMessage }) {
   const [inputValue, setInputValue] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isBotTyping, setIsBotTyping] = useState(false);
@@ -436,6 +435,17 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
     };
     history.push(arenaOpeningMessage);
 
+    // Add context message if provided
+    if (contextMessage) {
+      history.push({
+        type: "context",
+        title: contextMessage.title,
+        details: contextMessage.details,
+        message: contextMessage.message,
+        contextType: contextMessage.type
+      });
+    }
+
     let purposeText = "";
     if (purpose === 'living') {
       purposeText = "נכס למגורים";
@@ -473,7 +483,7 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
     }
 
     setChatHistory(history);
-  }, [questions, currentSession, viewMode, addFinalMessage]);
+  }, [questions, currentSession, viewMode, addFinalMessage, contextMessage]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -744,6 +754,12 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
         <div key={index}>
                 {msg.type === "arena_intro" ?
           null :
+                msg.type === "context" ?
+                  <div className="bg-sky-50 border border-sky-200 rounded-lg p-3 text-sm">
+                    <div className="text-sky-700 font-semibold mb-1">{msg.title}</div>
+                    <div className="text-slate-600 text-xs mb-2">{msg.details}</div>
+                    <div className="text-sky-600 text-xs">{msg.message}</div>
+                  </div> :
 
           <ChatBubble
             message={msg}
