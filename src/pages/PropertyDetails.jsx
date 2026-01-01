@@ -15,7 +15,8 @@ import SimilarProperties from '../components/property_details/SimilarProperties'
 import PropertyReviews from '../components/property_details/PropertyReviews';
 import FloatingTips from '../components/property_details/FloatingTips';
 import ChatInterface from '../components/chat/ChatInterface';
-import { Loader2, MessageCircle, X } from 'lucide-react';
+import { Loader2, MessageCircle, X, Building2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Property } from '@/entities/Property';
 import { ChatSession } from '@/entities/ChatSession';
 import { ChatQuestion } from '@/entities/ChatQuestion';
@@ -48,6 +49,7 @@ const transformPropertyData = (item) => {
 export default function PropertyDetails() {
     const [searchParams] = useSearchParams();
     const location = useLocation();
+    const navigate = useNavigate();
     
     const [property, setProperty] = useState(location.state?.property || null);
     const [similarProperties, setSimilarProperties] = useState([]);
@@ -103,8 +105,21 @@ export default function PropertyDetails() {
     const initializeChatSession = async () => {
         if (!chatSession && user) {
             try {
+                // Create session with property context
+                const propertyContext = {
+                    viewing_property_id: property.id,
+                    viewing_property_name: property.title,
+                    property_price: property.price,
+                    property_rooms: property.rooms,
+                    property_size: property.size,
+                    property_location: property.location,
+                    project_name: property.project_name,
+                    floor: property.floor,
+                    unit_type: property.unit_type
+                };
+
                 const newSession = await ChatSession.create({
-                    answers: {},
+                    answers: { property_context: propertyContext },
                     current_question: 0,
                     completed: false,
                     purpose: 'living',
@@ -208,6 +223,50 @@ export default function PropertyDetails() {
             <div className="flex-1 min-h-0 flex flex-row">
                 {/* Property Details - Left Side */}
                 <div className="flex-1 h-full overflow-y-auto border-l border-slate-200">
+                    {/* Project Context Bar */}
+                    {property.project_name && (
+                        <div className="bg-sky-50 border-b border-sky-200 px-6 py-3">
+                            <div className="max-w-7xl mx-auto">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-4">
+                                        <div>
+                                            <div className="text-xs text-sky-600 font-medium mb-1">חלק מפרויקט</div>
+                                            <div className="text-lg font-bold text-sky-900">{property.project_name}</div>
+                                            {property.developer && (
+                                                <div className="text-sm text-sky-700">{property.developer}</div>
+                                            )}
+                                        </div>
+                                        <div className="h-12 w-px bg-sky-200"></div>
+                                        <div>
+                                            <div className="text-xs text-sky-600 font-medium mb-1">כתובת הפרויקט</div>
+                                            <div className="text-sm font-semibold text-sky-900">
+                                                {property.location || property.address}
+                                            </div>
+                                        </div>
+                                        <div className="h-12 w-px bg-sky-200"></div>
+                                        <div>
+                                            <div className="text-xs text-sky-600 font-medium mb-1">פרטי הדירה</div>
+                                            <div className="text-sm font-semibold text-sky-900">
+                                                קומה {property.floor} {property.unit_type && `• טיפוס ${property.unit_type}`}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {property.projectId && (
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => navigate(createPageUrl(`ProjectDetails?id=${property.projectId}`))}
+                                            className="border-sky-300 text-sky-700 hover:bg-sky-100"
+                                        >
+                                            <Building2 className="w-4 h-4 ml-2" />
+                                            צפה בכל הדירות בפרויקט
+                                        </Button>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     <PropertyHeader property={property} viewCount={viewCount} />
                     
                     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -242,8 +301,17 @@ export default function PropertyDetails() {
 
                 {/* Chat Panel - Right Side */}
                 <div className="w-96 h-full flex-shrink-0 border-r border-slate-200 bg-white flex flex-col">
-                    <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-slate-50">
-                        <h3 className="text-lg font-semibold text-slate-900">שאלו את ארנה</h3>
+                    <div className="p-4 border-b border-slate-200 bg-gradient-to-br from-sky-50 to-purple-50">
+                        <h3 className="text-lg font-semibold text-slate-900 mb-2">💬 שיחה עם ארנה</h3>
+                        {property.project_name && (
+                            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 text-sm">
+                                <div className="text-sky-700 font-medium mb-1">מסתכל עכשיו על:</div>
+                                <div className="text-slate-900 font-semibold">{property.title}</div>
+                                <div className="text-slate-600 text-xs mt-1">
+                                    {property.project_name} • קומה {property.floor} {property.unit_type && `• טיפוס ${property.unit_type}`}
+                                </div>
+                            </div>
+                        )}
                     </div>
                     <div className="flex-1 overflow-hidden">
                         {!user ? (

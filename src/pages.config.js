@@ -18,6 +18,8 @@ import Home from './pages/Home';
 import Landing from './pages/Landing';
 import PetahTikvaLanding from './pages/PetahTikvaLanding';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import ProjectComparison from './pages/ProjectComparison';
+import ProjectDetails from './pages/ProjectDetails';
 import PropertyComparison from './pages/PropertyComparison';
 import PropertyComparisonInfo from './pages/PropertyComparisonInfo';
 import PropertyDetails from './pages/PropertyDetails';
@@ -27,8 +29,6 @@ import TermsOfService from './pages/TermsOfService';
 import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
-import ProjectDetails from './pages/ProjectDetails';
-import ProjectComparison from './pages/ProjectComparison';
 import __Layout from './Layout.jsx';
 
 
@@ -53,6 +53,8 @@ export const PAGES = {
     "Landing": Landing,
     "PetahTikvaLanding": PetahTikvaLanding,
     "PrivacyPolicy": PrivacyPolicy,
+    "ProjectComparison": ProjectComparison,
+    "ProjectDetails": ProjectDetails,
     "PropertyComparison": PropertyComparison,
     "PropertyComparisonInfo": PropertyComparisonInfo,
     "PropertyDetails": PropertyDetails,
@@ -62,8 +64,6 @@ export const PAGES = {
     "TermsOfServiceDevelopers": TermsOfServiceDevelopers,
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
-    "ProjectDetails": ProjectDetails,
-    "ProjectComparison": ProjectComparison,
 }
 
 export const pagesConfig = {
