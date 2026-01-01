@@ -170,6 +170,7 @@ export default function ProjectDetails() {
             <ProjectFloorplan
               projectId={projectId}
               properties={projectProperties}
+              userFilters={chatSession?.answers || {}}
             />
           </div>
         </div>

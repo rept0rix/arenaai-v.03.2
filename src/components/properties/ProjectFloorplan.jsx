@@ -7,13 +7,54 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
-export default function ProjectFloorplan({ projectId, properties }) {
+export default function ProjectFloorplan({ projectId, properties, userFilters }) {
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterType, setFilterType] = useState('all');
   const [isCompareMode, setIsCompareMode] = useState(false);
   const [selectedForCompare, setSelectedForCompare] = useState([]);
   const navigate = useNavigate();
+
+  // Calculate match score for each property based on user filters
+  const calculateMatchScore = (property) => {
+    if (!userFilters || Object.keys(userFilters).length === 0) return null;
+    
+    let score = 0;
+    let totalCriteria = 0;
+
+    Object.values(userFilters).forEach(filter => {
+      if (!filter.filter_field || filter.answer === undefined) return;
+      
+      totalCriteria++;
+      const { filter_field, answer } = filter;
+
+      switch (filter_field) {
+        case 'budget':
+          if (property.price <= answer) score++;
+          break;
+        case 'location':
+          if (property.city?.toLowerCase().includes(answer.toLowerCase()) || 
+              property.location?.toLowerCase().includes(answer.toLowerCase())) {
+            score++;
+          }
+          break;
+        case 'rooms':
+          if (property.rooms >= answer) score++;
+          break;
+        case 'property_type':
+          if (Array.isArray(answer)) {
+            if (answer.some(a => property.property_type?.toLowerCase().includes(a.toLowerCase()))) {
+              score++;
+            }
+          } else if (property.property_type?.toLowerCase().includes(answer.toLowerCase())) {
+            score++;
+          }
+          break;
+      }
+    });
+
+    return totalCriteria > 0 ? Math.round((score / totalCriteria) * 100) : null;
+  };
 
   if (!properties || properties.length === 0) {
     return <div className="text-center p-8">לא נמצאו דירות בפרויקט זה</div>;
@@ -289,25 +330,33 @@ export default function ProjectFloorplan({ projectId, properties }) {
                         <td key={`${floor}-${type}`} className="border border-slate-300 p-2">
                           <div className="flex flex-col gap-1">
                             {visibleUnits.length > 0 ? (
-                              visibleUnits.map(prop => (
-                                <button
-                                  key={prop.id}
-                                  onClick={() => handleUnitClick(prop)}
-                                  className={`${
-                                    isCompareMode && selectedForCompare.includes(prop.id)
-                                      ? 'ring-2 ring-sky-500 ring-offset-2'
-                                      : ''
-                                  } ${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all transform hover:scale-105 cursor-pointer relative`}
-                                  title={`${getStatusText(prop.status)} - ${prop.rooms} חדרים - ₪${prop.price?.toLocaleString()}`}
-                                >
-                                  {isCompareMode && selectedForCompare.includes(prop.id) && (
-                                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
-                                      ✓
-                                    </div>
-                                  )}
-                                  {prop.rooms}ח׳ - ₪{(prop.price / 1000000).toFixed(1)}M
-                                </button>
-                              ))
+                             visibleUnits.map(prop => {
+                               const matchScore = calculateMatchScore(prop);
+                               return (
+                                 <button
+                                   key={prop.id}
+                                   onClick={() => handleUnitClick(prop)}
+                                   className={`${
+                                     isCompareMode && selectedForCompare.includes(prop.id)
+                                       ? 'ring-2 ring-sky-500 ring-offset-2'
+                                       : ''
+                                   } ${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all transform hover:scale-105 cursor-pointer relative`}
+                                   title={`${getStatusText(prop.status)} - ${prop.rooms} חדרים - ₪${prop.price?.toLocaleString()}${matchScore ? ` - התאמה ${matchScore}%` : ''}`}
+                                 >
+                                   {isCompareMode && selectedForCompare.includes(prop.id) && (
+                                     <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
+                                       ✓
+                                     </div>
+                                   )}
+                                   <div>{prop.rooms}ח׳ - ₪{(prop.price / 1000000).toFixed(1)}M</div>
+                                   {matchScore && (
+                                     <div className="text-[10px] font-bold bg-white/20 rounded px-1 mt-0.5">
+                                       {matchScore}% התאמה
+                                     </div>
+                                   )}
+                                 </button>
+                               );
+                             })
                             ) : unitsInCell.length > 0 ? (
                               <div className="text-center text-slate-400 text-xs py-1">
                                 מסונן
