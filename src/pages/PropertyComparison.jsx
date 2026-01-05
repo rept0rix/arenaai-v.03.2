@@ -2,12 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Property } from "@/entities/Property";
 import { User } from "@/entities/User";
+import { ChatSession } from "@/entities/ChatSession";
+import { ChatQuestion } from "@/entities/ChatQuestion";
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, MessageCircle } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { createPageUrl } from '@/utils';
 import TopNavigation from '../components/TopNavigation';
-// FloatingTips import removed
 import ComparisonTable from '../components/properties/ComparisonTable';
+import ChatInterface from '../components/chat/ChatInterface';
 import { toast } from "sonner";
 import { motion } from 'framer-motion';
 
@@ -73,15 +75,9 @@ export default function PropertyComparison() {
     const [properties, setProperties] = useState([]);
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [showChatHelp, setShowChatHelp] = useState(false);
-
-    // Auto-show chat help after 3 seconds
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowChatHelp(true);
-        }, 3000);
-        return () => clearTimeout(timer);
-    }, []);
+    const [chatSession, setChatSession] = useState(null);
+    const [questions, setQuestions] = useState([]);
+    const [isSelectionMode, setIsSelectionMode] = useState(false);
 
     // Demo user preferences
     const userPreferences = {
@@ -96,6 +92,11 @@ export default function PropertyComparison() {
         try {
             const currentUser = await User.me().catch(() => null);
             setUser(currentUser);
+
+            // Load questions
+            const questionsData = await ChatQuestion.list('order');
+            const activeQuestions = questionsData.filter(q => q.is_active);
+            setQuestions(activeQuestions);
 
             const ids = searchParams.get('ids')?.split(',') || [];
             
@@ -116,12 +117,36 @@ export default function PropertyComparison() {
                     setProperties(demoProperties);
                 }
             }
+
+            // Initialize or load chat session
+            const sessionId = searchParams.get('sessionId');
+            if (sessionId) {
+                try {
+                    const sessions = await ChatSession.filter({ id: sessionId });
+                    if (sessions.length > 0) {
+                        setChatSession(sessions[0]);
+                    }
+                } catch (error) {
+                    console.error('Error loading session:', error);
+                }
+            }
+
+            if (!chatSession && currentUser) {
+                const newSession = await ChatSession.create({
+                    answers: {},
+                    current_question: 0,
+                    completed: false,
+                    purpose: 'living',
+                    is_guided: false
+                });
+                setChatSession(newSession);
+            }
         } catch (error) {
             console.error('Error loading comparison:', error);
             setProperties(demoProperties);
         }
         setIsLoading(false);
-    }, [searchParams]);
+    }, [searchParams, chatSession]);
 
     useEffect(() => {
         loadComparison();
@@ -155,94 +180,87 @@ export default function PropertyComparison() {
         );
     }
 
-    return (
-        <div className="min-h-screen bg-slate-50" dir="rtl">
-            <TopNavigation />
-            
-            <div className="w-full mx-auto py-8">
-                <div className="max-w-7xl mx-auto px-6">
-                    <Button variant="ghost" onClick={() => navigate(-1)} className="mb-6">
-                        <ArrowLeft className="w-4 h-4 ml-2" /> חזרה
-                    </Button>
-                    
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-center mb-8"
-                    >
-                        <h1 className="text-4xl font-bold text-slate-900 mb-3">השוואת נכסים חכמה</h1>
-                        <p className="text-lg text-slate-600">
-                            בהתבסס על ההעדפות שלך, השווה בין הנכסים המובילים ובחר בביטחון
-                        </p>
-                    </motion.div>
+    const updateAnswer = async (question, answer) => {
+        if (!chatSession) return chatSession;
+        
+        const newSessionAnswers = { ...chatSession.answers };
+        if (question === 'ai_analysis') {
+            Object.entries(answer).forEach(([field, value]) => {
+                const matchingQuestion = questions.find(q => q.filter_field === field);
+                const questionId = matchingQuestion ? matchingQuestion.id : `${field}_q`;
+                newSessionAnswers[questionId] = value;
+            });
+        } else {
+            newSessionAnswers[question.id] = answer;
+        }
+        
+        try {
+            const updatedSession = await ChatSession.update(chatSession.id, {
+                answers: newSessionAnswers
+            });
+            setChatSession(updatedSession);
+            return updatedSession;
+        } catch (error) {
+            console.error("Failed to update session:", error);
+            return chatSession;
+        }
+    };
 
-                    <ComparisonTable 
-                        properties={properties}
-                        userPreferences={userPreferences}
-                        onToggleFavorite={handleToggleFavorite}
-                        favoriteIds={user?.favorite_properties || []}
-                    />
-                </div>
+    const contextMessage = {
+        type: 'comparison',
+        title: `מבצע השוואה בין ${properties.length} נכסים`,
+        details: properties.map(p => p.title).join(' • '),
+        message: 'איזה נכס מתאים לך יותר? אני כאן לעזור!'
+    };
+
+    return (
+        <div className="h-screen w-full flex flex-col bg-slate-50">
+            <div className="flex-shrink-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
+                <Button variant="ghost" onClick={() => navigate(-1)}>
+                    <ArrowLeft className="w-4 h-4 ml-2" /> חזרה
+                </Button>
+                <TopNavigation currentPage="PropertyComparison" />
             </div>
 
-            {/* Floating Chat Help Button */}
-            {showChatHelp && (
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                    className="fixed bottom-24 right-6 z-40 bg-gradient-to-br from-white to-purple-50 rounded-2xl shadow-2xl p-5 max-w-sm border-2 border-purple-300"
-                >
-                    <button
-                        onClick={() => setShowChatHelp(false)}
-                        className="absolute -top-2 -left-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center text-sm hover:bg-red-600 transition-colors shadow-lg"
-                    >
-                        ✕
-                    </button>
-                    <div className="flex items-start gap-3 mb-3">
-                        <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                            <span className="text-white font-bold text-sm">AI</span>
-                        </div>
-                        <div>
-                            <h4 className="font-bold text-slate-900 mb-1">רוצה להבין איך זה עובד? 🤔</h4>
-                            <p className="text-sm text-slate-700 leading-relaxed">
-                                ארנה כאן כדי להסביר לך את ההשוואה, לענות על שאלות ולעזור לך לקבל את ההחלטה הנכונה.
+            <div className="flex-1 min-h-0 flex flex-row">
+                <div className="flex-1 h-full overflow-y-auto border-l border-slate-200">
+                    <div className="max-w-7xl mx-auto px-6 py-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="text-center mb-8"
+                        >
+                            <h1 className="text-4xl font-bold text-slate-900 mb-3">השוואת נכסים חכמה</h1>
+                            <p className="text-lg text-slate-600">
+                                בהתבסס על ההעדפות שלך, השווה בין הנכסים המובילים ובחר בביטחון
                             </p>
-                        </div>
+                        </motion.div>
+
+                        <ComparisonTable 
+                            properties={properties}
+                            userPreferences={userPreferences}
+                            onToggleFavorite={handleToggleFavorite}
+                            favoriteIds={user?.favorite_properties || []}
+                        />
                     </div>
-                    <Button
-                        size="sm"
-                        onClick={() => navigate(createPageUrl('Chat'))}
-                        className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 shadow-lg"
-                    >
-                        💬 שאלו את ארנה
-                    </Button>
-                </motion.div>
-            )}
+                </div>
 
-            <motion.button
-                onClick={() => setShowChatHelp(!showChatHelp)}
-                className="fixed bottom-6 right-6 z-50 bg-gradient-to-br from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white rounded-full p-4 shadow-2xl transition-all duration-300"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                animate={{
-                    boxShadow: [
-                        '0 0 0 0 rgba(168, 85, 247, 0.4)',
-                        '0 0 0 10px rgba(168, 85, 247, 0)',
-                        '0 0 0 0 rgba(168, 85, 247, 0)'
-                    ]
-                }}
-                transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    repeatType: 'loop'
-                }}
-            >
-                <MessageCircle className="w-6 h-6" />
-            </motion.button>
-
-            {/* Floating Tips Component removed */}
+                <div className="w-96 h-full flex-shrink-0 border-r border-slate-200 bg-white">
+                    {chatSession && (
+                        <ChatInterface
+                            questions={questions}
+                            currentSession={chatSession}
+                            onUpdateAnswer={updateAnswer}
+                            filteredCount={properties.length}
+                            isMobile={false}
+                            isSelectionMode={isSelectionMode}
+                            setIsSelectionMode={setIsSelectionMode}
+                            contextMessage={contextMessage}
+                        />
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
