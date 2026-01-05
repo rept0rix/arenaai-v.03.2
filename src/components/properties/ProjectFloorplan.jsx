@@ -194,29 +194,29 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="font-bold text-slate-900">60 קומות</span>
-              <span className="text-slate-600">גובה הבניין</span>
+            <div className="p-3 bg-slate-50 rounded-lg">
+              <div className="text-sm text-slate-600 mb-1">גובה הבניין</div>
+              <div className="text-lg font-bold text-slate-900">60 קומות</div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="font-bold text-slate-900">2024</span>
-              <span className="text-slate-600">שנת בנייה</span>
+            <div className="p-3 bg-slate-50 rounded-lg">
+              <div className="text-sm text-slate-600 mb-1">שנת בנייה</div>
+              <div className="text-lg font-bold text-slate-900">2024</div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="font-bold text-slate-900">קבלן איכות גבוהה</span>
-              <span className="text-slate-600">קבלן</span>
+            <div className="p-3 bg-slate-50 rounded-lg">
+              <div className="text-sm text-slate-600 mb-1">קבלן</div>
+              <div className="text-lg font-bold text-slate-900">קבלן איכות גבוהה</div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="font-bold text-slate-900">משרד אדריכלים מוביל</span>
-              <span className="text-slate-600">אדריכל</span>
+            <div className="p-3 bg-slate-50 rounded-lg">
+              <div className="text-sm text-slate-600 mb-1">אדריכל</div>
+              <div className="text-lg font-bold text-slate-900">משרד אדריכלים מוביל</div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="font-bold text-slate-900">תו תקן ירוק 5 כוכבים</span>
-              <span className="text-slate-600">תקן ירוק</span>
+            <div className="p-3 bg-slate-50 rounded-lg">
+              <div className="text-sm text-slate-600 mb-1">תקן ירוק</div>
+              <div className="text-lg font-bold text-slate-900">תו תקן ירוק 5 כוכבים</div>
             </div>
-            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="font-bold text-slate-900">מעליות מהירות 4</span>
-              <span className="text-slate-600">מעליות</span>
+            <div className="p-3 bg-slate-50 rounded-lg">
+              <div className="text-sm text-slate-600 mb-1">מעליות</div>
+              <div className="text-lg font-bold text-slate-900">מעליות מהירות 4</div>
             </div>
           </div>
         </CardContent>
