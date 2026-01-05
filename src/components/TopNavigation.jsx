@@ -49,13 +49,15 @@ export default function TopNavigation({ currentPage }) {
     <div className="flex items-center justify-between w-full">
       {/* Right side - Logo and Home button */}
       <div className="flex items-center gap-4">
-        <a href="/Landing" className="flex items-center hover:opacity-80 transition-opacity">
-          <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/053b1be56_arenaailogo-new.png"
-            alt="Arena AI"
-            className="h-10"
-          />
-        </a>
+        {currentPage !== 'Chat' && (
+          <a href="/Landing" className="flex items-center hover:opacity-80 transition-opacity">
+            <img
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/053b1be56_arenaailogo-new.png"
+              alt="Arena AI"
+              className="h-10"
+            />
+          </a>
+        )}
         
         {currentPage !== 'Home' && currentPage !== 'Landing' && (
           <Button
