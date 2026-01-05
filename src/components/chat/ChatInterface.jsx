@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, Send, Compass, MessageSquareMore, Target } from "lucide-react";
+import { MessageCircle, Send, Compass, MessageSquareMore, Target, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ChatBubble from './ChatBubble';
 import QuestionCard from './QuestionCard';
 import { InvokeLLM } from "@/integrations/Core";
+import ChatButtonsExplanation from './ChatButtonsExplanation';
 
 export default function ChatInterface({ questions, currentSession, onUpdateAnswer, filteredCount, isMobile, isSelectionMode, setIsSelectionMode, contextMessage }) {
   const [inputValue, setInputValue] = useState("");
@@ -17,6 +18,7 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
   const [visibleQuestions, setVisibleQuestions] = useState(0);
   const [selectedElement, setSelectedElement] = useState(null);
   const escListenerRef = useRef(null); // Ref to store the ESC key listener function
+  const [showExplanation, setShowExplanation] = useState(false);
 
   // Helper functions that don't depend on state/props, or whose dependencies are stable
   const getElementContext = (element) => {
@@ -865,32 +867,48 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
             </Button>
           </form>
           
-          <div className="flex items-center justify-around gap-1 mt-3 pt-2 border-t border-slate-200">
-            <Button
-              variant={viewMode === 'guided' ? 'default' : 'ghost'}
-              onClick={startGuidedJourney}
-              className={`h-8 px-2 text-xs ${viewMode === 'guided' ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600"}`}>
+          <div className="relative flex items-center justify-between gap-1 mt-3 pt-2 border-t border-slate-200">
+            {showExplanation && (
+              <ChatButtonsExplanation onClose={() => setShowExplanation(false)} isMobile={isMobile} />
+            )}
+            
+            <div className="flex items-center gap-1 flex-1 justify-around">
+              <Button
+                variant={viewMode === 'guided' ? 'default' : 'ghost'}
+                onClick={startGuidedJourney}
+                className={`h-8 px-2 text-xs ${viewMode === 'guided' ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600"}`}>
 
-              <Compass className="w-3.5 h-3.5 ml-1" />
-              מסע מודרך
-            </Button>
+                <Compass className="w-3.5 h-3.5 ml-1" />
+                מסע מודרך
+              </Button>
+              
+              <Button
+                variant={viewMode === 'open_chat' ? 'default' : 'ghost'}
+                onClick={startOpenChat}
+                className={`h-8 px-2 text-xs ${viewMode === 'open_chat' ? "bg-green-500 hover:bg-green-600 text-white" : "text-slate-600"}`}>
+
+                <MessageSquareMore className="w-3.5 h-3.5 ml-1" />
+                שיחה פתוחה
+              </Button>
+              
+              <Button
+                variant={isSelectionMode ? 'default' : 'ghost'}
+                onClick={toggleSelectionMode}
+                className={`h-8 px-2 text-xs ${isSelectionMode ? "bg-red-500 hover:bg-red-600 text-white" : "text-slate-600"}`}>
+
+                <Target className="w-3.5 h-3.5 ml-1" />
+                {isSelectionMode ? 'ביטול' : 'בחר'}
+              </Button>
+            </div>
             
             <Button
-              variant={viewMode === 'open_chat' ? 'default' : 'ghost'}
-              onClick={startOpenChat}
-              className={`h-8 px-2 text-xs ${viewMode === 'open_chat' ? "bg-green-500 hover:bg-green-600 text-white" : "text-slate-600"}`}>
-
-              <MessageSquareMore className="w-3.5 h-3.5 ml-1" />
-              שיחה פתוחה
-            </Button>
-            
-            <Button
-              variant={isSelectionMode ? 'default' : 'ghost'}
-              onClick={toggleSelectionMode}
-              className={`h-8 px-2 text-xs ${isSelectionMode ? "bg-red-500 hover:bg-red-600 text-white" : "text-slate-600"}`}>
-
-              <Target className="w-3.5 h-3.5 ml-1" />
-              {isSelectionMode ? 'ביטול' : 'בחר'}
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowExplanation(!showExplanation)}
+              className="w-8 h-8 text-slate-500 hover:bg-slate-100 flex-shrink-0"
+              title="מה הכפתורים עושים?"
+            >
+              <HelpCircle className="w-4 h-4" />
             </Button>
           </div>
         </div>
