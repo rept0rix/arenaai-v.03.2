@@ -204,10 +204,6 @@ export default function Landing() {
             ))}
           </div>
 
-          {/* Trusted indicator */}
-          <div className="flex items-center justify-center gap-3 mb-8 mt-12">
-            <span className="text-sm text-slate-800 font-medium">מוביל לאלפי משפחות שמצאו את ביתם</span>
-          </div>
         </div>
 
         {/* Scroll indicator */}
