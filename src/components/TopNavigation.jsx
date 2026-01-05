@@ -27,8 +27,12 @@ export default function TopNavigation({ currentPage }) {
   };
 
   const handleLogin = async () => {
-    // Navigate to custom login page instead of direct login
-    navigate(createPageUrl('Login'));
+    try {
+      const callbackUrl = `${window.location.origin}${createPageUrl('Home')}`;
+      await UserEntity.loginWithRedirect(callbackUrl);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   };
 
   const handleLogout = async () => {
