@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { View, Video, Camera, Maximize2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { View, Video, Camera, Maximize2, ChevronLeft, ChevronRight, Box } from 'lucide-react';
 
 export default function PropertyGallery({ property }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [show3DModal, setShow3DModal] = useState(false);
   
   const images = [
     "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
@@ -36,15 +38,30 @@ export default function PropertyGallery({ property }) {
         </div>
         
         <div className="absolute top-4 left-4 flex gap-2">
-            <Button size="sm" className="bg-black/50 text-white backdrop-blur-sm hover:bg-black/70">
-              <View className="w-4 h-4 ml-2"/>
+            <Button 
+              size="sm" 
+              className="bg-black/50 text-white backdrop-blur-sm hover:bg-black/70"
+              onClick={() => setShow3DModal(true)}
+            >
+              <Box className="w-4 h-4 ml-2"/>
               הדמיית תלת מימד
             </Button>
-            <Button size="sm" className="bg-black/50 text-white backdrop-blur-sm hover:bg-black/70">
-              <Video className="w-4 h-4 ml-2"/>
-              סיור וירטואלי
-            </Button>
         </div>
+        
+        <Dialog open={show3DModal} onOpenChange={setShow3DModal}>
+          <DialogContent className="max-w-4xl h-[80vh]">
+            <DialogHeader>
+              <DialogTitle>הדמיית תלת מימד - {property.title}</DialogTitle>
+            </DialogHeader>
+            <div className="flex-1 bg-slate-100 rounded-lg flex items-center justify-center">
+              <div className="text-center space-y-4">
+                <Box className="w-16 h-16 text-slate-400 mx-auto" />
+                <p className="text-slate-600">הדמיה תלת מימדית תיטען כאן</p>
+                <p className="text-sm text-slate-500">תוכל לסובב ולהתקרב למודל</p>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
         
         <Button
           variant="outline"

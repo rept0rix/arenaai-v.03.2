@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -94,7 +93,6 @@ export default function PropertyHeader({ property, viewCount }) {
                 <Eye className="w-4 h-4" />
                 <span>{viewCount} צפיות השבוע</span>
               </div>
-              <Badge variant="outline">עודכן היום</Badge>
             </div>
           </div>
           
