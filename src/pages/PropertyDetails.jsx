@@ -16,6 +16,12 @@ import SimilarProperties from '../components/property_details/SimilarProperties'
 import PropertyReviews from '../components/property_details/PropertyReviews';
 import FloatingTips from '../components/property_details/FloatingTips';
 import ChatInterface from '../components/chat/ChatInterface';
+import PriceHistory from '../components/property_details/PriceHistory';
+import BuildingComparison from '../components/property_details/BuildingComparison';
+import Demographics from '../components/property_details/Demographics';
+import EducationFacilities from '../components/property_details/EducationFacilities';
+import BuildingPermit from '../components/property_details/BuildingPermit';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, MessageCircle, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Property } from '@/entities/Property';
@@ -276,6 +282,30 @@ export default function PropertyDetails() {
                                 <div className="space-y-8">
                                     <PropertyGallery property={property} />
                                     <PropertySpecs property={property} />
+                                    
+                                    {/* Tabbed Market Insights */}
+                                    <Tabs defaultValue="overview" className="w-full">
+                                        <TabsList className="grid w-full grid-cols-3 mb-6">
+                                            <TabsTrigger value="overview">מבט השוק</TabsTrigger>
+                                            <TabsTrigger value="prices">מחירים ועסקאות</TabsTrigger>
+                                            <TabsTrigger value="demand">הציע ובקשו</TabsTrigger>
+                                        </TabsList>
+                                        
+                                        <TabsContent value="overview" className="space-y-6">
+                                            <Demographics property={property} />
+                                            <EducationFacilities property={property} />
+                                        </TabsContent>
+                                        
+                                        <TabsContent value="prices" className="space-y-6">
+                                            <PriceHistory property={property} />
+                                            <BuildingComparison property={property} />
+                                        </TabsContent>
+                                        
+                                        <TabsContent value="demand" className="space-y-6">
+                                            <BuildingPermit property={property} />
+                                        </TabsContent>
+                                    </Tabs>
+                                    
                                     <PropertyDescription property={property} />
                                     <PropertyFeatures property={property} />
                                     <LocationMap property={property} />
