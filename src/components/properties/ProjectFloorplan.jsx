@@ -152,6 +152,10 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
   };
 
   const handleViewDetails = (property) => {
+    if (property.isMock) {
+      alert('זוהי דירה להמחשה בלבד');
+      return;
+    }
     navigate(createPageUrl(`PropertyDetails?id=${property.id}`), {
       state: { property }
     });

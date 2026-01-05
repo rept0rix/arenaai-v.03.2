@@ -232,13 +232,23 @@ export default function Chat() {
     <div className="h-screen w-full flex flex-col">
       {/* Header with Logo */}
       <div className="flex-shrink-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
-        <button onClick={() => navigate(createPageUrl('Home'))} className="flex items-center gap-3 transition-opacity hover:opacity-80">
-          <img 
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/053b1be56_arenaailogo-new.png" 
-            alt="Arena AI" 
-            className="h-10"
-          />
-        </button>
+        <div className="flex items-center gap-4">
+          <button onClick={() => navigate(createPageUrl('Home'))} className="flex items-center gap-3 transition-opacity hover:opacity-80">
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/053b1be56_arenaailogo-new.png" 
+              alt="Arena AI" 
+              className="h-10"
+            />
+          </button>
+          {selectedPropertyForDetails && (
+            <button 
+              onClick={() => setSelectedPropertyForDetails(null)}
+              className="text-sm text-sky-600 hover:text-sky-700 font-medium flex items-center gap-1"
+            >
+              ← חזור לתוצאות
+            </button>
+          )}
+        </div>
         <TopNavigation currentPage="Chat" />
       </div>
 

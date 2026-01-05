@@ -22,13 +22,13 @@ import ProjectComparison from './pages/ProjectComparison';
 import ProjectDetails from './pages/ProjectDetails';
 import PropertyComparison from './pages/PropertyComparison';
 import PropertyComparisonInfo from './pages/PropertyComparisonInfo';
+import PropertyDetails from './pages/PropertyDetails';
 import SavedProperties from './pages/SavedProperties';
 import Settings from './pages/Settings';
 import TermsOfService from './pages/TermsOfService';
 import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
-import PropertyDetails from './pages/PropertyDetails';
 import __Layout from './Layout.jsx';
 
 
@@ -57,13 +57,13 @@ export const PAGES = {
     "ProjectDetails": ProjectDetails,
     "PropertyComparison": PropertyComparison,
     "PropertyComparisonInfo": PropertyComparisonInfo,
+    "PropertyDetails": PropertyDetails,
     "SavedProperties": SavedProperties,
     "Settings": Settings,
     "TermsOfService": TermsOfService,
     "TermsOfServiceDevelopers": TermsOfServiceDevelopers,
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
-    "PropertyDetails": PropertyDetails,
 }
 
 export const pagesConfig = {
