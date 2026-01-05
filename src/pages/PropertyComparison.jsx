@@ -12,6 +12,7 @@ import ComparisonTable from '../components/properties/ComparisonTable';
 import ChatInterface from '../components/chat/ChatInterface';
 import { toast } from "sonner";
 import { motion } from 'framer-motion';
+import { mockProperties } from '../components/properties/mockPropertiesData';
 
 // Demo data for testing
 const demoProperties = [
@@ -103,19 +104,12 @@ export default function PropertyComparison() {
             if (ids.length === 0) {
                 setProperties(demoProperties);
             } else {
-                try {
-                    const loadedProperties = await Promise.all(
-                        ids.map(async (id) => {
-                            const results = await Property.filter({ id });
-                            return results[0] || null;
-                        })
-                    );
-                    const validProperties = loadedProperties.filter(p => p);
-                    setProperties(validProperties.length > 0 ? validProperties : demoProperties);
-                } catch (error) {
-                    console.error('Error loading properties:', error);
-                    setProperties(demoProperties);
-                }
+                // Use mock data instead of DB
+                const selectedProperties = ids
+                    .map(id => mockProperties.find(p => p.id === id))
+                    .filter(p => p);
+                
+                setProperties(selectedProperties.length > 0 ? selectedProperties : demoProperties);
             }
 
             // Initialize or load chat session
