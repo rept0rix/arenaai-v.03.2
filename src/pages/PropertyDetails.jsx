@@ -74,11 +74,12 @@ export default function PropertyDetails() {
         const propertyId = searchParams.get('id');
         setViewCount(Math.floor(Math.random() * 150) + 50);
         
-        // If property data wasn't passed through navigation state, fetch it.
+        // If property data wasn't passed through navigation state, fetch it from mock data.
         if (!location.state?.property && propertyId) {
             fetchData(propertyId);
         } else if (location.state?.property) {
-            // If property exists in location state, fetch similar properties.
+            // If property exists in location state, load similar properties from mock data.
+            setProperty(location.state.property);
             fetchSimilar(location.state.property);
         }
     }, [searchParams]);
@@ -152,11 +153,11 @@ export default function PropertyDetails() {
         setIsLoading(true);
         setError(null);
         try {
-            // Use mock data instead of DB
+            // Use mock data only - never try to load from DB
             const fetchedProperty = mockProperties.find(p => p.id === id);
             if (fetchedProperty) {
                 setProperty(fetchedProperty);
-                await fetchSimilar(fetchedProperty);
+                fetchSimilar(fetchedProperty);
             } else {
                 setError('הנכס לא נמצא במערכת');
             }
@@ -168,10 +169,10 @@ export default function PropertyDetails() {
         }
     };
 
-    const fetchSimilar = async (currentProperty) => {
+    const fetchSimilar = (currentProperty) => {
         if (currentProperty && currentProperty.project_name) {
             try {
-                // Use mock data
+                // Use mock data only
                 const allInProject = mockProperties.filter(p => p.project_name === currentProperty.project_name);
                 const similar = allInProject
                     .filter(p => p.id !== currentProperty.id)
