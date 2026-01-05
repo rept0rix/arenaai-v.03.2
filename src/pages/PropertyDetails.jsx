@@ -28,6 +28,7 @@ import { Property } from '@/entities/Property';
 import { ChatSession } from '@/entities/ChatSession';
 import { ChatQuestion } from '@/entities/ChatQuestion';
 import { User as UserEntity } from '@/entities/User';
+import { mockProperties } from '../components/properties/mockPropertiesData';
 
 // This transformation function might become redundant if the Property entity handles it internally.
 // However, as it's not explicitly removed in the outline, we keep it.
@@ -151,15 +152,16 @@ export default function PropertyDetails() {
         setIsLoading(true);
         setError(null);
         try {
-            const fetchedProperty = await Property.get(id); // Use the Property entity to get data
+            // Use mock data instead of DB
+            const fetchedProperty = mockProperties.find(p => p.id === id);
             if (fetchedProperty) {
                 setProperty(fetchedProperty);
-                await fetchSimilar(fetchedProperty); // Fetch similar properties after current property is loaded
+                await fetchSimilar(fetchedProperty);
             } else {
                 setError('הנכס לא נמצא במערכת');
             }
         } catch (err) {
-            console.error("Failed to fetch property from DB:", err);
+            console.error("Failed to fetch property:", err);
             setError('שגיאה בטעינת פרטי הנכס. אנא נסה שוב מאוחר יותר.');
         } finally {
             setIsLoading(false);
@@ -167,21 +169,17 @@ export default function PropertyDetails() {
     };
 
     const fetchSimilar = async (currentProperty) => {
-        // Ensure currentProperty and its project_name are available before fetching similar properties
-        if (currentProperty && currentProperty.raw_data && currentProperty.raw_data.project && currentProperty.raw_data.project.nameHe) {
+        if (currentProperty && currentProperty.project_name) {
             try {
-                // Assuming Property.filter returns already transformed data suitable for direct use
-                const allInProject = await Property.filter({ project_name: currentProperty.raw_data.project.nameHe });
+                // Use mock data
+                const allInProject = mockProperties.filter(p => p.project_name === currentProperty.project_name);
                 const similar = allInProject
                     .filter(p => p.id !== currentProperty.id)
                     .slice(0, 4);
                 setSimilarProperties(similar);
             } catch (err) {
                 console.error("Failed to fetch similar properties:", err);
-                // Not a critical error for the main page, so don't set the main error state
             }
-        } else {
-             console.warn("Cannot fetch similar properties: currentProperty or its project name is missing.");
         }
     };
     
