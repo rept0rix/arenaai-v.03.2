@@ -22,6 +22,12 @@ export default function Landing() {
     navigate(createPageUrl('Home'));
   };
 
+  const handleLogout = async () => {
+    // Logout functionality if needed
+    setUser(null);
+    navigate(createPageUrl('Landing'));
+  };
+
 
 
 
