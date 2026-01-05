@@ -16,14 +16,13 @@ export default function PropertyCard({
 }) {
   const navigate = useNavigate();
 
-  // Calculate match score if not provided
-  const calculatedMatchScore = matchScore || (() => {
+  // Use provided match score or property's built-in score or calculate
+  const calculatedMatchScore = matchScore || property.matchScore || (() => {
     let score = 70; // Base score
     
     // Add points based on property characteristics
     if (property.price && property.price < 4000000) score += 10;
     if (property.rooms && property.rooms >= 3) score += 8;
-    // Assuming property.parking, property.elevator, property.balcony are boolean
     if (property.parking) score += 7; 
     if (property.elevator) score += 5;
     if (property.balcony) score += 6;
