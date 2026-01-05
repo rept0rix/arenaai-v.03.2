@@ -16,7 +16,12 @@ import SimilarProperties from '../components/property_details/SimilarProperties'
 import PropertyReviews from '../components/property_details/PropertyReviews';
 import FloatingTips from '../components/property_details/FloatingTips';
 import ChatInterface from '../components/chat/ChatInterface';
+import MarketData from '../components/property_details/MarketData';
+import PriceTrends from '../components/property_details/PriceTrends';
+import RentalPrices from '../components/property_details/RentalPrices';
+import NeighborhoodData from '../components/property_details/NeighborhoodData';
 import { Loader2, MessageCircle, X, Building2 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Property } from '@/entities/Property';
 import { ChatSession } from '@/entities/ChatSession';
@@ -275,13 +280,35 @@ export default function PropertyDetails() {
                             <div className="col-span-12 lg:col-span-8">
                                 <div className="space-y-8">
                                     <PropertyGallery property={property} />
-                                    <PropertySpecs property={property} />
-                                    <PropertyDescription property={property} />
-                                    <PropertyFeatures property={property} />
-                                    <LocationMap property={property} />
-                                    <PriceAnalysis property={property} />
-                                    <FinancingCalculator property={property} />
-                                    <CompanyInfo property={property} />
+
+                                    <Tabs defaultValue="overview" className="w-full">
+                                        <TabsList className="grid w-full grid-cols-3 mb-6">
+                                            <TabsTrigger value="overview">סקירה כללית</TabsTrigger>
+                                            <TabsTrigger value="market">מצב השוק</TabsTrigger>
+                                            <TabsTrigger value="neighborhood">השכונה</TabsTrigger>
+                                        </TabsList>
+
+                                        <TabsContent value="overview" className="space-y-8">
+                                            <PropertySpecs property={property} />
+                                            <PropertyDescription property={property} />
+                                            <PropertyFeatures property={property} />
+                                            <LocationMap property={property} />
+                                            <PriceAnalysis property={property} />
+                                            <FinancingCalculator property={property} />
+                                            <CompanyInfo property={property} />
+                                        </TabsContent>
+
+                                        <TabsContent value="market" className="space-y-8">
+                                            <MarketData property={property} />
+                                            <PriceTrends property={property} />
+                                            <RentalPrices property={property} />
+                                        </TabsContent>
+
+                                        <TabsContent value="neighborhood" className="space-y-8">
+                                            <NeighborhoodData property={property} />
+                                            <LocationMap property={property} />
+                                        </TabsContent>
+                                    </Tabs>
                                 </div>
                             </div>
                             
