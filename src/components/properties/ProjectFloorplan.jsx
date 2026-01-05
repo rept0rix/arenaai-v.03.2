@@ -60,18 +60,42 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
     return <div className="text-center p-8">לא נמצאו דירות בפרויקט זה</div>;
   }
 
-  // Group properties by floor and type
-  const propertyMap = {};
+  // Create a visual representation of 60 floors
+  const totalFloors = 60;
+  const types = ['A', 'B', 'C', 'D', 'P'];
+  const statuses = ['available', 'reserved', 'sold'];
+  
+  // Group real properties by floor and type
+  const realPropertyMap = {};
   properties.forEach(prop => {
     const floor = prop.floor || 0;
-    if (!propertyMap[floor]) propertyMap[floor] = {};
+    if (!realPropertyMap[floor]) realPropertyMap[floor] = {};
     const type = prop.unit_type || 'A';
-    if (!propertyMap[floor][type]) propertyMap[floor][type] = [];
-    propertyMap[floor][type].push(prop);
+    if (!realPropertyMap[floor][type]) realPropertyMap[floor][type] = [];
+    realPropertyMap[floor][type].push(prop);
   });
 
-  const floors = Object.keys(propertyMap).sort((a, b) => b - a);
-  const types = ['A', 'B', 'C', 'D', 'P'];
+  // Generate visual data for 60 floors
+  const generateMockUnit = (floor, type) => {
+    const basePrice = 2500000 + (floor * 50000); // Price increases with floor
+    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    const rooms = [3, 4, 5][Math.floor(Math.random() * 3)];
+    
+    return {
+      id: `mock_${floor}_${type}`,
+      floor,
+      unit_type: type,
+      rooms,
+      price: basePrice + (Math.random() * 500000),
+      status: randomStatus,
+      size: 90 + Math.floor(Math.random() * 50),
+      facing: ['צפון', 'דרום', 'מזרח', 'מערב'][Math.floor(Math.random() * 4)],
+      balcony_size: 10 + Math.floor(Math.random() * 15),
+      isMock: true
+    };
+  };
+
+  const floors = Array.from({ length: totalFloors }, (_, i) => totalFloors - i); // 60 down to 1
 
   // Apply filters
   const filteredProperties = properties.filter(prop => {
@@ -149,12 +173,53 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                 {developer && <p className="text-sm text-slate-600">{developer}</p>}
               </div>
             </div>
-            <div className="text-left">
-              <div className="text-sm text-slate-600">סה״כ דירות</div>
-              <div className="text-2xl font-bold text-slate-900">{properties.length}</div>
+            <div className="text-left grid grid-cols-2 gap-4">
+              <div>
+                <div className="text-sm text-slate-600">גובה הבניין</div>
+                <div className="text-2xl font-bold text-slate-900">{totalFloors} קומות</div>
+              </div>
+              <div>
+                <div className="text-sm text-slate-600">שנת בנייה</div>
+                <div className="text-2xl font-bold text-slate-900">2024</div>
+              </div>
             </div>
           </div>
         </CardHeader>
+      </Card>
+      
+      {/* Building Specs */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">מפרט הבניין</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+              <span className="text-slate-600">גובה הבניין</span>
+              <span className="font-bold text-slate-900">60 קומות</span>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+              <span className="text-slate-600">שנת בנייה</span>
+              <span className="font-bold text-slate-900">2024</span>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+              <span className="text-slate-600">קבלן</span>
+              <span className="font-bold text-slate-900">קבלן איכות גבוהה</span>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+              <span className="text-slate-600">אדריכל</span>
+              <span className="font-bold text-slate-900">משרד אדריכלים מוביל</span>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+              <span className="text-slate-600">תקן ירוק</span>
+              <span className="font-bold text-slate-900">תו תקן ירוק 5 כוכבים</span>
+            </div>
+            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+              <span className="text-slate-600">מעליות</span>
+              <span className="font-bold text-slate-900">מעליות מהירות 4</span>
+            </div>
+          </div>
+        </CardContent>
       </Card>
 
       {/* Compare Mode Bar */}
@@ -290,7 +355,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
             <div>
               <CardTitle>מפת דירות</CardTitle>
               <p className="text-sm text-slate-600 mt-1">
-                {floors.length} קומות • {properties.length} דירות בפרויקט
+                {totalFloors} קומות • 2 דירות בפרויקט {projectId}
               </p>
             </div>
             <Button
@@ -324,52 +389,51 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                       {floor}
                     </td>
                     {types.map(type => {
-                      const unitsInCell = propertyMap[floor]?.[type] || [];
-                      // Always show all units, just dim the ones that don't match filters
-                      
+                      // Check if we have real data for this floor/type, otherwise generate mock
+                      const realUnits = realPropertyMap[floor]?.[type] || [];
+                      const unitsToShow = realUnits.length > 0 ? realUnits : [generateMockUnit(floor, type)];
+
                       return (
                         <td key={`${floor}-${type}`} className="border border-slate-300 p-2">
                           <div className="flex flex-col gap-1">
-                            {unitsInCell.length > 0 ? (
-                             unitsInCell.map(prop => {
-                                const statusMatch = filterStatus === 'all' || prop.status === filterStatus;
-                                const typeMatch = filterType === 'all' || prop.unit_type === filterType;
-                                const isFiltered = !statusMatch || !typeMatch;
-                               const matchScore = calculateMatchScore(prop);
-                               return (
-                                 <button
-                                   key={prop.id}
-                                   onClick={() => handleUnitClick(prop)}
-                                   className={`${
-                                     isCompareMode && selectedForCompare.includes(prop.id)
-                                       ? 'ring-2 ring-sky-500 ring-offset-2'
-                                       : ''
-                                   } ${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all transform hover:scale-105 cursor-pointer relative ${
-                                     isFiltered ? 'opacity-30' : ''
-                                   }`}
-                                   title={`${getStatusText(prop.status)} - ${prop.rooms} חדרים - ₪${prop.price?.toLocaleString()}${matchScore ? ` - התאמה ${matchScore}%` : ''}`}
-                                 >
-                                   {isCompareMode && selectedForCompare.includes(prop.id) && (
-                                     <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
-                                       ✓
-                                     </div>
-                                   )}
-                                   <div>{prop.rooms}ח׳ - ₪{(prop.price / 1000000).toFixed(1)}M</div>
-                                   {matchScore && (
-                                     <div className="text-[10px] font-bold bg-white/20 rounded px-1 mt-0.5">
-                                       {matchScore}% התאמה
-                                     </div>
-                                   )}
-                                 </button>
-                                 );
-                                 })
-                                 ) : (
-                                 <div className="text-center text-slate-300 text-xs py-1">-</div>
-                                 )}
-                                 </div>
-                                 </td>
-                                 );
-                                 })}
+                            {unitsToShow.map(prop => {
+                              const statusMatch = filterStatus === 'all' || prop.status === filterStatus;
+                              const typeMatch = filterType === 'all' || prop.unit_type === filterType;
+                              const isFiltered = !statusMatch || !typeMatch;
+                              const matchScore = calculateMatchScore(prop);
+                              return (
+                                <button
+                                  key={prop.id}
+                                  onClick={() => !prop.isMock && handleUnitClick(prop)}
+                                  className={`${
+                                    isCompareMode && selectedForCompare.includes(prop.id)
+                                      ? 'ring-2 ring-sky-500 ring-offset-2'
+                                      : ''
+                                  } ${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all ${
+                                    prop.isMock ? 'cursor-default' : 'transform hover:scale-105 cursor-pointer'
+                                  } relative ${
+                                    isFiltered ? 'opacity-30' : ''
+                                  }`}
+                                  title={`${getStatusText(prop.status)} - ${prop.rooms} חדרים - ₪${prop.price?.toLocaleString()}${matchScore ? ` - התאמה ${matchScore}%` : ''}`}
+                                >
+                                  {isCompareMode && selectedForCompare.includes(prop.id) && !prop.isMock && (
+                                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
+                                      ✓
+                                    </div>
+                                  )}
+                                  <div>{prop.rooms}ח׳ - ₪{(prop.price / 1000000).toFixed(1)}M</div>
+                                  {matchScore && !prop.isMock && (
+                                    <div className="text-[10px] font-bold bg-white/20 rounded px-1 mt-0.5">
+                                      {matchScore}% התאמה
+                                    </div>
+                                  )}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))}
               </tbody>
