@@ -195,28 +195,28 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         <CardContent>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="text-slate-600">גובה הבניין</span>
               <span className="font-bold text-slate-900">60 קומות</span>
+              <span className="text-slate-600">גובה הבניין</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="text-slate-600">שנת בנייה</span>
               <span className="font-bold text-slate-900">2024</span>
+              <span className="text-slate-600">שנת בנייה</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="text-slate-600">קבלן</span>
               <span className="font-bold text-slate-900">קבלן איכות גבוהה</span>
+              <span className="text-slate-600">קבלן</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="text-slate-600">אדריכל</span>
               <span className="font-bold text-slate-900">משרד אדריכלים מוביל</span>
+              <span className="text-slate-600">אדריכל</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="text-slate-600">תקן ירוק</span>
               <span className="font-bold text-slate-900">תו תקן ירוק 5 כוכבים</span>
+              <span className="text-slate-600">תקן ירוק</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-              <span className="text-slate-600">מעליות</span>
               <span className="font-bold text-slate-900">מעליות מהירות 4</span>
+              <span className="text-slate-600">מעליות</span>
             </div>
           </div>
         </CardContent>
