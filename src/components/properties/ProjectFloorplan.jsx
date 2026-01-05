@@ -287,7 +287,12 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>מפת דירות</CardTitle>
+            <div>
+              <CardTitle>מפת דירות</CardTitle>
+              <p className="text-sm text-slate-600 mt-1">
+                {floors.length} קומות • {properties.length} דירות בפרויקט
+              </p>
+            </div>
             <Button
               variant="outline"
               className="gap-2"
@@ -320,17 +325,16 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                     </td>
                     {types.map(type => {
                       const unitsInCell = propertyMap[floor]?.[type] || [];
-                      const visibleUnits = unitsInCell.filter(prop => {
-                        const statusMatch = filterStatus === 'all' || prop.status === filterStatus;
-                        const typeMatch = filterType === 'all' || prop.unit_type === filterType;
-                        return statusMatch && typeMatch;
-                      });
-
+                      // Always show all units, just dim the ones that don't match filters
+                      
                       return (
                         <td key={`${floor}-${type}`} className="border border-slate-300 p-2">
                           <div className="flex flex-col gap-1">
-                            {visibleUnits.length > 0 ? (
-                             visibleUnits.map(prop => {
+                            {unitsInCell.length > 0 ? (
+                             unitsInCell.map(prop => {
+                                const statusMatch = filterStatus === 'all' || prop.status === filterStatus;
+                                const typeMatch = filterType === 'all' || prop.unit_type === filterType;
+                                const isFiltered = !statusMatch || !typeMatch;
                                const matchScore = calculateMatchScore(prop);
                                return (
                                  <button
@@ -340,7 +344,9 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                                      isCompareMode && selectedForCompare.includes(prop.id)
                                        ? 'ring-2 ring-sky-500 ring-offset-2'
                                        : ''
-                                   } ${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all transform hover:scale-105 cursor-pointer relative`}
+                                   } ${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all transform hover:scale-105 cursor-pointer relative ${
+                                     isFiltered ? 'opacity-30' : ''
+                                   }`}
                                    title={`${getStatusText(prop.status)} - ${prop.rooms} חדרים - ₪${prop.price?.toLocaleString()}${matchScore ? ` - התאמה ${matchScore}%` : ''}`}
                                  >
                                    {isCompareMode && selectedForCompare.includes(prop.id) && (
@@ -355,19 +361,15 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                                      </div>
                                    )}
                                  </button>
-                               );
-                             })
-                            ) : unitsInCell.length > 0 ? (
-                              <div className="text-center text-slate-400 text-xs py-1">
-                                מסונן
-                              </div>
-                            ) : (
-                              <div className="text-center text-slate-300 text-xs py-1">-</div>
-                            )}
-                          </div>
-                        </td>
-                      );
-                    })}
+                                 );
+                                 })
+                                 ) : (
+                                 <div className="text-center text-slate-300 text-xs py-1">-</div>
+                                 )}
+                                 </div>
+                                 </td>
+                                 );
+                                 })}
                   </tr>
                 ))}
               </tbody>
