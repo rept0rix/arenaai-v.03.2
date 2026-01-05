@@ -271,7 +271,7 @@ export default function PropertyDetails() {
                         </div>
                     )}
 
-                    <PropertyHeader property={property} viewCount={viewCount} />
+                    <PropertyHeader property={property} />
                     
                     <div className="max-w-7xl mx-auto px-4 py-8">
                         <div className="grid grid-cols-12 gap-8">
@@ -321,7 +321,6 @@ export default function PropertyDetails() {
                         
                         {/* Full Width Sections */}
                         <div className="mt-12 space-y-12">
-                            <PropertyReviews />
                             <SimilarProperties properties={similarProperties} />
                         </div>
                     </div>
@@ -329,9 +328,6 @@ export default function PropertyDetails() {
 
                 {/* Chat Panel - Right Side */}
                 <div className="w-96 h-full flex-shrink-0 border-r border-slate-200 bg-white flex flex-col">
-                  <div className="p-4 border-b border-slate-200 bg-gradient-to-br from-sky-50 to-purple-50">
-                    <h3 className="text-lg font-semibold text-slate-900">💬 שיחה עם ארנה</h3>
-                  </div>
                   <div className="flex-1 overflow-hidden">
                         {!user ? (
                             <div className="flex items-center justify-center h-full p-6">
