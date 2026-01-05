@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Building2, Eye, Filter, X } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Building2, Eye, Filter, X, Box } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
@@ -13,6 +14,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
   const [filterType, setFilterType] = useState('all');
   const [isCompareMode, setIsCompareMode] = useState(false);
   const [selectedForCompare, setSelectedForCompare] = useState([]);
+  const [show3DModal, setShow3DModal] = useState(false);
   const navigate = useNavigate();
 
   // Calculate match score for each property based on user filters
@@ -65,14 +67,16 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
   const types = ['A', 'B', 'C', 'D', 'P'];
   const statuses = ['available', 'reserved', 'sold'];
   
-  // Group real properties by floor and type
+  // Group real properties by floor and type - ONE property per floor/type combo
   const realPropertyMap = {};
   properties.forEach(prop => {
     const floor = prop.floor || 0;
     if (!realPropertyMap[floor]) realPropertyMap[floor] = {};
     const type = prop.unit_type || 'A';
-    if (!realPropertyMap[floor][type]) realPropertyMap[floor][type] = [];
-    realPropertyMap[floor][type].push(prop);
+    // Only take the first property for each floor/type combination
+    if (!realPropertyMap[floor][type]) {
+      realPropertyMap[floor][type] = prop;
+    }
   });
 
   // Generate visual data for 60 floors
@@ -270,18 +274,18 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </motion.div>
       )}
 
-      {/* Filters */}
+      {/* Filters - Compact Design */}
       <Card>
-        <CardContent className="pt-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
-              <Filter className="w-5 h-5 text-slate-600" />
-              <div className="flex gap-2 flex-wrap">
+        <CardContent className="pt-4 pb-4">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3">
+              <Filter className="w-4 h-4 text-slate-600" />
+              <div className="flex gap-1.5">
                 <Button
                   variant={filterStatus === 'all' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setFilterStatus('all')}
-                  className={filterStatus === 'all' ? 'bg-sky-500' : ''}
+                  className={`h-8 text-xs ${filterStatus === 'all' ? 'bg-sky-500' : ''}`}
                 >
                   הכל
                 </Button>
@@ -289,7 +293,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                   variant={filterStatus === 'available' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setFilterStatus('available')}
-                  className={filterStatus === 'available' ? 'bg-green-500' : ''}
+                  className={`h-8 text-xs ${filterStatus === 'available' ? 'bg-green-500' : ''}`}
                 >
                   פנוי
                 </Button>
@@ -297,7 +301,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                   variant={filterStatus === 'reserved' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setFilterStatus('reserved')}
-                  className={filterStatus === 'reserved' ? 'bg-orange-500' : ''}
+                  className={`h-8 text-xs ${filterStatus === 'reserved' ? 'bg-orange-500' : ''}`}
                 >
                   שמור
                 </Button>
@@ -305,49 +309,53 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                   variant={filterStatus === 'sold' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setFilterStatus('sold')}
-                  className={filterStatus === 'sold' ? 'bg-red-500' : ''}
+                  className={`h-8 text-xs ${filterStatus === 'sold' ? 'bg-red-500' : ''}`}
                 >
                   נמכר
                 </Button>
               </div>
+              
+              <div className="h-6 w-px bg-slate-300"></div>
+              
+              <div className="flex gap-1.5">
+                {types.map(type => (
+                  <Button
+                    key={type}
+                    variant={filterType === type ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setFilterType(type)}
+                    className={`h-8 text-xs px-2 ${filterType === type ? 'bg-sky-500' : ''}`}
+                  >
+                    {type}
+                  </Button>
+                ))}
+              </div>
             </div>
-            <Button
-              variant={isCompareMode ? 'default' : 'outline'}
-              onClick={() => setIsCompareMode(!isCompareMode)}
-              className={isCompareMode ? 'bg-sky-500' : ''}
-            >
-              {isCompareMode ? 'מצב השוואה פעיל' : 'השווה דירות'}
-            </Button>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="h-6 w-px bg-slate-300"></div>
+            
             <div className="flex gap-2">
-              {types.map(type => (
+              {(filterStatus !== 'all' || filterType !== 'all') && (
                 <Button
-                  key={type}
-                  variant={filterType === type ? 'default' : 'outline'}
+                  variant="ghost"
                   size="sm"
-                  onClick={() => setFilterType(type)}
-                  className={filterType === type ? 'bg-sky-500' : ''}
+                  onClick={() => {
+                    setFilterStatus('all');
+                    setFilterType('all');
+                  }}
+                  className="h-8 text-xs"
                 >
-                  טיפוס {type}
+                  <X className="w-3 h-3 ml-1" />
+                  נקה
                 </Button>
-              ))}
-            </div>
-            {(filterStatus !== 'all' || filterType !== 'all') && (
+              )}
               <Button
-                variant="ghost"
+                variant={isCompareMode ? 'default' : 'outline'}
                 size="sm"
-                onClick={() => {
-                  setFilterStatus('all');
-                  setFilterType('all');
-                }}
+                onClick={() => setIsCompareMode(!isCompareMode)}
+                className={`h-8 text-xs ${isCompareMode ? 'bg-sky-500' : ''}`}
               >
-                <X className="w-4 h-4 ml-1" />
-                נקה סינון
+                {isCompareMode ? 'מצב השוואה פעיל' : 'השווה דירות'}
               </Button>
-            )}
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -365,9 +373,9 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
             <Button
               variant="outline"
               className="gap-2"
-              onClick={() => alert('הדמיה תלת-ממדית של הבניין - בקרוב!')}
+              onClick={() => setShow3DModal(true)}
             >
-              <Building2 className="w-4 h-4" />
+              <Box className="w-4 h-4" />
               הדמיה של הבניין
             </Button>
           </div>
@@ -393,48 +401,42 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                       {floor}
                     </td>
                     {types.map(type => {
-                      // Check if we have real data for this floor/type, otherwise generate mock
-                      const realUnits = realPropertyMap[floor]?.[type] || [];
-                      const unitsToShow = realUnits.length > 0 ? realUnits : [generateMockUnit(floor, type)];
+                      // Get ONE real property for this floor/type, or generate mock
+                      const realUnit = realPropertyMap[floor]?.[type];
+                      const unitToShow = realUnit || generateMockUnit(floor, type);
+                      
+                      const statusMatch = filterStatus === 'all' || unitToShow.status === filterStatus;
+                      const typeMatch = filterType === 'all' || unitToShow.unit_type === filterType;
+                      const isFiltered = !statusMatch || !typeMatch;
+                      const matchScore = calculateMatchScore(unitToShow);
 
                       return (
                         <td key={`${floor}-${type}`} className="border border-slate-300 p-2">
-                          <div className="flex flex-col gap-1">
-                            {unitsToShow.map(prop => {
-                              const statusMatch = filterStatus === 'all' || prop.status === filterStatus;
-                              const typeMatch = filterType === 'all' || prop.unit_type === filterType;
-                              const isFiltered = !statusMatch || !typeMatch;
-                              const matchScore = calculateMatchScore(prop);
-                              return (
-                                <button
-                                  key={prop.id}
-                                  onClick={() => !prop.isMock && handleUnitClick(prop)}
-                                  className={`${
-                                    isCompareMode && selectedForCompare.includes(prop.id)
-                                      ? 'ring-2 ring-sky-500 ring-offset-2'
-                                      : ''
-                                  } ${getStatusColor(prop.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all ${
-                                    prop.isMock ? 'cursor-default' : 'transform hover:scale-105 cursor-pointer'
-                                  } relative ${
-                                    isFiltered ? 'opacity-30' : ''
-                                  }`}
-                                  title={`${getStatusText(prop.status)} - ${prop.rooms} חדרים - ₪${prop.price?.toLocaleString()}${matchScore ? ` - התאמה ${matchScore}%` : ''}`}
-                                >
-                                  {isCompareMode && selectedForCompare.includes(prop.id) && !prop.isMock && (
-                                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
-                                      ✓
-                                    </div>
-                                  )}
-                                  <div>{prop.rooms}ח׳ - ₪{(prop.price / 1000000).toFixed(1)}M</div>
-                                  {matchScore && !prop.isMock && (
-                                    <div className="text-[10px] font-bold bg-white/20 rounded px-1 mt-0.5">
-                                      {matchScore}% התאמה
-                                    </div>
-                                  )}
-                                </button>
-                              );
-                            })}
-                          </div>
+                          <button
+                            onClick={() => !unitToShow.isMock && handleUnitClick(unitToShow)}
+                            className={`${
+                              isCompareMode && selectedForCompare.includes(unitToShow.id)
+                                ? 'ring-2 ring-sky-500 ring-offset-2'
+                                : ''
+                            } ${getStatusColor(unitToShow.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all ${
+                              unitToShow.isMock ? 'cursor-default' : 'transform hover:scale-105 cursor-pointer'
+                            } relative w-full ${
+                              isFiltered ? 'opacity-30' : ''
+                            }`}
+                            title={`${getStatusText(unitToShow.status)} - ${unitToShow.rooms} חדרים - ₪${unitToShow.price?.toLocaleString()}${matchScore ? ` - התאמה ${matchScore}%` : ''}`}
+                          >
+                            {isCompareMode && selectedForCompare.includes(unitToShow.id) && !unitToShow.isMock && (
+                              <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
+                                ✓
+                              </div>
+                            )}
+                            <div>{unitToShow.rooms}ח׳ - ₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
+                            {matchScore && !unitToShow.isMock && (
+                              <div className="text-[10px] font-bold bg-white/20 rounded px-1 mt-0.5">
+                                {matchScore}% התאמה
+                              </div>
+                            )}
+                          </button>
                         </td>
                       );
                     })}
@@ -462,6 +464,22 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
           </div>
         </CardContent>
       </Card>
+
+      {/* 3D Visualization Modal */}
+      <Dialog open={show3DModal} onOpenChange={setShow3DModal}>
+        <DialogContent className="max-w-4xl h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>הדמיית תלת מימד - {projectName}</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 bg-slate-100 rounded-lg flex items-center justify-center">
+            <div className="text-center space-y-4">
+              <Box className="w-16 h-16 text-slate-400 mx-auto" />
+              <p className="text-slate-600">הדמיה תלת מימדית של הבניין תיטען כאן</p>
+              <p className="text-sm text-slate-500">תוכל לסובב ולהתקרב למודל הבניין</p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Selected Unit Details - Popup */}
       <AnimatePresence>
