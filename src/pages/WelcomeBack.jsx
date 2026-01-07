@@ -18,16 +18,17 @@ export default function WelcomeBackPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const checkAuthAndPurpose = async () => {
+      setIsLoading(true);
       try {
         const currentUser = await base44.auth.me();
         setUser(currentUser);
 
-        // If coming from Landing page or another source with purpose in URL
         const urlPurpose = searchParams.get('purpose');
         if (urlPurpose) {
           setSelectedPurpose(urlPurpose);
@@ -36,9 +37,10 @@ export default function WelcomeBackPage() {
       } catch (error) {
         setUser(null);
       }
+      setIsLoading(false);
     };
     checkAuthAndPurpose();
-  }, [navigate, searchParams]);
+  }, [searchParams]);
 
   const handleSearch = (query) => {
     if (!selectedPurpose) {
