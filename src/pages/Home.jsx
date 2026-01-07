@@ -24,7 +24,7 @@ export default function HomePage() {
   useEffect(() => {
     const checkAuthAndPurpose = async () => {
       try {
-        const currentUser = await UserEntity.me();
+        const currentUser = await base44.auth.me();
         setUser(currentUser);
 
         // Check if there's a pending chat redirect after login
