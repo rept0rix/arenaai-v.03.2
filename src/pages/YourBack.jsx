@@ -129,41 +129,62 @@ export default function YourBackPage() {
               />
 
               <div className="text-right flex-1">
-                <p className="text-lg font-semibold mb-2 text-slate-800">
-                  {user ? `היי ${user.full_name?.split(' ')[0]}! אני ארנה, יועצת הנדל"ן החכמה שלך.` : 'היי, אני ארנה, יועצת הנדל"ן החכמה שלך.'}
+                <p className="text-lg font-semibold mb-4 text-slate-800">
+                  היי {user?.full_name?.split(' ')[0] || 'משתמש'}!
                 </p>
-                <p className="text-slate-700 mb-3">
-                  בוא נמצא את הבית הבא עבורך.
+                <p className="text-slate-700 mb-4">
+                  אפשר להמשיך את השיחה הקודמת מאיפה שעצרנו או ליצור שיחה חדשה
                 </p>
                 
-                <div className="space-y-3">
-                  <p className="text-slate-800 font-medium">
-                    לאיזו מטרה את/ה מחפש/ת נכס?
-                  </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Button
-                      variant={selectedPurpose === 'living' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => setSelectedPurpose('living')}
-                      className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
-                    >
-                      נכס למגורים
-                    </Button>
-                    <Button
-                      variant={selectedPurpose === 'investment' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => setSelectedPurpose('investment')}
-                      className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
-                    >
-                      נכס להשקעה
-                    </Button>
-                  </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    onClick={() => navigate(createPageUrl('Chat'))}
+                    className="bg-sky-500 hover:bg-sky-600 text-white"
+                  >
+                    המשך שיחה
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      const chatSection = document.getElementById('new-chat-section');
+                      if (chatSection) {
+                        chatSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                    className="bg-white hover:bg-slate-50"
+                  >
+                    התחל שיחה חדשה
+                  </Button>
                 </div>
               </div>
             </div>
             
-            <div className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
-              <form onSubmit={handleFormSubmit} className="relative">
+            <div id="new-chat-section" className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
+              <div className="space-y-3">
+                <p className="text-slate-800 font-medium text-right">
+                  לאיזו מטרה את/ה מחפש/ת נכס?
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    variant={selectedPurpose === 'living' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSelectedPurpose('living')}
+                    className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
+                  >
+                    נכס למגורים
+                  </Button>
+                  <Button
+                    variant={selectedPurpose === 'investment' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSelectedPurpose('investment')}
+                    className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
+                  >
+                    נכס להשקעה
+                  </Button>
+                </div>
+              </div>
+              
+              <form onSubmit={handleFormSubmit} className="relative mt-4">
                 <Textarea
                   placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
                   className="bg-white text-right px-4 py-4 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
@@ -171,14 +192,6 @@ export default function YourBackPage() {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   rows={5}
                 />
-                <Button
-                  type="submit"
-                  size="icon"
-                  className="absolute left-4 top-4 bg-slate-900 hover:bg-black text-white rounded-lg"
-                  disabled={!searchTerm.trim()}
-                >
-                  <ArrowUp className="w-5 h-5" />
-                </Button>
                 <Button
                   variant="ghost"
                   size="sm"
