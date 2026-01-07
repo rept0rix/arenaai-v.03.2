@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import PropertyCard from './PropertyCard';
 import PropertyFilters from './PropertyFilters';
@@ -23,7 +22,8 @@ export default function PropertyResults({
   developerId,
   isGuided,
   currentSession,
-  questions
+  questions,
+  onAnalyzeProperty
 }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -223,7 +223,8 @@ export default function PropertyResults({
                   isSelected={selectedProperties.includes(property.id)}
                   onSelect={() => onSelectProperty(property.id)}
                   isCompareMode={isCompareMode}
-                  onQuickView={() => onQuickView(property)} />
+                  onQuickView={() => onQuickView(property)}
+                  onAnalyzeProperty={onAnalyzeProperty} />
 
                   </motion.div>
               )}

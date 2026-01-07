@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { BedDouble, Ruler, Building, MapPin, Eye, ExternalLink, CheckSquare, Sparkles } from 'lucide-react';
+import { BedDouble, Ruler, Building, MapPin, Eye, ExternalLink, CheckSquare, Sparkles, HelpCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
@@ -12,7 +12,8 @@ export default function PropertyCard({
   onSelect, 
   isCompareMode, 
   onQuickView,
-  matchScore // New prop for match percentage
+  matchScore, // New prop for match percentage
+  onAnalyzeProperty // New prop for analyzing why this property matches
 }) {
   const navigate = useNavigate();
 
@@ -57,6 +58,13 @@ export default function PropertyCard({
   const handleQuickViewClick = (e) => {
     e.stopPropagation();
     onQuickView(property);
+  };
+
+  const handleAnalyzeClick = (e) => {
+    e.stopPropagation();
+    if (onAnalyzeProperty) {
+      onAnalyzeProperty(property);
+    }
   };
 
   return (
@@ -134,10 +142,21 @@ export default function PropertyCard({
           </div>
         )}
         
-        {/* Match Score Bar */}
+        {/* Match Score Bar with Analyze Button */}
         <div className="mt-3 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-slate-600">התאמה אישית</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs font-medium text-slate-600">התאמה אישית</span>
+              {onAnalyzeProperty && (
+                <button
+                  onClick={handleAnalyzeClick}
+                  className="text-sky-600 hover:text-sky-700 hover:bg-sky-50 rounded-full p-1 transition-colors"
+                  title="למה נכס זה מתאים לי?"
+                >
+                  <HelpCircle className="w-4 h-4" />
+                </button>
+              )}
+            </div>
             <span className="text-sm font-bold text-sky-600">{calculatedMatchScore}%</span>
           </div>
           <div className="w-full bg-slate-200 rounded-full h-2">

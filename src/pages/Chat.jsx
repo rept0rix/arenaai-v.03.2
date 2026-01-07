@@ -264,6 +264,7 @@ export default function Chat() {
             isGuided={searchParams.get('guided') === 'true'}
             currentSession={currentSession}
             questions={questions}
+            onAnalyzeProperty={handleAnalyzeProperty}
           />
         </div>
         
@@ -276,6 +277,8 @@ export default function Chat() {
             isMobile={false}
             isSelectionMode={isSelectionMode}
             setIsSelectionMode={setIsSelectionMode}
+            propertyToAnalyze={propertyToAnalyze}
+            onPropertyAnalyzed={() => setPropertyToAnalyze(null)}
           />
         </div>
       </div>

@@ -8,7 +8,7 @@ import QuestionCard from './QuestionCard';
 import { InvokeLLM } from "@/integrations/Core";
 import ChatButtonsExplanation from './ChatButtonsExplanation';
 
-export default function ChatInterface({ questions, currentSession, onUpdateAnswer, filteredCount, isMobile, isSelectionMode, setIsSelectionMode, contextMessage }) {
+export default function ChatInterface({ questions, currentSession, onUpdateAnswer, filteredCount, isMobile, isSelectionMode, setIsSelectionMode, contextMessage, propertyToAnalyze, onPropertyAnalyzed }) {
   const [inputValue, setInputValue] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isBotTyping, setIsBotTyping] = useState(false);
@@ -19,6 +19,13 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
   const [selectedElement, setSelectedElement] = useState(null);
   const escListenerRef = useRef(null); // Ref to store the ESC key listener function
   const [showExplanation, setShowExplanation] = useState(false);
+
+  // Handle property analysis
+  useEffect(() => {
+    if (propertyToAnalyze) {
+      analyzeProperty(propertyToAnalyze);
+    }
+  }, [propertyToAnalyze]);
 
   // Helper functions that don't depend on state/props, or whose dependencies are stable
   const getElementContext = (element) => {
@@ -628,6 +635,88 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
       setViewMode('open_chat');
     }
     setIsSelectionMode(!isSelectionMode);
+  };
+
+  const analyzeProperty = async (property) => {
+    // Switch to open chat mode
+    setViewMode('open_chat');
+
+    // Add user message about wanting to know more about this property
+    const userMessage = {
+      type: "user",
+      message: `למה הנכס "${property.title}" מתאים לי?`
+    };
+    setChatHistory((prev) => [...prev, userMessage]);
+
+    setIsBotTyping(true);
+    
+    try {
+      // Build context from session answers
+      const answeredQuestions = Object.keys(currentSession?.answers || {}).filter(k => k !== 'initial_query');
+      const hasProfile = answeredQuestions.length > 0;
+      
+      let contextInfo = '';
+      if (hasProfile) {
+        contextInfo = `המשתמש ענה על ${answeredQuestions.length} שאלות. תשובות: ${JSON.stringify(currentSession.answers)}`;
+      } else {
+        contextInfo = 'המשתמש עדיין לא ענה על שאלות, תן הסבר כללי.';
+      }
+
+      const prompt = `
+אתה ארנה, יועצת נדל"ן חכמה. משתמש שואל למה נכס מסוים מתאים לו.
+
+הקשר על המשתמש: ${contextInfo}
+
+פרטי הנכס:
+- כותרת: ${property.title}
+- מחיר: ${property.price?.toLocaleString()} ₪
+- מיקום: ${property.location || property.city || 'לא צוין'}
+- חדרים: ${property.rooms}
+- גודל: ${property.size || 'לא צוין'} מ"ר
+- קומה: ${property.floor !== undefined ? property.floor : 'לא צוין'}
+${property.parking ? '- יש חניה' : ''}
+${property.elevator ? '- יש מעלית' : ''}
+${property.balcony ? '- יש מרפסת' : ''}
+${property.storage ? '- יש מחסן' : ''}
+
+${hasProfile ? `
+נתח למה הנכס הזה מתאים או לא מתאים למשתמש בהתבסס על התשובות שלו.
+אם הנכס מתאים - הסבר למה. אם לא - הסבר בעדינות מה חסר או לא מתאים.
+` : `
+המשתמש עדיין לא בנה פרופיל מפורט. תן הסבר כללי על הנכס ועל היתרונות שלו.
+הוסף: "על סמך מה שאני יודעת כרגע, זה מה שאני יכולה לומר על הנכס הזה. ככל שנמשיך לדבר – אוכל לדייק יותר למה כן או לא."
+`}
+
+השב בצורה חברותית, אישית ומועילה. השתמש באימוג'י בצורה מתונה.
+`;
+
+      const response = await InvokeLLM({
+        prompt: prompt
+      });
+
+      const botResponse = {
+        type: "bot",
+        message: response || "מצטערת, לא הצלחתי לנתח את הנכס כרגע. נסה שוב.",
+        isMarkdown: true
+      };
+
+      setChatHistory((prev) => [...prev, botResponse]);
+      setIsBotTyping(false);
+      
+      // Notify parent that analysis is done
+      if (onPropertyAnalyzed) {
+        onPropertyAnalyzed();
+      }
+    } catch (error) {
+      console.error('Error analyzing property:', error);
+      const errorResponse = {
+        type: "bot",
+        message: "מצטערת, קרתה שגיאה בניתוח הנכס. תוכל לנסות שוב או לשאול אותי משהו אחר.",
+        isMarkdown: false
+      };
+      setChatHistory((prev) => [...prev, errorResponse]);
+      setIsBotTyping(false);
+    }
   };
 
   const handleInputChangeWithFormatting = (e) => {
