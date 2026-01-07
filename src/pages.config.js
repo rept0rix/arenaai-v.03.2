@@ -29,6 +29,7 @@ import TermsOfService from './pages/TermsOfService';
 import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
+import WelcomeBack from './pages/WelcomeBack';
 import __Layout from './Layout.jsx';
 
 
@@ -64,6 +65,7 @@ export const PAGES = {
     "TermsOfServiceDevelopers": TermsOfServiceDevelopers,
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
+    "WelcomeBack": WelcomeBack,
 }
 
 export const pagesConfig = {
