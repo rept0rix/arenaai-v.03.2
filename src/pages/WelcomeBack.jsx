@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Settings, History, Compass, ArrowLeftRight } from 'lucide-react';
+import { Settings, ArrowUp, History, Compass } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import { base44 } from '@/api/base44Client';
 import TopNavigation from '../components/TopNavigation';
 
+const quickStartOptions = [
+  "דירת 4 חדרים עם מרפסת בגבעתיים",
+  "נדל\"ן מסחרי להשקעה בתל אביב",
+  "בית פרטי עם גישה לים",
+  "דירה בחולון קומה גבוהה"
+];
+
 export default function WelcomeBackPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPurpose, setSelectedPurpose] = useState('');
   const [user, setUser] = useState(null);
   const [lastSession, setLastSession] = useState(null);
   const navigate = useNavigate();
@@ -33,16 +43,38 @@ export default function WelcomeBackPage() {
     loadUserData();
   }, [navigate]);
 
-  const handleContinueSession = () => {
-    if (lastSession) {
-      navigate(createPageUrl(`Chat?session_id=${lastSession.id}`));
-    } else {
-      navigate(createPageUrl('Chat'));
+  const handleSearch = (query) => {
+    if (!selectedPurpose) {
+      alert('אנא בחר מטרת חיפוש לפני תחילת השיחה');
+      return;
     }
+    if (!query.trim()) return;
+
+    const chatUrl = createPageUrl(`Chat?purpose=${selectedPurpose}&q=${encodeURIComponent(query)}`);
+    navigate(chatUrl);
   };
 
-  const handleNewSearch = () => {
-    navigate(createPageUrl('Home'));
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleSearch(searchTerm);
+  };
+
+  const handleGuidedJourney = () => {
+    if (!selectedPurpose) {
+      alert('אנא בחר מטרת חיפוש לפני תחילת המסע המודרך');
+      return;
+    }
+
+    navigate(createPageUrl(`Chat?purpose=${selectedPurpose}&guided=true`));
+  };
+
+  const handleQuickOption = (option) => {
+    if (!selectedPurpose) {
+      alert('אנא בחר מטרת חיפוש לפני תחילת החיפוש');
+      return;
+    }
+
+    handleSearch(option);
   };
 
   if (!user) {
@@ -67,101 +99,106 @@ export default function WelcomeBackPage() {
             <div className="bg-white/90 backdrop-blur-sm rounded-t-2xl p-6 border-b border-slate-200/80 flex items-center gap-6">
               <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c276074aac6e6711db72a6/fefa17145_logoarena3d.png"
-                alt="Arena AI Logo"
-                className="w-10 h-10 flex-shrink-0"
+                alt="Arena AI Logo" 
+                className="w-10 h-10 flex-shrink-0" 
               />
 
               <div className="text-right flex-1">
                 <p className="text-lg font-semibold mb-2 text-slate-800">
-                  חזרת יופי! אתה רוצה להמשיך מהשיחה הקודמת?
+                  {lastSession && lastSession.answers?.initial_query 
+                    ? `חזרת יופי ${user.full_name?.split(' ')[0]}! רוצה להמשיך מהשיחה הקודמת?`
+                    : `היי ${user.full_name?.split(' ')[0]}! אני ארנה, יועצת הנדל"ן החכמה שלך.`
+                  }
                 </p>
-                {lastSession && lastSession.answers?.initial_query && (
+                {lastSession && lastSession.answers?.initial_query ? (
                   <div className="bg-slate-50 border-r-4 border-sky-500 p-3 mb-3 rounded">
                     <p className="text-slate-600 text-sm italic">
                       "{lastSession.answers.initial_query}"
                     </p>
                   </div>
+                ) : (
+                  <p className="text-slate-700 mb-3">
+                    בוא נמצא את הבית הבא עבורך.
+                  </p>
                 )}
+                
+                <div className="space-y-3">
+                  <p className="text-slate-800 font-medium">
+                    לאיזו מטרה את/ה מחפש/ת נכס?
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <Button
+                      variant={selectedPurpose === 'living' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setSelectedPurpose('living')}
+                      className={selectedPurpose === 'living' ?
+                        "bg-sky-500 hover:bg-sky-600 text-white" :
+                        "bg-white hover:bg-slate-50"
+                      }
+                    >
+                      נכס למגורים
+                    </Button>
+                    <Button
+                      variant={selectedPurpose === 'investment' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setSelectedPurpose('investment')}
+                      className={selectedPurpose === 'investment' ?
+                        "bg-sky-500 hover:bg-sky-600 text-white" :
+                        "bg-white hover:bg-slate-50"
+                      }
+                    >
+                      נכס להשקעה
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
             
-            {/* Bottom part: Actions */}
-            <div className="bg-slate-50/70 p-6 rounded-b-2xl border-t border-slate-200/80">
-              <div className="space-y-4">
+            {/* Bottom part: Form */}
+            <div className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
+              <form onSubmit={handleFormSubmit} className="relative">
+                <Textarea
+                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
+                  className="bg-white text-right px-4 py-4 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  rows={5}
+                />
+
                 <Button
-                  onClick={handleContinueSession}
-                  className="w-full bg-sky-500 hover:bg-sky-600 text-white py-4 rounded-xl text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md"
+                  type="submit"
+                  size="icon"
+                  className="absolute left-4 top-4 bg-slate-900 hover:bg-black text-white rounded-lg"
+                  disabled={!searchTerm.trim()}
                 >
-                  המשך בשיחה 💬
+                  <ArrowUp className="w-5 h-5" />
                 </Button>
                 <Button
-                  onClick={handleNewSearch}
-                  variant="outline"
-                  className="w-full border-2 border-sky-500 text-sky-600 hover:bg-sky-50 py-4 rounded-xl text-lg transition-all duration-300 transform hover:scale-[1.02]"
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleGuidedJourney}
+                  className="absolute bottom-4 right-4 text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm"
                 >
-                  צור שיחה חדשה ✨
+                  <Compass className="w-4 h-4" />
+                  מסע מודרך
                 </Button>
-              </div>
+              </form>
             </div>
           </div>
 
-          {/* Quick Links Section */}
-          <div className="w-full max-w-2xl mb-8">
-            <div className="bg-white rounded-xl shadow-md border border-slate-200/80 p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
-                  <Compass className="w-5 h-5 text-slate-600" />
-                </div>
-                <p className="text-slate-700">
-                  לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים...
-                </p>
-              </div>
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <span className="text-slate-500 text-sm mb-2 w-full text-center">או התחל עם משהו ממה שמחפשים הכי הרבה:</span>
+            {quickStartOptions.map((option, index) => (
               <Button
-                variant="ghost"
-                className="text-sky-600 hover:text-sky-700 text-sm"
-              >
-                🔍 מסע מודרך
-              </Button>
-            </div>
-          </div>
-
-          {/* Quick Action Suggestions */}
-          <div className="w-full max-w-2xl mb-8">
-            <p className="text-center text-slate-600 mb-4">או התחל עם משהו ממה שמחפשים הכי הרבה:</p>
-            <div className="flex flex-wrap justify-center gap-3">
-              <Button
+                key={index}
                 variant="outline"
                 size="sm"
+                onClick={() => handleQuickOption(option)}
                 className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full"
-                onClick={() => navigate(createPageUrl('Chat?q=דירת 4 חדרים עם מרפסת בגבעתיים'))}
               >
-                דירת 4 חדרים עם מרפסת בגבעתיים
+                {option}
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full"
-                onClick={() => navigate(createPageUrl('Chat?q=נדל״ן מסחרי להשקעה בתל אביב'))}
-              >
-                נדל"ן מסחרי להשקעה בתל אביב
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full"
-                onClick={() => navigate(createPageUrl('Chat?q=בית פרטי עם גישה לים'))}
-              >
-                בית פרטי עם גישה לים
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full"
-                onClick={() => navigate(createPageUrl('Chat?q=דירה בחולון קומה גבוהה'))}
-              >
-                דירה בחולון קומה גבוהה
-              </Button>
-            </div>
+            ))}
           </div>
 
           {/* Action Buttons */}
@@ -198,7 +235,7 @@ export default function WelcomeBackPage() {
               onClick={() => navigate(createPageUrl('PropertyComparison'))}
               className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
             >
-              <ArrowLeftRight className="w-6 h-6 mb-2 text-slate-600" />
+              <ArrowUp className="w-6 h-6 mb-2 text-slate-600" />
               <span className="text-sm">השוואת נכסים</span>
             </Button>
           </div>
