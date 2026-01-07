@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Settings, ArrowUp, History, Compass } from 'lucide-react';
+import { Settings, ArrowUp, ArrowLeftRight, History, Compass } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { base44 } from '@/api/base44Client';
@@ -235,7 +235,7 @@ export default function WelcomeBackPage() {
               onClick={() => navigate(createPageUrl('PropertyComparison'))}
               className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
             >
-              <ArrowUp className="w-6 h-6 mb-2 text-slate-600" />
+              <ArrowLeftRight className="w-6 h-6 mb-2 text-slate-600" />
               <span className="text-sm">השוואת נכסים</span>
             </Button>
           </div>
