@@ -239,14 +239,7 @@ export default function Chat() {
               className="h-10"
             />
           </button>
-          {selectedPropertyForDetails && (
-            <button 
-              onClick={() => setSelectedPropertyForDetails(null)}
-              className="text-sm text-sky-600 hover:text-sky-700 font-medium flex items-center gap-1"
-            >
-              ← חזור לתוצאות
-            </button>
-          )}
+
         </div>
         <TopNavigation currentPage="Chat" />
       </div>
