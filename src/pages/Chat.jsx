@@ -21,6 +21,7 @@ export default function Chat() {
   const [isCompareMode, setIsCompareMode] = useState(false);
   const navigate = useNavigate();
   const [selectedPropertyForDetails, setSelectedPropertyForDetails] = useState(null);
+  const [propertyToAnalyze, setPropertyToAnalyze] = useState(null);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [forceShowResults, setForceShowResults] = useState(false);
 
@@ -180,6 +181,10 @@ export default function Chat() {
       }
       const url = createPageUrl(`PropertyComparison?ids=${selectedProperties.join(',')}&filters=${encodeURIComponent(JSON.stringify(filters))}`);
       navigate(url);
+  };
+
+  const handleAnalyzeProperty = (property) => {
+    setPropertyToAnalyze(property);
   };
 
   const updateAnswer = async (question, answer) => {
