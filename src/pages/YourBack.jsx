@@ -18,32 +18,17 @@ export default function YourBackPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const checkAuthAndPurpose = async () => {
+      setIsLoading(true);
       try {
         const currentUser = await base44.auth.me();
         setUser(currentUser);
 
-        // Check if there's a pending chat redirect after login
-        const pendingRedirect = localStorage.getItem('pendingChatRedirect');
-        if (currentUser && pendingRedirect) {
-          localStorage.removeItem('pendingChatRedirect');
-          const { purpose, query, isGuided } = JSON.parse(pendingRedirect);
-          let chatUrl = `Chat?purpose=${purpose}`;
-          if (query) {
-            chatUrl += `&q=${encodeURIComponent(query)}`;
-          }
-          if (isGuided) {
-            chatUrl += `&guided=true`;
-          }
-          navigate(createPageUrl(chatUrl));
-          return;
-        }
-
-        // If coming from Landing page or another source with purpose in URL
         const urlPurpose = searchParams.get('purpose');
         if (urlPurpose) {
           setSelectedPurpose(urlPurpose);
@@ -51,15 +36,16 @@ export default function YourBackPage() {
 
       } catch (error) {
         setUser(null);
-        // Even if logged out, check if a purpose was passed in URL
         const urlPurpose = searchParams.get('purpose');
         if (urlPurpose) {
           setSelectedPurpose(urlPurpose);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
     checkAuthAndPurpose();
-  }, [navigate, searchParams]);
+  }, [searchParams]);
 
   const handleSearch = (query) => {
     if (!selectedPurpose) {
@@ -115,6 +101,17 @@ export default function YourBackPage() {
 
     handleSearch(option);
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500 mx-auto mb-4"></div>
+          <p className="text-slate-600">טוען...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
