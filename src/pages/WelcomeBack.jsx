@@ -73,37 +73,33 @@ export default function WelcomeBackPage() {
 
               <div className="text-right flex-1">
                 <p className="text-lg font-semibold mb-2 text-slate-800">
-                  היי {user.full_name?.split(' ')[0]}! אני ארנה, יועצת הנדל"ן החכמה שלך.
+                  חזרת יופי! אתה רוצה להמשיך מהשיחה הקודמת?
                 </p>
-                <p className="text-slate-700 mb-3">
-                  בוא נמצא את הבית הבא עבורך.
-                </p>
-                
-                <div className="space-y-3">
-                  <p className="text-slate-800 font-medium">
-                    לאיזה מסלול את/ה מחפש/ת נכס?
-                  </p>
-                </div>
+                {lastSession && lastSession.answers?.initial_query && (
+                  <div className="bg-slate-50 border-r-4 border-sky-500 p-3 mb-3 rounded">
+                    <p className="text-slate-600 text-sm italic">
+                      "{lastSession.answers.initial_query}"
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
             
             {/* Bottom part: Actions */}
             <div className="bg-slate-50/70 p-6 rounded-b-2xl border-t border-slate-200/80">
               <div className="space-y-4">
-                {lastSession && (
-                  <Button
-                    onClick={handleContinueSession}
-                    className="w-full bg-sky-500 hover:bg-sky-600 text-white py-4 rounded-xl text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md"
-                  >
-                    נכס להשקעה 🔑
-                  </Button>
-                )}
+                <Button
+                  onClick={handleContinueSession}
+                  className="w-full bg-sky-500 hover:bg-sky-600 text-white py-4 rounded-xl text-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md"
+                >
+                  המשך בשיחה 💬
+                </Button>
                 <Button
                   onClick={handleNewSearch}
                   variant="outline"
                   className="w-full border-2 border-sky-500 text-sky-600 hover:bg-sky-50 py-4 rounded-xl text-lg transition-all duration-300 transform hover:scale-[1.02]"
                 >
-                  נכס למגורים 🏡
+                  צור שיחה חדשה ✨
                 </Button>
               </div>
             </div>
