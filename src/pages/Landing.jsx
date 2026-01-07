@@ -212,20 +212,165 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* Simple Content Section */}
+      {/* Features Section */}
       <section className="relative z-10 py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">למה לבחור בארנה AI?</h2>
+            <p className="text-xl text-slate-600">
+              פלטפורמה מתקדמת שמשלבת טכנולוגיה עם ייעוץ אישי
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-gradient-to-br from-sky-50 to-blue-50 p-8 rounded-2xl border border-sky-100 shadow-sm">
+              <div className="w-16 h-16 bg-sky-500 rounded-2xl flex items-center justify-center mb-6">
+                <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png" alt="" className="w-10 h-10" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">יועצת AI חכמה</h3>
+              <p className="text-slate-700 leading-relaxed">
+                ארנה לומדת את ההעדפות שלך ומציעה נכסים מותאמים אישית עם ניתוח מעמיק של כל אפשרות
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-100 shadow-sm">
+              <div className="w-16 h-16 bg-purple-500 rounded-2xl flex items-center justify-center mb-6">
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">השוואה חכמה</h3>
+              <p className="text-slate-700 leading-relaxed">
+                השווה בין נכסים בקלות, ראה יתרונות וחסרונות, וקבל המלצות מבוססות נתונים
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl border border-green-100 shadow-sm">
+              <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mb-6">
+                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">סיורים וירטואליים</h3>
+              <p className="text-slate-700 leading-relaxed">
+                חווה את הנכס והסביבה בתלת מימד לפני שאתה מגיע, חסוך זמן ותכנן טוב יותר
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Button 
+              onClick={() => handleGetStarted()}
+              size="lg"
+              className="bg-sky-600 hover:bg-sky-700 text-white px-12 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all"
+            >
+              התחל את המסע שלך
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-20 bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-slate-900 mb-4">איך זה עובד?</h2>
+            <p className="text-xl text-slate-600">
+              ארבעה שלבים פשוטים למצוא את הבית שלך
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-sky-500 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4">
+                1
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">ספר לארנה</h3>
+              <p className="text-slate-600">
+                שתף את ההעדפות והצרכים שלך בשיחה פשוטה
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-purple-500 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4">
+                2
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">קבל המלצות</h3>
+              <p className="text-slate-600">
+                ארנה תציע לך נכסים מותאמים עם ניקוד התאמה אישי
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-green-500 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4">
+                3
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">השווה וחקור</h3>
+              <p className="text-slate-600">
+                השווה נכסים, צפה בסיורים וירטואליים וקבל ניתוחים
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-orange-500 text-white rounded-full flex items-center justify-center text-3xl font-bold mx-auto mb-4">
+                4
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">קבל החלטה</h3>
+              <p className="text-slate-600">
+                קבל החלטה מושכלת עם כל המידע שאתה צריך
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-5xl font-bold text-sky-600 mb-2">1000+</div>
+              <div className="text-slate-600">נכסים במערכת</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-purple-600 mb-2">500+</div>
+              <div className="text-slate-600">משפחות מרוצות</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-green-600 mb-2">50+</div>
+              <div className="text-slate-600">יזמים שותפים</div>
+            </div>
+            <div>
+              <div className="text-5xl font-bold text-orange-600 mb-2">98%</div>
+              <div className="text-slate-600">דירוג שביעות רצון</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-sky-600 to-purple-600 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-slate-900 mb-8">ארנה - יועצת הנדל"ן החכמה שלך</h2>
-          <p className="text-xl text-slate-600 mb-12">
-            מצא את הדירה המושלמת עם הכלים המתקדמים שלנו
+          <h2 className="text-4xl font-bold mb-6">מוכנים למצוא את הבית שלכם?</h2>
+          <p className="text-xl mb-8 opacity-90">
+            הצטרפו לאלפי משפחות שכבר מצאו את הבית המושלם עם ארנה AI
           </p>
-          <Button 
-            onClick={() => handleGetStarted()}
-            size="lg"
-            className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-6 text-lg"
-          >
-            התחל עכשיו
-          </Button>
+          <div className="flex gap-4 justify-center">
+            <Button 
+              onClick={() => handleGetStarted('living')}
+              size="lg"
+              className="bg-white text-sky-600 hover:bg-slate-100 px-8 py-6 text-lg rounded-full shadow-lg"
+            >
+              למגורים
+            </Button>
+            <Button 
+              onClick={() => handleGetStarted('investment')}
+              size="lg"
+              className="bg-white text-purple-600 hover:bg-slate-100 px-8 py-6 text-lg rounded-full shadow-lg"
+            >
+              להשקעה
+            </Button>
+          </div>
         </div>
       </section>
     </div>
