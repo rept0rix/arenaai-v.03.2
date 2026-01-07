@@ -17,14 +17,17 @@ export default function WelcomeBackPage() {
         const currentUser = await base44.auth.me();
         setUser(currentUser);
         
-        // Try to load last session
-        const sessions = await base44.entities.ChatSession.filter({ created_by: currentUser.email }, '-created_date', 1);
-        if (sessions.length > 0) {
-          setLastSession(sessions[0]);
+        // Try to load last session - simplified
+        try {
+          const sessions = await base44.entities.ChatSession.filter({ created_by: currentUser.email }, '-created_date', 1);
+          if (sessions && sessions.length > 0) {
+            setLastSession(sessions[0]);
+          }
+        } catch (sessionError) {
+          console.log('No previous session found');
         }
       } catch (error) {
         console.error('Error loading user:', error);
-        navigate(createPageUrl('Landing'));
       }
     };
     loadUserData();
