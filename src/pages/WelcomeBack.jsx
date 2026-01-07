@@ -27,22 +27,6 @@ export default function WelcomeBackPage() {
         const currentUser = await base44.auth.me();
         setUser(currentUser);
 
-        // Check if there's a pending chat redirect after login
-        const pendingRedirect = localStorage.getItem('pendingChatRedirect');
-        if (currentUser && pendingRedirect) {
-          localStorage.removeItem('pendingChatRedirect');
-          const { purpose, query, isGuided } = JSON.parse(pendingRedirect);
-          let chatUrl = `Chat?purpose=${purpose}`;
-          if (query) {
-            chatUrl += `&q=${encodeURIComponent(query)}`;
-          }
-          if (isGuided) {
-            chatUrl += `&guided=true`;
-          }
-          navigate(createPageUrl(chatUrl));
-          return;
-        }
-
         // If coming from Landing page or another source with purpose in URL
         const urlPurpose = searchParams.get('purpose');
         if (urlPurpose) {
@@ -51,11 +35,6 @@ export default function WelcomeBackPage() {
 
       } catch (error) {
         setUser(null);
-        // Even if logged out, check if a purpose was passed in URL
-        const urlPurpose = searchParams.get('purpose');
-        if (urlPurpose) {
-          setSelectedPurpose(urlPurpose);
-        }
       }
     };
     checkAuthAndPurpose();
