@@ -20,13 +20,6 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
   const escListenerRef = useRef(null); // Ref to store the ESC key listener function
   const [showExplanation, setShowExplanation] = useState(false);
 
-  // Handle property analysis
-  useEffect(() => {
-    if (propertyToAnalyze) {
-      analyzeProperty(propertyToAnalyze);
-    }
-  }, [propertyToAnalyze]);
-
   // Helper functions that don't depend on state/props, or whose dependencies are stable
   const getElementContext = (element) => {
     const parent = element.closest('[class*="property"], [class*="card"], [class*="result"]');
@@ -637,7 +630,7 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
     setIsSelectionMode(!isSelectionMode);
   };
 
-  const analyzeProperty = async (property) => {
+  const analyzeProperty = useCallback(async (property) => {
     // Switch to open chat mode
     setViewMode('open_chat');
 
@@ -717,7 +710,14 @@ ${hasProfile ? `
       setChatHistory((prev) => [...prev, errorResponse]);
       setIsBotTyping(false);
     }
-  };
+  }, [currentSession, onPropertyAnalyzed]);
+
+  // Handle property analysis
+  useEffect(() => {
+    if (propertyToAnalyze) {
+      analyzeProperty(propertyToAnalyze);
+    }
+  }, [propertyToAnalyze, analyzeProperty]);
 
   const handleInputChangeWithFormatting = (e) => {
     const value = e.target.value;
