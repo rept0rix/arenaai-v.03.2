@@ -115,20 +115,18 @@ export default function YourBackPage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top Navigation */}
       <TopNavigation currentPage="YourBack" />
       
-      {/* Main Content */}
       <div className="flex-1 w-full flex flex-col items-center justify-center p-4 bg-slate-50">
         <div className="max-w-3xl w-full flex flex-col items-center">
           
           <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg border border-slate-200/80 mb-8">
-            {/* Chat Bubble with Logo */}
             <div className="bg-white/90 backdrop-blur-sm rounded-t-2xl p-6 border-b border-slate-200/80 flex items-center gap-6">
               <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c276074aac6e6711db72a6/fefa17145_logoarena3d.png"
-                alt="Arena AI Logo" className="w-10 h-10 flex-shrink-0" />
-
+                alt="Arena AI Logo" 
+                className="w-10 h-10 flex-shrink-0" 
+              />
 
               <div className="text-right flex-1">
                 <p className="text-lg font-semibold mb-2 text-slate-800">
@@ -147,18 +145,16 @@ export default function YourBackPage() {
                       variant={selectedPurpose === 'living' ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setSelectedPurpose('living')}
-                      className={selectedPurpose === 'living' ?
-                      "bg-sky-500 hover:bg-sky-600 text-white" :
-                      "bg-white hover:bg-slate-50"}>
+                      className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
+                    >
                       נכס למגורים
                     </Button>
                     <Button
                       variant={selectedPurpose === 'investment' ? 'default' : 'outline'}
                       size="sm"
                       onClick={() => setSelectedPurpose('investment')}
-                      className={selectedPurpose === 'investment' ?
-                      "bg-sky-500 hover:bg-sky-600 text-white" :
-                      "bg-white hover:bg-slate-50"}>
+                      className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
+                    >
                       נכס להשקעה
                     </Button>
                   </div>
@@ -166,90 +162,94 @@ export default function YourBackPage() {
               </div>
             </div>
             
-            {/* Bottom part: Form */}
             <div className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
-                <form onSubmit={handleFormSubmit} className="relative">
-                  <Textarea
-                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..." className="bg-white text-right px-4 py-4 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
+              <form onSubmit={handleFormSubmit} className="relative">
+                <Textarea
+                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
+                  className="bg-white text-right px-4 py-4 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  rows={5} />
-
-                  <Button
+                  rows={5}
+                />
+                <Button
                   type="submit"
                   size="icon"
                   className="absolute left-4 top-4 bg-slate-900 hover:bg-black text-white rounded-lg"
-                  disabled={!searchTerm.trim()}>
-                    <ArrowUp className="w-5 h-5" />
-                  </Button>
-                  <Button
+                  disabled={!searchTerm.trim()}
+                >
+                  <ArrowUp className="w-5 h-5" />
+                </Button>
+                <Button
                   variant="ghost"
                   size="sm"
                   onClick={handleGuidedJourney}
-                  className="absolute bottom-4 right-4 text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm">
-                    <Compass className="w-4 h-4" />
-                    מסע מודרך
-                  </Button>
-                </form>
+                  className="absolute bottom-4 right-4 text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm"
+                >
+                  <Compass className="w-4 h-4" />
+                  מסע מודרך
+                </Button>
+              </form>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
             <span className="text-slate-500 text-sm mb-2 w-full text-center">או התחל עם משהו ממה שמחפשים הכי הרבה:</span>
-            {quickStartOptions.map((option, index) =>
-            <Button
-              key={index}
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickOption(option)}
-              className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full">
+            {quickStartOptions.map((option, index) => (
+              <Button
+                key={index}
+                variant="outline"
+                size="sm"
+                onClick={() => handleQuickOption(option)}
+                className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full"
+              >
                 {option}
               </Button>
-            )}
+            ))}
           </div>
 
-          {/* Action Buttons */}
-          {user &&
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl">
+          {user && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl">
               <Button
-              variant="outline"
-              onClick={() => navigate(createPageUrl('Filters'))}
-              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200">
-
+                variant="outline"
+                onClick={() => navigate(createPageUrl('Filters'))}
+                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
+              >
                 <Settings className="w-6 h-6 mb-2 text-slate-600" />
                 <span className="text-sm">סינון מתקדם</span>
               </Button>
               
               <Button
-              variant="outline"
-              onClick={() => navigate(createPageUrl('Chat'))}
-              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200">
-
+                variant="outline"
+                onClick={() => navigate(createPageUrl('Chat'))}
+                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
+              >
                 <Compass className="w-6 h-6 mb-2 text-slate-600" />
                 <span className="text-sm">חיפוש חכם</span>
               </Button>
               
               <Button
-              variant="outline"
-              onClick={() => navigate(createPageUrl('History'))}
-              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200">
-
+                variant="outline"
+                onClick={() => navigate(createPageUrl('History'))}
+                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
+              >
                 <History className="w-6 h-6 mb-2 text-slate-600" />
                 <span className="text-sm">היסטוריה</span>
               </Button>
               
               <Button
-              variant="outline"
-              onClick={() => navigate(createPageUrl('PropertyComparison'))}
-              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200">
-
+                variant="outline"
+                onClick={() => navigate(createPageUrl('PropertyComparison'))}
+                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
+              >
                 <ArrowUp className="w-6 h-6 mb-2 text-slate-600" />
                 <span className="text-sm">השוואת נכסים</span>
               </Button>
             </div>
-          }
+          )}
         </div>
       </div>
-    </div>);
+    </div>
+  );
+}
 
 }
