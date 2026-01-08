@@ -141,6 +141,10 @@ export default function TopNavigation({ currentPage }) {
                     <Shield className="w-4 h-4 ml-2" />
                     ניהול יזמים
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate(createPageUrl('DeveloperDashboard'))}>
+                    <Shield className="w-4 h-4 ml-2" />
+                    מערכת ניהול יזם
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                 </>
               )}
