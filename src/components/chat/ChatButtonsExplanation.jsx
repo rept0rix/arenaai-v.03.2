@@ -2,20 +2,23 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, Compass, MessageSquareMore, MousePointer2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const explanations = [
   {
-    title: "מסע מודרך 🧭",
+    title: "מסע מודרך",
+    icon: Compass,
     description: "במצב זה, אני אציג לך שאלות אחת אחרי השנייה. זה עוזר לנו לדייק את החיפוש ולמצוא את הנכס המתאים ביותר עבורך בקלות.",
   },
   {
-    title: "שיחה פתוחה 💬",
+    title: "שיחה פתוחה",
+    icon: MessageSquareMore,
     description: "כאן תוכל לשאול אותי כל שאלה על נכסים, אזורים או כל נושא אחר שקשור לנדל״ן. אני אשתמש בבינה מלאכותית כדי לענות לך בצורה הטובה ביותר.",
   },
   {
-    title: "בחר אלמנט 🎯",
+    title: "בחר אלמנט",
+    icon: MousePointer2,
     description: "בעזרת כפתור 'בחר' תוכל להצביע על כל חלק בעמוד הנכס (למשל, מחיר, חדרים, קומה) ולקבל ממני הסבר מעמיק עליו באופן מיידי.",
   },
 ];
@@ -33,12 +36,17 @@ export default function ChatButtonsExplanation({ onClose, isMobile }) {
 
   const currentExplanation = explanations[step];
 
-  const ExplanationContent = () => (
-    <div className="p-4">
-      <div className="text-center mb-3">
-        <h3 className="font-bold text-lg mb-2 text-slate-800">{currentExplanation.title}</h3>
-        <p className="text-sm text-slate-600 leading-relaxed">{currentExplanation.description}</p>
-      </div>
+  const ExplanationContent = () => {
+    const Icon = currentExplanation.icon;
+    return (
+      <div className="p-4">
+        <div className="text-center mb-3">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Icon className="w-5 h-5 text-sky-500" />
+            <h3 className="font-bold text-lg text-slate-800">{currentExplanation.title}</h3>
+          </div>
+          <p className="text-sm text-slate-600 leading-relaxed">{currentExplanation.description}</p>
+        </div>
       <div className="flex justify-between items-center mt-4">
         <Button
           variant="outline"
@@ -75,7 +83,8 @@ export default function ChatButtonsExplanation({ onClose, isMobile }) {
         )}
       </div>
     </div>
-  );
+    );
+  };
 
   // Mobile: Full screen modal
   if (isMobile) {
