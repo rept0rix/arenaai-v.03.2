@@ -1,162 +1,165 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Edit, ExternalLink, Play } from 'lucide-react';
-import DeveloperForm from '../admin/DeveloperForm';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Building, Mail, Phone, Globe, MapPin, Edit } from 'lucide-react';
 
-export default function CompanyProfileView({ developer, onSave }) {
-    const [isEditing, setIsEditing] = useState(false);
+export default function CompanyProfileView() {
+  // Mock data
+  const companyInfo = {
+    name: 'חברת בניה ופיתוח בע"מ',
+    email: 'info@company.co.il',
+    phone: '03-1234567',
+    website: 'www.company.co.il',
+    address: 'רח\' הרצל 123, תל אביב',
+    description: 'חברת בניה ופיתוח מובילה עם ניסיון של 20+ שנים בשוק הנדל"ן הישראלי',
+    logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&w=200&q=80'
+  };
 
-    const handleSave = (savedDeveloper) => {
-        setIsEditing(false);
-        onSave(savedDeveloper);
-    };
+  return (
+    <div className="p-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">פרופיל חברה</h1>
+        <p className="text-slate-600">ניהול פרטי החברה והפרופיל הציבורי</p>
+      </div>
 
-    if (isEditing) {
-        return (
-            <DeveloperForm 
-                developer={developer}
-                onSave={handleSave}
-                onCancel={() => setIsEditing(false)}
-            />
-        );
-    }
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Company Logo */}
+        <Card className="lg:col-span-1">
+          <CardHeader>
+            <CardTitle>לוגו החברה</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center">
+              <div className="w-32 h-32 bg-slate-100 rounded-lg mx-auto mb-4 overflow-hidden">
+                <img 
+                  src={companyInfo.logo} 
+                  alt="Company Logo" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <Button variant="outline" size="sm">
+                <Edit className="w-4 h-4 ml-1" />
+                שנה לוגו
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
-    return (
-        <div className="space-y-6">
+        {/* Company Details */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
             <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold">פרטי החברה</h2>
-                <Button onClick={() => setIsEditing(true)}>
-                    <Edit className="w-4 h-4 ml-2" />
-                    ערוך פרטים
-                </Button>
+              <CardTitle>פרטי החברה</CardTitle>
+              <Button variant="outline" size="sm">
+                <Edit className="w-4 h-4 ml-1" />
+                ערוך
+              </Button>
             </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium text-slate-600 mb-1 block">שם החברה</label>
+                <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                  <Building className="w-5 h-5 text-slate-400" />
+                  <span className="text-slate-900">{companyInfo.name}</span>
+                </div>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Basic Information */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>מידע בסיסי</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">שם החברה (עברית)</label>
-                            <p className="text-lg font-medium">{developer.name_he || 'לא הוגדר'}</p>
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">שם החברה (אנגלית)</label>
-                            <p className="text-lg">{developer.name_en || 'לא הוגדר'}</p>
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">סלוגן (עברית)</label>
-                            <p className="text-base italic">{developer.slogan_he || 'לא הוגדר'}</p>
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">סלוגן (אנגלית)</label>
-                            <p className="text-base italic">{developer.slogan_en || 'לא הוגדר'}</p>
-                        </div>
-                    </CardContent>
-                </Card>
+              <div>
+                <label className="text-sm font-medium text-slate-600 mb-1 block">אימייל</label>
+                <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                  <Mail className="w-5 h-5 text-slate-400" />
+                  <span className="text-slate-900">{companyInfo.email}</span>
+                </div>
+              </div>
 
-                {/* Digital Assets */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>נכסים דיגיטליים</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">לוגו (עברית)</label>
-                            {developer.logo_he_url ? (
-                                <div className="flex items-center gap-2">
-                                    <img src={developer.logo_he_url} alt="לוגו עברית" className="w-20 h-10 object-contain border rounded" />
-                                    <Button variant="ghost" size="sm" asChild>
-                                        <a href={developer.logo_he_url} target="_blank" rel="noopener noreferrer">
-                                            <ExternalLink className="w-3 h-3" />
-                                        </a>
-                                    </Button>
-                                </div>
-                            ) : (
-                                <p className="text-slate-500">לא הועלה</p>
-                            )}
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">אתר אינטרנט</label>
-                            {developer.website_url ? (
-                                <div className="flex items-center gap-2">
-                                    <a href={developer.website_url} target="_blank" rel="noopener noreferrer" 
-                                       className="text-blue-600 hover:underline">{developer.website_url}</a>
-                                    <ExternalLink className="w-3 h-3 text-slate-400" />
-                                </div>
-                            ) : (
-                                <p className="text-slate-500">לא הוגדר</p>
-                            )}
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">סרטון תדמית (עברית)</label>
-                            {developer.video_he_url ? (
-                                <div className="flex items-center gap-2">
-                                    <Button variant="ghost" size="sm" asChild>
-                                        <a href={developer.video_he_url} target="_blank" rel="noopener noreferrer">
-                                            <Play className="w-3 h-3 ml-1" />
-                                            צפה בסרטון
-                                        </a>
-                                    </Button>
-                                </div>
-                            ) : (
-                                <p className="text-slate-500">לא הועלה</p>
-                            )}
-                        </div>
-                    </CardContent>
-                </Card>
+              <div>
+                <label className="text-sm font-medium text-slate-600 mb-1 block">טלפון</label>
+                <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                  <Phone className="w-5 h-5 text-slate-400" />
+                  <span className="text-slate-900">{companyInfo.phone}</span>
+                </div>
+              </div>
 
-                {/* About Section */}
-                <Card className="md:col-span-2">
-                    <CardHeader>
-                        <CardTitle>אודות החברה</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">תיאור בעברית</label>
-                            <p className="text-base leading-relaxed bg-slate-50 p-4 rounded border">
-                                {developer.about_he || 'לא הוגדר תיאור'}
-                            </p>
-                        </div>
-                        <div>
-                            <label className="text-sm font-medium text-slate-500">תיאור באנגלית</label>
-                            <p className="text-base leading-relaxed bg-slate-50 p-4 rounded border">
-                                {developer.about_en || 'לא הוגדר תיאור'}
-                            </p>
-                        </div>
-                    </CardContent>
-                </Card>
+              <div>
+                <label className="text-sm font-medium text-slate-600 mb-1 block">אתר אינטרנט</label>
+                <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                  <Globe className="w-5 h-5 text-slate-400" />
+                  <span className="text-slate-900">{companyInfo.website}</span>
+                </div>
+              </div>
 
-                {/* Programs & Benefits */}
-                <Card className="md:col-span-2">
-                    <CardHeader>
-                        <CardTitle>תוכניות והטבות</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2">
-                                <span className="text-sm font-medium">ARENA CLUB:</span>
-                                {developer.arena_benefits_program ? (
-                                    <Badge className="bg-green-100 text-green-800">משתתף</Badge>
-                                ) : (
-                                    <Badge variant="secondary">לא משתתף</Badge>
-                                )}
-                            </div>
-                        </div>
-                        {developer.arena_benefits_program && (
-                            <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded">
-                                <p className="text-sm text-green-800">
-                                    החברה משתתפת בתוכנית הטבות ARENA CLUB ומקבלת עדיפות בהצגת נכסים עם ציון התאמה זהה.
-                                </p>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
+              <div>
+                <label className="text-sm font-medium text-slate-600 mb-1 block">כתובת</label>
+                <div className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg">
+                  <MapPin className="w-5 h-5 text-slate-400" />
+                  <span className="text-slate-900">{companyInfo.address}</span>
+                </div>
+              </div>
             </div>
-        </div>
-    );
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Company Description */}
+      <Card className="mt-6">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>תיאור החברה</CardTitle>
+            <Button variant="outline" size="sm">
+              <Edit className="w-4 h-4 ml-1" />
+              ערוך
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-lg">
+            {companyInfo.description}
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Marketing Materials */}
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>חומרי שיווק</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="p-4 bg-slate-50 rounded-lg text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                📄
+              </div>
+              <p className="text-sm font-medium text-slate-700">ברושור חברה</p>
+              <Button variant="link" size="sm" className="mt-2">העלה</Button>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-lg text-center">
+              <div className="w-12 h-12 bg-green-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                🎥
+              </div>
+              <p className="text-sm font-medium text-slate-700">סרטון תדמית</p>
+              <Button variant="link" size="sm" className="mt-2">העלה</Button>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-lg text-center">
+              <div className="w-12 h-12 bg-purple-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                🖼️
+              </div>
+              <p className="text-sm font-medium text-slate-700">גלריית תמונות</p>
+              <Button variant="link" size="sm" className="mt-2">העלה</Button>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-lg text-center">
+              <div className="w-12 h-12 bg-orange-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                📊
+              </div>
+              <p className="text-sm font-medium text-slate-700">מצגות</p>
+              <Button variant="link" size="sm" className="mt-2">העלה</Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
