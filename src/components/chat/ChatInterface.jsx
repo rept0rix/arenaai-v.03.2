@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { MessageCircle, Send, Compass, MessageSquareMore, Target, HelpCircle } from "lucide-react";
+import { MessageCircle, Send, Compass, MessageSquareMore, MousePointer2, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ChatBubble from './ChatBubble';
 import QuestionCard from './QuestionCard';
@@ -965,7 +965,7 @@ ${hasProfile ? `
               <Button
                 variant={viewMode === 'guided' ? 'default' : 'ghost'}
                 onClick={startGuidedJourney}
-                className={`h-8 px-2 text-xs ${viewMode === 'guided' ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600"}`}>
+                className={`h-8 px-2 text-xs ${viewMode === 'guided' ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
 
                 <Compass className="w-3.5 h-3.5 ml-1" />
                 מסע מודרך
@@ -974,7 +974,7 @@ ${hasProfile ? `
               <Button
                 variant={viewMode === 'open_chat' ? 'default' : 'ghost'}
                 onClick={startOpenChat}
-                className={`h-8 px-2 text-xs ${viewMode === 'open_chat' ? "bg-green-500 hover:bg-green-600 text-white" : "text-slate-600"}`}>
+                className={`h-8 px-2 text-xs ${viewMode === 'open_chat' ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
 
                 <MessageSquareMore className="w-3.5 h-3.5 ml-1" />
                 שיחה פתוחה
@@ -983,9 +983,9 @@ ${hasProfile ? `
               <Button
                 variant={isSelectionMode ? 'default' : 'ghost'}
                 onClick={toggleSelectionMode}
-                className={`h-8 px-2 text-xs ${isSelectionMode ? "bg-red-500 hover:bg-red-600 text-white" : "text-slate-600"}`}>
+                className={`h-8 px-2 text-xs ${isSelectionMode ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
 
-                <Target className="w-3.5 h-3.5 ml-1" />
+                <MousePointer2 className="w-3.5 h-3.5 ml-1" />
                 {isSelectionMode ? 'ביטול' : 'בחר'}
               </Button>
             </div>
