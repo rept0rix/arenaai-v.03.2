@@ -965,7 +965,7 @@ ${hasProfile ? `
               <Button
                 variant={viewMode === 'guided' ? 'default' : 'ghost'}
                 onClick={startGuidedJourney}
-                className={`h-8 px-2 text-xs ${viewMode === 'guided' ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
+                className={`h-7 px-2 text-xs rounded-md ${viewMode === 'guided' ? "bg-blue-400 hover:bg-blue-500 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
 
                 <Compass className="w-3.5 h-3.5 ml-1" />
                 מסע מודרך
@@ -974,7 +974,7 @@ ${hasProfile ? `
               <Button
                 variant={viewMode === 'open_chat' ? 'default' : 'ghost'}
                 onClick={startOpenChat}
-                className={`h-8 px-2 text-xs ${viewMode === 'open_chat' ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
+                className={`h-7 px-2 text-xs rounded-md ${viewMode === 'open_chat' ? "bg-blue-400 hover:bg-blue-500 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
 
                 <MessageSquareMore className="w-3.5 h-3.5 ml-1" />
                 שיחה פתוחה
@@ -983,7 +983,7 @@ ${hasProfile ? `
               <Button
                 variant={isSelectionMode ? 'default' : 'ghost'}
                 onClick={toggleSelectionMode}
-                className={`h-8 px-2 text-xs ${isSelectionMode ? "bg-sky-500 hover:bg-sky-600 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
+                className={`h-7 px-2 text-xs rounded-md ${isSelectionMode ? "bg-blue-400 hover:bg-blue-500 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
 
                 <MousePointer2 className="w-3.5 h-3.5 ml-1" />
                 {isSelectionMode ? 'ביטול' : 'בחר'}
