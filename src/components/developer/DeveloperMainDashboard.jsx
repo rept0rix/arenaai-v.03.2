@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Users, Calendar, MapPin, ArrowUpRight } from 'lucide-react';
+import { TrendingUp, Users, Calendar, MapPin, ArrowUpRight, Gift } from 'lucide-react';
 
 export default function DeveloperMainDashboard() {
   // Mock data
