@@ -1,6 +1,6 @@
-
 import React, { useState } from 'react';
 import { Project } from '@/entities/Project';
+import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { toast } from 'sonner';
+import { Upload } from 'lucide-react';
 
 const FormField = ({ label, id, value, onChange, type = 'text', required = false, isTextarea = false, placeholder }) => (
     <div className="space-y-1">
@@ -19,6 +20,64 @@ const FormField = ({ label, id, value, onChange, type = 'text', required = false
         )}
     </div>
 );
+
+const FileUploadField = ({ label, id, value, onChange, required = false }) => {
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const { file_url } = await base44.integrations.Core.UploadFile({ file });
+            onChange({ target: { name: id, value: file_url } });
+            toast.success('הקובץ הועלה בהצלחה');
+        } catch (error) {
+            toast.error('שגיאה בהעלאת הקובץ');
+            console.error(error);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+        <div className="space-y-1">
+            <label htmlFor={id} className="text-sm font-medium text-slate-700">{label}{required && ' *'}</label>
+            <div className="flex gap-2">
+                <Input
+                    id={id}
+                    name={id}
+                    type="text"
+                    value={value || ''}
+                    onChange={onChange}
+                    placeholder="URL או העלה קובץ"
+                    className="flex-1"
+                />
+                <label htmlFor={`${id}-file`}>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        disabled={uploading}
+                        className="cursor-pointer"
+                        asChild
+                    >
+                        <span>
+                            <Upload className="w-4 h-4 ml-1" />
+                            {uploading ? 'מעלה...' : 'העלה'}
+                        </span>
+                    </Button>
+                </label>
+                <input
+                    id={`${id}-file`}
+                    type="file"
+                    onChange={handleFileChange}
+                    className="hidden"
+                />
+            </div>
+        </div>
+    );
+};
 
 const CheckboxField = ({ label, id, checked, onCheckedChange }) => (
     <div className="flex items-center space-x-2 pt-2">
@@ -184,19 +243,19 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
                     <AccordionTrigger>מדיה וקישורים</AccordionTrigger>
                     <AccordionContent className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField label="אתר הפרויקט" id="website_url" value={formData.website_url} onChange={handleChange} type="url" />
-                            <FormField label="סרטון הדמיה (YouTube)" id="simulation_video_url" value={formData.simulation_video_url} onChange={handleChange} type="url" />
-                            <FormField label="סרטון עדויות (YouTube)" id="testimonials_video_url" value={formData.testimonials_video_url} onChange={handleChange} type="url" />
-                            <FormField label="סרטון כתבה (YouTube)" id="story_video_url" value={formData.story_video_url} onChange={handleChange} type="url" />
-                            <FormField label="תכנית אדריכלית (FBX/DAE URL)" id="architectural_plan_url" value={formData.architectural_plan_url} onChange={handleChange} type="url" />
-                            <FormField label="מודל BIM (Revit URL)" id="bim_model_url" value={formData.bim_model_url} onChange={handleChange} type="url" />
-                            <FormField label="תוכניות CAD (URL)" id="cad_plan_url" value={formData.cad_plan_url} onChange={handleChange} type="url" />
-                            <FormField label="מלאי דירות (URL)" id="inventory_list_url" value={formData.inventory_list_url} onChange={handleChange} type="url" />
-                            <FormField label="תוכניות דירה A B C D E F (URL)" id="apartment_plans_url" value={formData.apartment_plans_url} onChange={handleChange} type="url" />
-                            <FormField label="תמונות הדמיית פנים (URL)" id="interior_renders_url" value={formData.interior_renders_url} onChange={handleChange} type="url" />
-                            <FormField label="תמונות הדמיית חוץ (URL)" id="exterior_renders_url" value={formData.exterior_renders_url} onChange={handleChange} type="url" />
-                            <FormField label="ברושור PDF עברית (URL)" id="brochure_he_url" value={formData.brochure_he_url} onChange={handleChange} type="url" />
-                            <FormField label="ברושור PDF אנגלית (URL)" id="brochure_en_url" value={formData.brochure_en_url} onChange={handleChange} type="url" />
+                            <FileUploadField label="אתר הפרויקט" id="website_url" value={formData.website_url} onChange={handleChange} />
+                            <FileUploadField label="סרטון הדמיה" id="simulation_video_url" value={formData.simulation_video_url} onChange={handleChange} />
+                            <FileUploadField label="סרטון עדויות" id="testimonials_video_url" value={formData.testimonials_video_url} onChange={handleChange} />
+                            <FileUploadField label="סרטון כתבה" id="story_video_url" value={formData.story_video_url} onChange={handleChange} />
+                            <FileUploadField label="תכנית אדריכלית" id="architectural_plan_url" value={formData.architectural_plan_url} onChange={handleChange} />
+                            <FileUploadField label="מודל BIM" id="bim_model_url" value={formData.bim_model_url} onChange={handleChange} />
+                            <FileUploadField label="תוכניות CAD" id="cad_plan_url" value={formData.cad_plan_url} onChange={handleChange} />
+                            <FileUploadField label="מלאי דירות" id="inventory_list_url" value={formData.inventory_list_url} onChange={handleChange} />
+                            <FileUploadField label="תוכניות דירה" id="apartment_plans_url" value={formData.apartment_plans_url} onChange={handleChange} />
+                            <FileUploadField label="תמונות הדמיית פנים" id="interior_renders_url" value={formData.interior_renders_url} onChange={handleChange} />
+                            <FileUploadField label="תמונות הדמיית חוץ" id="exterior_renders_url" value={formData.exterior_renders_url} onChange={handleChange} />
+                            <FileUploadField label="ברושור PDF עברית" id="brochure_he_url" value={formData.brochure_he_url} onChange={handleChange} />
+                            <FileUploadField label="ברושור PDF אנגלית" id="brochure_en_url" value={formData.brochure_en_url} onChange={handleChange} />
                         </div>
                     </AccordionContent>
                 </AccordionItem>
@@ -213,12 +272,12 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
                             <FormField label="אימייל מכירות" id="sales_email" value={formData.sales_email} onChange={handleChange} type="email" />
                             <FormField label="כתובת משרד מכירות" id="sales_office_address" value={formData.sales_office_address} onChange={handleChange} />
                             <FormField label="שעות פעילות" id="sales_office_hours" value={formData.sales_office_hours} onChange={handleChange} />
-                            <FormField label="קישור Calendly" id="calendly_url" value={formData.calendly_url} onChange={handleChange} type="url" />
-                            <FormField label="קישור ל-CRM" id="crm_integration_url" value={formData.crm_integration_url} onChange={handleChange} type="url" />
-                            <FormField label="טופס הרשמה (עברית) - URL" id="registration_form_he_url" value={formData.registration_form_he_url} onChange={handleChange} type="url" />
-                            <FormField label="טופס הרשמה (אנגלית) - URL" id="registration_form_en_url" value={formData.registration_form_en_url} onChange={handleChange} type="url" />
-                            <FormField label="הסכם לדוגמא (עברית) - URL" id="agreement_he_url" value={formData.agreement_he_url} onChange={handleChange} type="url" />
-                            <FormField label="הסכם לדוגמא (אנגלית) - URL" id="agreement_en_url" value={formData.agreement_en_url} onChange={handleChange} type="url" />
+                            <FileUploadField label="קישור Calendly" id="calendly_url" value={formData.calendly_url} onChange={handleChange} />
+                            <FileUploadField label="קישור ל-CRM" id="crm_integration_url" value={formData.crm_integration_url} onChange={handleChange} />
+                            <FileUploadField label="טופס הרשמה (עברית)" id="registration_form_he_url" value={formData.registration_form_he_url} onChange={handleChange} />
+                            <FileUploadField label="טופס הרשמה (אנגלית)" id="registration_form_en_url" value={formData.registration_form_en_url} onChange={handleChange} />
+                            <FileUploadField label="הסכם לדוגמא (עברית)" id="agreement_he_url" value={formData.agreement_he_url} onChange={handleChange} />
+                            <FileUploadField label="הסכם לדוגמא (אנגלית)" id="agreement_en_url" value={formData.agreement_en_url} onChange={handleChange} />
                          </div>
                     </AccordionContent>
                 </AccordionItem>
