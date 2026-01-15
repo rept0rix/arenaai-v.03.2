@@ -1,11 +1,12 @@
-
 import React, { useState } from 'react';
 import { Developer } from '@/entities/Developer';
+import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
+import { Upload } from 'lucide-react';
 
 // Reusable FormField Component
 const FormField = ({ label, id, value, onChange, type = 'text', required = false, isTextarea = false, isCheckbox = false }) => (
@@ -25,6 +26,64 @@ const FormField = ({ label, id, value, onChange, type = 'text', required = false
         )}
     </div>
 );
+
+const FileUploadField = ({ label, id, value, onChange, required = false }) => {
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const { file_url } = await base44.integrations.Core.UploadFile({ file });
+            onChange({ target: { name: id, value: file_url } });
+            toast.success('הקובץ הועלה בהצלחה');
+        } catch (error) {
+            toast.error('שגיאה בהעלאת הקובץ');
+            console.error(error);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+        <div className="space-y-1">
+            <label htmlFor={id} className="text-sm font-medium text-slate-700">{label}{required && ' *'}</label>
+            <div className="flex gap-2">
+                <Input
+                    id={id}
+                    name={id}
+                    type="text"
+                    value={value || ''}
+                    onChange={onChange}
+                    placeholder="URL או העלה קובץ"
+                    className="flex-1"
+                />
+                <label htmlFor={`${id}-file`}>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        disabled={uploading}
+                        className="cursor-pointer"
+                        asChild
+                    >
+                        <span>
+                            <Upload className="w-4 h-4 ml-1" />
+                            {uploading ? 'מעלה...' : 'העלה'}
+                        </span>
+                    </Button>
+                </label>
+                <input
+                    id={`${id}-file`}
+                    type="file"
+                    onChange={handleFileChange}
+                    className="hidden"
+                />
+            </div>
+        </div>
+    );
+};
 
 
 export default function DeveloperForm({ developer, onSave, onCancel }) {
@@ -62,12 +121,12 @@ export default function DeveloperForm({ developer, onSave, onCancel }) {
                 <FormField label="שם החברה (אנגלית)" id="name_en" value={formData.name_en} onChange={handleChange} />
                 <FormField label="סלוגן (עברית)" id="slogan_he" value={formData.slogan_he} onChange={handleChange} />
                 <FormField label="סלוגן (אנגלית)" id="slogan_en" value={formData.slogan_en} onChange={handleChange} />
-                <FormField label="לוגו (עברית) - URL" id="logo_he_url" value={formData.logo_he_url} onChange={handleChange} type="url" />
-                <FormField label="לוגו (אנגלית) - URL" id="logo_en_url" value={formData.logo_en_url} onChange={handleChange} type="url" />
-                <FormField label="אתר אינטרנט" id="website_url" value={formData.website_url} onChange={handleChange} type="url" />
-                <FormField label="עמוד 'אודות' באתר" id="about_page_url" value={formData.about_page_url} onChange={handleChange} type="url" />
-                <FormField label="סרטון תדמית (עברית) - URL" id="video_he_url" value={formData.video_he_url} onChange={handleChange} type="url" />
-                <FormField label="סרטון תדמית (אנגלית) - URL" id="video_en_url" value={formData.video_en_url} onChange={handleChange} type="url" />
+                <FileUploadField label="לוגו (עברית)" id="logo_he_url" value={formData.logo_he_url} onChange={handleChange} />
+                <FileUploadField label="לוגו (אנגלית)" id="logo_en_url" value={formData.logo_en_url} onChange={handleChange} />
+                <FileUploadField label="אתר אינטרנט" id="website_url" value={formData.website_url} onChange={handleChange} />
+                <FileUploadField label="עמוד 'אודות' באתר" id="about_page_url" value={formData.about_page_url} onChange={handleChange} />
+                <FileUploadField label="סרטון תדמית (עברית)" id="video_he_url" value={formData.video_he_url} onChange={handleChange} />
+                <FileUploadField label="סרטון תדמית (אנגלית)" id="video_en_url" value={formData.video_en_url} onChange={handleChange} />
             </div>
 
             <FormField label="אודות החברה (עברית)" id="about_he" value={formData.about_he} onChange={handleChange} isTextarea />
@@ -90,4 +149,3 @@ export default function DeveloperForm({ developer, onSave, onCancel }) {
         </form>
     );
 }
-
