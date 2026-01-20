@@ -37,8 +37,13 @@ export default function HomePage() {
         setUser(null);
       }
 
-      // Check if returning user (anonymous)
-      if (SessionManager.isReturningUser() && !searchParams.get('skip_prompt')) {
+      // Initialize session tracking FIRST
+      SessionManager.getOrCreateSessionId();
+      SessionManager.getOrCreateDeviceId();
+
+      // Check if returning user (anonymous) - after initialization
+      const sessionData = SessionManager.getSessionData();
+      if (sessionData && sessionData.purpose && !searchParams.get('skip_prompt')) {
         setShowReturningPrompt(true);
       }
 
@@ -47,10 +52,6 @@ export default function HomePage() {
       if (urlPurpose) {
         setSelectedPurpose(urlPurpose);
       }
-
-      // Initialize session tracking
-      SessionManager.getOrCreateSessionId();
-      SessionManager.getOrCreateDeviceId();
     };
     checkAuthAndPurpose();
   }, [navigate, searchParams]);
@@ -83,7 +84,12 @@ export default function HomePage() {
       return;
     }
 
-    // Allow anonymous users to start guided journey
+    // Save session data
+    SessionManager.saveSessionData({
+      purpose: selectedPurpose,
+      is_guided: true
+    });
+
     navigate(createPageUrl(`Chat?purpose=${selectedPurpose}&guided=true`));
   };
 
