@@ -372,14 +372,6 @@ export default function YourBackPage() {
                 />
                 <div className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-4">
                   <Button
-                    type="submit"
-                    size="icon"
-                    className="bg-slate-900 hover:bg-black text-white rounded-lg"
-                    disabled={!searchTerm.trim()}
-                  >
-                    <ArrowUp className="w-5 h-5" />
-                  </Button>
-                  <Button
                     variant="ghost"
                     size="sm"
                     onClick={handleGuidedJourney}
@@ -387,6 +379,14 @@ export default function YourBackPage() {
                   >
                     <Compass className="w-4 h-4" />
                     מסע מודרך
+                  </Button>
+                  <Button
+                    type="submit"
+                    size="icon"
+                    className="bg-slate-900 hover:bg-black text-white rounded-lg"
+                    disabled={!searchTerm.trim()}
+                  >
+                    <ArrowUp className="w-5 h-5" />
                   </Button>
                 </div>
               </form>
