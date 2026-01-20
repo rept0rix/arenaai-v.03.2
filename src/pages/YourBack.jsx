@@ -8,10 +8,14 @@ import { base44 } from '@/api/base44Client';
 import TopNavigation from '../components/TopNavigation';
 
 const quickStartOptions = [
-"דירת 4 חדרים עם מרפסת בגבעתיים",
-"נדל\"ן מסחרי להשקעה בתל אביב",
-"בית פרטי עם גישה לים",
-"דירה בחולון קומה גבוהה"];
+"פריסייל חדש בתל אביב - לפני כולם",
+"דירת 3 חדרים בת\"א - קומה גבוהה ונוף פתוח",
+"דירה עם גינה למשפחה עם ילדים קטנים",
+"השקעה בנכס מניב עם תשואה גבוהה",
+"דירה עם מטבח פתוח גדול ומרפסת לאירוח",
+"דירות להשקעה עם תשואה גבוהה וביקוש קבוע",
+"דירה שקטה עם ירוק מסביב וקהילה חמה"
+];
 
 
 export default function YourBackPage() {
@@ -125,7 +129,7 @@ export default function YourBackPage() {
               <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c276074aac6e6711db72a6/fefa17145_logoarena3d.png"
                 alt="Arena AI Logo" 
-                className="w-10 h-10 flex-shrink-0" 
+                className="w-10 h-10 flex-shrink-0 animate-bounce" 
               />
 
               <div className="text-right flex-1">
@@ -145,12 +149,7 @@ export default function YourBackPage() {
                   </Button>
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      const chatSection = document.getElementById('new-chat-section');
-                      if (chatSection) {
-                        chatSection.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
+                    onClick={() => navigate(createPageUrl('Home'))}
                     className="bg-white hover:bg-slate-50"
                   >
                     התחל שיחה חדשה
@@ -221,41 +220,14 @@ export default function YourBackPage() {
           </div>
 
           {user && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl">
-              <Button
-                variant="outline"
-                onClick={() => navigate(createPageUrl('Filters'))}
-                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
-              >
-                <Settings className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">סינון מתקדם</span>
-              </Button>
-              
-              <Button
-                variant="outline"
-                onClick={() => navigate(createPageUrl('Chat'))}
-                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
-              >
-                <Compass className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">חיפוש חכם</span>
-              </Button>
-              
+            <div className="flex justify-center w-full max-w-2xl">
               <Button
                 variant="outline"
                 onClick={() => navigate(createPageUrl('History'))}
-                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
+                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200 px-8"
               >
                 <History className="w-6 h-6 mb-2 text-slate-600" />
                 <span className="text-sm">היסטוריה</span>
-              </Button>
-              
-              <Button
-                variant="outline"
-                onClick={() => navigate(createPageUrl('PropertyComparison'))}
-                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200"
-              >
-                <ArrowUp className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">השוואת נכסים</span>
               </Button>
             </div>
           )}
