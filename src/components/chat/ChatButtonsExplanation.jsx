@@ -16,11 +16,6 @@ const explanations = [
     icon: MessageSquareMore,
     description: "כאן תוכל לשאול אותי כל שאלה על נכסים, אזורים או כל נושא אחר שקשור לנדל״ן. אני אשתמש בבינה מלאכותית כדי לענות לך בצורה הטובה ביותר.",
   },
-  {
-    title: "בחר אלמנט",
-    icon: MousePointer2,
-    description: "בעזרת כפתור 'בחר' תוכל להצביע על כל חלק בעמוד הנכס (למשל, מחיר, חדרים, קומה) ולקבל ממני הסבר מעמיק עליו באופן מיידי.",
-  },
 ];
 
 export default function ChatButtonsExplanation({ onClose, isMobile }) {
