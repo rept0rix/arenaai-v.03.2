@@ -118,13 +118,24 @@ export default function YourBackPage() {
     handleSearch(option);
   };
 
-  const getHistoryTitle = (item) => {
-    if (item.type === 'comparison') return 'השוואת נכסים';
-    if (item.type === 'financing_consultation') return 'ייעוץ מימון';
-    return 'חיפוש נכסים';
+  const getLastBotResponse = (session) => {
+    if (session.answers?.last_bot_response) {
+      const response = session.answers.last_bot_response;
+      return response.substring(0, 120) + (response.length > 120 ? '...' : '');
+    }
+    
+    if (session.answers?.initial_query) {
+      return session.answers.initial_query.substring(0, 120) + (session.answers.initial_query.length > 120 ? '...' : '');
+    }
+    
+    return 'שיחה ללא תוכן';
   };
 
-  const getHistorySummary = (item) => {
+  const getMatchPercentage = (session) => {
+    return session.answers?.match_percentage || session.answers?.matchPercentage || null;
+  };
+
+  const getHistoryContent = (item) => {
     if (item.type === 'comparison' && item.propertiesSnapshot?.length > 0) {
       const propTitles = item.propertiesSnapshot.slice(0, 2).map(p => p.title || p.location).join(' • ');
       return propTitles;
@@ -138,26 +149,13 @@ export default function YourBackPage() {
       if (parts.length > 0) return parts.join(' • ');
     }
     
-    return 'לא זמין';
+    return 'חיפוש ללא פרטים';
   };
 
-  const getSessionTitle = (session) => {
-    if (session.purpose === 'living') return 'חיפוש נכס למגורים';
-    if (session.purpose === 'investment') return 'חיפוש נכס להשקעה';
-    return 'שיחה';
-  };
-
-  const getSessionSummary = (session) => {
-    if (session.answers?.initial_query) {
-      return session.answers.initial_query.substring(0, 80) + (session.answers.initial_query.length > 80 ? '...' : '');
-    }
-    
-    const answersCount = Object.keys(session.answers || {}).filter(k => k !== 'initial_query').length;
-    if (answersCount > 0) {
-      return `ענה על ${answersCount} שאלות`;
-    }
-    
-    return 'שיחה התחלתית';
+  const getHistoryType = (item) => {
+    if (item.type === 'comparison') return 'השוואה';
+    if (item.type === 'financing_consultation') return 'מימון';
+    return 'חיפוש';
   };
 
   const formatDate = (dateString) => {
@@ -318,32 +316,45 @@ export default function YourBackPage() {
               </div>
 
               <div className="space-y-3">
-                {chatSessions.map((session) => (
-                  <Card
-                    key={session.id}
-                    className="p-4 hover:shadow-md transition-shadow cursor-pointer bg-white border-slate-200"
-                    onClick={() => handleSessionClick(session)}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0">
-                            <Compass className="w-4 h-4 text-sky-600" />
+                {chatSessions.map((session) => {
+                  const matchPercentage = getMatchPercentage(session);
+                  return (
+                    <Card
+                      key={session.id}
+                      className="p-4 hover:shadow-md transition-shadow cursor-pointer bg-white border-slate-200"
+                      onClick={() => handleSessionClick(session)}
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0">
+                              <Compass className="w-4 h-4 text-sky-600" />
+                            </div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 text-xs rounded-full border border-sky-200">
+                                {session.purpose === 'living' ? 'מגורים' : session.purpose === 'investment' ? 'השקעה' : 'כללי'}
+                              </span>
+                              <p className="text-xs text-slate-500 flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                {formatDate(session.updated_date || session.created_date)}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <h4 className="font-semibold text-slate-800">{getSessionTitle(session)}</h4>
-                            <p className="text-xs text-slate-500 flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              {formatDate(session.updated_date || session.created_date)}
-                            </p>
-                          </div>
+                          <p className="text-sm text-slate-700 leading-relaxed">{getLastBotResponse(session)}</p>
                         </div>
-                        <p className="text-sm text-slate-600 mr-10">{getSessionSummary(session)}</p>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          {matchPercentage && (
+                            <div className="flex flex-col items-center bg-green-50 px-3 py-2 rounded-lg border border-green-200">
+                              <span className="text-lg font-bold text-green-700">{matchPercentage}%</span>
+                              <span className="text-xs text-green-600">התאמה</span>
+                            </div>
+                          )}
+                          <ChevronLeft className="w-5 h-5 text-slate-400" />
+                        </div>
                       </div>
-                      <ChevronLeft className="w-5 h-5 text-slate-400 flex-shrink-0" />
-                    </div>
-                  </Card>
-                ))}
+                    </Card>
+                  );
+                })}
 
                 {recentHistory.map((item) => (
                   <Card
@@ -351,21 +362,23 @@ export default function YourBackPage() {
                     className="p-4 hover:shadow-md transition-shadow cursor-pointer bg-white border-slate-200"
                     onClick={() => handleHistoryClick(item)}
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-2">
                           <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
                             <History className="w-4 h-4 text-purple-600" />
                           </div>
-                          <div>
-                            <h4 className="font-semibold text-slate-800">{getHistoryTitle(item)}</h4>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="inline-block px-2 py-0.5 bg-purple-50 text-purple-700 text-xs rounded-full border border-purple-200">
+                              {getHistoryType(item)}
+                            </span>
                             <p className="text-xs text-slate-500 flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               {formatDate(item.created_date)}
                             </p>
                           </div>
                         </div>
-                        <p className="text-sm text-slate-600 mr-10">{getHistorySummary(item)}</p>
+                        <p className="text-sm text-slate-700 leading-relaxed">{getHistoryContent(item)}</p>
                       </div>
                       <ChevronLeft className="w-5 h-5 text-slate-400 flex-shrink-0" />
                     </div>
