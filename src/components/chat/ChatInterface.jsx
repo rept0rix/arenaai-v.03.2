@@ -591,36 +591,36 @@ export default function ChatInterface({ questions, currentSession, onUpdateAnswe
   };
 
   const startGuidedJourney = () => {
+    if (viewMode === 'guided') return; // Already in guided mode
+    
     setViewMode('guided');
     setActiveQuestionId(null);
     const answeredCount = Object.keys(currentSession?.answers || {}).filter((k) => k !== 'initial_query').length;
     setVisibleQuestions(answeredCount + 1);
 
-
     const guidedMessage = {
       type: "bot",
-      message: "מעולה! אני אציג לך את השאלות בהדרגה. ענה על כל שאלה בקצב שלך, ואני אציג את הבאה. תוכל גם לעבור לשיחה פתוחה בכל עת:",
-      showAllQuestions: true
+      message: "🧭 עברנו למסע מודרך! אני אציג לך את השאלות בהדרגה. ענה על כל שאלה בקצב שלך, ואני אציג את הבאה.",
+      showAllQuestions: true,
+      isMarkdown: false
     };
 
     setChatHistory((prev) => [...prev, guidedMessage]);
   };
 
   const startOpenChat = () => {
+    if (viewMode === 'open_chat') return; // Already in open chat mode
+    
     setViewMode('open_chat');
     setActiveQuestionId(null);
 
-    const hasGuidedQuestions = chatHistory.some((msg) => msg.showAllQuestions);
+    const openChatMessage = {
+      type: "bot",
+      message: "💬 עברנו לשיחה פתוחה! עכשיו אתה יכול לשאול אותי הכל על הנכסים שמצאנו, לקבל עצות על בחירה, או לדבר על כל נושא הקשור לנדל״ן. מה תרצה לדעת?",
+      isMarkdown: false
+    };
 
-    if (!hasGuidedQuestions) {
-      const openChatMessage = {
-        type: "bot",
-        message: "עכשיו אני במצב שיחה פתוחה! אתה יכול לשאול אותי הכל על הנכסים שמצאנו, לקבל עצות על בחירה, או לדבר על כל נושא הקשור לנדל״ן. מה תרצה לדעת? 🤔",
-        isMarkdown: false
-      };
-
-      setChatHistory((prev) => [...prev, openChatMessage]);
-    }
+    setChatHistory((prev) => [...prev, openChatMessage]);
   };
 
   const toggleSelectionMode = () => {
@@ -961,32 +961,31 @@ ${hasProfile ? `
               <ChatButtonsExplanation onClose={() => setShowExplanation(false)} isMobile={isMobile} />
             )}
             
-            <div className="flex items-center gap-1 flex-1 justify-around">
+            <div className="flex items-center gap-2 flex-1">
               <Button
-                variant={viewMode === 'guided' ? 'default' : 'ghost'}
+                variant="ghost"
                 onClick={startGuidedJourney}
-                className={`h-7 px-2 text-xs rounded-md ${viewMode === 'guided' ? "bg-blue-400 hover:bg-blue-500 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
-
+                title="מסע מודרך - שאלות בהדרגה"
+                className={`h-8 px-3 text-xs rounded-md transition-all ${
+                  viewMode === 'guided' 
+                    ? "bg-sky-500 hover:bg-sky-600 text-white" 
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                }`}>
                 <Compass className="w-3.5 h-3.5 ml-1" />
                 מסע מודרך
               </Button>
               
               <Button
-                variant={viewMode === 'open_chat' ? 'default' : 'ghost'}
+                variant="ghost"
                 onClick={startOpenChat}
-                className={`h-7 px-2 text-xs rounded-md ${viewMode === 'open_chat' ? "bg-blue-400 hover:bg-blue-500 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
-
+                title="שיחה פתוחה - שאל הכל"
+                className={`h-8 px-3 text-xs rounded-md transition-all ${
+                  viewMode === 'open_chat' 
+                    ? "bg-sky-500 hover:bg-sky-600 text-white" 
+                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                }`}>
                 <MessageSquareMore className="w-3.5 h-3.5 ml-1" />
                 שיחה פתוחה
-              </Button>
-              
-              <Button
-                variant={isSelectionMode ? 'default' : 'ghost'}
-                onClick={toggleSelectionMode}
-                className={`h-7 px-2 text-xs rounded-md ${isSelectionMode ? "bg-blue-400 hover:bg-blue-500 text-white" : "text-slate-600 hover:bg-slate-100"}`}>
-
-                <MousePointer2 className="w-3.5 h-3.5 ml-1" />
-                {isSelectionMode ? 'ביטול' : 'בחר'}
               </Button>
             </div>
             
