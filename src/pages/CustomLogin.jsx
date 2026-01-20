@@ -38,10 +38,18 @@ export default function CustomLogin() {
   };
 
   return (
-    <div className="min-h-screen flex" dir="rtl">
-      {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
-        <div className="w-full max-w-md">
+    <div className="min-h-screen relative bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100" dir="rtl">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center opacity-30" 
+        style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/77d5dcf6a_HEROBG.jpg')"}}
+      ></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white/30"></div>
+
+      {/* Content Container */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-8">
+        {/* Login Form Popup */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md"
           {/* Logo */}
           <div className="text-center mb-8">
             <img
@@ -133,26 +141,14 @@ export default function CustomLogin() {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Left Side - Benefits with Blue Background */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 items-center justify-center p-12">
-        {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-30" 
-          style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/77d5dcf6a_HEROBG.jpg')"}}
-        ></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white/30"></div>
-
-        {/* Content */}
-        <div className="relative z-10 max-w-md">
+        {/* Benefits Cards - Left Side */}
+        <div className="hidden lg:block absolute right-12 top-1/2 -translate-y-1/2 max-w-md space-y-6 z-20">
           <h2 className="text-4xl font-bold text-slate-900 mb-8">
             למה ארנה?
           </h2>
-
-          <div className="space-y-6">
-            {/* Benefit 1 */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+          {/* Benefit 1 */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Sparkles className="w-6 h-6 text-purple-600" />
@@ -163,11 +159,11 @@ export default function CustomLogin() {
                     טכנולוגיה חכמה שמבינה את הצרכים שלך ומוצאת את הנכס המושלם עבורך
                   </p>
                 </div>
-              </div>
             </div>
+          </div>
 
-            {/* Benefit 2 */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+          {/* Benefit 2 */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Shield className="w-6 h-6 text-sky-600" />
@@ -178,11 +174,11 @@ export default function CustomLogin() {
                     מידע מלא ומפורט על כל נכס, ללא עמלות או עלויות נסתרות
                   </p>
                 </div>
-              </div>
             </div>
+          </div>
 
-            {/* Benefit 3 */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+          {/* Benefit 3 */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Heart className="w-6 h-6 text-green-600" />
@@ -193,11 +189,11 @@ export default function CustomLogin() {
                     חיפוש מותאם אישית לפי הצרכים, התקציב והחלומות שלך
                   </p>
                 </div>
-              </div>
             </div>
+          </div>
 
-            {/* Benefit 4 */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+          {/* Benefit 4 */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <TrendingUp className="w-6 h-6 text-amber-600" />
@@ -208,7 +204,6 @@ export default function CustomLogin() {
                     ניתוח מעמיק של מחירים, מגמות ופוטנציאל השקעה בכל אזור
                   </p>
                 </div>
-              </div>
             </div>
           </div>
         </div>
