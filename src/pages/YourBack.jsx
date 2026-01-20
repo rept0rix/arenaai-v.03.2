@@ -416,84 +416,68 @@ export default function YourBackPage() {
               <div className="space-y-4">
                 {chatSessions.map((session) => {
                   const matchPercentage = getMatchPercentage(session);
-                  const topProperty = getTopProperty(session);
                   const conversation = getSessionConversation(session);
                   const sessionName = getSessionName(session);
                   
                   return (
                     <Card
                       key={session.id}
-                      className="overflow-hidden hover:shadow-lg transition-shadow bg-white border-slate-200"
+                      className="hover:shadow-lg transition-shadow bg-white border-slate-200"
                     >
-                      <div className="flex flex-col md:flex-row">
-                        {/* Right side - Property image or placeholder */}
-                        <div className="w-full md:w-48 h-48 bg-slate-100 flex-shrink-0 relative">
-                          {topProperty?.image_url ? (
-                            <>
-                              <img 
-                                src={topProperty.image_url} 
-                                alt={topProperty.title}
-                                className="w-full h-full object-cover"
-                              />
-                              {matchPercentage && (
-                                <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-lg text-sm font-bold shadow-lg">
-                                  {matchPercentage}% התאמה
-                                </div>
-                              )}
-                            </>
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-400">
-                              <div className="text-center">
-                                <Compass className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                                <p className="text-sm">השיחה בתהליך</p>
-                              </div>
-                            </div>
-                          )}
+                      <div className="flex items-start gap-4 p-5">
+                        {/* Right side - Icon with match percentage */}
+                        <div className="flex-shrink-0">
+                          <div className="w-20 h-20 bg-slate-100 rounded-lg flex flex-col items-center justify-center relative">
+                            {matchPercentage ? (
+                              <>
+                                <div className="text-3xl font-bold text-green-600">{matchPercentage}%</div>
+                                <div className="text-xs text-slate-600 mt-1">התאמה</div>
+                              </>
+                            ) : (
+                              <>
+                                <Compass className="w-8 h-8 text-slate-400 mb-1" />
+                                <div className="text-xs text-slate-500 text-center">השיחה<br/>בתהליך</div>
+                              </>
+                            )}
+                          </div>
                         </div>
 
                         {/* Left side - Content */}
-                        <div className="flex-1 p-4">
+                        <div className="flex-1">
                           {/* Header */}
-                          <div className="flex items-start justify-between mb-3">
-                            <div className="flex-1">
-                              <h3 className="font-bold text-lg text-slate-800 mb-1">{sessionName}</h3>
-                              <div className="flex items-center gap-2">
-                                <span className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 text-xs rounded-full border border-sky-200">
-                                  {session.purpose === 'living' ? 'מגורים' : 'השקעה'}
-                                </span>
-                                <p className="text-xs text-slate-500 flex items-center gap-1">
-                                  <Clock className="w-3 h-3" />
-                                  {formatDate(session.updated_date || session.created_date)}
-                                </p>
-                              </div>
+                          <div className="mb-3">
+                            <h3 className="font-bold text-lg text-slate-800 mb-2">{sessionName}</h3>
+                            <div className="flex items-center gap-2">
+                              <span className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 text-xs rounded-full border border-sky-200">
+                                {session.purpose === 'living' ? 'מגורים' : 'השקעה'}
+                              </span>
+                              <p className="text-xs text-slate-500 flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                {formatDate(session.updated_date || session.created_date)}
+                              </p>
                             </div>
                           </div>
 
                           {/* Conversation snippet */}
                           {conversation.length > 0 && (
-                            <div className="space-y-2 mb-3">
+                            <div className="space-y-2 mb-4 pr-2">
                               {conversation.map((qa, idx) => (
                                 <div key={idx} className="text-sm">
-                                  <p className="text-slate-500">{qa.question}</p>
-                                  <p className="text-slate-700 font-medium">{qa.answer}</p>
+                                  <p className="text-slate-500 mb-0.5">{qa.question}</p>
+                                  <p className="text-slate-800 font-medium">{qa.answer}</p>
                                 </div>
                               ))}
                             </div>
                           )}
 
                           {/* Action button */}
-                          <div className="flex gap-2">
-                            <Button
-                              onClick={() => handleSessionClick(session)}
-                              className={topProperty && matchPercentage ? 
-                                "bg-green-600 hover:bg-green-700 text-white flex-1" : 
-                                "bg-sky-600 hover:bg-sky-700 text-white flex-1"
-                              }
-                              size="sm"
-                            >
-                              {topProperty && matchPercentage ? 'הנכס הזה מותאם לך' : 'חזור לשיחה'}
-                            </Button>
-                          </div>
+                          <Button
+                            onClick={() => handleSessionClick(session)}
+                            className="bg-sky-600 hover:bg-sky-700 text-white w-full"
+                            size="sm"
+                          >
+                            חזור לשיחה
+                          </Button>
                         </div>
                       </div>
                     </Card>
