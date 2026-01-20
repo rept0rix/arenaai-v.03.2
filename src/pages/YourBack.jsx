@@ -89,11 +89,11 @@ export default function YourBackPage() {
         }
 
       } catch (error) {
+        // User not logged in - redirect to login
         setUser(null);
-        const urlPurpose = searchParams.get('purpose');
-        if (urlPurpose) {
-          setSelectedPurpose(urlPurpose);
-        }
+        const callbackUrl = `${window.location.origin}${createPageUrl('YourBack')}`;
+        window.location.href = await base44.auth.loginWithRedirect(callbackUrl);
+        return;
       } finally {
         setIsLoading(false);
       }
