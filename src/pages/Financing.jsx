@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,10 +8,12 @@ import FinancingResults from '../components/financing/FinancingResults';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import TopNavigation from '../components/TopNavigation';
+import FinancingRequestForm from '../components/onboarding/FinancingRequestForm';
 
 export default function Financing() {
     const [currentStep, setCurrentStep] = useState('intro'); // intro, wizard, results
     const [financingData, setFinancingData] = useState(null);
+    const [showRequestForm, setShowRequestForm] = useState(false);
     const navigate = useNavigate();
 
     const handleWizardStart = (startType) => {
@@ -58,6 +59,15 @@ export default function Financing() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-sky-50 via-slate-50 to-blue-50" dir="rtl">
+            {showRequestForm && (
+                <FinancingRequestForm
+                    onClose={() => setShowRequestForm(false)}
+                    onSuccess={() => {
+                        // Optional: track conversion
+                    }}
+                />
+            )}
+            
             <TopNavigation currentPage="Financing" />
             
             <div className="max-w-7xl mx-auto p-4 sm:p-8">
@@ -164,8 +174,8 @@ export default function Financing() {
                             </Card>
                         </div>
 
-                        {/* CTA Button */}
-                        <div className="text-center">
+                        {/* CTA Buttons */}
+                        <div className="text-center space-y-4">
                             <Button 
                                 onClick={() => handleWizardStart('direct')}
                                 size="lg"
@@ -173,6 +183,16 @@ export default function Financing() {
                             >
                                 בדקו את אפשרויות המימון שלכם עכשיו
                             </Button>
+                            <div>
+                                <Button
+                                    onClick={() => setShowRequestForm(true)}
+                                    variant="outline"
+                                    size="lg"
+                                    className="px-8 py-4 text-lg font-semibold"
+                                >
+                                    בקש יעוץ אישי מיועץ מימון
+                                </Button>
+                            </div>
                             <p className="text-sm text-slate-500 mt-3">אין התחייבות. זה ייקח פחות מ־2 דקות.</p>
                         </div>
 

@@ -29,6 +29,7 @@ import { ChatSession } from '@/entities/ChatSession';
 import { ChatQuestion } from '@/entities/ChatQuestion';
 import { User as UserEntity } from '@/entities/User';
 import { mockProperties } from '../components/properties/mockPropertiesData';
+import PropertyInquiryForm from '../components/onboarding/PropertyInquiryForm';
 
 // This transformation function might become redundant if the Property entity handles it internally.
 // However, as it's not explicitly removed in the outline, we keep it.
@@ -67,6 +68,7 @@ export default function PropertyDetails() {
     const [chatSession, setChatSession] = useState(null);
     const [questions, setQuestions] = useState([]);
     const [user, setUser] = useState(null);
+    const [showInquiryForm, setShowInquiryForm] = useState(false);
 
     useEffect(() => {
         checkUser();
@@ -219,6 +221,16 @@ export default function PropertyDetails() {
 
     return (
         <div className="h-screen w-full flex flex-col bg-slate-50">
+            {showInquiryForm && (
+                <PropertyInquiryForm
+                    property={property}
+                    onClose={() => setShowInquiryForm(false)}
+                    onSuccess={() => {
+                        // Optional: track conversion
+                    }}
+                />
+            )}
+            
             {/* Header */}
             <div className="flex-shrink-0 bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between shadow-sm">
                 <TopNavigation currentPage="PropertyDetails" />
@@ -316,7 +328,15 @@ export default function PropertyDetails() {
                             
                             {/* Right Sidebar */}
                             <div className="col-span-12 lg:col-span-4">
-                                <PropertyServices property={property} />
+                                <div className="sticky top-4 space-y-4">
+                                    <Button
+                                        onClick={() => setShowInquiryForm(true)}
+                                        className="w-full bg-sky-600 hover:bg-sky-700 text-white py-6 text-lg font-semibold"
+                                    >
+                                        פנה ליזם
+                                    </Button>
+                                    <PropertyServices property={property} />
+                                </div>
                             </div>
                         </div>
                         
