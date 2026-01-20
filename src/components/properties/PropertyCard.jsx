@@ -199,16 +199,9 @@ export default function PropertyCard({
           </div>
         )}
 
-        {/* Recommended Badge + View Project Button */}
+        {/* View Project Button */}
         {property.projectId && (
-          <div className="mb-3 space-y-2">
-            {property.isRecommended && (
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-purple-50 to-sky-50 rounded-lg border border-purple-200">
-                <Sparkles className="w-4 h-4 text-purple-600" />
-                <span className="text-xs font-medium text-purple-700">דירה מומלצת בבניין זה</span>
-              </div>
-            )}
-            
+          <div className="mb-3">
             <div 
               onClick={handleProjectClick}
               className="p-2 bg-sky-50 rounded-lg border border-sky-200 hover:bg-sky-100 transition-colors cursor-pointer"
@@ -216,7 +209,7 @@ export default function PropertyCard({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Building className="w-4 h-4 text-sky-600" />
-                  <span className="text-xs font-medium text-sky-700">צפה בכל הדירות בפרויקט</span>
+                  <span className="text-xs font-medium text-sky-700">צפה בשאר הדירות בפרויקט</span>
                 </div>
                 {property.other_properties_in_project_count > 0 && (
                   <Badge className="bg-sky-600 text-white text-xs">

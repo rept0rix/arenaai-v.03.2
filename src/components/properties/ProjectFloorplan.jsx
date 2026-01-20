@@ -108,12 +108,15 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
     return statusMatch && typeMatch;
   });
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status, isAvailable = true) => {
+    if (!isAvailable) {
+      return 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-inner';
+    }
     switch (status) {
-      case 'available': return 'bg-green-500 hover:bg-green-600';
-      case 'reserved': return 'bg-orange-500 hover:bg-orange-600';
-      case 'sold': return 'bg-red-500 hover:bg-red-600';
-      default: return 'bg-slate-300';
+      case 'available': return 'bg-sky-100 hover:bg-sky-200 text-sky-700 border-l-4 border-sky-500';
+      case 'reserved': return 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-inner';
+      case 'sold': return 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-inner';
+      default: return 'bg-slate-200 text-slate-400';
     }
   };
 
@@ -293,25 +296,9 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                   variant={filterStatus === 'available' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setFilterStatus('available')}
-                  className={`h-8 text-xs ${filterStatus === 'available' ? 'bg-green-500' : ''}`}
+                  className={`h-8 text-xs ${filterStatus === 'available' ? 'bg-sky-500' : ''}`}
                 >
                   פנוי
-                </Button>
-                <Button
-                  variant={filterStatus === 'reserved' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setFilterStatus('reserved')}
-                  className={`h-8 text-xs ${filterStatus === 'reserved' ? 'bg-orange-500' : ''}`}
-                >
-                  שמור
-                </Button>
-                <Button
-                  variant={filterStatus === 'sold' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setFilterStatus('sold')}
-                  className={`h-8 text-xs ${filterStatus === 'sold' ? 'bg-red-500' : ''}`}
-                >
-                  נמכר
                 </Button>
               </div>
               
@@ -409,34 +396,50 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                       const typeMatch = filterType === 'all' || unitToShow.unit_type === filterType;
                       const isFiltered = !statusMatch || !typeMatch;
                       const matchScore = calculateMatchScore(unitToShow);
+                      const isAvailable = unitToShow.status === 'available';
+                      const isRecommended = realUnit?.isRecommended;
 
                       return (
-                        <td key={`${floor}-${type}`} className="border border-slate-300 p-2">
-                          <button
-                            onClick={() => !unitToShow.isMock && handleUnitClick(unitToShow)}
-                            className={`${
-                              isCompareMode && selectedForCompare.includes(unitToShow.id)
-                                ? 'ring-2 ring-sky-500 ring-offset-2'
-                                : ''
-                            } ${getStatusColor(unitToShow.status)} text-white px-2 py-1 rounded text-xs font-medium transition-all ${
-                              unitToShow.isMock ? 'cursor-default' : 'transform hover:scale-105 cursor-pointer'
-                            } relative w-full ${
-                              isFiltered ? 'opacity-30' : ''
-                            }`}
-                            title={`${getStatusText(unitToShow.status)} - ${unitToShow.rooms} חדרים - ₪${unitToShow.price?.toLocaleString()}${matchScore ? ` - התאמה ${matchScore}%` : ''}`}
-                          >
-                            {isCompareMode && selectedForCompare.includes(unitToShow.id) && !unitToShow.isMock && (
-                              <div className="absolute -top-1 -right-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
-                                ✓
+                        <td key={`${floor}-${type}`} className="border border-slate-300 p-1.5">
+                          <div className="relative group">
+                            <button
+                              onClick={() => !unitToShow.isMock && isAvailable && handleUnitClick(unitToShow)}
+                              disabled={!isAvailable || unitToShow.isMock}
+                              className={`${
+                                isCompareMode && selectedForCompare.includes(unitToShow.id)
+                                  ? 'ring-2 ring-sky-500 ring-offset-1'
+                                  : ''
+                              } ${getStatusColor(unitToShow.status, isAvailable)} px-2 py-1.5 rounded text-xs font-medium transition-all ${
+                                unitToShow.isMock || !isAvailable ? 'cursor-not-allowed' : 'transform hover:scale-105 cursor-pointer'
+                              } relative w-full ${
+                                isFiltered ? 'opacity-30' : ''
+                              }`}
+                            >
+                              {isRecommended && isAvailable && (
+                                <div className="absolute -top-2 -right-2 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs shadow-md z-10">
+                                  ⭐
+                                </div>
+                              )}
+                              {isCompareMode && selectedForCompare.includes(unitToShow.id) && !unitToShow.isMock && (
+                                <div className="absolute -top-1 -left-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
+                                  ✓
+                                </div>
+                              )}
+                              <div className="text-[11px]">{unitToShow.rooms}ח׳</div>
+                              <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
+                            </button>
+                            
+                            {/* Hover tooltip with match score */}
+                            {isAvailable && !unitToShow.isMock && (
+                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-slate-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-20 shadow-xl">
+                                <div className="font-semibold mb-1">{unitToShow.rooms} חדרים - ₪{unitToShow.price?.toLocaleString()}</div>
+                                {matchScore && (
+                                  <div className="text-sky-300">התאמה: {matchScore}%</div>
+                                )}
+                                <div className="text-slate-300 text-[10px] mt-1">לחץ לפרטים נוספים</div>
                               </div>
                             )}
-                            <div>{unitToShow.rooms}ח׳ - ₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
-                            {matchScore && !unitToShow.isMock && (
-                              <div className="text-[10px] font-bold bg-white/20 rounded px-1 mt-0.5">
-                                {matchScore}% התאמה
-                              </div>
-                            )}
-                          </button>
+                          </div>
                         </td>
                       );
                     })}
@@ -448,18 +451,20 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
           </div>
 
           {/* Legend */}
-          <div className="mt-4 flex gap-4 items-center justify-center">
+          <div className="mt-4 flex gap-4 items-center justify-center flex-wrap">
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-green-500 rounded"></div>
+              <div className="w-6 h-6 bg-sky-100 border-l-4 border-sky-500 rounded"></div>
               <span className="text-sm text-slate-600">פנוי</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-orange-500 rounded"></div>
-              <span className="text-sm text-slate-600">שמור</span>
+              <div className="w-6 h-6 bg-slate-200 rounded shadow-inner"></div>
+              <span className="text-sm text-slate-600">לא זמין</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-red-500 rounded"></div>
-              <span className="text-sm text-slate-600">נמכר</span>
+              <div className="relative w-6 h-6 bg-sky-100 border-l-4 border-sky-500 rounded flex items-center justify-center">
+                <span className="text-xs">⭐</span>
+              </div>
+              <span className="text-sm text-slate-600">דירה מומלצת</span>
             </div>
           </div>
         </CardContent>
