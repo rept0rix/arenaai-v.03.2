@@ -43,7 +43,23 @@ export default function YourBackPage() {
         ]);
         
         setRecentHistory(historyData || []);
-        setChatSessions(sessionsData || []);
+        
+        // Add demo session with match percentage if no sessions exist
+        const sessions = sessionsData || [];
+        if (sessions.length === 0) {
+          sessions.push({
+            id: 'demo-1',
+            purpose: 'living',
+            created_date: new Date().toISOString(),
+            updated_date: new Date().toISOString(),
+            answers: {
+              last_bot_response: 'מצאתי עבורך 8 דירות מתאימות בתל אביב באזור רמת אביב, כולן בטווח המחירים שלך ועם מרפסת גדולה כמו שביקשת',
+              match_percentage: 87
+            }
+          });
+        }
+        
+        setChatSessions(sessions);
 
         const urlPurpose = searchParams.get('purpose');
         if (urlPurpose) {
