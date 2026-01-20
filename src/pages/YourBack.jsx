@@ -61,7 +61,7 @@ export default function YourBackPage() {
               match_percentage: 87,
               top_property: {
                 title: 'דירת 4 חדרים מרווחת ברמת אביב',
-                image_url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400',
+                image_url: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400',
                 price: 4200000,
                 location: 'רמת אביב, תל אביב'
               }
@@ -425,47 +425,29 @@ export default function YourBackPage() {
                       className="overflow-hidden hover:shadow-lg transition-shadow bg-white border-slate-200"
                     >
                       <div className="flex">
-                        {/* Right side - Property image with match badge */}
-                        <div className="w-48 h-48 bg-slate-100 flex-shrink-0 relative">
+                        {/* Right side - Property image */}
+                        <div className="w-40 h-40 bg-slate-100 flex-shrink-0 relative">
                           {topProperty?.image_url ? (
-                            <>
-                              <img 
-                                src={topProperty.image_url} 
-                                alt={topProperty.title}
-                                className="w-full h-full object-cover"
-                              />
-                              {matchPercentage && (
-                                <div className="absolute top-2 right-2 bg-green-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold shadow-lg">
-                                  {matchPercentage}% התאמה
-                                </div>
-                              )}
-                            </>
+                            <img 
+                              src={topProperty.image_url} 
+                              alt={topProperty.title}
+                              className="w-full h-full object-cover"
+                            />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-slate-400">
                               <div className="text-center">
-                                <Compass className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                                <p className="text-sm">השיחה<br/>בתהליך</p>
+                                <Compass className="w-10 h-10 mx-auto mb-2 opacity-50" />
+                                <p className="text-xs">השיחה<br/>בתהליך</p>
                               </div>
                             </div>
                           )}
                         </div>
 
-                        {/* Left side - Content */}
+                        {/* Middle - Content */}
                         <div className="flex-1 p-4">
-                          {/* Tags and time */}
-                          <div className="flex items-center gap-2 mb-3">
-                            <span className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 text-xs rounded-full border border-sky-200">
-                              {session.purpose === 'living' ? 'מגורים' : 'השקעה'}
-                            </span>
-                            <p className="text-xs text-slate-500 flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              {formatDate(session.updated_date || session.created_date)}
-                            </p>
-                          </div>
-
                           {/* Conversation snippet */}
                           {conversation.length > 0 && (
-                            <div className="space-y-2 mb-4">
+                            <div className="space-y-2 mb-3">
                               {conversation.map((qa, idx) => (
                                 <div key={idx} className="text-sm">
                                   <p className="text-slate-500 mb-0.5">{qa.question}</p>
@@ -475,10 +457,29 @@ export default function YourBackPage() {
                             </div>
                           )}
 
-                          {/* Action button - smaller */}
+                          {/* Tags and time at bottom */}
+                          <div className="flex items-center gap-2">
+                            <span className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 text-xs rounded-full border border-sky-200">
+                              {session.purpose === 'living' ? 'מגורים' : 'השקעה'}
+                            </span>
+                            <p className="text-xs text-slate-500 flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {formatDate(session.updated_date || session.created_date)}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Left side - Match percentage and button */}
+                        <div className="flex flex-col items-center justify-center p-4 gap-3 bg-slate-50 min-w-[120px]">
+                          {matchPercentage && (
+                            <div className="text-center">
+                              <div className="text-2xl font-bold text-green-600">{matchPercentage}%</div>
+                              <div className="text-xs text-slate-600 mt-0.5">התאמה</div>
+                            </div>
+                          )}
                           <Button
                             onClick={() => handleSessionClick(session)}
-                            className="bg-sky-600 hover:bg-sky-700 text-white"
+                            className="bg-sky-600 hover:bg-sky-700 text-white text-xs px-3"
                             size="sm"
                           >
                             חזור לשיחה
