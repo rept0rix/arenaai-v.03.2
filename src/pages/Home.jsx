@@ -134,7 +134,7 @@ export default function HomePage() {
             <div className="bg-white/90 backdrop-blur-sm rounded-t-2xl p-6 border-b border-slate-200/80 flex items-center gap-6">
               <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c276074aac6e6711db72a6/fefa17145_logoarena3d.png"
-                alt="Arena AI Logo" className="w-10 h-10 flex-shrink-0" />
+                alt="Arena AI Logo" className="w-10 h-10 flex-shrink-0 animate-bounce" />
 
 
               <div className="text-right flex-1">
@@ -217,41 +217,14 @@ export default function HomePage() {
 
           {/* Action Buttons */}
           {user &&
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-2xl">
-              <Button
-              variant="outline"
-              onClick={() => navigate(createPageUrl('Filters'))}
-              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200">
-
-                <Settings className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">סינון מתקדם</span>
-              </Button>
-              
-              <Button
-              variant="outline"
-              onClick={() => navigate(createPageUrl('Chat'))}
-              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200">
-
-                <Compass className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">חיפוש חכם</span>
-              </Button>
-              
+          <div className="flex justify-center w-full max-w-2xl">
               <Button
               variant="outline"
               onClick={() => navigate(createPageUrl('History'))}
-              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200">
+              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200 px-8">
 
                 <History className="w-6 h-6 mb-2 text-slate-600" />
                 <span className="text-sm">היסטוריה</span>
-              </Button>
-              
-              <Button
-              variant="outline"
-              onClick={() => navigate(createPageUrl('PropertyComparison'))}
-              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200">
-
-                <ArrowUp className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">השוואת נכסים</span>
               </Button>
             </div>
           }
