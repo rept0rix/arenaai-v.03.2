@@ -165,8 +165,8 @@ export default function CustomLogin() {
           {/* Benefit 2 */}
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Shield className="w-6 h-6 text-sky-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-900 mb-2">שקיפות מלאה</h3>
@@ -180,8 +180,8 @@ export default function CustomLogin() {
           {/* Benefit 3 */}
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Heart className="w-6 h-6 text-green-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Heart className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-900 mb-2">התאמה אישית</h3>
@@ -195,8 +195,8 @@ export default function CustomLogin() {
           {/* Benefit 4 */}
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="w-6 h-6 text-amber-600" />
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <TrendingUp className="w-6 h-6 text-purple-600" />
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-900 mb-2">תובנות שוק</h3>
