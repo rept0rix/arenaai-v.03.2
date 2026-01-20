@@ -33,6 +33,7 @@ import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
 import LeadDetails from './pages/LeadDetails';
 import ScheduleMeeting from './pages/ScheduleMeeting';
+import ProjectAnalytics from './pages/ProjectAnalytics';
 import __Layout from './Layout.jsx';
 
 
@@ -72,6 +73,7 @@ export const PAGES = {
     "YourBack": YourBack,
     "LeadDetails": LeadDetails,
     "ScheduleMeeting": ScheduleMeeting,
+    "ProjectAnalytics": ProjectAnalytics,
 }
 
 export const pagesConfig = {
