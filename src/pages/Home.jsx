@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { base44 } from '@/api/base44Client';
 import TopNavigation from '../components/TopNavigation';
+import ReturningUserPrompt from '../components/onboarding/ReturningUserPrompt';
+import { SessionManager } from '../components/utils/sessionManager';
 
 const quickStartOptions = [
 "פריסייל חדש בתל אביב - לפני כולם",
@@ -22,48 +24,36 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [user, setUser] = useState(null);
+  const [showReturningPrompt, setShowReturningPrompt] = useState(false);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams(); // Added useSearchParams
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const checkAuthAndPurpose = async () => {
       try {
         const currentUser = await base44.auth.me();
         setUser(currentUser);
-
-        // Check if there's a pending chat redirect after login
-        const pendingRedirect = localStorage.getItem('pendingChatRedirect');
-        if (currentUser && pendingRedirect) {
-          localStorage.removeItem('pendingChatRedirect');
-          const { purpose, query, isGuided } = JSON.parse(pendingRedirect);
-          let chatUrl = `Chat?purpose=${purpose}`;
-          if (query) {
-            chatUrl += `&q=${encodeURIComponent(query)}`;
-          }
-          if (isGuided) {
-            chatUrl += `&guided=true`;
-          }
-          navigate(createPageUrl(chatUrl));
-          return; // Stop further execution in this effect
-        }
-
-        // If coming from Landing page or another source with purpose in URL
-        const urlPurpose = searchParams.get('purpose');
-        if (urlPurpose) {
-          setSelectedPurpose(urlPurpose);
-        }
-
       } catch (error) {
         setUser(null);
-        // Even if logged out, check if a purpose was passed in URL
-        const urlPurpose = searchParams.get('purpose');
-        if (urlPurpose) {
-          setSelectedPurpose(urlPurpose);
-        }
       }
+
+      // Check if returning user (anonymous)
+      if (SessionManager.isReturningUser() && !searchParams.get('skip_prompt')) {
+        setShowReturningPrompt(true);
+      }
+
+      // Check URL purpose
+      const urlPurpose = searchParams.get('purpose');
+      if (urlPurpose) {
+        setSelectedPurpose(urlPurpose);
+      }
+
+      // Initialize session tracking
+      SessionManager.getOrCreateSessionId();
+      SessionManager.getOrCreateDeviceId();
     };
     checkAuthAndPurpose();
-  }, [navigate, searchParams]); // Added searchParams to dependencies
+  }, [navigate, searchParams]);
 
   const handleSearch = (query) => {
     if (!selectedPurpose) {
@@ -72,7 +62,12 @@ export default function HomePage() {
     }
     if (!query.trim()) return;
 
-    // Allow anonymous users to start chat
+    // Save session data
+    SessionManager.saveSessionData({
+      purpose: selectedPurpose,
+      last_query: query
+    });
+
     const chatUrl = createPageUrl(`Chat?purpose=${selectedPurpose}&q=${encodeURIComponent(query)}`);
     navigate(chatUrl);
   };
@@ -102,9 +97,36 @@ export default function HomePage() {
     handleSearch(option);
   };
 
+  const handleReturningContinue = () => {
+    setShowReturningPrompt(false);
+    const sessionData = SessionManager.getSessionData();
+    if (sessionData?.purpose) {
+      setSelectedPurpose(sessionData.purpose);
+    }
+  };
+
+  const handleReturningNew = () => {
+    SessionManager.clearAllData();
+    setShowReturningPrompt(false);
+    SessionManager.getOrCreateSessionId();
+  };
+
+  const handleReturningDelete = () => {
+    SessionManager.clearAllData();
+    setShowReturningPrompt(false);
+    window.location.href = createPageUrl('Landing');
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top Navigation */}
+      {showReturningPrompt && (
+        <ReturningUserPrompt
+          onContinue={handleReturningContinue}
+          onStartNew={handleReturningNew}
+          onDelete={handleReturningDelete}
+        />
+      )}
+
       <TopNavigation currentPage="Home" />
       
       {/* Main Content */}
