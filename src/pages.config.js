@@ -6,6 +6,7 @@ import Blog from './pages/Blog';
 import BuyingGuide from './pages/BuyingGuide';
 import Chat from './pages/Chat';
 import Contact from './pages/Contact';
+import CustomLogin from './pages/CustomLogin';
 import DeveloperAdmin from './pages/DeveloperAdmin';
 import DeveloperDashboard from './pages/DeveloperDashboard';
 import DeveloperThankYou from './pages/DeveloperThankYou';
@@ -30,7 +31,6 @@ import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
-import CustomLogin from './pages/CustomLogin';
 import __Layout from './Layout.jsx';
 
 
@@ -43,6 +43,7 @@ export const PAGES = {
     "BuyingGuide": BuyingGuide,
     "Chat": Chat,
     "Contact": Contact,
+    "CustomLogin": CustomLogin,
     "DeveloperAdmin": DeveloperAdmin,
     "DeveloperDashboard": DeveloperDashboard,
     "DeveloperThankYou": DeveloperThankYou,
@@ -67,7 +68,6 @@ export const PAGES = {
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
     "YourBack": YourBack,
-    "CustomLogin": CustomLogin,
 }
 
 export const pagesConfig = {

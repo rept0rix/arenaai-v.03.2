@@ -47,11 +47,80 @@ export default function CustomLogin() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white/30"></div>
 
       {/* Content Container */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-8">
-        {/* Login Form Popup */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md">
-          {/* Logo */}
-          <div className="text-center mb-8">
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-4 md:p-8">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-12 max-w-7xl w-full">
+          
+          {/* Benefits Cards - Right Side */}
+          <div className="hidden lg:block lg:w-1/2 space-y-6">
+            <h2 className="text-4xl font-bold text-slate-900 mb-8">
+              למה ארנה?
+            </h2>
+            
+            {/* Benefit 1 */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-2">AI מתקדם</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    טכנולוגיה חכמה שמבינה את הצרכים שלך ומוצאת את הנכס המושלם עבורך
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Benefit 2 */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Shield className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-2">שקיפות מלאה</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    מידע מלא ומפורט על כל נכס, ללא עמלות או עלויות נסתרות
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Benefit 3 */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Heart className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-2">התאמה אישית</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    חיפוש מותאם אישית לפי הצרכים, התקציב והחלומות שלך
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Benefit 4 */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <TrendingUp className="w-6 h-6 text-purple-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 mb-2">תובנות שוק</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    ניתוח מעמיק של מחירים, מגמות ופוטנציאל השקעה בכל אזור
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Login Form Popup */}
+          <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md lg:w-1/2">
+            {/* Logo */}
+            <div className="text-center mb-8">
             <img
               src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c276074aac6e6711db72a6/fefa17145_logoarena3d.png"
               alt="Arena AI"
@@ -141,71 +210,6 @@ export default function CustomLogin() {
             </div>
           </div>
         </div>
-
-        {/* Benefits Cards - Left Side */}
-        <div className="hidden lg:block absolute right-12 top-1/2 -translate-y-1/2 max-w-md space-y-6 z-20">
-          <h2 className="text-4xl font-bold text-slate-900 mb-8">
-            למה ארנה?
-          </h2>
-          {/* Benefit 1 */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Sparkles className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 mb-2">AI מתקדם</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    טכנולוגיה חכמה שמבינה את הצרכים שלך ומוצאת את הנכס המושלם עבורך
-                  </p>
-                </div>
-            </div>
-          </div>
-
-          {/* Benefit 2 */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Shield className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 mb-2">שקיפות מלאה</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    מידע מלא ומפורט על כל נכס, ללא עמלות או עלויות נסתרות
-                  </p>
-                </div>
-            </div>
-          </div>
-
-          {/* Benefit 3 */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Heart className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 mb-2">התאמה אישית</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    חיפוש מותאם אישית לפי הצרכים, התקציב והחלומות שלך
-                  </p>
-                </div>
-            </div>
-          </div>
-
-          {/* Benefit 4 */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <TrendingUp className="w-6 h-6 text-purple-600" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900 mb-2">תובנות שוק</h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    ניתוח מעמיק של מחירים, מגמות ופוטנציאל השקעה בכל אזור
-                  </p>
-                </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
