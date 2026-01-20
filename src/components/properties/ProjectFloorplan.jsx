@@ -486,82 +486,134 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </DialogContent>
       </Dialog>
 
-      {/* Selected Unit Details - Popup */}
+      {/* Selected Unit Details - Enhanced Popup */}
       <AnimatePresence>
         {selectedUnit && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             onClick={() => setSelectedUnit(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="max-w-2xl w-full"
+              className="max-w-3xl w-full"
             >
-            <Card className="border-2 border-sky-500 shadow-2xl">
-              <CardHeader className="bg-sky-50">
-                <div className="flex items-center justify-between">
-                  <CardTitle>פרטי דירה - קומה {selectedUnit.floor}, טיפוס {selectedUnit.unit_type}</CardTitle>
-                  <Button variant="ghost" size="sm" onClick={() => setSelectedUnit(null)}>
-                    <X className="w-4 h-4" />
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <div className="text-sm text-slate-600">מחיר</div>
-                    <div className="text-2xl font-bold text-slate-900">
-                      ₪{selectedUnit.price?.toLocaleString()}
+            <Card className="border-2 border-sky-400 shadow-2xl overflow-hidden">
+              {/* Header with gradient */}
+              <CardHeader className="bg-gradient-to-r from-sky-500 to-purple-500 text-white pb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                      <Building2 className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-2xl text-white">דירת {selectedUnit.rooms} חדרים</CardTitle>
+                      <div className="text-sky-100 text-sm">קומה {selectedUnit.floor} • טיפוס {selectedUnit.unit_type}</div>
                     </div>
                   </div>
-                  <div>
-                    <div className="text-sm text-slate-600">סטטוס</div>
-                    <Badge className={getStatusColor(selectedUnit.status)}>
+                  <Button variant="ghost" size="sm" onClick={() => setSelectedUnit(null)} className="text-white hover:bg-white/20">
+                    <X className="w-5 h-5" />
+                  </Button>
+                </div>
+                
+                {/* Match Score */}
+                {(() => {
+                  const matchScore = calculateMatchScore(selectedUnit);
+                  return matchScore ? (
+                    <div className="mt-4 bg-white/20 backdrop-blur-sm rounded-lg p-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-white">ציון התאמה אישי</span>
+                        <span className="text-lg font-bold text-white">{matchScore}%</span>
+                      </div>
+                      <div className="w-full bg-white/30 rounded-full h-2.5">
+                        <div 
+                          className="bg-white h-2.5 rounded-full transition-all duration-500"
+                          style={{ width: `${matchScore}%` }}
+                        />
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
+              </CardHeader>
+              
+              <CardContent className="pt-6">
+                {/* Price and Status */}
+                <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-200">
+                  <div className="bg-slate-50 rounded-lg p-4">
+                    <div className="text-sm text-slate-600 mb-1">מחיר</div>
+                    <div className="text-3xl font-bold text-slate-900">
+                      ₪{selectedUnit.price?.toLocaleString()}
+                    </div>
+                    <div className="text-xs text-slate-500 mt-1">
+                      ₪{Math.round(selectedUnit.price / selectedUnit.size).toLocaleString()}/מ״ר
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 rounded-lg p-4 flex flex-col justify-center">
+                    <div className="text-sm text-slate-600 mb-2">סטטוס</div>
+                    <Badge className={`${getStatusColor(selectedUnit.status, selectedUnit.status === 'available')} text-sm px-3 py-1 w-fit`}>
                       {getStatusText(selectedUnit.status)}
                     </Badge>
                   </div>
-                  <div>
-                    <div className="text-sm text-slate-600">חדרים</div>
-                    <div className="text-lg font-semibold">{selectedUnit.rooms} חדרים</div>
+                </div>
+
+                {/* Property Details Grid */}
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center p-3 bg-sky-50 rounded-lg">
+                    <div className="text-2xl font-bold text-sky-700">{selectedUnit.rooms}</div>
+                    <div className="text-xs text-slate-600">חדרים</div>
                   </div>
-                  <div>
-                    <div className="text-sm text-slate-600">שטח</div>
-                    <div className="text-lg font-semibold">{selectedUnit.size} מ״ר</div>
+                  <div className="text-center p-3 bg-purple-50 rounded-lg">
+                    <div className="text-2xl font-bold text-purple-700">{selectedUnit.size}</div>
+                    <div className="text-xs text-slate-600">מ״ר</div>
                   </div>
+                  <div className="text-center p-3 bg-slate-50 rounded-lg">
+                    <div className="text-2xl font-bold text-slate-700">{selectedUnit.floor}</div>
+                    <div className="text-xs text-slate-600">קומה</div>
+                  </div>
+                </div>
+
+                {/* Additional Details */}
+                <div className="space-y-3 mb-6">
                   {selectedUnit.facing && (
-                    <div>
-                      <div className="text-sm text-slate-600">כיוון</div>
-                      <div className="text-lg font-semibold">{selectedUnit.facing}</div>
+                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                      <span className="text-sm text-slate-600">כיוון אוויר</span>
+                      <span className="text-sm font-semibold text-slate-900">{selectedUnit.facing}</span>
                     </div>
                   )}
                   {selectedUnit.balcony_size && (
-                    <div>
-                      <div className="text-sm text-slate-600">מרפסת</div>
-                      <div className="text-lg font-semibold">{selectedUnit.balcony_size} מ״ר</div>
+                    <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                      <span className="text-sm text-slate-600">גודל מרפסת</span>
+                      <span className="text-sm font-semibold text-slate-900">{selectedUnit.balcony_size} מ״ר</span>
                     </div>
                   )}
+                  <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                    <span className="text-sm text-slate-600">סה״כ שטח עם מרפסת</span>
+                    <span className="text-sm font-semibold text-slate-900">
+                      {selectedUnit.size + (selectedUnit.balcony_size || 0)} מ״ר
+                    </span>
+                  </div>
                 </div>
 
-                <div className="flex gap-2">
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-3">
                   <Button
                     variant="outline"
                     onClick={() => alert('הדמיה תלת-ממדית של הדירה - בקרוב!')}
-                    className="flex-1"
+                    className="h-12 border-2 hover:bg-slate-50"
                   >
-                    <Building2 className="w-4 h-4 ml-2" />
-                    הדמיה של הדירה
+                    <Box className="w-5 h-5 ml-2" />
+                    הדמיה תלת מימד
                   </Button>
                   <Button
                     onClick={() => handleViewDetails(selectedUnit)}
-                    className="flex-1 bg-sky-500 hover:bg-sky-600"
+                    className="h-12 bg-gradient-to-r from-sky-500 to-purple-500 hover:from-sky-600 hover:to-purple-600"
                   >
-                    <Eye className="w-4 h-4 ml-2" />
+                    <Eye className="w-5 h-5 ml-2" />
                     פרטים מלאים
                   </Button>
                 </div>
