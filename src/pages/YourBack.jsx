@@ -44,7 +44,7 @@ export default function YourBackPage() {
         
         setRecentHistory(historyData || []);
         
-        // Add demo session with match percentage if no sessions exist
+        // Add demo sessions if no sessions exist
         const sessions = sessionsData || [];
         if (sessions.length === 0) {
           sessions.push({
@@ -53,8 +53,30 @@ export default function YourBackPage() {
             created_date: new Date().toISOString(),
             updated_date: new Date().toISOString(),
             answers: {
-              last_bot_response: 'מצאתי עבורך 8 דירות מתאימות בתל אביב באזור רמת אביב, כולן בטווח המחירים שלך ועם מרפסת גדולה כמו שביקשת',
-              match_percentage: 87
+              city: 'תל אביב',
+              location: 'רמת אביב',
+              rooms: 4,
+              budget_max: 4500000,
+              features: ['מרפסת גדולה', 'קרוב לגינה'],
+              match_percentage: 87,
+              top_property: {
+                title: 'דירת 4 חדרים מרווחת ברמת אביב',
+                image_url: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400',
+                price: 4200000,
+                location: 'רמת אביב, תל אביב'
+              }
+            }
+          });
+          sessions.push({
+            id: 'demo-2',
+            purpose: 'investment',
+            created_date: new Date(Date.now() - 86400000).toISOString(),
+            updated_date: new Date(Date.now() - 86400000).toISOString(),
+            answers: {
+              city: 'חיפה',
+              rooms: 3,
+              budget_max: 2000000,
+              features: ['קרוב לאוניברסיטה', 'פוטנציאל להשכרה']
             }
           });
         }
@@ -134,17 +156,77 @@ export default function YourBackPage() {
     handleSearch(option);
   };
 
-  const getLastBotResponse = (session) => {
-    if (session.answers?.last_bot_response) {
-      const response = session.answers.last_bot_response;
-      return response.substring(0, 120) + (response.length > 120 ? '...' : '');
+  const getSessionName = (session) => {
+    // Generate name based on answers
+    const answers = session.answers || {};
+    const parts = [];
+    
+    if (answers.location || answers.city) {
+      parts.push(answers.location || answers.city);
+    }
+    if (answers.rooms) {
+      parts.push(`${answers.rooms} חדרים`);
+    }
+    if (answers.property_type) {
+      parts.push(answers.property_type);
     }
     
-    if (session.answers?.initial_query) {
-      return session.answers.initial_query.substring(0, 120) + (session.answers.initial_query.length > 120 ? '...' : '');
+    if (parts.length > 0) {
+      return parts.join(' • ');
     }
     
-    return 'שיחה ללא תוכן';
+    return session.purpose === 'living' ? 'חיפוש נכס למגורים' : 'חיפוש נכס להשקעה';
+  };
+
+  const getSessionConversation = (session) => {
+    const conversation = [];
+    const answers = session.answers || {};
+    
+    // Purpose question
+    if (session.purpose) {
+      conversation.push({
+        question: 'לאיזו מטרה את/ה מחפש/ת נכס?',
+        answer: session.purpose === 'living' ? 'נכס למגורים' : 'נכס להשקעה'
+      });
+    }
+    
+    // Location
+    if (answers.location || answers.city) {
+      conversation.push({
+        question: 'באיזה אזור את/ה מחפש/ת?',
+        answer: answers.location || answers.city
+      });
+    }
+    
+    // Rooms
+    if (answers.rooms) {
+      conversation.push({
+        question: 'כמה חדרים את/ה מחפש/ת?',
+        answer: `${answers.rooms} חדרים`
+      });
+    }
+    
+    // Budget
+    if (answers.budget_max) {
+      conversation.push({
+        question: 'מה התקציב שלך?',
+        answer: `עד ${(answers.budget_max / 1000000).toFixed(1)} מיליון ₪`
+      });
+    }
+    
+    // Additional features
+    if (answers.features && answers.features.length > 0) {
+      conversation.push({
+        question: 'מה חשוב לך בנכס?',
+        answer: answers.features.slice(0, 2).join(', ')
+      });
+    }
+    
+    return conversation.slice(0, 3); // Show max 3 Q&As
+  };
+
+  const getTopProperty = (session) => {
+    return session.answers?.top_property || null;
   };
 
   const getMatchPercentage = (session) => {
@@ -331,41 +413,87 @@ export default function YourBackPage() {
                 </Button>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {chatSessions.map((session) => {
                   const matchPercentage = getMatchPercentage(session);
+                  const topProperty = getTopProperty(session);
+                  const conversation = getSessionConversation(session);
+                  const sessionName = getSessionName(session);
+                  
                   return (
                     <Card
                       key={session.id}
-                      className="p-4 hover:shadow-md transition-shadow cursor-pointer bg-white border-slate-200"
-                      onClick={() => handleSessionClick(session)}
+                      className="overflow-hidden hover:shadow-lg transition-shadow bg-white border-slate-200"
                     >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0">
-                              <Compass className="w-4 h-4 text-sky-600" />
-                            </div>
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <span className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 text-xs rounded-full border border-sky-200">
-                                {session.purpose === 'living' ? 'מגורים' : session.purpose === 'investment' ? 'השקעה' : 'כללי'}
-                              </span>
-                              <p className="text-xs text-slate-500 flex items-center gap-1">
-                                <Clock className="w-3 h-3" />
-                                {formatDate(session.updated_date || session.created_date)}
-                              </p>
-                            </div>
-                          </div>
-                          <p className="text-sm text-slate-700 leading-relaxed">{getLastBotResponse(session)}</p>
-                        </div>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          {matchPercentage && (
-                            <div className="flex flex-col items-center bg-green-50 px-3 py-2 rounded-lg border border-green-200">
-                              <span className="text-lg font-bold text-green-700">{matchPercentage}%</span>
-                              <span className="text-xs text-green-600">התאמה</span>
+                      <div className="flex flex-col md:flex-row">
+                        {/* Right side - Property image or placeholder */}
+                        <div className="w-full md:w-48 h-48 bg-slate-100 flex-shrink-0 relative">
+                          {topProperty?.image_url ? (
+                            <>
+                              <img 
+                                src={topProperty.image_url} 
+                                alt={topProperty.title}
+                                className="w-full h-full object-cover"
+                              />
+                              {matchPercentage && (
+                                <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-lg text-sm font-bold shadow-lg">
+                                  {matchPercentage}% התאמה
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-slate-400">
+                              <div className="text-center">
+                                <Compass className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                                <p className="text-sm">השיחה בתהליך</p>
+                              </div>
                             </div>
                           )}
-                          <ChevronLeft className="w-5 h-5 text-slate-400" />
+                        </div>
+
+                        {/* Left side - Content */}
+                        <div className="flex-1 p-4">
+                          {/* Header */}
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1">
+                              <h3 className="font-bold text-lg text-slate-800 mb-1">{sessionName}</h3>
+                              <div className="flex items-center gap-2">
+                                <span className="inline-block px-2 py-0.5 bg-sky-50 text-sky-700 text-xs rounded-full border border-sky-200">
+                                  {session.purpose === 'living' ? 'מגורים' : 'השקעה'}
+                                </span>
+                                <p className="text-xs text-slate-500 flex items-center gap-1">
+                                  <Clock className="w-3 h-3" />
+                                  {formatDate(session.updated_date || session.created_date)}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Conversation snippet */}
+                          {conversation.length > 0 && (
+                            <div className="space-y-2 mb-3">
+                              {conversation.map((qa, idx) => (
+                                <div key={idx} className="text-sm">
+                                  <p className="text-slate-500">{qa.question}</p>
+                                  <p className="text-slate-700 font-medium">{qa.answer}</p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Action button */}
+                          <div className="flex gap-2">
+                            <Button
+                              onClick={() => handleSessionClick(session)}
+                              className={topProperty && matchPercentage ? 
+                                "bg-green-600 hover:bg-green-700 text-white flex-1" : 
+                                "bg-sky-600 hover:bg-sky-700 text-white flex-1"
+                              }
+                              size="sm"
+                            >
+                              {topProperty && matchPercentage ? 'הנכס הזה מותאם לך' : 'חזור לשיחה'}
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </Card>
