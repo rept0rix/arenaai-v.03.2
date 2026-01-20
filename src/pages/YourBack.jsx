@@ -371,6 +371,14 @@ export default function YourBackPage() {
                   rows={5}
                 />
                 <Button
+                  type="submit"
+                  size="icon"
+                  className="absolute left-4 top-4 bg-slate-900 hover:bg-black text-white rounded-lg"
+                  disabled={!searchTerm.trim()}
+                >
+                  <ArrowUp className="w-5 h-5" />
+                </Button>
+                <Button
                   variant="ghost"
                   size="sm"
                   onClick={handleGuidedJourney}
