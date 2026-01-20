@@ -203,18 +203,38 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-            <span className="text-slate-500 text-sm mb-2 w-full text-center">או התחל עם משהו ממה שמחפשים הכי הרבה:</span>
-            {quickStartOptions.map((option, index) =>
-            <Button
-              key={index}
-              variant="outline"
-              size="sm"
-              onClick={() => handleQuickOption(option)}
-              className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full">
-                {option}
-              </Button>
-            )}
+          <div className="w-full max-w-2xl mb-8 overflow-hidden">
+            <style>
+              {`
+                @keyframes scroll-rtl {
+                  0% {
+                    transform: translateX(0);
+                  }
+                  100% {
+                    transform: translateX(100%);
+                  }
+                }
+                .animate-scroll-rtl {
+                  animation: scroll-rtl 30s linear infinite;
+                }
+              `}
+            </style>
+            <p className="text-slate-500 text-sm mb-3 text-center">נושאים חמים:</p>
+            <div className="relative">
+              <div className="flex gap-3 animate-scroll-rtl">
+                {[...quickStartOptions, ...quickStartOptions].map((option, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleQuickOption(option)}
+                    className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full whitespace-nowrap flex-shrink-0"
+                  >
+                    {option}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Action Buttons */}
