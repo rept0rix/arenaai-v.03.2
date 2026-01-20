@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar, Clock, MapPin, Phone, Video, Building } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import MeetingsCalendar from './MeetingsCalendar';
 
 export default function DeveloperMeetings() {
   const [meetings, setMeetings] = useState([]);
@@ -101,7 +102,10 @@ export default function DeveloperMeetings() {
 
   return (
     <div className="space-y-6">
-      {/* Upcoming Meetings */}
+      {/* Calendar View */}
+      <MeetingsCalendar />
+
+       {/* Upcoming Meetings */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
