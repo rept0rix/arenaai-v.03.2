@@ -239,14 +239,27 @@ export default function HomePage() {
 
           {/* Action Buttons */}
           {user &&
-          <div className="flex justify-center w-full max-w-2xl">
+          <div className="flex justify-center gap-4 w-full max-w-2xl">
+              <Button
+              variant="outline"
+              onClick={() => navigate(createPageUrl('UserProfile'))}
+              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200 px-8">
+                <UserIcon className="w-6 h-6 mb-2 text-slate-600" />
+                <span className="text-sm">פרופיל</span>
+              </Button>
               <Button
               variant="outline"
               onClick={() => navigate(createPageUrl('History'))}
               className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200 px-8">
-
                 <History className="w-6 h-6 mb-2 text-slate-600" />
                 <span className="text-sm">היסטוריה</span>
+              </Button>
+              <Button
+              variant="outline"
+              onClick={() => navigate(createPageUrl('Settings'))}
+              className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200 px-8">
+                <Settings className="w-6 h-6 mb-2 text-slate-600" />
+                <span className="text-sm">הגדרות</span>
               </Button>
             </div>
           }
