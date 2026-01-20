@@ -177,26 +177,28 @@ export default function HomePage() {
             <div className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
                 <form onSubmit={handleFormSubmit} className="relative">
                   <Textarea
-                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..." className="bg-white text-right px-4 py-4 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
+                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..." className="bg-white text-right px-4 py-4 pb-12 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   rows={5} />
 
-                  <Button
-                  type="submit"
-                  size="icon"
-                  className="absolute left-4 top-4 bg-slate-900 hover:bg-black text-white rounded-lg"
-                  disabled={!searchTerm.trim()}>
-                    <ArrowUp className="w-5 h-5" />
-                  </Button>
-                  <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleGuidedJourney}
-                  className="absolute bottom-4 right-4 text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm">
-                    <Compass className="w-4 h-4" />
-                    מסע מודרך
-                  </Button>
+                  <div className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-4">
+                    <Button
+                    type="submit"
+                    size="icon"
+                    className="bg-slate-900 hover:bg-black text-white rounded-lg"
+                    disabled={!searchTerm.trim()}>
+                      <ArrowUp className="w-5 h-5" />
+                    </Button>
+                    <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleGuidedJourney}
+                    className="text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm">
+                      <Compass className="w-4 h-4" />
+                      מסע מודרך
+                    </Button>
+                  </div>
                 </form>
             </div>
           </div>

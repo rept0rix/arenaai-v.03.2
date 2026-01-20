@@ -321,6 +321,12 @@ export default function YourBackPage() {
 
                 <div className="flex flex-wrap gap-3">
                   <Button
+                    onClick={() => chatSessions.length > 0 ? handleSessionClick(chatSessions[0]) : navigate(createPageUrl('Chat'))}
+                    className="bg-sky-500 hover:bg-sky-600 text-white"
+                  >
+                    המשך שיחה
+                  </Button>
+                  <Button
                     variant="outline"
                     onClick={() => navigate(createPageUrl('Home'))}
                     className="bg-white hover:bg-slate-50"
@@ -331,13 +337,59 @@ export default function YourBackPage() {
               </div>
             </div>
 
-            <div id="continue-session-section" className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
-              <p className="text-slate-800 font-medium text-right mb-4">
-                המשך שיחה קודמת:
-              </p>
-              <p className="text-slate-600 text-sm text-right mb-4">
-                בחר שיחה מהרשימה למטה כדי להמשיך מאיפה שעצרת
-              </p>
+            <div id="new-chat-section" className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
+              <div className="space-y-3">
+                <p className="text-slate-800 font-medium text-right">
+                  לאיזו מטרה את/ה מחפש/ת נכס?
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    variant={selectedPurpose === 'living' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSelectedPurpose('living')}
+                    className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
+                  >
+                    נכס למגורים
+                  </Button>
+                  <Button
+                    variant={selectedPurpose === 'investment' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setSelectedPurpose('investment')}
+                    className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
+                  >
+                    נכס להשקעה
+                  </Button>
+                </div>
+              </div>
+              
+              <form onSubmit={handleFormSubmit} className="relative mt-4">
+                <Textarea
+                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
+                  className="bg-white text-right px-4 py-4 pb-12 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  rows={5}
+                />
+                <div className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-4">
+                  <Button
+                    type="submit"
+                    size="icon"
+                    className="bg-slate-900 hover:bg-black text-white rounded-lg"
+                    disabled={!searchTerm.trim()}
+                  >
+                    <ArrowUp className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleGuidedJourney}
+                    className="text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm"
+                  >
+                    <Compass className="w-4 h-4" />
+                    מסע מודרך
+                  </Button>
+                </div>
+              </form>
             </div>
           </div>
 
