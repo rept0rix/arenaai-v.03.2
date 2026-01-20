@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Settings, ArrowUp, User as UserIcon, Compass, History } from 'lucide-react';
+import { Settings, ArrowUp, User as UserIcon, Compass, History, ChevronLeft, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { base44 } from '@/api/base44Client';
 import TopNavigation from '../components/TopNavigation';
+import { Card } from '@/components/ui/card';
 
 const quickStartOptions = [
 "פריסייל חדש בתל אביב - לפני כולם",
@@ -23,6 +24,8 @@ export default function YourBackPage() {
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [recentHistory, setRecentHistory] = useState([]);
+  const [chatSessions, setChatSessions] = useState([]);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -32,6 +35,15 @@ export default function YourBackPage() {
       try {
         const currentUser = await base44.auth.me();
         setUser(currentUser);
+
+        // Load recent history and sessions
+        const [historyData, sessionsData] = await Promise.all([
+          base44.entities.SearchHistory.list('-created_date', 5),
+          base44.entities.ChatSession.list('-updated_date', 5)
+        ]);
+        
+        setRecentHistory(historyData || []);
+        setChatSessions(sessionsData || []);
 
         const urlPurpose = searchParams.get('purpose');
         if (urlPurpose) {
@@ -104,6 +116,77 @@ export default function YourBackPage() {
     }
 
     handleSearch(option);
+  };
+
+  const getHistoryTitle = (item) => {
+    if (item.type === 'comparison') return 'השוואת נכסים';
+    if (item.type === 'financing_consultation') return 'ייעוץ מימון';
+    return 'חיפוש נכסים';
+  };
+
+  const getHistorySummary = (item) => {
+    if (item.type === 'comparison' && item.propertiesSnapshot?.length > 0) {
+      const propTitles = item.propertiesSnapshot.slice(0, 2).map(p => p.title || p.location).join(' • ');
+      return propTitles;
+    }
+    
+    if (item.filters) {
+      const parts = [];
+      if (item.filters.rooms) parts.push(`${item.filters.rooms} חדרים`);
+      if (item.filters.location || item.filters.city) parts.push(item.filters.location || item.filters.city);
+      if (item.filters.budget_max) parts.push(`עד ${(item.filters.budget_max / 1000000).toFixed(1)}M ₪`);
+      if (parts.length > 0) return parts.join(' • ');
+    }
+    
+    return 'לא זמין';
+  };
+
+  const getSessionTitle = (session) => {
+    if (session.purpose === 'living') return 'חיפוש נכס למגורים';
+    if (session.purpose === 'investment') return 'חיפוש נכס להשקעה';
+    return 'שיחה';
+  };
+
+  const getSessionSummary = (session) => {
+    if (session.answers?.initial_query) {
+      return session.answers.initial_query.substring(0, 80) + (session.answers.initial_query.length > 80 ? '...' : '');
+    }
+    
+    const answersCount = Object.keys(session.answers || {}).filter(k => k !== 'initial_query').length;
+    if (answersCount > 0) {
+      return `ענה על ${answersCount} שאלות`;
+    }
+    
+    return 'שיחה התחלתית';
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 60) return `לפני ${diffMins} דקות`;
+    if (diffHours < 24) return `לפני ${diffHours} שעות`;
+    if (diffDays < 7) return `לפני ${diffDays} ימים`;
+    
+    return date.toLocaleDateString('he-IL', { day: 'numeric', month: 'short' });
+  };
+
+  const handleSessionClick = (session) => {
+    const chatUrl = createPageUrl(`Chat?session=${session.id}&purpose=${session.purpose || 'general'}`);
+    navigate(chatUrl);
+  };
+
+  const handleHistoryClick = (historyItem) => {
+    if (historyItem.type === 'comparison' && historyItem.propertyIds?.length > 0) {
+      const comparisonUrl = createPageUrl(`PropertyComparison?properties=${historyItem.propertyIds.join(',')}`);
+      navigate(comparisonUrl);
+    } else {
+      navigate(createPageUrl('History'));
+    }
   };
 
   if (isLoading) {
@@ -219,16 +302,76 @@ export default function YourBackPage() {
             ))}
           </div>
 
-          {user && (
-            <div className="flex justify-center w-full max-w-2xl">
-              <Button
-                variant="outline"
-                onClick={() => navigate(createPageUrl('History'))}
-                className="flex flex-col items-center justify-center h-20 bg-white hover:bg-slate-50 border-slate-200 px-8"
-              >
-                <History className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">היסטוריה</span>
-              </Button>
+          {user && (chatSessions.length > 0 || recentHistory.length > 0) && (
+            <div className="w-full max-w-2xl mt-8">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-slate-800">שיחות אחרונות</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate(createPageUrl('History'))}
+                  className="text-sky-600 hover:text-sky-700"
+                >
+                  ראה הכל
+                  <ChevronLeft className="w-4 h-4 mr-1" />
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                {chatSessions.map((session) => (
+                  <Card
+                    key={session.id}
+                    className="p-4 hover:shadow-md transition-shadow cursor-pointer bg-white border-slate-200"
+                    onClick={() => handleSessionClick(session)}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <Compass className="w-4 h-4 text-sky-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-slate-800">{getSessionTitle(session)}</h4>
+                            <p className="text-xs text-slate-500 flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {formatDate(session.updated_date || session.created_date)}
+                            </p>
+                          </div>
+                        </div>
+                        <p className="text-sm text-slate-600 mr-10">{getSessionSummary(session)}</p>
+                      </div>
+                      <ChevronLeft className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                    </div>
+                  </Card>
+                ))}
+
+                {recentHistory.map((item) => (
+                  <Card
+                    key={item.id}
+                    className="p-4 hover:shadow-md transition-shadow cursor-pointer bg-white border-slate-200"
+                    onClick={() => handleHistoryClick(item)}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <History className="w-4 h-4 text-purple-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-slate-800">{getHistoryTitle(item)}</h4>
+                            <p className="text-xs text-slate-500 flex items-center gap-1">
+                              <Clock className="w-3 h-3" />
+                              {formatDate(item.created_date)}
+                            </p>
+                          </div>
+                        </div>
+                        <p className="text-sm text-slate-600 mr-10">{getHistorySummary(item)}</p>
+                      </div>
+                      <ChevronLeft className="w-5 h-5 text-slate-400 flex-shrink-0" />
+                    </div>
+                  </Card>
+                ))}
+              </div>
             </div>
           )}
         </div>
