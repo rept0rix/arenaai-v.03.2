@@ -318,14 +318,8 @@ export default function YourBackPage() {
                 <p className="text-slate-700 mb-4">
                   אפשר להמשיך את השיחה הקודמת מאיפה שעצרנו או ליצור שיחה חדשה
                 </p>
-                
+
                 <div className="flex flex-wrap gap-3">
-                  <Button
-                    onClick={() => navigate(createPageUrl('Chat'))}
-                    className="bg-sky-500 hover:bg-sky-600 text-white"
-                  >
-                    המשך שיחה
-                  </Button>
                   <Button
                     variant="outline"
                     onClick={() => navigate(createPageUrl('Home'))}
@@ -336,74 +330,49 @@ export default function YourBackPage() {
                 </div>
               </div>
             </div>
-            
-            <div id="new-chat-section" className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
-              <div className="space-y-3">
-                <p className="text-slate-800 font-medium text-right">
-                  לאיזו מטרה את/ה מחפש/ת נכס?
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <Button
-                    variant={selectedPurpose === 'living' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setSelectedPurpose('living')}
-                    className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
-                  >
-                    נכס למגורים
-                  </Button>
-                  <Button
-                    variant={selectedPurpose === 'investment' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setSelectedPurpose('investment')}
-                    className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50"}
-                  >
-                    נכס להשקעה
-                  </Button>
-                </div>
-              </div>
-              
-              <form onSubmit={handleFormSubmit} className="relative mt-4">
-                <Textarea
-                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
-                  className="bg-white text-right px-4 py-4 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  rows={5}
-                />
-                <Button
-                  type="submit"
-                  size="icon"
-                  className="absolute left-4 top-4 bg-slate-900 hover:bg-black text-white rounded-lg"
-                  disabled={!searchTerm.trim()}
-                >
-                  <ArrowUp className="w-5 h-5" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleGuidedJourney}
-                  className="absolute bottom-4 right-4 text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm"
-                >
-                  <Compass className="w-4 h-4" />
-                  מסע מודרך
-                </Button>
-              </form>
+
+            <div id="continue-session-section" className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
+              <p className="text-slate-800 font-medium text-right mb-4">
+                המשך שיחה קודמת:
+              </p>
+              <p className="text-slate-600 text-sm text-right mb-4">
+                בחר שיחה מהרשימה למטה כדי להמשיך מאיפה שעצרת
+              </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
-            <span className="text-slate-500 text-sm mb-2 w-full text-center">או התחל עם משהו ממה שמחפשים הכי הרבה:</span>
-            {quickStartOptions.map((option, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                size="sm"
-                onClick={() => handleQuickOption(option)}
-                className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full"
-              >
-                {option}
-              </Button>
-            ))}
+          <div className="w-full max-w-2xl mb-8 overflow-hidden">
+            <style>
+              {`
+                @keyframes scroll-rtl {
+                  0% {
+                    transform: translateX(0);
+                  }
+                  100% {
+                    transform: translateX(100%);
+                  }
+                }
+                .animate-scroll-rtl {
+                  animation: scroll-rtl 30s linear infinite;
+                }
+              `}
+            </style>
+            <p className="text-slate-500 text-sm mb-3 text-center">או התחל עם משהו ממה שמחפשים הכי הרבה:</p>
+            <div className="relative">
+              <div className="flex gap-3 animate-scroll-rtl">
+                {[...quickStartOptions, ...quickStartOptions].map((option, index) => (
+                  <Button
+                    key={index}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleQuickOption(option)}
+                    className="bg-white hover:bg-slate-50 text-slate-700 border-slate-200 px-4 py-2 rounded-full whitespace-nowrap flex-shrink-0"
+                  >
+                    {option}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {user && (chatSessions.length > 0 || recentHistory.length > 0) && (
