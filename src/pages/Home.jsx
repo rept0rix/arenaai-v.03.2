@@ -72,13 +72,7 @@ export default function HomePage() {
     }
     if (!query.trim()) return;
 
-    // If user is not logged in, save intent and redirect to login
-    if (!user) {
-      localStorage.setItem('pendingChatRedirect', JSON.stringify({ purpose: selectedPurpose, query: query, isGuided: false }));
-      navigate(createPageUrl('login')); // Assuming 'login' is your login page route
-      return;
-    }
-
+    // Allow anonymous users to start chat
     const chatUrl = createPageUrl(`Chat?purpose=${selectedPurpose}&q=${encodeURIComponent(query)}`);
     navigate(chatUrl);
   };
@@ -94,13 +88,7 @@ export default function HomePage() {
       return;
     }
 
-    // If user is not logged in, save intent and redirect to login
-    if (!user) {
-      localStorage.setItem('pendingChatRedirect', JSON.stringify({ purpose: selectedPurpose, query: null, isGuided: true }));
-      navigate(createPageUrl('login')); // Assuming 'login' is your login page route
-      return;
-    }
-
+    // Allow anonymous users to start guided journey
     navigate(createPageUrl(`Chat?purpose=${selectedPurpose}&guided=true`));
   };
 
@@ -110,13 +98,7 @@ export default function HomePage() {
       return;
     }
 
-    // If user is not logged in, save intent and redirect to login
-    if (!user) {
-      localStorage.setItem('pendingChatRedirect', JSON.stringify({ purpose: selectedPurpose, query: option, isGuided: false }));
-      navigate(createPageUrl('login')); // Assuming 'login' is your login page route
-      return;
-    }
-
+    // Allow anonymous users to search
     handleSearch(option);
   };
 
