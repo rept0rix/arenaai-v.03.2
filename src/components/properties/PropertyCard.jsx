@@ -36,9 +36,8 @@ export default function PropertyCard({
     e.stopPropagation();
     if (isCompareMode) {
       onSelect(property.id);
-    } else {
-      onQuickView(property);
     }
+    // Removed auto quick view on card click - only via eye button
   };
 
   const handleDetailsClick = (e) => {
