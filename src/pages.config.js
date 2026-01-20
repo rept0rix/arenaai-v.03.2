@@ -30,6 +30,7 @@ import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
+import CustomLogin from './pages/CustomLogin';
 import __Layout from './Layout.jsx';
 
 
@@ -66,6 +67,7 @@ export const PAGES = {
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
     "YourBack": YourBack,
+    "CustomLogin": CustomLogin,
 }
 
 export const pagesConfig = {
