@@ -32,6 +32,7 @@ import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
 import LeadDetails from './pages/LeadDetails';
+import ScheduleMeeting from './pages/ScheduleMeeting';
 import __Layout from './Layout.jsx';
 
 
@@ -70,6 +71,7 @@ export const PAGES = {
     "VirtualTours": VirtualTours,
     "YourBack": YourBack,
     "LeadDetails": LeadDetails,
+    "ScheduleMeeting": ScheduleMeeting,
 }
 
 export const pagesConfig = {
