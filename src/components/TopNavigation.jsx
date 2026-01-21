@@ -137,7 +137,7 @@ export default function TopNavigation({ currentPage }) {
                     <Shield className="w-4 h-4 ml-2" />
                     ניהול מערכת
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate(createPageUrl('DeveloperAdmin'))}>
+                  <DropdownMenuItem onClick={() => navigate(createPageUrl('DeveloperCRM'))}>
                     <Shield className="w-4 h-4 ml-2" />
                     ניהול יזמים
                   </DropdownMenuItem>
