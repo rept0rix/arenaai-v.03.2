@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import LeadsFunnel from './LeadsFunnel';
 
 export default function DeveloperOverview() {
     const [leads, setLeads] = useState([]);
