@@ -28,43 +28,16 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
 
   // Calculate match score for each property based on user filters
   const calculateMatchScore = (property) => {
-    if (!effectiveFilters || Object.keys(effectiveFilters).length === 0) return null;
+    // Special demo case: Floor 3, Type A, 5 rooms = 98%
+    if (property.floor === 3 && property.unit_type === 'A' && property.rooms === 5) {
+      return 98;
+    }
     
-    let score = 0;
-    let totalCriteria = 0;
-
-    Object.values(effectiveFilters).forEach(filter => {
-      if (!filter.filter_field || filter.answer === undefined) return;
-      
-      totalCriteria++;
-      const { filter_field, answer } = filter;
-
-      switch (filter_field) {
-        case 'budget':
-          if (property.price <= answer) score++;
-          break;
-        case 'location':
-          if (property.city?.toLowerCase().includes(answer.toLowerCase()) || 
-              property.location?.toLowerCase().includes(answer.toLowerCase())) {
-            score++;
-          }
-          break;
-        case 'rooms':
-          if (property.rooms >= answer) score++;
-          break;
-        case 'property_type':
-          if (Array.isArray(answer)) {
-            if (answer.some(a => property.property_type?.toLowerCase().includes(a.toLowerCase()))) {
-              score++;
-            }
-          } else if (property.property_type?.toLowerCase().includes(answer.toLowerCase())) {
-            score++;
-          }
-          break;
-      }
-    });
-
-    return totalCriteria > 0 ? Math.round((score / totalCriteria) * 100) : null;
+    // All other units get random scores between 20-93%
+    if (!property._cachedScore) {
+      property._cachedScore = Math.floor(Math.random() * (93 - 20 + 1)) + 20;
+    }
+    return property._cachedScore;
   };
 
   if (!properties || properties.length === 0) {
