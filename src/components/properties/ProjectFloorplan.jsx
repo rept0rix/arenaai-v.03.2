@@ -442,29 +442,31 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                                 isFiltered ? 'opacity-30' : ''
                               } flex flex-col items-center justify-center min-h-[60px]`}
                             >
-                              <div className="flex items-center justify-center w-full">
-                                <div className="flex-1 text-center">
-                                  <div className="text-[11px] font-semibold">{unitToShow.rooms}ח׳</div>
-                                  <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
+                              <div className="flex flex-col items-center w-full gap-1">
+                                <div className="flex items-center justify-between w-full px-1">
+                                  <div className="flex-1 text-center">
+                                    <div className="text-[11px] font-semibold">{unitToShow.rooms}ח׳</div>
+                                    <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
+                                  </div>
+                                  {isRecommended && isAvailable && (
+                                    <div className="text-yellow-300 text-sm leading-none">
+                                      ⭐
+                                    </div>
+                                  )}
                                 </div>
-                                {isRecommended && isAvailable && (
-                                  <div className="text-yellow-300 text-sm leading-none">
-                                    ⭐
+                                {matchScore !== null && (
+                                  <div className={`w-full text-center py-1 rounded text-[10px] font-bold ${
+                                    isRecommended && isAvailable
+                                      ? 'bg-white/30 text-white'
+                                      : matchScore >= 80 ? 'bg-green-100 text-green-700' :
+                                      matchScore >= 60 ? 'bg-purple-100 text-purple-700' :
+                                      matchScore >= 40 ? 'bg-orange-100 text-orange-700' :
+                                      'bg-slate-200 text-slate-600'
+                                  }`}>
+                                    התאמה {matchScore}%
                                   </div>
                                 )}
                               </div>
-                              {matchScore !== null && (
-                                <div className={`text-[11px] font-bold mt-1 px-1.5 py-0.5 rounded ${
-                                  isRecommended && isAvailable
-                                    ? 'bg-white/20 text-white'
-                                    : matchScore >= 80 ? 'bg-green-50 text-green-700' :
-                                    matchScore >= 60 ? 'bg-purple-50 text-purple-700' :
-                                    matchScore >= 40 ? 'bg-orange-50 text-orange-700' :
-                                    'bg-slate-100 text-slate-600'
-                                }`}>
-                                  {matchScore}%
-                                </div>
-                              )}
                               {isCompareMode && selectedForCompare.includes(unitToShow.id) && !unitToShow.isMock && (
                                 <div className="absolute -top-1 -left-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs shadow-md z-10">
                                   ✓
