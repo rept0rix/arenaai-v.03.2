@@ -216,34 +216,34 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
       
       {/* Building Specs */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">מפרט הבניין</CardTitle>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">מפרט הבניין</CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-3 bg-slate-50 rounded-lg">
-              <div className="text-sm text-slate-600 mb-1">גובה הבניין</div>
-              <div className="text-lg font-bold text-slate-900">60 קומות</div>
+        <CardContent className="pt-2">
+          <div className="grid grid-cols-3 gap-2">
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600">גובה הבניין</div>
+              <div className="text-xs font-bold text-slate-900">60 קומות</div>
             </div>
-            <div className="p-3 bg-slate-50 rounded-lg">
-              <div className="text-sm text-slate-600 mb-1">שנת בנייה</div>
-              <div className="text-lg font-bold text-slate-900">2024</div>
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600">שנת בנייה</div>
+              <div className="text-xs font-bold text-slate-900">2024</div>
             </div>
-            <div className="p-3 bg-slate-50 rounded-lg">
-              <div className="text-sm text-slate-600 mb-1">קבלן</div>
-              <div className="text-lg font-bold text-slate-900">קבלן איכות גבוהה</div>
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600">קבלן</div>
+              <div className="text-xs font-bold text-slate-900">קבלן איכות</div>
             </div>
-            <div className="p-3 bg-slate-50 rounded-lg">
-              <div className="text-sm text-slate-600 mb-1">אדריכל</div>
-              <div className="text-lg font-bold text-slate-900">משרד אדריכלים מוביל</div>
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600">אדריכל</div>
+              <div className="text-xs font-bold text-slate-900">משרד מוביל</div>
             </div>
-            <div className="p-3 bg-slate-50 rounded-lg">
-              <div className="text-sm text-slate-600 mb-1">תקן ירוק</div>
-              <div className="text-lg font-bold text-slate-900">תו תקן ירוק 5 כוכבים</div>
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600">תקן ירוק</div>
+              <div className="text-xs font-bold text-slate-900">5 כוכבים</div>
             </div>
-            <div className="p-3 bg-slate-50 rounded-lg">
-              <div className="text-sm text-slate-600 mb-1">מעליות</div>
-              <div className="text-lg font-bold text-slate-900">מעליות מהירות 4</div>
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600">מעליות</div>
+              <div className="text-xs font-bold text-slate-900">4 מהירות</div>
             </div>
           </div>
         </CardContent>
