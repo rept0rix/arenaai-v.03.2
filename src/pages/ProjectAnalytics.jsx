@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, TrendingUp, Users, Eye, Calendar, Building2 } from 'lucide-react';
 import TopNavigation from '../components/TopNavigation';
 import SimpleFunnelVisualization from '../components/developer/SimpleFunnelVisualization';
+import LeadsFunnel from '../components/developer/LeadsFunnel';
 import { createPageUrl } from '@/utils';
 
 export default function ProjectAnalytics() {
@@ -16,6 +17,8 @@ export default function ProjectAnalytics() {
   const [project, setProject] = useState(null);
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [leads, setLeads] = useState([]);
+  const [meetings, setMeetings] = useState([]);
 
   useEffect(() => {
     if (projectId) {
@@ -36,6 +39,12 @@ export default function ProjectAnalytics() {
       if (response.data.success) {
         setAnalytics(response.data.analytics);
       }
+
+      // Get leads and meetings for this project
+      const projectLeads = await base44.entities.Lead.filter({ project_id: projectId });
+      const projectMeetings = await base44.entities.Meeting.filter({ project_id: projectId });
+      setLeads(projectLeads);
+      setMeetings(projectMeetings);
     } catch (error) {
       console.error('Error loading analytics:', error);
     } finally {
@@ -145,6 +154,7 @@ export default function ProjectAnalytics() {
             </div>
 
             {/* Funnel */}
+            <LeadsFunnel leads={leads} meetings={meetings} title="משפך לידים - הפרויקט הזה" />
             <SimpleFunnelVisualization funnel={analytics.funnel} conversionRates={analytics.conversion_rates} />
 
             {/* Detailed Breakdown */}

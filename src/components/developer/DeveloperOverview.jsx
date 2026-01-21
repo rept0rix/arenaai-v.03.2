@@ -16,6 +16,23 @@ import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 export default function DeveloperOverview() {
+    const [leads, setLeads] = useState([]);
+    const [meetings, setMeetings] = useState([]);
+
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = async () => {
+        try {
+            const leadsData = await base44.entities.Lead.list();
+            const meetingsData = await base44.entities.Meeting.list();
+            setLeads(leadsData);
+            setMeetings(meetingsData);
+        } catch (error) {
+            console.error('Error loading data:', error);
+        }
+    };
   const [stats, setStats] = useState({
     totalLeads: 0,
     newLeadsThisWeek: 0,
@@ -103,6 +120,7 @@ export default function DeveloperOverview() {
 
   return (
     <div className="space-y-6">
+      <LeadsFunnel leads={leads} meetings={meetings} title="משפך לידים - כל היזם" />
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>

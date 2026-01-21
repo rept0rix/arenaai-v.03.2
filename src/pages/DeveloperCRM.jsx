@@ -417,30 +417,122 @@ export default function DeveloperCRM() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <Zap className="w-5 h-5 text-green-600" />
-                            משפך לידים
+                            משפך לידים - כל המערכת
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="text-center p-4 bg-blue-50 rounded-lg">
+                            <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                                 <div className="text-3xl font-bold text-blue-600">{leads.filter(l => l.status === 'new').length}</div>
-                                <div className="text-sm text-slate-600 mt-1">לידים חדשים</div>
+                                <div className="text-sm text-slate-600 mt-1 font-medium">לידים חדשים</div>
                             </div>
-                            <div className="text-center p-4 bg-sky-50 rounded-lg">
+                            <div className="text-center p-4 bg-sky-50 rounded-lg border-2 border-sky-200">
                                 <div className="text-3xl font-bold text-sky-600">{leads.filter(l => l.status === 'interested').length}</div>
-                                <div className="text-sm text-slate-600 mt-1">מתעניינים</div>
+                                <div className="text-sm text-slate-600 mt-1 font-medium">מתעניינים</div>
                             </div>
-                            <div className="text-center p-4 bg-amber-50 rounded-lg">
+                            <div className="text-center p-4 bg-amber-50 rounded-lg border-2 border-amber-200">
                                 <div className="text-3xl font-bold text-amber-600">{meetings.filter(m => m.status === 'scheduled').length}</div>
-                                <div className="text-sm text-slate-600 mt-1">פגישות מתוזמנות</div>
+                                <div className="text-sm text-slate-600 mt-1 font-medium">פגישות מתוזמנות</div>
                             </div>
-                            <div className="text-center p-4 bg-green-50 rounded-lg">
+                            <div className="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
                                 <div className="text-3xl font-bold text-green-600">{leads.filter(l => l.status === 'closed_won').length}</div>
-                                <div className="text-sm text-slate-600 mt-1">נסגרו בהצלחה</div>
+                                <div className="text-sm text-slate-600 mt-1 font-medium">נסגרו בהצלחה</div>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
+
+                {/* תובנות ומגמות */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <BarChart3 className="w-5 h-5 text-indigo-600" />
+                                מקורות לידים
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                            {['property_inquiry', 'financing_request', 'chat', 'arena_club', 'social_signin'].map(source => {
+                                const count = leads.filter(l => l.source === source).length;
+                                const percentage = leads.length > 0 ? ((count / leads.length) * 100).toFixed(0) : 0;
+                                const sourceNames = {
+                                    property_inquiry: 'פניה לנכס',
+                                    financing_request: 'בקשת מימון',
+                                    chat: 'צ\'אט',
+                                    arena_club: 'ARENA CLUB',
+                                    social_signin: 'התחברות סושיאל'
+                                };
+                                return count > 0 ? (
+                                    <div key={source} className="flex items-center justify-between py-2 border-b last:border-0">
+                                        <span className="text-sm text-slate-600">{sourceNames[source]}</span>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-20 bg-slate-200 rounded-full h-2">
+                                                <div className="bg-indigo-600 h-2 rounded-full" style={{width: `${percentage}%`}}></div>
+                                            </div>
+                                            <span className="font-bold text-slate-900 text-sm w-8">{count}</span>
+                                        </div>
+                                    </div>
+                                ) : null;
+                            })}
+                            {leads.length === 0 && <p className="text-sm text-slate-500 text-center py-4">אין לידים עדיין</p>}
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Target className="w-5 h-5 text-pink-600" />
+                                פילוח גיאוגרפי
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-2">
+                            {(() => {
+                                const cityCounts = {};
+                                projects.forEach(p => {
+                                    if (p.city) {
+                                        const views = projectViews[p.id] || 0;
+                                        cityCounts[p.city] = (cityCounts[p.city] || 0) + views;
+                                    }
+                                });
+                                const topCities = Object.entries(cityCounts)
+                                    .sort((a, b) => b[1] - a[1])
+                                    .slice(0, 5);
+                                
+                                return topCities.length > 0 ? topCities.map(([city, views]) => (
+                                    <div key={city} className="flex items-center justify-between py-2 border-b last:border-0">
+                                        <span className="text-sm text-slate-600">{city}</span>
+                                        <span className="font-bold text-pink-600">{views}</span>
+                                    </div>
+                                )) : <p className="text-sm text-slate-500 text-center py-4">אין נתונים</p>;
+                            })()}
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <TrendingUp className="w-5 h-5 text-emerald-600" />
+                                סטטוס פרויקטים
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                            <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                <span className="text-sm font-medium text-green-800">פרויקטים פורסמו</span>
+                                <span className="text-2xl font-bold text-green-600">{projects.filter(p => !p.isDraft).length}</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-amber-50 rounded-lg">
+                                <span className="text-sm font-medium text-amber-800">טיוטות</span>
+                                <span className="text-2xl font-bold text-amber-600">{projects.filter(p => p.isDraft).length}</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                                <span className="text-sm font-medium text-slate-600">ללא צפיות</span>
+                                <span className="text-2xl font-bold text-slate-600">
+                                    {projects.filter(p => !projectViews[p.id] || projectViews[p.id] === 0).length}
+                                </span>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
 
                 {/* פרויקטים אחרונים */}
                 <Card>
