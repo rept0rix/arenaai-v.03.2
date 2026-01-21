@@ -442,26 +442,26 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                                 isFiltered ? 'opacity-30' : ''
                               } flex flex-col items-center justify-center min-h-[60px]`}
                             >
-                              <div className="flex flex-col items-center w-full gap-1">
-                                <div className="flex items-center justify-between w-full px-1">
+                              <div className="w-full space-y-1">
+                                <div className="flex items-center justify-between w-full">
                                   <div className="flex-1 text-center">
                                     <div className="text-[11px] font-semibold">{unitToShow.rooms}ח׳</div>
                                     <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
                                   </div>
                                   {isRecommended && isAvailable && (
-                                    <div className="text-yellow-300 text-sm leading-none">
+                                    <div className="text-yellow-300 text-sm leading-none ml-1">
                                       ⭐
                                     </div>
                                   )}
                                 </div>
-                                {matchScore !== null && (
-                                  <div className={`w-full text-center py-1 rounded text-[10px] font-bold ${
+                                {matchScore !== null && matchScore > 0 && (
+                                  <div className={`w-full text-center py-0.5 rounded-md text-[9px] font-bold ${
                                     isRecommended && isAvailable
-                                      ? 'bg-white/30 text-white'
-                                      : matchScore >= 80 ? 'bg-green-100 text-green-700' :
-                                      matchScore >= 60 ? 'bg-purple-100 text-purple-700' :
-                                      matchScore >= 40 ? 'bg-orange-100 text-orange-700' :
-                                      'bg-slate-200 text-slate-600'
+                                      ? 'bg-white/40 text-white'
+                                      : matchScore >= 80 ? 'bg-green-100 text-green-800' :
+                                      matchScore >= 60 ? 'bg-purple-100 text-purple-800' :
+                                      matchScore >= 40 ? 'bg-orange-100 text-orange-800' :
+                                      'bg-slate-200 text-slate-700'
                                   }`}>
                                     התאמה {matchScore}%
                                   </div>
