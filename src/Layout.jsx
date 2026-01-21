@@ -22,7 +22,7 @@ export default function Layout({ children, currentPageName }) {
 
   const getFooterType = () => {
     if (currentPageName === 'Chat' || currentPageName === 'PropertyDetails') return 'none';
-    if (user && (currentPageName === 'Admin' || currentPageName === 'DeveloperAdmin')) {
+    if (user && (currentPageName === 'Admin' || currentPageName === 'DeveloperCRM')) {
         return 'app-logged-in'
     }
     return 'landing';

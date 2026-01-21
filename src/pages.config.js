@@ -7,7 +7,6 @@ import BuyingGuide from './pages/BuyingGuide';
 import Chat from './pages/Chat';
 import Contact from './pages/Contact';
 import CustomLogin from './pages/CustomLogin';
-import DeveloperAdmin from './pages/DeveloperAdmin';
 import DeveloperDashboard from './pages/DeveloperDashboard';
 import DeveloperThankYou from './pages/DeveloperThankYou';
 import Filters from './pages/Filters';
@@ -17,24 +16,25 @@ import ForDevelopers from './pages/ForDevelopers';
 import History from './pages/History';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
+import LeadDetails from './pages/LeadDetails';
 import PetahTikvaLanding from './pages/PetahTikvaLanding';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import ProjectAnalytics from './pages/ProjectAnalytics';
 import ProjectComparison from './pages/ProjectComparison';
 import ProjectDetails from './pages/ProjectDetails';
+import ProjectLeads from './pages/ProjectLeads';
 import PropertyComparison from './pages/PropertyComparison';
 import PropertyComparisonInfo from './pages/PropertyComparisonInfo';
 import PropertyDetails from './pages/PropertyDetails';
 import SavedProperties from './pages/SavedProperties';
+import ScheduleMeeting from './pages/ScheduleMeeting';
 import Settings from './pages/Settings';
 import TermsOfService from './pages/TermsOfService';
 import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
-import LeadDetails from './pages/LeadDetails';
-import ScheduleMeeting from './pages/ScheduleMeeting';
-import ProjectAnalytics from './pages/ProjectAnalytics';
-import ProjectLeads from './pages/ProjectLeads';
+import DeveloperCRM from './pages/DeveloperCRM';
 import __Layout from './Layout.jsx';
 
 
@@ -48,7 +48,6 @@ export const PAGES = {
     "Chat": Chat,
     "Contact": Contact,
     "CustomLogin": CustomLogin,
-    "DeveloperAdmin": DeveloperAdmin,
     "DeveloperDashboard": DeveloperDashboard,
     "DeveloperThankYou": DeveloperThankYou,
     "Filters": Filters,
@@ -58,24 +57,25 @@ export const PAGES = {
     "History": History,
     "Home": Home,
     "Landing": Landing,
+    "LeadDetails": LeadDetails,
     "PetahTikvaLanding": PetahTikvaLanding,
     "PrivacyPolicy": PrivacyPolicy,
+    "ProjectAnalytics": ProjectAnalytics,
     "ProjectComparison": ProjectComparison,
     "ProjectDetails": ProjectDetails,
+    "ProjectLeads": ProjectLeads,
     "PropertyComparison": PropertyComparison,
     "PropertyComparisonInfo": PropertyComparisonInfo,
     "PropertyDetails": PropertyDetails,
     "SavedProperties": SavedProperties,
+    "ScheduleMeeting": ScheduleMeeting,
     "Settings": Settings,
     "TermsOfService": TermsOfService,
     "TermsOfServiceDevelopers": TermsOfServiceDevelopers,
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
     "YourBack": YourBack,
-    "LeadDetails": LeadDetails,
-    "ScheduleMeeting": ScheduleMeeting,
-    "ProjectAnalytics": ProjectAnalytics,
-    "ProjectLeads": ProjectLeads,
+    "DeveloperCRM": DeveloperCRM,
 }
 
 export const pagesConfig = {
