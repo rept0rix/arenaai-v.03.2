@@ -432,32 +432,42 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                                 isCompareMode && selectedForCompare.includes(unitToShow.id)
                                   ? 'ring-2 ring-sky-500 ring-offset-1'
                                   : ''
-                              } ${getStatusColor(unitToShow.status, isAvailable)} px-2 py-1.5 rounded text-xs font-medium transition-all ${
+                              } ${
+                                isRecommended && isAvailable 
+                                  ? 'bg-sky-500 hover:bg-sky-600 text-white border-l-4 border-sky-700'
+                                  : getStatusColor(unitToShow.status, isAvailable)
+                              } px-2 py-2 rounded text-xs font-medium transition-all ${
                                 unitToShow.isMock || !isAvailable ? 'cursor-not-allowed' : 'transform hover:scale-105 cursor-pointer'
                               } relative w-full ${
                                 isFiltered ? 'opacity-30' : ''
-                              }`}
+                              } flex flex-col items-center justify-center min-h-[60px]`}
                             >
-                              {isRecommended && isAvailable && (
-                                <div className="absolute -top-2 -right-2 w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs shadow-md z-10">
-                                  ⭐
+                              <div className="flex items-center justify-center w-full">
+                                <div className="flex-1 text-center">
+                                  <div className="text-[11px] font-semibold">{unitToShow.rooms}ח׳</div>
+                                  <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
+                                </div>
+                                {isRecommended && isAvailable && (
+                                  <div className="text-yellow-300 text-sm leading-none">
+                                    ⭐
+                                  </div>
+                                )}
+                              </div>
+                              {matchScore !== null && (
+                                <div className={`text-[11px] font-bold mt-1 px-1.5 py-0.5 rounded ${
+                                  isRecommended && isAvailable
+                                    ? 'bg-white/20 text-white'
+                                    : matchScore >= 80 ? 'bg-green-50 text-green-700' :
+                                    matchScore >= 60 ? 'bg-purple-50 text-purple-700' :
+                                    matchScore >= 40 ? 'bg-orange-50 text-orange-700' :
+                                    'bg-slate-100 text-slate-600'
+                                }`}>
+                                  {matchScore}%
                                 </div>
                               )}
                               {isCompareMode && selectedForCompare.includes(unitToShow.id) && !unitToShow.isMock && (
-                                <div className="absolute -top-1 -left-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs">
+                                <div className="absolute -top-1 -left-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs shadow-md z-10">
                                   ✓
-                                </div>
-                              )}
-                              <div className="text-[11px]">{unitToShow.rooms}ח׳</div>
-                              <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
-                              {matchScore !== null && (
-                                <div className={`text-[10px] font-bold mt-0.5 ${
-                                  matchScore >= 80 ? 'text-green-600' :
-                                  matchScore >= 60 ? 'text-purple-600' :
-                                  matchScore >= 40 ? 'text-orange-600' :
-                                  'text-slate-500'
-                                }`}>
-                                  {matchScore}%
                                 </div>
                               )}
                             </button>
