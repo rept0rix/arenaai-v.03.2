@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,6 +13,7 @@ import { SearchHistory } from '@/entities/SearchHistory';
 import { toast } from "sonner";
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import FinanceExplainability from './FinanceExplainability';
 
 export default function FinancingResults({ data, onBackToChat, onStartOver }) {
     const [showSchedulingDialog, setShowSchedulingDialog] = useState(false);
@@ -159,6 +159,17 @@ export default function FinancingResults({ data, onBackToChat, onStartOver }) {
 
     return (
         <div className="space-y-8">
+            {/* Finance Explainability - הסבר מצב הבקשה */}
+            <FinanceExplainability 
+                financingData={{
+                    monthlyIncome: netIncome,
+                    monthlyExpenses: 0, // יש להוסיף זאת אם יש בנתוני הבירור
+                    propertyPrice: propertyPrice,
+                    downPayment: availableFunds
+                }}
+                onBack={onStartOver}
+            />
+
             {/* Success Header */}
             <div className="text-center">
                 <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
