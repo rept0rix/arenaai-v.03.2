@@ -16,6 +16,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
   const [selectedForCompare, setSelectedForCompare] = useState([]);
   const [show3DModal, setShow3DModal] = useState(false);
   const navigate = useNavigate();
+  const tableRef = React.useRef(null);
 
   // DEMO: If no user filters provided, use demo filters
   const demoFilters = {
@@ -159,6 +160,45 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
 
   const projectName = properties[0]?.project_name || 'פרויקט';
   const developer = properties[0]?.developer || '';
+
+  // Find best match
+  const bestMatch = React.useMemo(() => {
+    let best = null;
+    let bestScore = 0;
+    
+    floors.forEach(floor => {
+      types.forEach(type => {
+        const realUnit = realPropertyMap[floor]?.[type];
+        const unitToShow = realUnit || generateMockUnit(floor, type);
+        const score = calculateMatchScore(unitToShow);
+        
+        if (score > bestScore && unitToShow.status === 'available') {
+          bestScore = score;
+          best = { ...unitToShow, floor, type };
+        }
+      });
+    });
+    
+    return best;
+  }, [floors, types, realPropertyMap]);
+
+  const scrollToBestMatch = () => {
+    if (!bestMatch || !tableRef.current) return;
+    
+    const floor = bestMatch.floor;
+    const type = bestMatch.type;
+    const cellId = `unit-${floor}-${type}`;
+    const cell = document.getElementById(cellId);
+    
+    if (cell) {
+      cell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Highlight effect
+      cell.classList.add('ring-4', 'ring-amber-400', 'ring-offset-2');
+      setTimeout(() => {
+        cell.classList.remove('ring-4', 'ring-amber-400', 'ring-offset-2');
+      }, 3000);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -336,6 +376,34 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </CardContent>
       </Card>
 
+      {/* Best Match Banner */}
+      {bestMatch && (
+        <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300">
+          <CardContent className="py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center">
+                  <span className="text-2xl">⭐</span>
+                </div>
+                <div>
+                  <div className="font-bold text-slate-900">הדירה המותאמת ביותר עבורך</div>
+                  <div className="text-sm text-slate-700">
+                    {bestMatch.rooms} חדרים • קומה {bestMatch.floor} • טיפוס {bestMatch.type} • התאמה של {calculateMatchScore(bestMatch)}%
+                  </div>
+                </div>
+              </div>
+              <Button
+                onClick={scrollToBestMatch}
+                className="bg-amber-500 hover:bg-amber-600 gap-2"
+              >
+                <span>קפוץ לדירה</span>
+                <span>↓</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Floorplan Table */}
       <Card>
         <CardHeader>
@@ -364,7 +432,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
-            <div className="max-h-[600px] overflow-y-auto border border-slate-200 rounded-lg">
+            <div ref={tableRef} className="max-h-[600px] overflow-y-auto border border-slate-200 rounded-lg">
               <table className="w-full border-collapse">
               <thead>
                 <tr className="bg-slate-100">
@@ -397,7 +465,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
 
                       return (
                         <td key={`${floor}-${type}`} className="border border-slate-300 p-1.5">
-                          <div className="relative group">
+                          <div id={`unit-${floor}-${type}`} className="relative group">
                             <button
                               onClick={() => !unitToShow.isMock && isAvailable && handleUnitClick(unitToShow)}
                               disabled={!isAvailable || unitToShow.isMock}
