@@ -202,15 +202,10 @@ export default function PropertyCard({
         {/* View Project Button */}
         {property.projectId && (
           <div className="mb-3">
-            <div 
+            <button
               onClick={handleProjectClick}
-              className="relative p-3 bg-gradient-to-r from-sky-50 to-purple-50 rounded-lg border border-sky-200 hover:from-sky-100 hover:to-purple-100 transition-all cursor-pointer shadow-sm hover:shadow-md"
+              className="relative w-full p-3 bg-gradient-to-r from-sky-50 to-purple-50 rounded-lg border border-sky-200 hover:from-sky-100 hover:to-purple-100 transition-all shadow-sm hover:shadow-md"
             >
-              {property.isRecommended && (
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white shadow-md z-10">
-                  ⭐
-                </div>
-              )}
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Building className="w-4 h-4 text-sky-600" />
@@ -222,7 +217,7 @@ export default function PropertyCard({
                   </Badge>
                 )}
               </div>
-              {property.projectMatchScores && property.projectMatchScores.length > 0 ? (
+              {property.projectMatchScores && property.projectMatchScores.length > 0 && (
                 <div className="space-y-1.5">
                   {property.projectMatchScores.slice(0, 3).map((item, idx) => (
                     <div key={idx} className="flex items-center gap-2">
@@ -235,14 +230,9 @@ export default function PropertyCard({
                       <span className="text-[10px] text-slate-600 w-8 text-left">{item.score}%</span>
                     </div>
                   ))}
-                  <div className="text-[10px] text-slate-500 text-center mt-1">לחץ לכל הפרטים</div>
-                </div>
-              ) : (
-                <div className="text-[10px] text-slate-500 text-center">
-                  לחץ לצפייה בכל הדירות והתאמות
                 </div>
               )}
-            </div>
+            </button>
           </div>
         )}
         
