@@ -223,12 +223,18 @@ export default function PropertyComparison() {
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5 }}
-                            className="text-center mb-8"
+                            className="mb-8"
                         >
-                            <h1 className="text-4xl font-bold text-slate-900 mb-3">השוואת נכסים חכמה</h1>
-                            <p className="text-lg text-slate-600">
-                                בהתבסס על ההעדפות שלך, השווה בין הנכסים המובילים ובחר בביטחון
-                            </p>
+                            <div className="flex items-start justify-between gap-4">
+                                <div className="flex-1">
+                                    <h1 className="text-4xl font-bold text-slate-900 mb-3">השוואה לפי מה שחשוב לך</h1>
+                                    <p className="text-base text-slate-700 leading-relaxed">
+                                        הקריטריונים שמוצגים כאן הם אלו שהשפיעו הכי הרבה על ציון ההתאמה שלך.<br />
+                                        הערכים בטבלה הם נתונים אמיתיים של כל נכס.<br />
+                                        רוצה להבין למה? לחיצה על כל פרמטר פותחת הסבר אישי בשיחה עם Arena.
+                                    </p>
+                                </div>
+                            </div>
                         </motion.div>
 
                         <ComparisonTable 

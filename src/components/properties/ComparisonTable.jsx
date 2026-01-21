@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, XCircle, AlertTriangle, Eye, Phone, Star, Heart, MapPin } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { CheckCircle, XCircle, AlertTriangle, Eye, Phone, Star, Heart, MapPin, HelpCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 export default function ComparisonTable({ properties, userPreferences, onToggleFavorite, favoriteIds = [] }) {
     const navigate = useNavigate();
+    const [helpOpen, setHelpOpen] = useState(false);
 
     // Find the leading property (highest matchScore)
     const leadingProperty = properties.reduce((prev, current) => 
@@ -95,32 +99,44 @@ export default function ComparisonTable({ properties, userPreferences, onToggleF
         }
     };
 
+    const handleParameterClick = (paramLabel, propertyTitle, value) => {
+        toast.info(`מסביר על ${paramLabel}`, {
+            description: `Arena תסביר בקרוב למה "${value}" של ${propertyTitle} מתאים לך (או פחות).`
+        });
+    };
+
     return (
         <div className="w-full">
-            {/* Explainability Header */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-            >
-                <Card className="mb-6 bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
-                    <CardContent className="pt-6">
-                        <div className="flex items-start gap-3">
-                            <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                <span className="text-white font-bold">AI</span>
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-lg text-slate-900 mb-2">שכבת ההסבריות של ARENA AI</h3>
-                                <p className="text-slate-700 leading-relaxed">
-                                    ההתאמות וההבדלים המוצגים להלן מחושבים לפי מנגנון ה-CBR (Case-Based Reasoning) של Arena AI - 
-                                    המבוסס על הפרופיל האישי שלך, התשובות שמסרת בשיחה, והשוואה מדויקת בין פרמטרי הנכסים. 
-                                    כל ציון והערה מותאמים אישית עבורך.
-                                </p>
+            {/* Help Bubble */}
+            <div className="flex justify-end mb-4">
+                <Popover open={helpOpen} onOpenChange={setHelpOpen}>
+                    <PopoverTrigger asChild>
+                        <Button variant="ghost" size="sm" className="gap-2 text-slate-600 hover:text-slate-900">
+                            <HelpCircle className="w-4 h-4 text-sky-500" />
+                            רוצה להבין איך לקרוא את ההשוואה?
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-96" align="end">
+                        <div className="space-y-3">
+                            <h4 className="font-bold text-slate-900">איך לקרוא את ההשוואה הזו</h4>
+                            <div className="space-y-2 text-sm text-slate-700">
+                                <div>
+                                    <strong>1. אחוז ההתאמה</strong>
+                                    <p className="text-slate-600">מראה עד כמה הנכס מתאים למה שסיפרת ל-Arena בשיחה ובבחירות שלך.</p>
+                                </div>
+                                <div>
+                                    <strong>2. ההבדלים בין הנכסים</strong>
+                                    <p className="text-slate-600">כל שורה מדגישה מה חיזק או החליש את ההתאמה של כל נכס ביחס לאחרים.</p>
+                                </div>
+                                <div>
+                                    <strong>3. רוצה להבין למה?</strong>
+                                    <p className="text-slate-600">אפשר ללחוץ על כל פריט ו-Arena תסביר בצ׳אט למה זה מתאים – או פחות.</p>
+                                </div>
                             </div>
                         </div>
-                    </CardContent>
-                </Card>
-            </motion.div>
+                    </PopoverContent>
+                </Popover>
+            </div>
 
             {/* Properties Header Cards */}
             <div className="grid gap-4 mb-6" style={{ gridTemplateColumns: `repeat(${properties.length}, minmax(280px, 1fr))` }}>
@@ -159,33 +175,11 @@ export default function ComparisonTable({ properties, userPreferences, onToggleF
                                     >
                                         <Heart className={`w-4 h-4 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
                                     </Button>
-                                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-                                        <span className="text-sm font-bold text-sky-600">
-                                            {property.matchScore || 85}% התאמה
+                                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1.5">
+                                        <span className="text-base font-bold text-sky-600">
+                                            {property.matchScore || 85}%
                                         </span>
                                     </div>
-                                    {isLeading && (
-                                        <>
-                                            <motion.div
-                                                initial={{ scale: 0, rotate: -180 }}
-                                                animate={{ scale: 1, rotate: 0 }}
-                                                transition={{ type: "spring", stiffness: 500, delay: 0.5 }}
-                                                className="absolute top-3 right-3 bg-purple-600 text-white rounded-full p-2 shadow-lg"
-                                            >
-                                                <Star className="w-5 h-5 fill-white" />
-                                            </motion.div>
-                                            <motion.div
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.7 }}
-                                                className="absolute bottom-3 left-0 right-0 mx-3"
-                                            >
-                                                <div className="bg-gradient-to-r from-purple-600 to-pink-500 text-white rounded-lg px-3 py-2 text-center shadow-lg">
-                                                    <div className="text-xs font-bold">💜 ההמלצה שלנו עבורך</div>
-                                                </div>
-                                            </motion.div>
-                                        </>
-                                    )}
                                 </div>
                                 <CardContent className="p-4">
                                     <h3 className="font-bold text-lg text-slate-900 mb-1 line-clamp-1">{property.title}</h3>
@@ -208,16 +202,13 @@ export default function ComparisonTable({ properties, userPreferences, onToggleF
                                             צפה
                                         </Button>
                                         <Button 
-                                            size="sm" 
-                                            variant="outline"
-                                            className={`flex-1 transition-all duration-300 ${
-                                                isLeading 
-                                                    ? 'bg-purple-50 border-purple-300 hover:bg-purple-100 hover:border-purple-400' 
-                                                    : 'hover:bg-teal-50 hover:border-teal-400'
-                                            }`}
+                                           size="sm" 
+                                           variant="outline"
+                                           className="flex-1 hover:bg-sky-50 hover:border-sky-400"
+                                           onClick={() => handleParameterClick('נכס', property.title, 'חקירה מלאה')}
                                         >
-                                            <Phone className="w-3 h-3 ml-1" />
-                                            התקשר
+                                           <HelpCircle className="w-3 h-3 ml-1" />
+                                           חקר
                                         </Button>
                                     </div>
                                 </CardContent>
@@ -231,59 +222,80 @@ export default function ComparisonTable({ properties, userPreferences, onToggleF
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
             >
-                <Card>
-                    <CardHeader>
-                        <CardTitle>השוואת פרמטרים</CardTitle>
-                    </CardHeader>
+                <Card className="border-slate-200">
                     <CardContent className="p-0">
                         <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <tbody>
-                                    {parameters.map((param, idx) => (
-                                        <motion.tr 
-                                            key={param.key}
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: 0.5 + idx * 0.05 }}
-                                            className={`${idx % 2 === 0 ? 'bg-slate-50' : 'bg-white'} hover:bg-slate-100 transition-colors`}
-                                        >
-                                            <td className="p-4 font-semibold text-slate-700 border-l border-slate-200 sticky right-0 bg-slate-100 min-w-[150px]">
-                                                {param.label}
-                                            </td>
-                                            {properties.map((property) => {
-                                                const valueData = getValueDisplay(property, param);
-                                                const isLeading = property.id === leadingProperty.id;
-                                                
-                                                return (
-                                                    <td 
-                                                        key={property.id} 
-                                                        className={`p-4 border-l border-slate-200 min-w-[250px] transition-all ${
-                                                            isLeading ? 'bg-purple-50/30' : ''
-                                                        }`}
-                                                    >
-                                                        <motion.div 
-                                                            whileHover={{ scale: 1.05 }}
-                                                            className={`flex items-center gap-2 p-2 rounded-lg transition-all ${getStatusColor(valueData.status)}`}
+                            <TooltipProvider>
+                                <table className="w-full" style={{ backgroundColor: '#FFFFFF' }}>
+                                    <tbody>
+                                        {parameters.map((param, idx) => (
+                                            <motion.tr 
+                                                key={param.key}
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: 0.3 + idx * 0.03 }}
+                                                className={`${idx % 2 === 0 ? '' : 'bg-[#F7FAFD]'} hover:bg-slate-100 transition-colors`}
+                                                style={{ borderBottom: '1px solid #E6EEF6' }}
+                                            >
+                                                <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                        <td 
+                                                            className="p-4 font-semibold text-slate-700 sticky right-0 bg-slate-50 min-w-[150px] cursor-help"
+                                                            style={{ borderLeft: '1px solid #D9E5F2' }}
                                                         >
-                                                            {valueData.icon && (
-                                                                <span className="flex-shrink-0">{valueData.icon}</span>
-                                                            )}
-                                                            <div className="flex-1">
-                                                                <div className="font-medium">{valueData.display}</div>
-                                                                {valueData.note && (
-                                                                    <div className="text-xs mt-0.5 opacity-80">{valueData.note}</div>
-                                                                )}
-                                                            </div>
+                                                            {param.label}
+                                                        </td>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent side="left">
+                                                        <p className="text-xs">איך זה השפיע על ההתאמה שלך?</p>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                                {properties.map((property) => {
+                                                    const valueData = getValueDisplay(property, param);
+                                                    
+                                                    const getCellBg = (status) => {
+                                                        if (status === 'positive') return '#E8F4F2';
+                                                        if (status === 'negative' || status === 'warning') return '#F6E9EE';
+                                                        return 'transparent';
+                                                    };
+                                                    
+                                                    const getCellTextColor = (status) => {
+                                                        if (status === 'positive') return '#1F6F6A';
+                                                        if (status === 'negative' || status === 'warning') return '#7A2E3A';
+                                                        return '#4A5D73';
+                                                    };
+                                                    
+                                                    return (
+                                                        <td 
+                                                            key={property.id} 
+                                                            className="p-4 min-w-[250px] transition-all cursor-pointer"
+                                                            style={{ 
+                                                                borderLeft: '1px solid #D9E5F2',
+                                                                backgroundColor: getCellBg(valueData.status)
+                                                            }}
+                                                            onClick={() => handleParameterClick(param.label, property.title, valueData.display)}
+                                                        >
+                                                            <motion.div 
+                                                                whileHover={{ scale: 1.02 }}
+                                                                className="p-2 rounded-lg transition-all"
+                                                            >
+                                                                <div 
+                                                                    className="font-medium"
+                                                                    style={{ color: getCellTextColor(valueData.status) }}
+                                                                >
+                                                                    {valueData.display}
+                                                                </div>
                                                             </motion.div>
-                                                            </td>
-                                                );
-                                            })}
-                                        </motion.tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                                        </td>
+                                                    );
+                                                })}
+                                            </motion.tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </TooltipProvider>
                         </div>
                     </CardContent>
                 </Card>
