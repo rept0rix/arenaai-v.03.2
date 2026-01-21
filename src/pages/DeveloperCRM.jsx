@@ -240,6 +240,7 @@ export default function DeveloperCRM() {
                                 <thead>
                                     <tr className="border-b">
                                         <th className="text-right p-3 font-semibold">שם החברה</th>
+                                        <th className="text-right p-3 font-semibold">סטטוס</th>
                                         <th className="text-right p-3 font-semibold">אתר</th>
                                         <th className="text-right p-3 font-semibold">מספר פרויקטים</th>
                                         <th className="text-right p-3 font-semibold">תאריך יצירה</th>
@@ -252,6 +253,17 @@ export default function DeveloperCRM() {
                                         return (
                                             <tr key={dev.id} className="border-b hover:bg-slate-50">
                                                 <td className="p-3">{dev.name_he}</td>
+                                                <td className="p-3">
+                                                    {dev.isDraft ? (
+                                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                                            טיוטה
+                                                        </span>
+                                                    ) : (
+                                                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                            ✓ פורסם
+                                                        </span>
+                                                    )}
+                                                </td>
                                                 <td className="p-3">
                                                     {dev.website_url ? (
                                                         <a href={dev.website_url} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">
@@ -314,6 +326,7 @@ export default function DeveloperCRM() {
                                 <thead>
                                     <tr className="border-b">
                                         <th className="text-right p-3 font-semibold">שם הפרויקט</th>
+                                        <th className="text-right p-3 font-semibold">סטטוס</th>
                                         <th className="text-right p-3 font-semibold">יזם</th>
                                         <th className="text-right p-3 font-semibold">עיר</th>
                                         <th className="text-right p-3 font-semibold">תאריך יצירה</th>
@@ -324,6 +337,17 @@ export default function DeveloperCRM() {
                                     {projects.map(project => (
                                         <tr key={project.id} className="border-b hover:bg-slate-50">
                                             <td className="p-3 font-medium">{project.name_he}</td>
+                                            <td className="p-3">
+                                                {project.isDraft ? (
+                                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                                        טיוטה
+                                                    </span>
+                                                ) : (
+                                                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                        ✓ פורסם
+                                                    </span>
+                                                )}
+                                            </td>
                                             <td className="p-3">{getDeveloperName(project.developerId)}</td>
                                             <td className="p-3">{project.city || '-'}</td>
                                             <td className="p-3 text-slate-500 text-sm">
