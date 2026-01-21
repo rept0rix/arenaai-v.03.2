@@ -11,6 +11,7 @@ import { createPageUrl } from '@/utils';
 import PropertyManagement from "../components/admin/PropertyManagement";
 import QuestionManagement from "../components/admin/QuestionManagement";
 import UserManagement from "../components/admin/UserManagement";
+import UserStatisticsDashboard from "../components/admin/UserStatisticsDashboard";
 import { toast } from "sonner";
 
 export default function Admin() {
@@ -189,10 +190,11 @@ export default function Admin() {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3 max-w-lg">
+            <TabsList className="grid w-full grid-cols-4 max-w-3xl">
               <TabsTrigger value="properties">ניהול נכסים</TabsTrigger>
               <TabsTrigger value="questions">ניהול שאלות</TabsTrigger>
               <TabsTrigger value="users">ניהול משתמשים</TabsTrigger>
+              <TabsTrigger value="user-statistics">סטטיסטיקת משתמשים</TabsTrigger>
             </TabsList>
 
             <TabsContent value="properties">
@@ -217,6 +219,10 @@ export default function Admin() {
                 onRefresh={refreshData}
                 isLoading={isLoading}
               />
+            </TabsContent>
+
+            <TabsContent value="user-statistics">
+              <UserStatisticsDashboard />
             </TabsContent>
           </Tabs>
         </div>
