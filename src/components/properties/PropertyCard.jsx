@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { BedDouble, Ruler, Building, MapPin, Eye, ExternalLink, CheckSquare, Sparkles, HelpCircle } from 'lucide-react';
+import { BedDouble, Ruler, Building, MapPin, Eye, ExternalLink, CheckSquare, Sparkles, HelpCircle, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
@@ -98,9 +98,23 @@ export default function PropertyCard({
           </Badge>
         </div>
 
-        {/* Quick view button - only show when not in compare mode */}
+        {/* Quick view and floor plan buttons - only show when not in compare mode */}
         {!isCompareMode && (
-          <div className="absolute bottom-3 right-3">
+          <div className="absolute bottom-3 right-3 flex gap-2">
+            <Button
+              size="sm"
+              variant="secondary"
+              className="bg-white/90 hover:bg-white shadow-md"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (property.apartment_plan_url) {
+                  window.open(property.apartment_plan_url, '_blank');
+                }
+              }}
+              title="תוכנית דירה"
+            >
+              <FileText className="w-4 h-4" />
+            </Button>
             <Button
               size="sm"
               variant="secondary"
