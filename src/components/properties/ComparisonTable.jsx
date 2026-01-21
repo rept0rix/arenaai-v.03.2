@@ -204,11 +204,14 @@ export default function ComparisonTable({ properties, userPreferences, onToggleF
                                         <Button 
                                            size="sm" 
                                            variant="outline"
-                                           className="flex-1 hover:bg-sky-50 hover:border-sky-400"
-                                           onClick={() => handleParameterClick('נכס', property.title, 'חקירה מלאה')}
+                                           className={`flex-1 transition-all duration-300 ${
+                                               isLeading 
+                                                   ? 'bg-purple-50 border-purple-300 hover:bg-purple-100 hover:border-purple-400' 
+                                                   : 'hover:bg-teal-50 hover:border-teal-400'
+                                           }`}
                                         >
-                                           <HelpCircle className="w-3 h-3 ml-1" />
-                                           חקר
+                                           <Phone className="w-3 h-3 ml-1" />
+                                           התקשר
                                         </Button>
                                     </div>
                                 </CardContent>
@@ -253,43 +256,58 @@ export default function ComparisonTable({ properties, userPreferences, onToggleF
                                                     </TooltipContent>
                                                 </Tooltip>
                                                 {properties.map((property) => {
-                                                    const valueData = getValueDisplay(property, param);
-                                                    
-                                                    const getCellBg = (status) => {
-                                                        if (status === 'positive') return '#E8F4F2';
-                                                        if (status === 'negative' || status === 'warning') return '#F6E9EE';
-                                                        return 'transparent';
-                                                    };
-                                                    
-                                                    const getCellTextColor = (status) => {
-                                                        if (status === 'positive') return '#1F6F6A';
-                                                        if (status === 'negative' || status === 'warning') return '#7A2E3A';
-                                                        return '#4A5D73';
-                                                    };
-                                                    
-                                                    return (
-                                                        <td 
-                                                            key={property.id} 
-                                                            className="p-4 min-w-[250px] transition-all cursor-pointer"
-                                                            style={{ 
-                                                                borderLeft: '1px solid #D9E5F2',
-                                                                backgroundColor: getCellBg(valueData.status)
-                                                            }}
-                                                            onClick={() => handleParameterClick(param.label, property.title, valueData.display)}
-                                                        >
-                                                            <motion.div 
-                                                                whileHover={{ scale: 1.02 }}
-                                                                className="p-2 rounded-lg transition-all"
-                                                            >
-                                                                <div 
-                                                                    className="font-medium"
-                                                                    style={{ color: getCellTextColor(valueData.status) }}
-                                                                >
-                                                                    {valueData.display}
-                                                                </div>
-                                                            </motion.div>
-                                                        </td>
-                                                    );
+                                                   const valueData = getValueDisplay(property, param);
+
+                                                   const getCellBg = (status) => {
+                                                       if (status === 'positive') return '#E8F4F2';
+                                                       if (status === 'negative' || status === 'warning') return '#F6E9EE';
+                                                       return 'transparent';
+                                                   };
+
+                                                   const getCellTextColor = (status) => {
+                                                       if (status === 'positive') return '#1F6F6A';
+                                                       if (status === 'negative' || status === 'warning') return '#7A2E3A';
+                                                       return '#4A5D73';
+                                                   };
+
+                                                   return (
+                                                       <td 
+                                                           key={property.id} 
+                                                           className="p-4 min-w-[250px] transition-all cursor-pointer"
+                                                           style={{ 
+                                                               borderLeft: '1px solid #D9E5F2',
+                                                               backgroundColor: getCellBg(valueData.status)
+                                                           }}
+                                                           onClick={() => handleParameterClick(param.label, property.title, valueData.display)}
+                                                       >
+                                                           <motion.div 
+                                                               whileHover={{ scale: 1.02 }}
+                                                               className="flex items-center gap-2 p-2 rounded-lg transition-all"
+                                                           >
+                                                               {valueData.icon && (
+                                                                   <span className="flex-shrink-0" style={{ color: getCellTextColor(valueData.status) }}>
+                                                                       {valueData.icon}
+                                                                   </span>
+                                                               )}
+                                                               <div className="flex-1">
+                                                                   <div 
+                                                                       className="font-medium"
+                                                                       style={{ color: getCellTextColor(valueData.status) }}
+                                                                   >
+                                                                       {valueData.display}
+                                                                   </div>
+                                                                   {valueData.note && (
+                                                                       <div 
+                                                                           className="text-xs mt-0.5 opacity-80"
+                                                                           style={{ color: getCellTextColor(valueData.status) }}
+                                                                       >
+                                                                           {valueData.note}
+                                                                       </div>
+                                                                   )}
+                                                               </div>
+                                                           </motion.div>
+                                                       </td>
+                                                   );
                                                 })}
                                             </motion.tr>
                                         ))}
