@@ -17,14 +17,23 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
   const [show3DModal, setShow3DModal] = useState(false);
   const navigate = useNavigate();
 
+  // DEMO: If no user filters provided, use demo filters
+  const demoFilters = {
+    budget: { filter_field: 'budget', answer: 3500000 },
+    rooms: { filter_field: 'rooms', answer: 4 },
+    location: { filter_field: 'location', answer: 'תל אביב' }
+  };
+  
+  const effectiveFilters = (userFilters && Object.keys(userFilters).length > 0) ? userFilters : demoFilters;
+
   // Calculate match score for each property based on user filters
   const calculateMatchScore = (property) => {
-    if (!userFilters || Object.keys(userFilters).length === 0) return null;
+    if (!effectiveFilters || Object.keys(effectiveFilters).length === 0) return null;
     
     let score = 0;
     let totalCriteria = 0;
 
-    Object.values(userFilters).forEach(filter => {
+    Object.values(effectiveFilters).forEach(filter => {
       if (!filter.filter_field || filter.answer === undefined) return;
       
       totalCriteria++;
@@ -95,6 +104,8 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
       size: 90 + Math.floor(Math.random() * 50),
       facing: ['צפון', 'דרום', 'מזרח', 'מערב'][Math.floor(Math.random() * 4)],
       balcony_size: 10 + Math.floor(Math.random() * 15),
+      location: 'תל אביב',
+      city: 'תל אביב',
       isMock: true
     };
   };
@@ -356,6 +367,12 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
               <p className="text-sm text-slate-600 mt-1">
                 {totalFloors} קומות • 2 דירות בפרויקט {projectId}
               </p>
+              {effectiveFilters === demoFilters && (
+                <div className="mt-2 inline-flex items-center gap-2 bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-medium">
+                  <span>🎯</span>
+                  <span>מצב דמו: ציונים מבוססים על העדפות לדוגמה</span>
+                </div>
+              )}
             </div>
             <Button
               variant="outline"
