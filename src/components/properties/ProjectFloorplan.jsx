@@ -414,7 +414,8 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                       const isFiltered = !statusMatch || !typeMatch;
                       const matchScore = calculateMatchScore(unitToShow);
                       const isAvailable = unitToShow.status === 'available';
-                      const isRecommended = realUnit?.isRecommended;
+                      // Mark floor 3, type A, 5 rooms as recommended
+                      const isRecommended = (floor === 3 && type === 'A' && unitToShow.rooms === 5) || realUnit?.isRecommended;
 
                       return (
                         <td key={`${floor}-${type}`} className="border border-slate-300 p-1.5">
