@@ -463,7 +463,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                                       matchScore >= 40 ? 'bg-orange-100 text-orange-800' :
                                       'bg-slate-200 text-slate-700'
                                   }`}>
-                                    התאמה: {matchScore}%
+                                    אחוזי התאמה: {matchScore}%
                                   </div>
                                 )}
                               </div>
