@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import { Plus, Edit, Trash2, Building } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Plus, Edit, Trash2, Building, Users, FolderKanban, TrendingUp, Eye } from 'lucide-react';
 import { toast } from "sonner";
 import DeveloperForm from '@/components/admin/DeveloperForm';
 import ProjectForm from '@/components/admin/ProjectForm';
 import AssetTypeForm from '@/components/admin/AssetTypeForm';
 import TopNavigation from '@/components/TopNavigation';
-import DeveloperList from '@/components/developer/DeveloperList';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useNavigate } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 
 export default function DeveloperCRM() {
+    const navigate = useNavigate();
     const [developers, setDevelopers] = useState([]);
-    const [selectedDeveloper, setSelectedDeveloper] = useState(null);
     const [projects, setProjects] = useState([]);
     const [assetTypesByProject, setAssetTypesByProject] = useState({});
 
@@ -26,30 +27,22 @@ export default function DeveloperCRM() {
     const [editingAssetTypeData, setEditingAssetTypeData] = useState(null);
     const [currentProjectIdForAssetType, setCurrentProjectIdForAssetType] = useState(null);
 
-    const [activeTab, setActiveTab] = useState('projects');
+    const [activeTab, setActiveTab] = useState('dashboard');
 
     useEffect(() => {
         loadDevelopers();
+        loadAllProjects();
     }, []);
 
     const loadDevelopers = async () => {
         const devs = await base44.entities.Developer.list('-created_date');
         setDevelopers(devs);
-        if (devs.length > 0 && !selectedDeveloper) {
-            setSelectedDeveloper(devs[0]);
-        }
     };
 
-    useEffect(() => {
-        if (selectedDeveloper) {
-            loadProjects(selectedDeveloper.id);
-        }
-    }, [selectedDeveloper]);
-
-    const loadProjects = async (developerId) => {
-        const devProjects = await base44.entities.Project.filter({ developerId });
-        setProjects(devProjects);
-        devProjects.forEach(p => loadAssetTypes(p.id));
+    const loadAllProjects = async () => {
+        const allProjects = await base44.entities.Project.list('-created_date');
+        setProjects(allProjects);
+        allProjects.forEach(p => loadAssetTypes(p.id));
     };
 
     const loadAssetTypes = async (projectId) => {
@@ -60,16 +53,7 @@ export default function DeveloperCRM() {
         }));
     };
 
-    const handleSelectDeveloper = (developer) => {
-        setSelectedDeveloper(developer);
-        setShowDeveloperForm(false);
-        setEditingDeveloperData(null);
-        setShowProjectForm(false);
-        setEditingProjectData(null);
-        setShowAssetTypeForm(false);
-        setEditingAssetTypeData(null);
-        setCurrentProjectIdForAssetType(null);
-    };
+
 
     const handleAddDeveloper = () => {
         setEditingDeveloperData(null);
@@ -81,10 +65,10 @@ export default function DeveloperCRM() {
         setShowDeveloperForm(true);
     };
 
-    const onDeveloperSaved = (savedDeveloper) => {
+    const onDeveloperSaved = () => {
         loadDevelopers();
         setShowDeveloperForm(false);
-        setSelectedDeveloper(savedDeveloper);
+        setEditingDeveloperData(null);
     };
 
     const handleAddProject = () => {
@@ -99,9 +83,8 @@ export default function DeveloperCRM() {
 
     const onProjectSaved = () => {
         setShowProjectForm(false);
-        if (selectedDeveloper) {
-            loadProjects(selectedDeveloper.id);
-        }
+        setEditingProjectData(null);
+        loadAllProjects();
     };
 
     const handleAddAssetType = (projectId) => {
@@ -126,8 +109,8 @@ export default function DeveloperCRM() {
             try {
                 await base44.entities.Developer.delete(dev.id);
                 toast.success("היזם נמחק");
-                setSelectedDeveloper(null);
                 loadDevelopers();
+                loadAllProjects();
             } catch (error) {
                 toast.error("שגיאה במחיקת היזם");
                 console.error(error);
@@ -140,7 +123,7 @@ export default function DeveloperCRM() {
             try {
                 await base44.entities.Project.delete(proj.id);
                 toast.success("הפרויקט נמחק");
-                loadProjects(selectedDeveloper.id);
+                loadAllProjects();
             } catch (error) {
                 toast.error("שגיאה במחיקת הפרויקט");
                 console.error(error);
@@ -161,116 +144,266 @@ export default function DeveloperCRM() {
         }
     };
 
-    const renderMainContent = () => {
-        if (!selectedDeveloper) {
-            return (
-                <div className="flex items-center justify-center h-full bg-white rounded-lg border-2 border-dashed border-slate-300 p-8">
-                    <div className="text-center text-slate-500">
-                        <Building className="mx-auto h-12 w-12 text-slate-400 mb-4" />
-                        <p className="text-lg">בחר יזם מהרשימה בצד ימין או הוסף יזם חדש כדי להתחיל.</p>
-                    </div>
-                </div>
-            );
-        }
+    const getDeveloperName = (developerId) => {
+        const dev = developers.find(d => d.id === developerId);
+        return dev?.name_he || 'לא ידוע';
+    };
+
+    const renderDashboard = () => {
+        const totalDevelopers = developers.length;
+        const totalProjects = projects.length;
+        const recentProjects = projects.slice(0, 5);
 
         return (
-            <Card className="h-full">
+            <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-medium">סה"כ יזמים</CardTitle>
+                            <Users className="w-4 h-4 text-slate-500" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-bold">{totalDevelopers}</div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-medium">סה"כ פרויקטים</CardTitle>
+                            <FolderKanban className="w-4 h-4 text-slate-500" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-bold">{totalProjects}</div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-medium">ממוצע פרויקטים ליזם</CardTitle>
+                            <TrendingUp className="w-4 h-4 text-slate-500" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-bold">
+                                {totalDevelopers > 0 ? (totalProjects / totalDevelopers).toFixed(1) : 0}
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>פרויקטים אחרונים</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        {recentProjects.length === 0 ? (
+                            <p className="text-slate-500 text-sm">אין פרויקטים עדיין</p>
+                        ) : (
+                            <div className="space-y-3">
+                                {recentProjects.map(project => (
+                                    <div key={project.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50">
+                                        <div>
+                                            <div className="font-medium">{project.name_he}</div>
+                                            <div className="text-sm text-slate-500">יזם: {getDeveloperName(project.developerId)}</div>
+                                        </div>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => handleEditProject(project)}
+                                        >
+                                            <Edit className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    };
+
+    const renderDevelopersTable = () => {
+        return (
+            <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="text-2xl">פרויקטים של {selectedDeveloper.name_he}</CardTitle>
-                    <Button onClick={handleAddProject} disabled={!selectedDeveloper}>
+                    <CardTitle>רשימת יזמים</CardTitle>
+                    <Button onClick={handleAddDeveloper}>
+                        <Plus className="w-4 h-4 ml-2" /> הוסף יזם חדש
+                    </Button>
+                </CardHeader>
+                <CardContent>
+                    {developers.length === 0 ? (
+                        <p className="text-slate-500 text-sm text-center py-8">אין יזמים במערכת. התחל בהוספת יזם ראשון!</p>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b">
+                                        <th className="text-right p-3 font-semibold">שם החברה</th>
+                                        <th className="text-right p-3 font-semibold">אתר</th>
+                                        <th className="text-right p-3 font-semibold">מספר פרויקטים</th>
+                                        <th className="text-right p-3 font-semibold">תאריך יצירה</th>
+                                        <th className="text-left p-3 font-semibold">פעולות</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {developers.map(dev => {
+                                        const devProjects = projects.filter(p => p.developerId === dev.id);
+                                        return (
+                                            <tr key={dev.id} className="border-b hover:bg-slate-50">
+                                                <td className="p-3">{dev.name_he}</td>
+                                                <td className="p-3">
+                                                    {dev.website_url ? (
+                                                        <a href={dev.website_url} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">
+                                                            קישור
+                                                        </a>
+                                                    ) : (
+                                                        <span className="text-slate-400">-</span>
+                                                    )}
+                                                </td>
+                                                <td className="p-3">{devProjects.length}</td>
+                                                <td className="p-3 text-slate-500 text-sm">
+                                                    {new Date(dev.created_date).toLocaleDateString('he-IL')}
+                                                </td>
+                                                <td className="p-3">
+                                                    <div className="flex items-center justify-end gap-2">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => handleEditDeveloper(dev)}
+                                                        >
+                                                            <Edit className="w-4 h-4" />
+                                                        </Button>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={() => handleDeleteDeveloper(dev)}
+                                                            className="text-red-500 hover:text-red-700"
+                                                        >
+                                                            <Trash2 className="w-4 h-4" />
+                                                        </Button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+        );
+    };
+
+    const renderProjectsTable = () => {
+        return (
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>רשימת פרויקטים</CardTitle>
+                    <Button onClick={handleAddProject}>
                         <Plus className="w-4 h-4 ml-2" /> הוסף פרויקט חדש
                     </Button>
                 </CardHeader>
                 <CardContent>
-                    {projects.length === 0 && <p className="text-slate-500 text-sm">ליזם זה אין פרויקטים. התחל בהוספת אחד!</p>}
-                    <Accordion type="single" collapsible className="w-full">
-                        {projects.map(project => (
-                            <AccordionItem key={project.id} value={project.id}>
-                                <AccordionTrigger className="font-medium hover:bg-slate-50 p-2 rounded">
-                                    <div className="flex justify-between items-center w-full pr-2">
-                                        <span>{project.name_he}</span>
-                                        <div className="flex items-center gap-1">
-                                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => { e.stopPropagation(); handleEditProject(project); }}>
-                                                <Edit className="w-4 h-4" />
-                                            </Button>
-                                            <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500" onClick={(e) => { e.stopPropagation(); handleDeleteProject(project); }}>
-                                                <Trash2 className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </AccordionTrigger>
-                                <AccordionContent className="p-4 bg-slate-50">
-                                    <h5 className="font-semibold mb-2">סוגי נכסים</h5>
-                                    <Button size="sm" variant="outline" className="w-full mb-2" onClick={() => handleAddAssetType(project.id)}>
-                                        <Plus className="w-4 h-4 ml-2" /> הוסף סוג נכס
-                                    </Button>
-
-                                    {(assetTypesByProject[project.id] || []).map(asset => (
-                                        <div key={asset.id} className="p-2 border rounded-md mb-2 bg-white flex justify-between items-center">
-                                            <p>{asset.type_name} - {asset.room_count} חדרים, {asset.size_sqm} מ"ר</p>
-                                            <div className="flex items-center gap-1">
-                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditAssetType(asset)}>
-                                                    <Edit className="w-4 h-4" />
-                                                </Button>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-red-500" onClick={() => handleDeleteAssetType(asset)}>
-                                                    <Trash2 className="w-4 h-4" />
-                                                </Button>
-                                            </div>
-                                        </div>
+                    {projects.length === 0 ? (
+                        <p className="text-slate-500 text-sm text-center py-8">אין פרויקטים במערכת. התחל בהוספת פרויקט ראשון!</p>
+                    ) : (
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b">
+                                        <th className="text-right p-3 font-semibold">שם הפרויקט</th>
+                                        <th className="text-right p-3 font-semibold">יזם</th>
+                                        <th className="text-right p-3 font-semibold">עיר</th>
+                                        <th className="text-right p-3 font-semibold">תאריך יצירה</th>
+                                        <th className="text-left p-3 font-semibold">פעולות</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {projects.map(project => (
+                                        <tr key={project.id} className="border-b hover:bg-slate-50">
+                                            <td className="p-3 font-medium">{project.name_he}</td>
+                                            <td className="p-3">{getDeveloperName(project.developerId)}</td>
+                                            <td className="p-3">{project.city || '-'}</td>
+                                            <td className="p-3 text-slate-500 text-sm">
+                                                {new Date(project.created_date).toLocaleDateString('he-IL')}
+                                            </td>
+                                            <td className="p-3">
+                                                <div className="flex items-center justify-end gap-2">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => navigate(createPageUrl(`ProjectDetails?id=${project.id}`))}
+                                                        title="כניסה לפרויקט"
+                                                    >
+                                                        <Eye className="w-4 h-4" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleEditProject(project)}
+                                                    >
+                                                        <Edit className="w-4 h-4" />
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() => handleDeleteProject(project)}
+                                                        className="text-red-500 hover:text-red-700"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </Button>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     ))}
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
                 </CardContent>
             </Card>
         );
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex" dir="rtl">
-            <div className="w-64 bg-white border-l border-slate-200 flex-shrink-0">
-              <div className="p-6">
-                <h2 className="text-xl font-bold text-slate-900 mb-6">מערכת ניהול יזם</h2>
-                <nav className="space-y-2">
-                  <button
-                    onClick={() => setActiveTab('projects')}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                      activeTab === 'projects'
-                        ? 'bg-sky-50 text-sky-600 font-medium'
-                        : 'text-slate-600 hover:bg-slate-50'
-                    }`}
-                  >
-                    <Building className={`w-5 h-5 ${activeTab === 'projects' ? 'text-sky-600' : 'text-slate-400'}`} />
-                    <span>פרויקטים</span>
-                  </button>
-                </nav>
-              </div>
-            </div>
-
-            <div className="flex-1 p-8">
+        <div className="min-h-screen bg-slate-50" dir="rtl">
+            <div className="p-8">
                 <TopNavigation currentPage="DeveloperCRM" />
                 <header className="mb-8">
-                    <h1 className="text-4xl font-bold text-slate-900">ניהול יזמים ופרויקטים</h1>
-                    <p className="text-slate-600 mt-2">ניהול יזמים, הפרויקטים שלהם וסוגי הנכסים.</p>
+                    <h1 className="text-4xl font-bold text-slate-900">מערכת ניהול יזמים ופרויקטים</h1>
+                    <p className="text-slate-600 mt-2">דשבורד ניהול מרכזי ליזמים ופרויקטים</p>
                 </header>
 
-                <div className="grid grid-cols-4 gap-8 h-[calc(100vh-200px)]">
-                    <div className="col-span-1">
-                        <DeveloperList
-                            developers={developers}
-                            selectedDeveloper={selectedDeveloper}
-                            onSelectDeveloper={handleSelectDeveloper}
-                            onAddDeveloper={handleAddDeveloper}
-                            onDeleteDeveloper={handleDeleteDeveloper}
-                            onEditDeveloper={handleEditDeveloper}
-                        />
-                    </div>
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+                    <TabsList className="mb-6">
+                        <TabsTrigger value="dashboard" className="gap-2">
+                            <TrendingUp className="w-4 h-4" />
+                            דשבורד
+                        </TabsTrigger>
+                        <TabsTrigger value="developers" className="gap-2">
+                            <Users className="w-4 h-4" />
+                            יזמים
+                        </TabsTrigger>
+                        <TabsTrigger value="projects" className="gap-2">
+                            <FolderKanban className="w-4 h-4" />
+                            פרויקטים
+                        </TabsTrigger>
+                    </TabsList>
 
-                    <div className="col-span-3">
-                        {renderMainContent()}
-                    </div>
-                </div>
+                    <TabsContent value="dashboard">
+                        {renderDashboard()}
+                    </TabsContent>
+
+                    <TabsContent value="developers">
+                        {renderDevelopersTable()}
+                    </TabsContent>
+
+                    <TabsContent value="projects">
+                        {renderProjectsTable()}
+                    </TabsContent>
+                </Tabs>
             </div>
 
             <Dialog open={showDeveloperForm} onOpenChange={setShowDeveloperForm}>
@@ -291,14 +424,12 @@ export default function DeveloperCRM() {
                     <DialogHeader>
                         <DialogTitle>{editingProjectData ? 'עריכת פרויקט' : 'הוספת פרויקט חדש'}</DialogTitle>
                     </DialogHeader>
-                    {selectedDeveloper && (
-                        <ProjectForm
-                            project={editingProjectData}
-                            developerId={selectedDeveloper?.id}
-                            onSave={onProjectSaved}
-                            onCancel={() => setShowProjectForm(false)}
-                        />
-                    )}
+                    <ProjectForm
+                        project={editingProjectData}
+                        developerId={editingProjectData?.developerId}
+                        onSave={onProjectSaved}
+                        onCancel={() => setShowProjectForm(false)}
+                    />
                 </DialogContent>
             </Dialog>
 
