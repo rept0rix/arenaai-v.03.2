@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Plus, Edit, Trash2, Building, Users, FolderKanban, TrendingUp, Eye } from 'lucide-react';
+import { Plus, Edit, Trash2, Building, Users, FolderKanban, TrendingUp, Eye, Target, MousePointerClick, Award, BarChart3, Zap, Star } from 'lucide-react';
 import { toast } from "sonner";
 import DeveloperForm from '@/components/admin/DeveloperForm';
 import ProjectForm from '@/components/admin/ProjectForm';
@@ -18,6 +18,9 @@ export default function DeveloperCRM() {
     const [developers, setDevelopers] = useState([]);
     const [projects, setProjects] = useState([]);
     const [assetTypesByProject, setAssetTypesByProject] = useState({});
+    const [interactions, setInteractions] = useState([]);
+    const [leads, setLeads] = useState([]);
+    const [meetings, setMeetings] = useState([]);
 
     const [showDeveloperForm, setShowDeveloperForm] = useState(false);
     const [editingDeveloperData, setEditingDeveloperData] = useState(null);
@@ -32,6 +35,9 @@ export default function DeveloperCRM() {
     useEffect(() => {
         loadDevelopers();
         loadAllProjects();
+        loadInteractions();
+        loadLeads();
+        loadMeetings();
     }, []);
 
     const loadDevelopers = async () => {
@@ -51,6 +57,33 @@ export default function DeveloperCRM() {
             ...prev,
             [projectId]: types
         }));
+    };
+
+    const loadInteractions = async () => {
+        try {
+            const data = await base44.entities.ProjectInteraction.list('-created_date');
+            setInteractions(data);
+        } catch (error) {
+            console.error('Error loading interactions:', error);
+        }
+    };
+
+    const loadLeads = async () => {
+        try {
+            const data = await base44.entities.Lead.list('-created_date');
+            setLeads(data);
+        } catch (error) {
+            console.error('Error loading leads:', error);
+        }
+    };
+
+    const loadMeetings = async () => {
+        try {
+            const data = await base44.entities.Meeting.list('-created_date');
+            setMeetings(data);
+        } catch (error) {
+            console.error('Error loading meetings:', error);
+        }
     };
 
 
@@ -153,10 +186,69 @@ export default function DeveloperCRM() {
         const totalDevelopers = developers.length;
         const totalProjects = projects.length;
         const recentProjects = projects.slice(0, 5);
+        
+        // חישוב פרויקטים מובילים לפי צפיות
+        const projectViews = {};
+        interactions.forEach(int => {
+            if (int.interactionType === 'view') {
+                projectViews[int.projectId] = (projectViews[int.projectId] || 0) + 1;
+            }
+        });
+        const topProjects = Object.entries(projectViews)
+            .map(([projectId, views]) => ({
+                project: projects.find(p => p.id === projectId),
+                views
+            }))
+            .filter(item => item.project)
+            .sort((a, b) => b.views - a.views)
+            .slice(0, 5);
+
+        // חישוב סה"כ חשיפות
+        const totalViews = interactions.filter(i => i.interactionType === 'view').length;
+        const totalInquiries = interactions.filter(i => i.interactionType === 'inquiry').length;
+
+        // דירות/נכסים מומלצים ביותר (לפי פניות)
+        const assetPopularity = {};
+        leads.forEach(lead => {
+            if (lead.property_id) {
+                assetPopularity[lead.property_id] = (assetPopularity[lead.property_id] || 0) + 1;
+            }
+        });
+        const topAssets = Object.entries(assetPopularity)
+            .map(([propertyId, inquiries]) => ({ propertyId, inquiries }))
+            .sort((a, b) => b.inquiries - a.inquiries)
+            .slice(0, 5);
+
+        // שיעור המרה ליד לפגישה
+        const conversionRate = leads.length > 0 ? ((meetings.length / leads.length) * 100).toFixed(1) : 0;
+
+        // יזמים מובילים
+        const developerStats = {};
+        projects.forEach(project => {
+            if (!developerStats[project.developerId]) {
+                developerStats[project.developerId] = {
+                    projects: 0,
+                    views: 0,
+                    leads: 0
+                };
+            }
+            developerStats[project.developerId].projects += 1;
+            developerStats[project.developerId].views += projectViews[project.id] || 0;
+            developerStats[project.developerId].leads += leads.filter(l => l.developer_id === project.developerId).length;
+        });
+        const topDevelopers = Object.entries(developerStats)
+            .map(([devId, stats]) => ({
+                developer: developers.find(d => d.id === devId),
+                ...stats
+            }))
+            .filter(item => item.developer)
+            .sort((a, b) => b.views - a.views)
+            .slice(0, 3);
 
         return (
             <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* סטטיסטיקות ראשיות */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
                             <CardTitle className="text-sm font-medium">סה"כ יזמים</CardTitle>
@@ -179,17 +271,178 @@ export default function DeveloperCRM() {
 
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">ממוצע פרויקטים ליזם</CardTitle>
+                            <CardTitle className="text-sm font-medium">סה"כ חשיפות</CardTitle>
+                            <Eye className="w-4 h-4 text-slate-500" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-3xl font-bold">{totalViews}</div>
+                            <p className="text-xs text-slate-500 mt-1">+ {totalInquiries} פניות</p>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="flex flex-row items-center justify-between pb-2">
+                            <CardTitle className="text-sm font-medium">המרה ליד→פגישה</CardTitle>
                             <TrendingUp className="w-4 h-4 text-slate-500" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-bold">
-                                {totalDevelopers > 0 ? (totalProjects / totalDevelopers).toFixed(1) : 0}
-                            </div>
+                            <div className="text-3xl font-bold">{conversionRate}%</div>
+                            <p className="text-xs text-slate-500 mt-1">{meetings.length} מתוך {leads.length} לידים</p>
                         </CardContent>
                     </Card>
                 </div>
 
+                {/* פרויקטים מובילים */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Target className="w-5 h-5 text-sky-600" />
+                            פרויקטים מובילים (לפי צפיות)
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        {topProjects.length === 0 ? (
+                            <p className="text-slate-500 text-sm">אין נתוני צפיות עדיין</p>
+                        ) : (
+                            <div className="space-y-3">
+                                {topProjects.map(({ project, views }, index) => (
+                                    <div key={project.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center text-white font-bold">
+                                                {index + 1}
+                                            </div>
+                                            <div>
+                                                <div className="font-medium">{project.name_he}</div>
+                                                <div className="text-sm text-slate-500">{getDeveloperName(project.developerId)} • {project.city}</div>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <div className="text-left">
+                                                <div className="text-2xl font-bold text-sky-600">{views}</div>
+                                                <div className="text-xs text-slate-500">צפיות</div>
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() => navigate(createPageUrl(`ProjectDetails?id=${project.id}`))}
+                                            >
+                                                <Eye className="w-4 h-4" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </CardContent>
+                </Card>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* יזמים מובילים */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Award className="w-5 h-5 text-amber-600" />
+                                יזמים מובילים
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            {topDevelopers.length === 0 ? (
+                                <p className="text-slate-500 text-sm">אין נתונים</p>
+                            ) : (
+                                <div className="space-y-3">
+                                    {topDevelopers.map(({ developer, projects, views, leads }, index) => (
+                                        <div key={developer.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50">
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
+                                                    index === 0 ? 'bg-gradient-to-br from-amber-400 to-amber-600' :
+                                                    index === 1 ? 'bg-gradient-to-br from-slate-300 to-slate-500' :
+                                                    'bg-gradient-to-br from-orange-400 to-orange-600'
+                                                }`}>
+                                                    {index + 1}
+                                                </div>
+                                                <div>
+                                                    <div className="font-medium">{developer.name_he}</div>
+                                                    <div className="text-xs text-slate-500">{projects} פרויקטים</div>
+                                                </div>
+                                            </div>
+                                            <div className="text-left">
+                                                <div className="text-lg font-bold text-amber-600">{views}</div>
+                                                <div className="text-xs text-slate-500">{leads} לידים</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+
+                    {/* דירות מומלצות */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <Star className="w-5 h-5 text-purple-600" />
+                                דירות/נכסים מומלצים ביותר
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            {topAssets.length === 0 ? (
+                                <p className="text-slate-500 text-sm">אין נתוני פניות עדיין</p>
+                            ) : (
+                                <div className="space-y-3">
+                                    {topAssets.map(({ propertyId, inquiries }, index) => (
+                                        <div key={propertyId} className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold">
+                                                    {index + 1}
+                                                </div>
+                                                <div>
+                                                    <div className="font-medium">נכס #{propertyId.substring(0, 8)}</div>
+                                                    <div className="text-xs text-slate-500">מזהה נכס</div>
+                                                </div>
+                                            </div>
+                                            <div className="text-left">
+                                                <div className="text-2xl font-bold text-purple-600">{inquiries}</div>
+                                                <div className="text-xs text-slate-500">פניות</div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </CardContent>
+                    </Card>
+                </div>
+
+                {/* משפך לידים */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Zap className="w-5 h-5 text-green-600" />
+                            משפך לידים
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div className="text-center p-4 bg-blue-50 rounded-lg">
+                                <div className="text-3xl font-bold text-blue-600">{leads.filter(l => l.status === 'new').length}</div>
+                                <div className="text-sm text-slate-600 mt-1">לידים חדשים</div>
+                            </div>
+                            <div className="text-center p-4 bg-sky-50 rounded-lg">
+                                <div className="text-3xl font-bold text-sky-600">{leads.filter(l => l.status === 'interested').length}</div>
+                                <div className="text-sm text-slate-600 mt-1">מתעניינים</div>
+                            </div>
+                            <div className="text-center p-4 bg-amber-50 rounded-lg">
+                                <div className="text-3xl font-bold text-amber-600">{meetings.filter(m => m.status === 'scheduled').length}</div>
+                                <div className="text-sm text-slate-600 mt-1">פגישות מתוזמנות</div>
+                            </div>
+                            <div className="text-center p-4 bg-green-50 rounded-lg">
+                                <div className="text-3xl font-bold text-green-600">{leads.filter(l => l.status === 'closed_won').length}</div>
+                                <div className="text-sm text-slate-600 mt-1">נסגרו בהצלחה</div>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* פרויקטים אחרונים */}
                 <Card>
                     <CardHeader>
                         <CardTitle>פרויקטים אחרונים</CardTitle>
