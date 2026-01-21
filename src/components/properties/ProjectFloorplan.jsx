@@ -420,9 +420,6 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                                   <div className="flex-1 text-center">
                                     <div className="text-[11px] font-semibold">{unitToShow.rooms}ח׳</div>
                                     <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
-                                    <div className="text-[9px] font-bold text-slate-700 mt-0.5">
-                                      אחוז התאמה: {matchScore || 0}%
-                                    </div>
                                   </div>
                                   {isRecommended && isAvailable && (
                                     <div className="text-yellow-300 text-sm leading-none ml-1">
@@ -433,11 +430,8 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                                 {matchScore !== null && (
                                   <div className={`w-full text-center py-0.5 rounded text-[9px] font-bold ${
                                     isRecommended && isAvailable
-                                      ? 'bg-white/40 text-white'
-                                      : matchScore >= 80 ? 'bg-green-100 text-green-800' :
-                                      matchScore >= 60 ? 'bg-purple-100 text-purple-800' :
-                                      matchScore >= 40 ? 'bg-orange-100 text-orange-800' :
-                                      'bg-slate-200 text-slate-700'
+                                      ? 'bg-sky-100 text-sky-800'
+                                      : 'bg-slate-100 text-slate-700'
                                   }`}>
                                     אחוזי התאמה: {matchScore}%
                                   </div>
