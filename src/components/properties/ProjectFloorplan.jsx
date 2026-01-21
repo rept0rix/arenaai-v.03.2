@@ -15,8 +15,93 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
   const [isCompareMode, setIsCompareMode] = useState(false);
   const [selectedForCompare, setSelectedForCompare] = useState([]);
   const [show3DModal, setShow3DModal] = useState(false);
+  const [selectedType, setSelectedType] = useState(null);
   const navigate = useNavigate();
   const tableRef = React.useRef(null);
+
+  // Asset type information (static)
+  const assetTypeInfo = {
+    'A': {
+      name: 'טיפוס A',
+      description: 'דירת 4 חדרים מרווחת עם נוף פנורמי מדהים לים, מרפסת שמש גדולה ועיצוב מודרני.',
+      specs: {
+        rooms: '4 חדרים',
+        size: '110 מ״ר',
+        balcony: '15 מ״ר מרפסת שמש',
+        facing: 'מערב - נוף לים',
+        storage: 'מחסן 6 מ״ר',
+        parking: 'חניה אחת'
+      },
+      images: [
+        'https://images.unsplash.com/photo-1502672260066-6bc4598a1a21?w=800',
+        'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800'
+      ]
+    },
+    'B': {
+      name: 'טיפוס B',
+      description: 'דירת 5 חדרים יוקרתית עם חדר שירות, מרפסת עורפית ומטבח איטלקי מעוצב.',
+      specs: {
+        rooms: '5 חדרים + חדר שירות',
+        size: '135 מ״ר',
+        balcony: '12 מ״ר מרפסת + 8 מ״ר עורפית',
+        facing: 'צפון-מזרח',
+        storage: 'מחסן 8 מ״ר',
+        parking: 'חניה כפולה'
+      },
+      images: [
+        'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800',
+        'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800'
+      ]
+    },
+    'C': {
+      name: 'טיפוס C',
+      description: 'דירת 3 חדרים אידיאלית לזוגות צעירים, מרפסת סוכה וחדר עבודה נפרד.',
+      specs: {
+        rooms: '3 חדרים + חדר עבודה',
+        size: '95 מ״ר',
+        balcony: '10 מ״ר מרפסת סוכה',
+        facing: 'דרום',
+        storage: 'מחסן 5 מ״ר',
+        parking: 'חניה אחת'
+      },
+      images: [
+        'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800',
+        'https://images.unsplash.com/photo-1556912173-46c336c7fd55?w=800'
+      ]
+    },
+    'D': {
+      name: 'טיפוס D',
+      description: 'דירת 5 חדרים פינתית עם חלונות מקיר לקיר, נוף אורבני ומרפסת שירות.',
+      specs: {
+        rooms: '5 חדרים',
+        size: '140 מ״ר',
+        balcony: '14 מ״ר + מרפסת שירות',
+        facing: 'מערב-דרום פינתית',
+        storage: 'מחסן 7 מ״ר',
+        parking: 'חניה כפולה'
+      },
+      images: [
+        'https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=800',
+        'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800'
+      ]
+    },
+    'P': {
+      name: 'פנטהאוז',
+      description: 'פנטהאוז יוקרתי על הגג עם גג פרטי ענק, בריכת שחייה פרטית ונוף 360 מעלות.',
+      specs: {
+        rooms: '6 חדרים + יחידת הורים',
+        size: '180 מ״ר + 120 מ״ר גג',
+        balcony: 'גג פרטי 120 מ״ר',
+        facing: 'נוף 360 מעלות',
+        storage: 'מחסן 10 מ״ר',
+        parking: 'שתי חניות + מחסן'
+      },
+      images: [
+        'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800',
+        'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800'
+      ]
+    }
+  };
 
   // DEMO: If no user filters provided, use demo filters
   const demoFilters = {
@@ -227,12 +312,18 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </CardHeader>
       </Card>
       
-      {/* Building Specs */}
+      {/* Building Specs with Type Legend */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">מפרט הבניין</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-sm">מפרט הבניין</CardTitle>
+            <div className="text-xs text-slate-600 flex items-center gap-1">
+              <Eye className="w-3 h-3" />
+              <span>לחץ על טיפוס לפרטים</span>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent className="pt-2">
+        <CardContent className="pt-2 space-y-3">
           <div className="grid grid-cols-3 gap-2">
             <div className="p-2 bg-slate-50 rounded">
               <div className="text-[10px] text-slate-600">גובה הבניין</div>
@@ -257,6 +348,25 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
             <div className="p-2 bg-slate-50 rounded">
               <div className="text-[10px] text-slate-600">מעליות</div>
               <div className="text-xs font-bold text-slate-900">4 מהירות</div>
+            </div>
+          </div>
+
+          {/* Type Legend */}
+          <div className="border-t pt-3">
+            <div className="text-[11px] font-semibold text-slate-700 mb-2">טיפוסי דירות בפרויקט</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+              {types.map(type => (
+                <button
+                  key={type}
+                  onClick={() => setSelectedType(type)}
+                  className="p-2 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors group"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-sky-700">טיפוס {type}</span>
+                    <Eye className="w-3 h-3 text-sky-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
         </CardContent>
@@ -438,8 +548,15 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                 <tr className="bg-slate-100">
                   <th className="border border-slate-300 p-3 text-center font-bold">קומה</th>
                   {types.map(type => (
-                    <th key={type} className="border border-slate-300 p-3 text-center font-bold">
-                      טיפוס {type}
+                    <th 
+                      key={type} 
+                      className="border border-slate-300 p-3 text-center font-bold cursor-pointer hover:bg-sky-50 transition-colors group"
+                      onClick={() => setSelectedType(type)}
+                    >
+                      <div className="flex items-center justify-center gap-2">
+                        <span>טיפוס {type}</span>
+                        <Eye className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
                     </th>
                   ))}
                 </tr>
@@ -552,6 +669,77 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
           </div>
         </CardContent>
       </Card>
+
+      {/* Asset Type Info Modal */}
+      <Dialog open={!!selectedType} onOpenChange={(open) => !open && setSelectedType(null)}>
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+          {selectedType && assetTypeInfo[selectedType] && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl flex items-center gap-3">
+                  <Building2 className="w-7 h-7 text-sky-600" />
+                  {assetTypeInfo[selectedType].name}
+                </DialogTitle>
+              </DialogHeader>
+
+              <div className="space-y-6 pt-4">
+                {/* Description */}
+                <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
+                  <p className="text-slate-700 text-lg leading-relaxed">
+                    {assetTypeInfo[selectedType].description}
+                  </p>
+                </div>
+
+                {/* Specs Table */}
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">מפרט טכני</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    {Object.entries(assetTypeInfo[selectedType].specs).map(([key, value]) => (
+                      <div key={key} className="bg-slate-50 border border-slate-200 rounded-lg p-3">
+                        <div className="text-xs text-slate-600 mb-1">
+                          {key === 'rooms' ? 'חדרים' :
+                           key === 'size' ? 'שטח' :
+                           key === 'balcony' ? 'מרפסת' :
+                           key === 'facing' ? 'כיוון' :
+                           key === 'storage' ? 'מחסן' :
+                           key === 'parking' ? 'חניה' : key}
+                        </div>
+                        <div className="font-semibold text-slate-900">{value}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Images */}
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">תמונות והדמיות</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    {assetTypeInfo[selectedType].images.map((img, idx) => (
+                      <div key={idx} className="aspect-video rounded-lg overflow-hidden border-2 border-slate-200 shadow-md">
+                        <img 
+                          src={img} 
+                          alt={`${assetTypeInfo[selectedType].name} - תמונה ${idx + 1}`}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action Button */}
+                <div className="pt-2">
+                  <Button 
+                    onClick={() => setSelectedType(null)}
+                    className="w-full bg-sky-500 hover:bg-sky-600"
+                  >
+                    סגור
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* 3D Visualization Modal */}
       <Dialog open={show3DModal} onOpenChange={setShow3DModal}>
