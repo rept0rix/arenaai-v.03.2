@@ -88,24 +88,29 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
     }
   });
 
-  // Generate visual data for 60 floors
+  // Generate visual data for 60 floors with varying match scores
   const generateMockUnit = (floor, type) => {
-    const basePrice = 2500000 + (floor * 50000); // Price increases with floor
-    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-    const rooms = [3, 4, 5][Math.floor(Math.random() * 3)];
+    const basePrice = 2200000 + (floor * 45000); // Price increases with floor
+    // More variety in room numbers for better matching
+    const roomOptions = [3, 3, 4, 4, 4, 5, 5];
+    const rooms = roomOptions[Math.floor(Math.random() * roomOptions.length)];
+    // More available units for demo
+    const statusWeights = ['available', 'available', 'available', 'reserved', 'sold'];
+    const randomStatus = statusWeights[Math.floor(Math.random() * statusWeights.length)];
     
     return {
       id: `mock_${floor}_${type}`,
       floor,
       unit_type: type,
       rooms,
-      price: basePrice + (Math.random() * 500000),
+      price: basePrice + (Math.random() * 600000),
       status: randomStatus,
       size: 90 + Math.floor(Math.random() * 50),
       facing: ['צפון', 'דרום', 'מזרח', 'מערב'][Math.floor(Math.random() * 4)],
       balcony_size: 10 + Math.floor(Math.random() * 15),
       location: 'תל אביב',
       city: 'תל אביב',
+      property_type: 'apartment',
       isMock: true
     };
   };
@@ -445,8 +450,13 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                               )}
                               <div className="text-[11px]">{unitToShow.rooms}ח׳</div>
                               <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
-                              {matchScore && isAvailable && (
-                                <div className="text-[9px] font-bold text-purple-600 mt-0.5">
+                              {matchScore !== null && (
+                                <div className={`text-[10px] font-bold mt-0.5 ${
+                                  matchScore >= 80 ? 'text-green-600' :
+                                  matchScore >= 60 ? 'text-purple-600' :
+                                  matchScore >= 40 ? 'text-orange-600' :
+                                  'text-slate-500'
+                                }`}>
                                   {matchScore}%
                                 </div>
                               )}
