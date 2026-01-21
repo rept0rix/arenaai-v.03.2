@@ -88,6 +88,45 @@ const CheckboxField = ({ label, id, checked, onCheckedChange }) => (
 
 export default function ProjectForm({ project, developerId, onSave, onCancel }) {
     const [formData, setFormData] = useState(project ? { ...project, developerId } : { developerId, project_type: 'regular' });
+    const [openSections, setOpenSections] = useState(['item-1', 'item-2']);
+    
+    // Required fields by section
+    const requiredFields = {
+        'item-1': ['name_he'],
+        'item-2': [],
+        'item-3': [],
+        'item-4': [],
+        'item-5': []
+    };
+
+    // Check if section has missing required fields
+    const getSectionStatus = (sectionId) => {
+        const fields = requiredFields[sectionId] || [];
+        const missingFields = fields.filter(field => !formData[field]);
+        return {
+            hasErrors: missingFields.length > 0,
+            missingCount: missingFields.length,
+            missingFields
+        };
+    };
+
+    // Check if any field in formData has value
+    const sectionHasData = (sectionId) => {
+        const sectionFields = {
+            'item-1': ['name_he', 'name_en', 'slogan_he', 'slogan_en', 'about', 'city', 'street', 'street_number', 'neighborhood', 'environment_description', 'view_description', 'occupancy_date'],
+            'item-2': ['accompanying_bank', 'law_firm', 'contractor', 'starting_price_per_meter', 'payment_terms', 'starting_price_by_type', 'min_down_payment', 'reservation_fee_ils', 'reservation_fee_usd'],
+            'item-3': ['amenities'],
+            'item-4': ['website_url', 'simulation_video_url', 'testimonials_video_url', 'story_video_url', 'architectural_plan_url', 'bim_model_url', 'cad_plan_url', 'inventory_list_url', 'apartment_plans_url', 'interior_renders_url', 'exterior_renders_url', 'brochure_he_url', 'brochure_en_url'],
+            'item-5': ['sales_person_name', 'sales_phone', 'sales_sms', 'sales_whatsapp', 'sales_email', 'sales_office_address', 'sales_office_hours', 'calendly_url', 'crm_integration_url']
+        };
+        
+        const fields = sectionFields[sectionId] || [];
+        return fields.some(field => {
+            const value = formData[field];
+            if (Array.isArray(value)) return value.length > 0;
+            return value && value !== '';
+        });
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -122,12 +161,40 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
         setFormData(prev => ({ ...prev, amenities: newAmenities }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSaveDraft = async () => {
         try {
             const savedProject = formData.id
-                ? await Project.update(formData.id, formData)
-                : await Project.create(formData);
+                ? await Project.update(formData.id, { ...formData, isDraft: true })
+                : await Project.create({ ...formData, isDraft: true });
+            toast.success("הטיוטה נשמרה בהצלחה!");
+            onSave(savedProject);
+        } catch (error) {
+            toast.error("שגיאה בשמירת הטיוטה");
+            console.error(error);
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        // Check for missing required fields
+        const allMissingFields = [];
+        Object.keys(requiredFields).forEach(sectionId => {
+            const status = getSectionStatus(sectionId);
+            if (status.hasErrors) {
+                allMissingFields.push(...status.missingFields);
+            }
+        });
+
+        if (allMissingFields.length > 0) {
+            toast.error(`יש למלא את השדות הבאים: ${allMissingFields.join(', ')}`);
+            return;
+        }
+
+        try {
+            const savedProject = formData.id
+                ? await Project.update(formData.id, { ...formData, isDraft: false })
+                : await Project.create({ ...formData, isDraft: false });
             toast.success("הפרויקט נשמר בהצלחה!");
             onSave(savedProject);
         } catch (error) {
@@ -142,10 +209,31 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
         <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md border mt-4">
             <h3 className="text-2xl font-semibold">{formData.id ? 'עריכת פרויקט' : 'הוספת פרויקט חדש'}</h3>
 
-            <Accordion type="multiple" defaultValue={['item-1', 'item-2']} className="w-full">
+            <Accordion type="multiple" value={openSections} onValueChange={setOpenSections} className="w-full">
                 {/* Accordion Item 1: General Info */}
                 <AccordionItem value="item-1">
-                    <AccordionTrigger>מידע כללי</AccordionTrigger>
+                    <AccordionTrigger className="hover:no-underline">
+                        <div className="flex items-center justify-between w-full pr-4">
+                            <span className="font-semibold text-lg">מידע כללי</span>
+                            <div className="flex items-center gap-2">
+                                {getSectionStatus('item-1').hasErrors && (
+                                    <span className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded-full font-medium">
+                                        חסרים {getSectionStatus('item-1').missingCount} שדות חובה
+                                    </span>
+                                )}
+                                {sectionHasData('item-1') && !getSectionStatus('item-1').hasErrors && (
+                                    <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">
+                                        ✓ הושלם
+                                    </span>
+                                )}
+                                {!sectionHasData('item-1') && !getSectionStatus('item-1').hasErrors && (
+                                    <span className="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded-full">
+                                        ריק
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </AccordionTrigger>
                     <AccordionContent className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField label="שם הפרויקט (עברית)" id="name_he" value={formData.name_he} onChange={handleChange} required />
@@ -179,7 +267,22 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
 
                 {/* Accordion Item 2: Legal & Financial */}
                 <AccordionItem value="item-2">
-                    <AccordionTrigger>מידע משפטי ופיננסי</AccordionTrigger>
+                    <AccordionTrigger className="hover:no-underline">
+                        <div className="flex items-center justify-between w-full pr-4">
+                            <span className="font-semibold text-lg">מידע משפטי ופיננסי</span>
+                            <div className="flex items-center gap-2">
+                                {sectionHasData('item-2') ? (
+                                    <span className="text-xs bg-sky-100 text-sky-700 px-2 py-1 rounded-full font-medium">
+                                        ✓ יש מידע
+                                    </span>
+                                ) : (
+                                    <span className="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded-full">
+                                        ריק
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </AccordionTrigger>
                     <AccordionContent className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField label="בנק מלווה" id="accompanying_bank" value={formData.accompanying_bank} onChange={handleChange} />
@@ -222,7 +325,22 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
 
                 {/* Accordion Item 3: Amenities */}
                 <AccordionItem value="item-3">
-                    <AccordionTrigger>שירותים ומתקנים</AccordionTrigger>
+                    <AccordionTrigger className="hover:no-underline">
+                        <div className="flex items-center justify-between w-full pr-4">
+                            <span className="font-semibold text-lg">שירותים ומתקנים</span>
+                            <div className="flex items-center gap-2">
+                                {sectionHasData('item-3') ? (
+                                    <span className="text-xs bg-sky-100 text-sky-700 px-2 py-1 rounded-full font-medium">
+                                        ✓ יש מידע
+                                    </span>
+                                ) : (
+                                    <span className="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded-full">
+                                        ריק
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </AccordionTrigger>
                     <AccordionContent>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {amenitiesList.map(amenity => (
@@ -240,7 +358,22 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
 
                 {/* Accordion Item 4: Media & Links */}
                 <AccordionItem value="item-4">
-                    <AccordionTrigger>מדיה וקישורים</AccordionTrigger>
+                    <AccordionTrigger className="hover:no-underline">
+                        <div className="flex items-center justify-between w-full pr-4">
+                            <span className="font-semibold text-lg">מדיה וקישורים</span>
+                            <div className="flex items-center gap-2">
+                                {sectionHasData('item-4') ? (
+                                    <span className="text-xs bg-sky-100 text-sky-700 px-2 py-1 rounded-full font-medium">
+                                        ✓ יש מידע
+                                    </span>
+                                ) : (
+                                    <span className="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded-full">
+                                        ריק
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </AccordionTrigger>
                     <AccordionContent className="space-y-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FileUploadField label="אתר הפרויקט" id="website_url" value={formData.website_url} onChange={handleChange} />
@@ -262,7 +395,22 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
 
                  {/* Accordion Item 5: Sales & Marketing */}
                 <AccordionItem value="item-5">
-                    <AccordionTrigger>מכירות ושיווק</AccordionTrigger>
+                    <AccordionTrigger className="hover:no-underline">
+                        <div className="flex items-center justify-between w-full pr-4">
+                            <span className="font-semibold text-lg">מכירות ושיווק</span>
+                            <div className="flex items-center gap-2">
+                                {sectionHasData('item-5') ? (
+                                    <span className="text-xs bg-sky-100 text-sky-700 px-2 py-1 rounded-full font-medium">
+                                        ✓ יש מידע
+                                    </span>
+                                ) : (
+                                    <span className="text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded-full">
+                                        ריק
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+                    </AccordionTrigger>
                     <AccordionContent className="space-y-4">
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField label="שם איש המכירות" id="sales_person_name" value={formData.sales_person_name} onChange={handleChange} />
@@ -283,9 +431,16 @@ export default function ProjectForm({ project, developerId, onSave, onCancel }) 
                 </AccordionItem>
             </Accordion>
             
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-between items-center pt-4 border-t">
                 <Button type="button" variant="outline" onClick={onCancel}>ביטול</Button>
-                <Button type="submit">שמור פרויקט</Button>
+                <div className="flex gap-3">
+                    <Button type="button" variant="outline" onClick={handleSaveDraft} className="border-sky-300 text-sky-700 hover:bg-sky-50">
+                        שמור כטיוטה
+                    </Button>
+                    <Button type="submit" className="bg-green-600 hover:bg-green-700">
+                        שמור ופרסם
+                    </Button>
+                </div>
             </div>
         </form>
     );

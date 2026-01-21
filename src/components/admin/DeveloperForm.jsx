@@ -88,6 +88,9 @@ const FileUploadField = ({ label, id, value, onChange, required = false }) => {
 
 export default function DeveloperForm({ developer, onSave, onCancel }) {
     const [formData, setFormData] = useState(developer || {});
+    
+    const requiredFields = ['name_he'];
+    const missingFields = requiredFields.filter(field => !formData[field]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -98,12 +101,31 @@ export default function DeveloperForm({ developer, onSave, onCancel }) {
         setFormData(prev => ({ ...prev, [name]: checked }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSaveDraft = async () => {
         try {
             const savedDeveloper = formData.id
-                ? await Developer.update(formData.id, formData)
-                : await Developer.create(formData);
+                ? await Developer.update(formData.id, { ...formData, isDraft: true })
+                : await Developer.create({ ...formData, isDraft: true });
+            toast.success("הטיוטה נשמרה בהצלחה!");
+            onSave(savedDeveloper);
+        } catch (error) {
+            toast.error("שגיאה בשמירת הטיוטה");
+            console.error(error);
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        if (missingFields.length > 0) {
+            toast.error(`יש למלא את השדות החובה: ${missingFields.join(', ')}`);
+            return;
+        }
+
+        try {
+            const savedDeveloper = formData.id
+                ? await Developer.update(formData.id, { ...formData, isDraft: false })
+                : await Developer.create({ ...formData, isDraft: false });
             toast.success("היזם נשמר בהצלחה!");
             onSave(savedDeveloper);
         } catch (error) {
@@ -114,7 +136,14 @@ export default function DeveloperForm({ developer, onSave, onCancel }) {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md border">
-            <h3 className="text-2xl font-semibold">{formData.id ? 'עריכת יזם' : 'הוספת יזם חדש'}</h3>
+            <div className="flex items-center justify-between">
+                <h3 className="text-2xl font-semibold">{formData.id ? 'עריכת יזם' : 'הוספת יזם חדש'}</h3>
+                {missingFields.length > 0 && (
+                    <span className="text-sm bg-red-100 text-red-700 px-3 py-1 rounded-full font-medium">
+                        חסרים {missingFields.length} שדות חובה
+                    </span>
+                )}
+            </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField label="שם החברה (עברית)" id="name_he" value={formData.name_he} onChange={handleChange} required />
@@ -142,9 +171,16 @@ export default function DeveloperForm({ developer, onSave, onCancel }) {
                 </p>
             </div>
 
-            <div className="flex justify-end gap-3">
+            <div className="flex justify-between items-center pt-4 border-t">
                 <Button type="button" variant="outline" onClick={onCancel}>ביטול</Button>
-                <Button type="submit">שמור יזם</Button>
+                <div className="flex gap-3">
+                    <Button type="button" variant="outline" onClick={handleSaveDraft} className="border-sky-300 text-sky-700 hover:bg-sky-50">
+                        שמור כטיוטה
+                    </Button>
+                    <Button type="submit" className="bg-green-600 hover:bg-green-700">
+                        שמור ופרסם
+                    </Button>
+                </div>
             </div>
         </form>
     );
