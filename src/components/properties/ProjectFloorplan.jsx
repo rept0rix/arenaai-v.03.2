@@ -564,24 +564,15 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                   </Button>
                 </div>
                 
-                {/* Match Score */}
-                {(() => {
-                  const matchScore = calculateMatchScore(selectedUnit);
-                  return matchScore ? (
-                    <div className="mt-4 bg-white/20 backdrop-blur-sm rounded-lg p-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium text-white">ציון התאמה אישי</span>
-                        <span className="text-lg font-bold text-white">{matchScore}%</span>
-                      </div>
-                      <div className="w-full bg-white/30 rounded-full h-2.5">
-                        <div 
-                          className="bg-white h-2.5 rounded-full transition-all duration-500"
-                          style={{ width: `${matchScore}%` }}
-                        />
-                      </div>
-                    </div>
-                  ) : null;
-                })()}
+                {/* Match Score - Always visible */}
+                <div className="mt-4 bg-white/20 backdrop-blur-sm rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm font-medium text-white">אחוז התאמה</span>
+                    <span className="text-2xl font-bold text-white">
+                      {calculateMatchScore(selectedUnit) || 0}%
+                    </span>
+                  </div>
+                </div>
               </CardHeader>
               
               <CardContent className="pt-6">
