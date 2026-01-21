@@ -427,6 +427,11 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                               )}
                               <div className="text-[11px]">{unitToShow.rooms}ח׳</div>
                               <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
+                              {matchScore && isAvailable && (
+                                <div className="text-[9px] font-bold text-purple-600 mt-0.5">
+                                  {matchScore}%
+                                </div>
+                              )}
                             </button>
                             
                             {/* Hover tooltip with match score */}
