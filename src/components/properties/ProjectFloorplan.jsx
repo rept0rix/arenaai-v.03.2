@@ -390,31 +390,21 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
             </div>
           </div>
 
-          {/* Apartment Types - Interactive Cards */}
+          {/* Apartment Types */}
           <div>
-            <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
-              <Home className="w-4 h-4" />
-              טיפוסי דירות בפרויקט
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-              {types.map((type, i) => (
-                <motion.button
+            <h3 className="text-sm font-semibold text-slate-700 mb-3">טיפוסי דירות</h3>
+            <div className="flex gap-2">
+              {types.map((type) => (
+                <button
                   key={type}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * i }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedType(type);
                   }}
-                  className="group relative p-5 bg-gradient-to-br from-sky-50 to-purple-50 hover:from-sky-100 hover:to-purple-100 border-2 border-sky-200 hover:border-sky-400 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                  className="px-4 py-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg text-sm font-semibold text-slate-700 transition-colors"
                 >
-                  <div className="text-2xl font-bold text-sky-600 group-hover:text-sky-700 mb-1">
-                    {type}
-                  </div>
-                  <div className="text-xs text-slate-500">טיפוס</div>
-                  <Eye className="absolute top-3 left-3 w-4 h-4 text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </motion.button>
+                  טיפוס {type}
+                </button>
               ))}
             </div>
           </div>
