@@ -177,7 +177,7 @@ export default function ProjectDetails() {
                 </TabsTrigger>
                 <TabsTrigger value="building" className="gap-2">
                   <Building className="w-4 h-4" />
-                  מידע על הבניין
+                  מידע נוסף על הפרויקט
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="floorplan">

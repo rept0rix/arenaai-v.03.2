@@ -316,7 +316,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
       <Card>
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm">מפרט הבניין</CardTitle>
+            <CardTitle className="text-sm">מידע נוסף על הפרויקט</CardTitle>
             <div className="text-xs text-slate-600 flex items-center gap-1">
               <Eye className="w-3 h-3" />
               <span>לחץ על טיפוס לפרטים</span>
@@ -326,28 +326,67 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         <CardContent className="pt-2 space-y-3">
           <div className="grid grid-cols-3 gap-2">
             <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600">גובה הבניין</div>
-              <div className="text-xs font-bold text-slate-900">60 קומות</div>
+              <div className="text-[10px] text-slate-600 truncate">שם הפרויקט</div>
+              <div className="text-xs font-bold text-slate-900 truncate">{projectName}</div>
             </div>
             <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600">שנת בנייה</div>
-              <div className="text-xs font-bold text-slate-900">2024</div>
+              <div className="text-[10px] text-slate-600 truncate">יזם</div>
+              <div className="text-xs font-bold text-slate-900 truncate">{developer || 'קבוצת רכישה'}</div>
             </div>
             <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600">קבלן</div>
-              <div className="text-xs font-bold text-slate-900">קבלן איכות</div>
+              <div className="text-[10px] text-slate-600 truncate">קבלן מבצע</div>
+              <div className="text-xs font-bold text-slate-900 truncate">קבלן איכות בע״מ</div>
             </div>
             <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600">אדריכל</div>
-              <div className="text-xs font-bold text-slate-900">משרד מוביל</div>
+              <div className="text-[10px] text-slate-600 truncate">אדריכל</div>
+              <div className="text-xs font-bold text-slate-900 truncate">משרד אדריכלים מוביל</div>
             </div>
             <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600">תקן ירוק</div>
-              <div className="text-xs font-bold text-slate-900">5 כוכבים</div>
+              <div className="text-[10px] text-slate-600 truncate">כתובת</div>
+              <div className="text-xs font-bold text-slate-900 truncate">{properties[0]?.address || 'תל אביב'}</div>
             </div>
             <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600">מעליות</div>
-              <div className="text-xs font-bold text-slate-900">4 מהירות</div>
+              <div className="text-[10px] text-slate-600 truncate">גובה</div>
+              <div className="text-xs font-bold text-slate-900 truncate">60 קומות</div>
+            </div>
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600 truncate">התחלת שיווק</div>
+              <div className="text-xs font-bold text-slate-900 truncate">ינואר 2024</div>
+            </div>
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600 truncate">התחלת בנייה</div>
+              <div className="text-xs font-bold text-slate-900 truncate">מרץ 2024</div>
+            </div>
+            <div className="p-2 bg-slate-50 rounded">
+              <div className="text-[10px] text-slate-600 truncate">מועד איכלוס</div>
+              <div className="text-xs font-bold text-slate-900 truncate">דצמבר 2026*</div>
+            </div>
+          </div>
+
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-2 text-[10px] text-amber-800">
+            * מועדים משוערים. מועד האיכלוס בפועל כפוף לקבלת אישורים ותנאי השטח.
+          </div>
+
+          {/* Building Amenities */}
+          <div className="border-t pt-3">
+            <div className="text-[11px] font-semibold text-slate-700 mb-2">מתקנים ושירותים</div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-xs text-slate-700">חדר כושר מאובזר</span>
+              </div>
+              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-xs text-slate-700">מעלית שבת</span>
+              </div>
+              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-xs text-slate-700">שומר 24/7</span>
+              </div>
+              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-xs text-slate-700">בריכת שחייה</span>
+              </div>
             </div>
           </div>
 
@@ -358,7 +397,10 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
               {types.map(type => (
                 <button
                   key={type}
-                  onClick={() => setSelectedType(type)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedType(type);
+                  }}
                   className="p-2 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors group"
                 >
                   <div className="flex items-center justify-between">
@@ -671,8 +713,10 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
       </Card>
 
       {/* Asset Type Info Modal */}
-      <Dialog open={!!selectedType} onOpenChange={(open) => !open && setSelectedType(null)}>
-        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+      <Dialog open={!!selectedType} onOpenChange={(open) => {
+        if (!open) setSelectedType(null);
+      }}>
+        <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
           {selectedType && assetTypeInfo[selectedType] && (
             <>
               <DialogHeader>
@@ -685,7 +729,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
               <div className="space-y-6 pt-4">
                 {/* Description */}
                 <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
-                  <p className="text-slate-700 text-lg leading-relaxed">
+                  <p className="text-slate-700 leading-relaxed">
                     {assetTypeInfo[selectedType].description}
                   </p>
                 </div>
@@ -707,6 +751,60 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                         <div className="font-semibold text-slate-900">{value}</div>
                       </div>
                     ))}
+                  </div>
+                </div>
+
+                {/* Floor Plan and Technical Specs */}
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">תכנית דירה ומפרט מפורט</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Floor Plan */}
+                    <div className="border-2 border-sky-200 rounded-lg overflow-hidden bg-slate-50 p-4">
+                      <div className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                        <Eye className="w-4 h-4" />
+                        תכנית דירה
+                      </div>
+                      <div className="aspect-square bg-white rounded border flex items-center justify-center">
+                        <div className="text-center text-slate-400">
+                          <Building2 className="w-12 h-12 mx-auto mb-2" />
+                          <p className="text-sm">תכנית הדירה תוצג כאן</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Technical Specifications */}
+                    <div className="border-2 border-purple-200 rounded-lg overflow-hidden bg-purple-50 p-4">
+                      <div className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                        <Box className="w-4 h-4" />
+                        מפרט טכני מפורט
+                      </div>
+                      <div className="space-y-2 text-xs">
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">רצפה:</span> קרמיקה פורצלן 60x60
+                        </div>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">קירות:</span> צביעה אקרילית מעולה
+                        </div>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">דלתות:</span> דלתות פנים ביטחון
+                        </div>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">חלונות:</span> אלומיניום כפול זיגוג
+                        </div>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">מיזוג:</span> מזגן מולטי מרכזי
+                        </div>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">מטבח:</span> ארונות איכותיים + גרניט
+                        </div>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">חשמל:</span> לוח חשמל חכם
+                        </div>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">אינטרקום:</span> וידאו אינטרקום
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
