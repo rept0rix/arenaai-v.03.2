@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Building2, Eye, Filter, X, Box } from 'lucide-react';
+import { Building2, Eye, Filter, X, Box, MapPin, Calendar, Ruler, Home, Shield, Waves, Dumbbell, Users, CheckCircle2, Sparkles, ArrowDown, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
