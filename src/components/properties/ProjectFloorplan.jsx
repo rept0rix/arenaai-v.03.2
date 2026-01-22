@@ -454,53 +454,45 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         )}
       </AnimatePresence>
 
-      {/* Filters - Modern Floating Design */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 p-5 border border-slate-100"
-      >
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-slate-600">
-              <Filter className="w-5 h-5" />
-              <span className="font-medium">סינון:</span>
-            </div>
-            
-            <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
+      {/* Filters */}
+      <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-sm font-medium text-slate-700">סינון:</span>
+
+            <div className="flex gap-2">
               <button
                 onClick={() => setFilterStatus('all')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
                   filterStatus === 'all' 
-                    ? 'bg-white shadow-md text-sky-600' 
-                    : 'text-slate-600 hover:bg-white/50'
+                    ? 'bg-slate-900 text-white' 
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
                 הכל
               </button>
               <button
                 onClick={() => setFilterStatus('available')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
                   filterStatus === 'available' 
-                    ? 'bg-white shadow-md text-sky-600' 
-                    : 'text-slate-600 hover:bg-white/50'
+                    ? 'bg-slate-900 text-white' 
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
-                פנויות בלבד
+                פנויות
               </button>
             </div>
-            
-            <div className="h-8 w-px bg-slate-200"></div>
-            
+
+            <div className="h-6 w-px bg-slate-200"></div>
+
             <div className="flex gap-2">
               {types.map(type => (
                 <button
                   key={type}
                   onClick={() => setFilterType(filterType === type ? 'all' : type)}
-                  className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${
+                  className={`w-8 h-8 rounded-lg text-sm font-semibold transition-all ${
                     filterType === type 
-                      ? 'bg-gradient-to-br from-sky-500 to-purple-500 text-white shadow-lg shadow-sky-200' 
+                      ? 'bg-slate-900 text-white' 
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
@@ -509,8 +501,8 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
               ))}
             </div>
           </div>
-          
-          <div className="flex gap-3">
+
+          <div className="flex gap-2">
             {(filterStatus !== 'all' || filterType !== 'all') && (
               <Button
                 variant="ghost"
@@ -519,25 +511,21 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                   setFilterStatus('all');
                   setFilterType('all');
                 }}
-                className="text-slate-500 hover:text-slate-700"
+                className="text-slate-500"
               >
-                <X className="w-4 h-4 ml-1" />
-                נקה סינון
+                נקה
               </Button>
             )}
             <Button
               onClick={() => setIsCompareMode(!isCompareMode)}
-              className={`px-5 rounded-xl transition-all ${
-                isCompareMode 
-                  ? 'bg-gradient-to-r from-sky-500 to-purple-500 text-white shadow-lg' 
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-              }`}
+              variant={isCompareMode ? 'default' : 'outline'}
+              size="sm"
             >
-              {isCompareMode ? '✓ מצב השוואה פעיל' : 'השווה דירות'}
+              {isCompareMode ? 'מצב השוואה' : 'השווה דירות'}
             </Button>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Best Match Banner - Premium Design */}
       {bestMatch && (
