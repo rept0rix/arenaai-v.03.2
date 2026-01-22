@@ -287,83 +287,39 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
 
   return (
     <div className="space-y-8">
-      {/* Hero Project Header - Stunning Design */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900"
-      >
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
-        </div>
-        
-        <div className="relative p-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            {/* Project Info */}
-            <div className="flex items-start gap-5">
-              <div className="w-16 h-16 bg-gradient-to-br from-sky-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-500/30">
-                <Building2 className="w-8 h-8 text-white" />
-              </div>
-              <div>
-                <motion.h1 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="text-3xl font-bold text-white mb-2"
-                >
-                  {projectName}
-                </motion.h1>
-                <div className="flex flex-wrap items-center gap-3">
-                  {developer && (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full text-sky-200 text-sm">
-                      <Users className="w-3.5 h-3.5" />
-                      {developer}
-                    </span>
-                  )}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full text-sky-200 text-sm">
-                    <MapPin className="w-3.5 h-3.5" />
-                    {properties[0]?.address || 'תל אביב'}
-                  </span>
-                </div>
+      {/* Hero Project Header - Clean & Minimal */}
+      <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+              <Building2 className="w-5 h-5 text-slate-600" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-slate-900">{projectName}</h1>
+              <div className="flex items-center gap-3 text-sm text-slate-500 mt-0.5">
+                {developer && <span>{developer}</span>}
+                <span>•</span>
+                <span>{properties[0]?.address || 'תל אביב'}</span>
               </div>
             </div>
-            
-            {/* Stats Cards */}
-            <div className="flex gap-3">
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 min-w-[100px] text-center border border-white/10"
-              >
-                <div className="text-3xl font-bold text-white">{totalFloors}</div>
-                <div className="text-sky-200 text-xs">קומות</div>
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 }}
-                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 min-w-[100px] text-center border border-white/10"
-              >
-                <div className="text-3xl font-bold text-white">2026</div>
-                <div className="text-sky-200 text-xs">איכלוס</div>
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 }}
-                className="bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl p-4 min-w-[100px] text-center shadow-lg shadow-amber-500/30"
-              >
-                <div className="text-3xl font-bold text-white">{properties.length}</div>
-                <div className="text-amber-100 text-xs">דירות זמינות</div>
-              </motion.div>
+          </div>
+
+          <div className="flex gap-4 text-center">
+            <div className="border-r border-slate-200 pr-4">
+              <div className="text-xl font-bold text-slate-900">{totalFloors}</div>
+              <div className="text-xs text-slate-500">קומות</div>
+            </div>
+            <div className="border-r border-slate-200 pr-4">
+              <div className="text-xl font-bold text-slate-900">2026</div>
+              <div className="text-xs text-slate-500">איכלוס</div>
+            </div>
+            <div>
+              <div className="text-xl font-bold text-slate-900">{properties.length}</div>
+              <div className="text-xs text-slate-500">דירות זמינות</div>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
       
       {/* Project Details - Beautiful Grid */}
       <motion.div 
