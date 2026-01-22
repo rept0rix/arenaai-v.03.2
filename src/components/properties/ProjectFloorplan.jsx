@@ -844,25 +844,27 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
             </div>
           </div>
 
-          {/* Legend */}
-          <div className="mt-4 flex gap-4 items-center justify-center flex-wrap">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-sky-100 border-l-4 border-sky-500 rounded"></div>
-              <span className="text-sm text-slate-600">פנוי</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-slate-200 rounded shadow-inner"></div>
-              <span className="text-sm text-slate-600">לא זמין</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="relative w-6 h-6 bg-sky-100 border-l-4 border-sky-500 rounded flex items-center justify-center">
-                <span className="text-xs">⭐</span>
+          {/* Legend - Enhanced */}
+          <div className="mt-6 p-4 bg-slate-50 rounded-2xl">
+            <div className="flex gap-6 items-center justify-center flex-wrap">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-br from-sky-100 to-sky-200 border-r-4 border-sky-500 rounded-lg shadow-sm"></div>
+                <span className="text-sm font-medium text-slate-700">פנוי</span>
               </div>
-              <span className="text-sm text-slate-600">דירה מומלצת</span>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-slate-200 rounded-lg shadow-inner"></div>
+                <span className="text-sm font-medium text-slate-700">לא זמין</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="relative w-8 h-8 bg-gradient-to-br from-sky-400 to-purple-500 rounded-lg flex items-center justify-center shadow-md">
+                  <Star className="w-4 h-4 text-white fill-white" />
+                </div>
+                <span className="text-sm font-medium text-slate-700">דירה מומלצת</span>
+              </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </motion.div>
 
       {/* Asset Type Info Modal */}
       <Dialog open={!!selectedType} onOpenChange={(open) => {
