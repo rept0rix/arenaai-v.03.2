@@ -286,133 +286,224 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
   };
 
   return (
-    <div className="space-y-6">
-      {/* Project Header */}
-      <Card>
-        <CardHeader>
+    <div className="space-y-8">
+      {/* Hero Project Header - Stunning Design */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900"
+      >
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }} />
+        </div>
+        
+        <div className="relative p-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            {/* Project Info */}
+            <div className="flex items-start gap-5">
+              <div className="w-16 h-16 bg-gradient-to-br from-sky-400 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg shadow-sky-500/30">
+                <Building2 className="w-8 h-8 text-white" />
+              </div>
+              <div>
+                <motion.h1 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="text-3xl font-bold text-white mb-2"
+                >
+                  {projectName}
+                </motion.h1>
+                <div className="flex flex-wrap items-center gap-3">
+                  {developer && (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full text-sky-200 text-sm">
+                      <Users className="w-3.5 h-3.5" />
+                      {developer}
+                    </span>
+                  )}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 rounded-full text-sky-200 text-sm">
+                    <MapPin className="w-3.5 h-3.5" />
+                    {properties[0]?.address || 'תל אביב'}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Stats Cards */}
+            <div className="flex gap-3">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 min-w-[100px] text-center border border-white/10"
+              >
+                <div className="text-3xl font-bold text-white">{totalFloors}</div>
+                <div className="text-sky-200 text-xs">קומות</div>
+              </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 min-w-[100px] text-center border border-white/10"
+              >
+                <div className="text-3xl font-bold text-white">2026</div>
+                <div className="text-sky-200 text-xs">איכלוס</div>
+              </motion.div>
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4 }}
+                className="bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl p-4 min-w-[100px] text-center shadow-lg shadow-amber-500/30"
+              >
+                <div className="text-3xl font-bold text-white">{properties.length}</div>
+                <div className="text-amber-100 text-xs">דירות זמינות</div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+      
+      {/* Project Details - Beautiful Grid */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100"
+      >
+        <div className="p-6 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-sky-50">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Building2 className="w-8 h-8 text-sky-600" />
-              <div>
-                <CardTitle className="text-2xl">{projectName}</CardTitle>
-                {developer && <p className="text-sm text-slate-600">{developer}</p>}
-              </div>
+              <Sparkles className="w-5 h-5 text-sky-500" />
+              <h2 className="text-lg font-bold text-slate-800">מידע נוסף על הפרויקט</h2>
             </div>
-            <div className="text-left grid grid-cols-2 gap-4">
-              <div>
-                <div className="text-sm text-slate-600">גובה הבניין</div>
-                <div className="text-2xl font-bold text-slate-900">{totalFloors} קומות</div>
-              </div>
-              <div>
-                <div className="text-sm text-slate-600">שנת בנייה</div>
-                <div className="text-2xl font-bold text-slate-900">2024</div>
-              </div>
-            </div>
+            <span className="text-xs text-slate-500 flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full shadow-sm">
+              <Eye className="w-3.5 h-3.5" />
+              לחץ על טיפוס לפרטים
+            </span>
           </div>
-        </CardHeader>
-      </Card>
-      
-      {/* Building Specs with Type Legend */}
-      <Card>
-        <CardHeader className="pb-2">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-sm">מידע נוסף על הפרויקט</CardTitle>
-            <div className="text-xs text-slate-600 flex items-center gap-1">
-              <Eye className="w-3 h-3" />
-              <span>לחץ על טיפוס לפרטים</span>
-            </div>
+        </div>
+        
+        <div className="p-6 space-y-6">
+          {/* Main Info Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {[
+              { label: 'שם הפרויקט', value: projectName, icon: Building2, color: 'sky' },
+              { label: 'יזם', value: developer || 'קבוצת רכישה', icon: Users, color: 'purple' },
+              { label: 'קבלן מבצע', value: 'קבלן איכות בע״מ', icon: Shield, color: 'emerald' },
+              { label: 'אדריכל', value: 'משרד אדריכלים מוביל', icon: Ruler, color: 'amber' },
+              { label: 'כתובת', value: properties[0]?.address || 'תל אביב', icon: MapPin, color: 'rose' },
+              { label: 'גובה', value: '60 קומות', icon: Building2, color: 'indigo' },
+            ].map((item, i) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * i }}
+                className={`group p-4 rounded-2xl bg-gradient-to-br from-${item.color}-50 to-white border border-${item.color}-100 hover:shadow-lg hover:shadow-${item.color}-100/50 transition-all duration-300`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`w-10 h-10 rounded-xl bg-${item.color}-100 flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <item.icon className={`w-5 h-5 text-${item.color}-600`} />
+                  </div>
+                  <div>
+                    <div className="text-xs text-slate-500 mb-0.5">{item.label}</div>
+                    <div className="font-semibold text-slate-800">{item.value}</div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </CardHeader>
-        <CardContent className="pt-2 space-y-3">
-          <div className="grid grid-cols-3 gap-2">
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">שם הפרויקט</div>
-              <div className="text-xs font-bold text-slate-900 truncate">{projectName}</div>
+
+          {/* Timeline */}
+          <div className="bg-gradient-to-r from-sky-50 via-purple-50 to-amber-50 rounded-2xl p-5">
+            <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              לוח זמנים
+            </h3>
+            <div className="flex items-center justify-between relative">
+              <div className="absolute top-6 left-8 right-8 h-1 bg-gradient-to-r from-sky-300 via-purple-300 to-amber-300 rounded-full" />
+              {[
+                { label: 'התחלת שיווק', date: 'ינואר 2024', color: 'sky' },
+                { label: 'התחלת בנייה', date: 'מרץ 2024', color: 'purple' },
+                { label: 'מועד איכלוס', date: 'דצמבר 2026*', color: 'amber' },
+              ].map((item, i) => (
+                <div key={item.label} className="flex flex-col items-center relative z-10">
+                  <div className={`w-12 h-12 rounded-full bg-${item.color}-500 flex items-center justify-center shadow-lg shadow-${item.color}-200`}>
+                    <CheckCircle2 className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="mt-3 text-center">
+                    <div className="text-xs text-slate-500">{item.label}</div>
+                    <div className="font-bold text-slate-800">{item.date}</div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">יזם</div>
-              <div className="text-xs font-bold text-slate-900 truncate">{developer || 'קבוצת רכישה'}</div>
-            </div>
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">קבלן מבצע</div>
-              <div className="text-xs font-bold text-slate-900 truncate">קבלן איכות בע״מ</div>
-            </div>
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">אדריכל</div>
-              <div className="text-xs font-bold text-slate-900 truncate">משרד אדריכלים מוביל</div>
-            </div>
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">כתובת</div>
-              <div className="text-xs font-bold text-slate-900 truncate">{properties[0]?.address || 'תל אביב'}</div>
-            </div>
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">גובה</div>
-              <div className="text-xs font-bold text-slate-900 truncate">60 קומות</div>
-            </div>
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">התחלת שיווק</div>
-              <div className="text-xs font-bold text-slate-900 truncate">ינואר 2024</div>
-            </div>
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">התחלת בנייה</div>
-              <div className="text-xs font-bold text-slate-900 truncate">מרץ 2024</div>
-            </div>
-            <div className="p-2 bg-slate-50 rounded">
-              <div className="text-[10px] text-slate-600 truncate">מועד איכלוס</div>
-              <div className="text-xs font-bold text-slate-900 truncate">דצמבר 2026*</div>
+            <div className="mt-4 bg-amber-100/50 border border-amber-200 rounded-xl p-3 text-xs text-amber-700">
+              * מועדים משוערים. מועד האיכלוס בפועל כפוף לקבלת אישורים ותנאי השטח.
             </div>
           </div>
 
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-2 text-[10px] text-amber-800">
-            * מועדים משוערים. מועד האיכלוס בפועל כפוף לקבלת אישורים ותנאי השטח.
-          </div>
-
-          {/* Building Amenities */}
-          <div className="border-t pt-3">
-            <div className="text-[11px] font-semibold text-slate-700 mb-2">מתקנים ושירותים</div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-xs text-slate-700">חדר כושר מאובזר</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-xs text-slate-700">מעלית שבת</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-xs text-slate-700">שומר 24/7</span>
-              </div>
-              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-xs text-slate-700">בריכת שחייה</span>
-              </div>
+          {/* Amenities - Stunning Cards */}
+          <div>
+            <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
+              <Star className="w-4 h-4 text-amber-500" />
+              מתקנים ושירותים
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {[
+                { icon: Dumbbell, label: 'חדר כושר מאובזר', color: 'emerald' },
+                { icon: Building2, label: 'מעלית שבת', color: 'sky' },
+                { icon: Shield, label: 'שומר 24/7', color: 'purple' },
+                { icon: Waves, label: 'בריכת שחייה', color: 'cyan' },
+              ].map((amenity, i) => (
+                <motion.div
+                  key={amenity.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 * i }}
+                  className={`group p-4 bg-gradient-to-br from-${amenity.color}-50 to-white rounded-2xl border border-${amenity.color}-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
+                >
+                  <div className={`w-10 h-10 rounded-xl bg-${amenity.color}-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-lg shadow-${amenity.color}-200`}>
+                    <amenity.icon className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-sm font-medium text-slate-700">{amenity.label}</span>
+                </motion.div>
+              ))}
             </div>
           </div>
 
-          {/* Type Legend */}
-          <div className="border-t pt-3">
-            <div className="text-[11px] font-semibold text-slate-700 mb-2">טיפוסי דירות בפרויקט</div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
-              {types.map(type => (
-                <button
+          {/* Apartment Types - Interactive Cards */}
+          <div>
+            <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
+              <Home className="w-4 h-4" />
+              טיפוסי דירות בפרויקט
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+              {types.map((type, i) => (
+                <motion.button
                   key={type}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.05 * i }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedType(type);
                   }}
-                  className="p-2 bg-sky-50 hover:bg-sky-100 border border-sky-200 rounded-lg transition-colors group"
+                  className="group relative p-5 bg-gradient-to-br from-sky-50 to-purple-50 hover:from-sky-100 hover:to-purple-100 border-2 border-sky-200 hover:border-sky-400 rounded-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-sky-700">טיפוס {type}</span>
-                    <Eye className="w-3 h-3 text-sky-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="text-2xl font-bold text-sky-600 group-hover:text-sky-700 mb-1">
+                    {type}
                   </div>
-                </button>
+                  <div className="text-xs text-slate-500">טיפוס</div>
+                  <Eye className="absolute top-3 left-3 w-4 h-4 text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </motion.button>
               ))}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </motion.div>
 
       {/* Compare Mode Bar */}
       {isCompareMode && (
