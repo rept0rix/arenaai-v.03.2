@@ -727,23 +727,25 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
               </DialogHeader>
 
               <div className="space-y-6 pt-4">
-                {/* Specs Table */}
+                {/* Specs - Compact and Elegant */}
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-3">מפרט טכני</h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {Object.entries(assetTypeInfo[selectedType].specs).map(([key, value]) => (
-                      <div key={key} className="bg-slate-50 border border-slate-200 rounded-lg p-3">
-                        <div className="text-xs text-slate-600 mb-1">
-                          {key === 'rooms' ? 'חדרים' :
-                           key === 'size' ? 'שטח' :
-                           key === 'balcony' ? 'מרפסת' :
-                           key === 'facing' ? 'כיוון' :
-                           key === 'storage' ? 'מחסן' :
-                           key === 'parking' ? 'חניה' : key}
+                  <h3 className="text-base font-bold text-slate-900 mb-2.5">מפרט סכני</h3>
+                  <div className="bg-gradient-to-br from-slate-50 to-sky-50 rounded-xl p-4 border border-slate-200">
+                    <div className="flex flex-wrap gap-x-6 gap-y-2.5 text-sm">
+                      {Object.entries(assetTypeInfo[selectedType].specs).map(([key, value]) => (
+                        <div key={key} className="flex items-center gap-2">
+                          <span className="text-slate-500">
+                            {key === 'rooms' ? 'חדרים' :
+                             key === 'size' ? 'שטח' :
+                             key === 'balcony' ? 'מרפסת' :
+                             key === 'facing' ? 'כיוון' :
+                             key === 'storage' ? 'מחסן' :
+                             key === 'parking' ? 'חניה' : key}
+                          </span>
+                          <span className="font-bold text-slate-900">{value}</span>
                         </div>
-                        <div className="font-semibold text-slate-900">{value}</div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
 
