@@ -561,75 +561,90 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         )}
       </AnimatePresence>
 
-      {/* Filters - Compact Design */}
-      <Card>
-        <CardContent className="pt-4 pb-4">
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <div className="flex items-center gap-3">
-              <Filter className="w-4 h-4 text-slate-600" />
-              <div className="flex gap-1.5">
-                <Button
-                  variant={filterStatus === 'all' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setFilterStatus('all')}
-                  className={`h-8 text-xs ${filterStatus === 'all' ? 'bg-sky-500' : ''}`}
-                >
-                  הכל
-                </Button>
-                <Button
-                  variant={filterStatus === 'available' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setFilterStatus('available')}
-                  className={`h-8 text-xs ${filterStatus === 'available' ? 'bg-sky-500' : ''}`}
-                >
-                  פנוי
-                </Button>
-              </div>
-              
-              <div className="h-6 w-px bg-slate-300"></div>
-              
-              <div className="flex gap-1.5">
-                {types.map(type => (
-                  <Button
-                    key={type}
-                    variant={filterType === type ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setFilterType(type)}
-                    className={`h-8 text-xs px-2 ${filterType === type ? 'bg-sky-500' : ''}`}
-                  >
-                    {type}
-                  </Button>
-                ))}
-              </div>
+      {/* Filters - Modern Floating Design */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="bg-white rounded-2xl shadow-lg shadow-slate-200/50 p-5 border border-slate-100"
+      >
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-slate-600">
+              <Filter className="w-5 h-5" />
+              <span className="font-medium">סינון:</span>
             </div>
             
-            <div className="flex gap-2">
-              {(filterStatus !== 'all' || filterType !== 'all') && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setFilterStatus('all');
-                    setFilterType('all');
-                  }}
-                  className="h-8 text-xs"
-                >
-                  <X className="w-3 h-3 ml-1" />
-                  נקה
-                </Button>
-              )}
-              <Button
-                variant={isCompareMode ? 'default' : 'outline'}
-                size="sm"
-                onClick={() => setIsCompareMode(!isCompareMode)}
-                className={`h-8 text-xs ${isCompareMode ? 'bg-sky-500' : ''}`}
+            <div className="flex gap-2 p-1 bg-slate-100 rounded-xl">
+              <button
+                onClick={() => setFilterStatus('all')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  filterStatus === 'all' 
+                    ? 'bg-white shadow-md text-sky-600' 
+                    : 'text-slate-600 hover:bg-white/50'
+                }`}
               >
-                {isCompareMode ? 'מצב השוואה פעיל' : 'השווה דירות'}
-              </Button>
+                הכל
+              </button>
+              <button
+                onClick={() => setFilterStatus('available')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  filterStatus === 'available' 
+                    ? 'bg-white shadow-md text-sky-600' 
+                    : 'text-slate-600 hover:bg-white/50'
+                }`}
+              >
+                פנויות בלבד
+              </button>
+            </div>
+            
+            <div className="h-8 w-px bg-slate-200"></div>
+            
+            <div className="flex gap-2">
+              {types.map(type => (
+                <button
+                  key={type}
+                  onClick={() => setFilterType(filterType === type ? 'all' : type)}
+                  className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${
+                    filterType === type 
+                      ? 'bg-gradient-to-br from-sky-500 to-purple-500 text-white shadow-lg shadow-sky-200' 
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
             </div>
           </div>
-        </CardContent>
-      </Card>
+          
+          <div className="flex gap-3">
+            {(filterStatus !== 'all' || filterType !== 'all') && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setFilterStatus('all');
+                  setFilterType('all');
+                }}
+                className="text-slate-500 hover:text-slate-700"
+              >
+                <X className="w-4 h-4 ml-1" />
+                נקה סינון
+              </Button>
+            )}
+            <Button
+              onClick={() => setIsCompareMode(!isCompareMode)}
+              className={`px-5 rounded-xl transition-all ${
+                isCompareMode 
+                  ? 'bg-gradient-to-r from-sky-500 to-purple-500 text-white shadow-lg' 
+                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+              }`}
+            >
+              {isCompareMode ? '✓ מצב השוואה פעיל' : 'השווה דירות'}
+            </Button>
+          </div>
+        </div>
+      </motion.div>
 
       {/* Best Match Banner */}
       {bestMatch && (
