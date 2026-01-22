@@ -727,13 +727,6 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
               </DialogHeader>
 
               <div className="space-y-6 pt-4">
-                {/* Description */}
-                <div className="bg-sky-50 border border-sky-200 rounded-lg p-4">
-                  <p className="text-slate-700 leading-relaxed">
-                    {assetTypeInfo[selectedType].description}
-                  </p>
-                </div>
-
                 {/* Specs Table */}
                 <div>
                   <h3 className="text-lg font-bold text-slate-900 mb-3">מפרט טכני</h3>
@@ -805,22 +798,6 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-
-                {/* Images */}
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-3">תמונות והדמיות</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    {assetTypeInfo[selectedType].images.map((img, idx) => (
-                      <div key={idx} className="aspect-video rounded-lg overflow-hidden border-2 border-slate-200 shadow-md">
-                        <img 
-                          src={img} 
-                          alt={`${assetTypeInfo[selectedType].name} - תמונה ${idx + 1}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    ))}
                   </div>
                 </div>
 
