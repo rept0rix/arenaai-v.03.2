@@ -827,12 +827,20 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                             
                             {/* Hover tooltip with match score */}
                             {isAvailable && !unitToShow.isMock && (
-                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-slate-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-20 shadow-xl">
-                                <div className="font-semibold mb-1">{unitToShow.rooms} חדרים - ₪{unitToShow.price?.toLocaleString()}</div>
+                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 px-4 py-3 bg-slate-900/95 backdrop-blur-sm text-white text-xs rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap z-20 shadow-2xl border border-white/10">
+                                <div className="font-bold text-sm mb-1">{unitToShow.rooms} חדרים</div>
+                                <div className="text-slate-300 mb-2">₪{unitToShow.price?.toLocaleString()}</div>
                                 {matchScore && (
-                                  <div className="text-sky-300">התאמה: {matchScore}%</div>
+                                  <div className="inline-flex items-center gap-1 px-2 py-1 bg-sky-500/30 rounded-lg text-sky-300">
+                                    <Sparkles className="w-3 h-3" />
+                                    התאמה: {matchScore}%
+                                  </div>
                                 )}
-                                <div className="text-slate-300 text-[10px] mt-1">לחץ לפרטים נוספים</div>
+                                <div className="text-slate-400 text-[10px] mt-2 flex items-center gap-1">
+                                  <Eye className="w-3 h-3" />
+                                  לחץ לפרטים מלאים
+                                </div>
+                                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-slate-900/95 rotate-45 border-b border-r border-white/10"></div>
                               </div>
                             )}
                           </div>
