@@ -778,49 +778,51 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                         <td key={`${floor}-${type}`} className="border border-slate-300 p-1.5">
                           <div id={`unit-${floor}-${type}`} className="relative group">
                             <button
-                              onClick={() => !unitToShow.isMock && isAvailable && handleUnitClick(unitToShow)}
-                              disabled={!isAvailable || unitToShow.isMock}
-                              className={`${
-                                isCompareMode && selectedForCompare.includes(unitToShow.id)
-                                  ? 'ring-2 ring-sky-500 ring-offset-1'
-                                  : ''
-                              } ${
-                                isRecommended && isAvailable 
-                                  ? 'bg-sky-500 hover:bg-sky-600 text-white border-l-4 border-sky-700'
-                                  : getStatusColor(unitToShow.status, isAvailable)
-                              } px-2 py-2 rounded text-xs font-medium transition-all ${
-                                unitToShow.isMock || !isAvailable ? 'cursor-not-allowed' : 'transform hover:scale-105 cursor-pointer'
-                              } relative w-full ${
-                                isFiltered ? 'opacity-30' : ''
-                              } flex flex-col items-center justify-center min-h-[60px]`}
+                            onClick={() => !unitToShow.isMock && isAvailable && handleUnitClick(unitToShow)}
+                            disabled={!isAvailable || unitToShow.isMock}
+                            className={`${
+                              isCompareMode && selectedForCompare.includes(unitToShow.id)
+                                ? 'ring-2 ring-sky-500 ring-offset-2'
+                                : ''
+                            } ${
+                              isRecommended && isAvailable 
+                                ? 'bg-gradient-to-br from-sky-500 to-purple-500 text-white shadow-lg shadow-sky-200'
+                                : isAvailable 
+                                  ? 'bg-gradient-to-br from-sky-50 to-sky-100 hover:from-sky-100 hover:to-sky-200 text-sky-700 border border-sky-200 hover:shadow-md'
+                                  : 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                            } rounded-xl text-xs font-medium transition-all duration-200 ${
+                              unitToShow.isMock || !isAvailable ? 'cursor-not-allowed' : 'transform hover:scale-105 hover:-translate-y-0.5 cursor-pointer'
+                            } relative w-full ${
+                              isFiltered ? 'opacity-30' : ''
+                            } flex flex-col items-center justify-center min-h-[70px] p-2`}
                             >
-                              <div className="w-full">
-                                <div className="flex items-center justify-between w-full mb-0.5">
-                                  <div className="flex-1 text-center">
-                                    <div className="text-[11px] font-semibold">{unitToShow.rooms}ח׳</div>
-                                    <div className="text-[10px] font-normal">₪{(unitToShow.price / 1000000).toFixed(1)}M</div>
+                            <div className="w-full">
+                              <div className="flex items-center justify-between w-full mb-1">
+                                <div className="flex-1 text-center">
+                                  <div className="text-sm font-bold">{unitToShow.rooms}ח׳</div>
+                                  <div className={`text-[10px] ${isRecommended && isAvailable ? 'text-sky-100' : 'text-slate-500'}`}>
+                                    ₪{(unitToShow.price / 1000000).toFixed(1)}M
                                   </div>
-                                  {isRecommended && isAvailable && (
-                                    <div className="text-yellow-300 text-sm leading-none ml-1">
-                                      ⭐
-                                    </div>
-                                  )}
                                 </div>
-                                {matchScore !== null && (
-                                  <div className={`w-full text-center py-0.5 rounded text-[9px] font-bold ${
-                                    isRecommended && isAvailable
-                                      ? 'bg-sky-100 text-sky-800'
-                                      : 'bg-slate-100 text-slate-700'
-                                  }`}>
-                                    אחוזי התאמה: {matchScore}%
-                                  </div>
+                                {isRecommended && isAvailable && (
+                                  <Star className="w-4 h-4 text-amber-300 fill-amber-300" />
                                 )}
                               </div>
-                              {isCompareMode && selectedForCompare.includes(unitToShow.id) && !unitToShow.isMock && (
-                                <div className="absolute -top-1 -left-1 w-4 h-4 bg-sky-500 rounded-full flex items-center justify-center text-white text-xs shadow-md z-10">
-                                  ✓
+                              {matchScore !== null && (
+                                <div className={`w-full text-center py-1 rounded-lg text-[9px] font-bold ${
+                                  isRecommended && isAvailable
+                                    ? 'bg-white/20 text-white'
+                                    : 'bg-slate-100 text-slate-600'
+                                }`}>
+                                  {matchScore}% התאמה
                                 </div>
                               )}
+                            </div>
+                            {isCompareMode && selectedForCompare.includes(unitToShow.id) && !unitToShow.isMock && (
+                              <div className="absolute -top-1.5 -left-1.5 w-5 h-5 bg-gradient-to-br from-sky-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xs shadow-lg z-10">
+                                ✓
+                              </div>
+                            )}
                             </button>
                             
                             {/* Hover tooltip with match score */}
