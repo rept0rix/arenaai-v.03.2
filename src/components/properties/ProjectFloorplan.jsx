@@ -749,60 +749,52 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
 
                 {/* Floor Plan and Technical Specs */}
                 <div>
-                  <h3 className="font-bold text-slate-900 mb-3">תכנית דירה ומפרט מפורט</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <h3 className="text-lg font-bold text-slate-900 mb-3">תכנית דירה ומפרט מפורט</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Floor Plan */}
-                    <div className="border border-sky-200 rounded-lg overflow-hidden bg-slate-50 p-3">
-                      <div className="text-xs font-semibold text-slate-700 mb-2 flex items-center gap-1.5">
-                        <Eye className="w-3 h-3" />
+                    <div className="border-2 border-sky-200 rounded-lg overflow-hidden bg-slate-50 p-4">
+                      <div className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+                        <Eye className="w-4 h-4" />
                         תכנית דירה
                       </div>
                       <div className="aspect-square bg-white rounded border flex items-center justify-center">
                         <div className="text-center text-slate-400">
-                          <Building2 className="w-8 h-8 mx-auto mb-1" />
-                          <p className="text-xs">תכנית הדירה תוצג כאן</p>
+                          <Building2 className="w-12 h-12 mx-auto mb-2" />
+                          <p className="text-sm">תכנית הדירה תוצג כאן</p>
                         </div>
                       </div>
                     </div>
 
                     {/* Technical Specifications */}
-                    <div className="border border-purple-200 rounded-lg bg-purple-50 p-3">
-                      <div className="text-xs font-semibold text-slate-700 mb-2 flex items-center gap-1.5">
-                        <Box className="w-3 h-3" />
+                    <div className="border-2 border-purple-200 rounded-lg overflow-hidden bg-purple-50 p-4">
+                      <div className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+                        <Box className="w-4 h-4" />
                         מפרט טכני מפורט
                       </div>
-                      <div className="grid grid-cols-2 gap-1.5 text-[10px]">
-                        <div className="bg-white px-1.5 py-1 rounded flex items-center justify-between">
-                          <span className="font-semibold text-slate-600">רצפה:</span>
-                          <span className="text-slate-800">קרמיקה פורצלן 60</span>
+                      <div className="space-y-2 text-xs">
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">רצפה:</span> קרמיקה פורצלן 60x60
                         </div>
-                        <div className="bg-white px-1.5 py-1 rounded flex items-center justify-between">
-                          <span className="font-semibold text-slate-600">קירות:</span>
-                          <span className="text-slate-800">צביעה אקרילית מעולה</span>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">קירות:</span> צביעה אקרילית מעולה
                         </div>
-                        <div className="bg-white px-1.5 py-1 rounded flex items-center justify-between">
-                          <span className="font-semibold text-slate-600">דלתות:</span>
-                          <span className="text-slate-800">דלתות פנים ביטחון</span>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">דלתות:</span> דלתות פנים ביטחון
                         </div>
-                        <div className="bg-white px-1.5 py-1 rounded flex items-center justify-between">
-                          <span className="font-semibold text-slate-600">חלונות:</span>
-                          <span className="text-slate-800">אלומיניום כפול זיגוג</span>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">חלונות:</span> אלומיניום כפול זיגוג
                         </div>
-                        <div className="bg-white px-1.5 py-1 rounded flex items-center justify-between">
-                          <span className="font-semibold text-slate-600">מיזוג:</span>
-                          <span className="text-slate-800">מזגן מולטי מרכזי</span>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">מיזוג:</span> מזגן מולטי מרכזי
                         </div>
-                        <div className="bg-white px-1.5 py-1 rounded flex items-center justify-between">
-                          <span className="font-semibold text-slate-600">מטבח:</span>
-                          <span className="text-slate-800">ארונות איכותיים + גרניט</span>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">מטבח:</span> ארונות איכותיים + גרניט
                         </div>
-                        <div className="bg-white px-1.5 py-1 rounded flex items-center justify-between">
-                          <span className="font-semibold text-slate-600">חשמל:</span>
-                          <span className="text-slate-800">לוח חשמל חכם</span>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">חשמל:</span> לוח חשמל חכם
                         </div>
-                        <div className="bg-white px-1.5 py-1 rounded flex items-center justify-between">
-                          <span className="font-semibold text-slate-600">אינטרקום:</span>
-                          <span className="text-slate-800">וידאו אינטרקום</span>
+                        <div className="bg-white p-2 rounded">
+                          <span className="font-semibold">אינטרקום:</span> וידאו אינטרקום
                         </div>
                       </div>
                     </div>
