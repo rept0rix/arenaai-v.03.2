@@ -372,31 +372,20 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
             </div>
           </div>
 
-          {/* Amenities - Stunning Cards */}
+          {/* Amenities */}
           <div>
-            <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
-              <Star className="w-4 h-4 text-amber-500" />
-              מתקנים ושירותים
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <h3 className="text-sm font-semibold text-slate-700 mb-3">מתקנים ושירותים</h3>
+            <div className="flex flex-wrap gap-2">
               {[
-                { icon: Dumbbell, label: 'חדר כושר מאובזר', color: 'emerald' },
-                { icon: Building2, label: 'מעלית שבת', color: 'sky' },
-                { icon: Shield, label: 'שומר 24/7', color: 'purple' },
-                { icon: Waves, label: 'בריכת שחייה', color: 'cyan' },
-              ].map((amenity, i) => (
-                <motion.div
-                  key={amenity.label}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1 * i }}
-                  className={`group p-4 bg-gradient-to-br from-${amenity.color}-50 to-white rounded-2xl border border-${amenity.color}-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
-                >
-                  <div className={`w-10 h-10 rounded-xl bg-${amenity.color}-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-lg shadow-${amenity.color}-200`}>
-                    <amenity.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-sm font-medium text-slate-700">{amenity.label}</span>
-                </motion.div>
+                { icon: Dumbbell, label: 'חדר כושר' },
+                { icon: Building2, label: 'מעלית שבת' },
+                { icon: Shield, label: 'שומר 24/7' },
+                { icon: Waves, label: 'בריכה' },
+              ].map((amenity) => (
+                <div key={amenity.label} className="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-lg border border-slate-200">
+                  <amenity.icon className="w-4 h-4 text-slate-500" />
+                  <span className="text-xs text-slate-700">{amenity.label}</span>
+                </div>
               ))}
             </div>
           </div>
