@@ -505,49 +505,61 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </div>
       </motion.div>
 
-      {/* Compare Mode Bar */}
-      {isCompareMode && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-sky-50 border-2 border-sky-500 rounded-lg p-4"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="text-lg font-bold text-sky-900">
-                נבחרו {selectedForCompare.length} דירות להשוואה
+      {/* Compare Mode Bar - Enhanced */}
+      <AnimatePresence>
+        {isCompareMode && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="bg-gradient-to-r from-sky-500 to-purple-500 rounded-2xl p-5 shadow-xl shadow-sky-200"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                  <span className="text-2xl font-bold text-white">{selectedForCompare.length}</span>
+                </div>
+                <div>
+                  <div className="text-lg font-bold text-white">
+                    דירות נבחרו להשוואה
+                  </div>
+                  <div className="text-sky-100 text-sm">בחר עד 5 דירות</div>
+                </div>
+                {selectedForCompare.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedForCompare([])}
+                    className="text-white hover:bg-white/20"
+                  >
+                    <X className="w-4 h-4 ml-1" />
+                    נקה בחירה
+                  </Button>
+                )}
               </div>
-              {selectedForCompare.length > 0 && (
+              <div className="flex gap-3">
+                <Button
+                  onClick={handleCompare}
+                  disabled={selectedForCompare.length < 2}
+                  className="bg-white text-sky-600 hover:bg-sky-50 font-bold px-6"
+                >
+                  השווה עכשיו
+                </Button>
                 <Button
                   variant="ghost"
-                  size="sm"
-                  onClick={() => setSelectedForCompare([])}
+                  onClick={() => {
+                    setIsCompareMode(false);
+                    setSelectedForCompare([]);
+                  }}
+                  className="text-white hover:bg-white/20"
                 >
-                  נקה בחירה
+                  ביטול
                 </Button>
-              )}
+              </div>
             </div>
-            <div className="flex gap-2">
-              <Button
-                onClick={handleCompare}
-                disabled={selectedForCompare.length < 2}
-                className="bg-sky-500 hover:bg-sky-600"
-              >
-                השווה דירות ({selectedForCompare.length})
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setIsCompareMode(false);
-                  setSelectedForCompare([]);
-                }}
-              >
-                ביטול
-              </Button>
-            </div>
-          </div>
-        </motion.div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Filters - Compact Design */}
       <Card>
