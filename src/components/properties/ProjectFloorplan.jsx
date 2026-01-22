@@ -321,27 +321,16 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </div>
       </div>
       
-      {/* Project Details - Beautiful Grid */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100"
-      >
-        <div className="p-6 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-sky-50">
+      {/* Project Details - Clean & Compact */}
+      <div className="bg-white rounded-lg shadow-sm border border-slate-200">
+        <div className="p-4 border-b border-slate-200">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-5 h-5 text-sky-500" />
-              <h2 className="text-lg font-bold text-slate-800">מידע נוסף על הפרויקט</h2>
-            </div>
-            <span className="text-xs text-slate-500 flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full shadow-sm">
-              <Eye className="w-3.5 h-3.5" />
-              לחץ על טיפוס לפרטים
-            </span>
+            <h2 className="text-base font-semibold text-slate-900">מידע על הפרויקט</h2>
+            <span className="text-xs text-slate-500">לחץ על טיפוס לפרטים</span>
           </div>
         </div>
-        
-        <div className="p-6 space-y-6">
+
+        <div className="p-4 space-y-4">
           {/* Main Info Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[
