@@ -801,15 +801,6 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
                   </div>
                 </div>
 
-                {/* Action Button */}
-                <div className="pt-2">
-                  <Button 
-                    onClick={() => setSelectedType(null)}
-                    className="w-full bg-sky-500 hover:bg-sky-600"
-                  >
-                    סגור
-                  </Button>
-                </div>
               </div>
             </>
           )}
