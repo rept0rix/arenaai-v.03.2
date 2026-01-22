@@ -349,31 +349,26 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
           </div>
 
           {/* Timeline */}
-          <div className="bg-gradient-to-r from-sky-50 via-purple-50 to-amber-50 rounded-2xl p-5">
-            <h3 className="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              לוח זמנים
-            </h3>
-            <div className="flex items-center justify-between relative">
-              <div className="absolute top-6 left-8 right-8 h-1 bg-gradient-to-r from-sky-300 via-purple-300 to-amber-300 rounded-full" />
-              {[
-                { label: 'התחלת שיווק', date: 'ינואר 2024', color: 'sky' },
-                { label: 'התחלת בנייה', date: 'מרץ 2024', color: 'purple' },
-                { label: 'מועד איכלוס', date: 'דצמבר 2026*', color: 'amber' },
-              ].map((item, i) => (
-                <div key={item.label} className="flex flex-col items-center relative z-10">
-                  <div className={`w-12 h-12 rounded-full bg-${item.color}-500 flex items-center justify-center shadow-lg shadow-${item.color}-200`}>
-                    <CheckCircle2 className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="mt-3 text-center">
-                    <div className="text-xs text-slate-500">{item.label}</div>
-                    <div className="font-bold text-slate-800">{item.date}</div>
-                  </div>
-                </div>
-              ))}
+          <div className="border-t border-slate-200 pt-4">
+            <h3 className="text-sm font-semibold text-slate-700 mb-3">לוח זמנים</h3>
+            <div className="flex items-center justify-between text-xs">
+              <div className="text-center flex-1">
+                <div className="text-slate-500 mb-1">התחלת שיווק</div>
+                <div className="font-medium text-slate-900">ינואר 2024</div>
+              </div>
+              <div className="w-px h-8 bg-slate-200"></div>
+              <div className="text-center flex-1">
+                <div className="text-slate-500 mb-1">התחלת בנייה</div>
+                <div className="font-medium text-slate-900">מרץ 2024</div>
+              </div>
+              <div className="w-px h-8 bg-slate-200"></div>
+              <div className="text-center flex-1">
+                <div className="text-slate-500 mb-1">מועד איכלוס</div>
+                <div className="font-medium text-slate-900">דצמבר 2026*</div>
+              </div>
             </div>
-            <div className="mt-4 bg-amber-100/50 border border-amber-200 rounded-xl p-3 text-xs text-amber-700">
-              * מועדים משוערים. מועד האיכלוס בפועל כפוף לקבלת אישורים ותנאי השטח.
+            <div className="mt-3 text-xs text-slate-500">
+              * מועדים משוערים וכפופים לאישורים
             </div>
           </div>
 
