@@ -701,33 +701,40 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </motion.div>
       )}
 
-      {/* Floorplan Table */}
-      <Card>
-        <CardHeader>
+      {/* Floorplan Table - Premium Design */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100"
+      >
+        <div className="p-6 border-b border-slate-100 bg-gradient-to-r from-slate-50 to-sky-50">
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>מפת דירות</CardTitle>
-              <p className="text-sm text-slate-600 mt-1">
-                {totalFloors} קומות • 2 דירות בפרויקט {projectId}
+              <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
+                <LayoutGrid className="w-5 h-5 text-sky-500" />
+                מפת דירות אינטראקטיבית
+              </h2>
+              <p className="text-sm text-slate-500 mt-1">
+                {totalFloors} קומות • {properties.length} דירות זמינות
               </p>
               {effectiveFilters === demoFilters && (
-                <div className="mt-2 inline-flex items-center gap-2 bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-medium">
-                  <span>🎯</span>
+                <div className="mt-3 inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-xs font-medium">
+                  <Sparkles className="w-4 h-4" />
                   <span>מצב דמו: ציונים מבוססים על העדפות לדוגמה</span>
                 </div>
               )}
             </div>
             <Button
-              variant="outline"
-              className="gap-2"
               onClick={() => setShow3DModal(true)}
+              className="bg-gradient-to-r from-slate-700 to-slate-900 hover:from-slate-800 hover:to-black text-white px-5 py-6 rounded-xl gap-2"
             >
-              <Box className="w-4 h-4" />
-              הדמיה של הבניין
+              <Box className="w-5 h-5" />
+              הדמיה תלת מימדית
             </Button>
           </div>
-        </CardHeader>
-        <CardContent>
+        </div>
+        <div className="p-6">
           <div className="overflow-x-auto">
             <div ref={tableRef} className="max-h-[600px] overflow-y-auto border border-slate-200 rounded-lg">
               <table className="w-full border-collapse">
