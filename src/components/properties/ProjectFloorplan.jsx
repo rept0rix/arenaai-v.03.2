@@ -332,32 +332,19 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
 
         <div className="p-4 space-y-4">
           {/* Main Info Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
             {[
-              { label: 'שם הפרויקט', value: projectName, icon: Building2, color: 'sky' },
-              { label: 'יזם', value: developer || 'קבוצת רכישה', icon: Users, color: 'purple' },
-              { label: 'קבלן מבצע', value: 'קבלן איכות בע״מ', icon: Shield, color: 'emerald' },
-              { label: 'אדריכל', value: 'משרד אדריכלים מוביל', icon: Ruler, color: 'amber' },
-              { label: 'כתובת', value: properties[0]?.address || 'תל אביב', icon: MapPin, color: 'rose' },
-              { label: 'גובה', value: '60 קומות', icon: Building2, color: 'indigo' },
-            ].map((item, i) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * i }}
-                className={`group p-4 rounded-2xl bg-gradient-to-br from-${item.color}-50 to-white border border-${item.color}-100 hover:shadow-lg hover:shadow-${item.color}-100/50 transition-all duration-300`}
-              >
-                <div className="flex items-start gap-3">
-                  <div className={`w-10 h-10 rounded-xl bg-${item.color}-100 flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                    <item.icon className={`w-5 h-5 text-${item.color}-600`} />
-                  </div>
-                  <div>
-                    <div className="text-xs text-slate-500 mb-0.5">{item.label}</div>
-                    <div className="font-semibold text-slate-800">{item.value}</div>
-                  </div>
-                </div>
-              </motion.div>
+              { label: 'יזם', value: developer || 'קבוצת רכישה' },
+              { label: 'קבלן מבצע', value: 'קבלן איכות בע״מ' },
+              { label: 'אדריכל', value: 'משרד אדריכלים מוביל' },
+              { label: 'כתובת', value: properties[0]?.address || 'תל אביב' },
+              { label: 'גובה', value: '60 קומות' },
+              { label: 'מועד איכלוס', value: 'דצמבר 2026' },
+            ].map((item) => (
+              <div key={item.label} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
+                <div className="text-xs text-slate-500 mb-1">{item.label}</div>
+                <div className="text-sm font-medium text-slate-900">{item.value}</div>
+              </div>
             ))}
           </div>
 
