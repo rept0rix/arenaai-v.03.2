@@ -646,32 +646,59 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
         </div>
       </motion.div>
 
-      {/* Best Match Banner */}
+      {/* Best Match Banner - Premium Design */}
       {bestMatch && (
-        <Card className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300">
-          <CardContent className="py-4">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4 }}
+          className="relative overflow-hidden bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 rounded-3xl p-1"
+        >
+          <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-rose-50 rounded-[22px] p-6">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center">
-                  <span className="text-2xl">⭐</span>
-                </div>
+              <div className="flex items-center gap-5">
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 5, -5, 0]
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                  className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-300"
+                >
+                  <Star className="w-8 h-8 text-white fill-white" />
+                </motion.div>
                 <div>
-                  <div className="font-bold text-slate-900">הדירה המותאמת ביותר עבורך</div>
-                  <div className="text-sm text-slate-700">
-                    {bestMatch.rooms} חדרים • קומה {bestMatch.floor} • טיפוס {bestMatch.type} • התאמה של {calculateMatchScore(bestMatch)}%
+                  <div className="text-xl font-bold text-slate-900 mb-1">הדירה המותאמת ביותר עבורך!</div>
+                  <div className="flex flex-wrap items-center gap-2 text-sm">
+                    <span className="px-3 py-1 bg-white rounded-full text-slate-700 shadow-sm">
+                      {bestMatch.rooms} חדרים
+                    </span>
+                    <span className="px-3 py-1 bg-white rounded-full text-slate-700 shadow-sm">
+                      קומה {bestMatch.floor}
+                    </span>
+                    <span className="px-3 py-1 bg-white rounded-full text-slate-700 shadow-sm">
+                      טיפוס {bestMatch.type}
+                    </span>
+                    <span className="px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-white font-bold shadow-sm">
+                      התאמה {calculateMatchScore(bestMatch)}%
+                    </span>
                   </div>
                 </div>
               </div>
               <Button
                 onClick={scrollToBestMatch}
-                className="bg-amber-500 hover:bg-amber-600 gap-2"
+                className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-6 py-6 rounded-2xl shadow-lg shadow-amber-300 gap-2 font-bold"
               >
                 <span>קפוץ לדירה</span>
-                <span>↓</span>
+                <ArrowDown className="w-5 h-5" />
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </motion.div>
       )}
 
       {/* Floorplan Table */}
