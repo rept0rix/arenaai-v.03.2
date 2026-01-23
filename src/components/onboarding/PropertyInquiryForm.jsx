@@ -13,18 +13,19 @@ export default function PropertyInquiryForm({ property, onClose, onSuccess }) {
     full_name: '',
     phone: '',
     email: '',
-    consent_marketing: false,
-    consent_terms: false
+    consent_terms: false,
+    consent_developer_share: false,
+    consent_marketing: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.consent_terms) {
+    if (!formData.consent_terms || !formData.consent_developer_share) {
       toast({
         title: 'שגיאה',
-        description: 'יש לאשר את תנאי השימוש',
+        description: 'יש לאשר את תנאי השימוש והסכמה להעברת פרטים ליזם',
         variant: 'destructive'
       });
       return;
@@ -50,7 +51,10 @@ export default function PropertyInquiryForm({ property, onClose, onSuccess }) {
         additional_info: {
           property_title: property.title,
           property_price: property.price,
-          property_location: property.location
+          property_location: property.location,
+          consent_developer_share: formData.consent_developer_share,
+          consent_text_terms: 'אישור תנאי שימוש ומדיניות פרטיות',
+          consent_text_developer: 'אישור העברת פרטים ליזם הפרויקט לצורך קבלת מידע על הנכס בלבד'
         }
       });
 
@@ -141,7 +145,18 @@ export default function PropertyInquiryForm({ property, onClose, onSuccess }) {
                 id="consent_terms"
               />
               <label htmlFor="consent_terms" className="text-sm text-slate-600 cursor-pointer">
-                אני מאשר/ת את <a href="/TermsOfService" target="_blank" className="text-sky-600 hover:underline">תנאי השימוש</a> ומסכים/ה שהפרטים יועברו ליזם *
+                אני מאשר/ת את <a href="/TermsOfService" target="_blank" className="text-sky-600 hover:underline">תנאי השימוש</a> ו<a href="/PrivacyPolicy" target="_blank" className="text-sky-600 hover:underline">מדיניות הפרטיות</a> *
+              </label>
+            </div>
+
+            <div className="flex items-start gap-2">
+              <Checkbox
+                checked={formData.consent_developer_share}
+                onCheckedChange={(checked) => setFormData({ ...formData, consent_developer_share: checked })}
+                id="consent_developer_share"
+              />
+              <label htmlFor="consent_developer_share" className="text-sm text-slate-600 cursor-pointer">
+                אני מאשר/ת להעביר את פרטיי ליזם הפרויקט לצורך קבלת מידע על הנכס בלבד *
               </label>
             </div>
 
@@ -152,7 +167,7 @@ export default function PropertyInquiryForm({ property, onClose, onSuccess }) {
                 id="consent_marketing"
               />
               <label htmlFor="consent_marketing" className="text-sm text-slate-600 cursor-pointer">
-                אני מעוניין/ת לקבל עדכונים שיווקיים על נכסים דומים
+                אני מעוניין/ת לקבל עדכונים שיווקיים על נכסים דומים (אופציונלי)
               </label>
             </div>
           </div>

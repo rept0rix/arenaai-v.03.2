@@ -6,9 +6,16 @@ import { Facebook, Instagram, Linkedin, ArrowUp, Accessibility, X } from 'lucide
 export default function Layout({ children, currentPageName }) {
   const [user, setUser] = React.useState(null);
   const [showAccessibilityButton, setShowAccessibilityButton] = React.useState(true);
+  const [showCookieBanner, setShowCookieBanner] = React.useState(false);
 
   React.useEffect(() => {
     checkUser();
+    
+    // Check if cookie banner should be shown
+    const cookieConsent = localStorage.getItem('arena_cookie_consent');
+    if (!cookieConsent) {
+      setShowCookieBanner(true);
+    }
   }, []);
 
   const checkUser = async () => {
@@ -256,6 +263,30 @@ export default function Layout({ children, currentPageName }) {
           <button className="w-14 h-14 bg-purple-600 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-purple-700 transition-colors">
             <Accessibility className="w-7 h-7" />
           </button>
+        </div>
+      )}
+
+      {showCookieBanner && (
+        <div className="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-sm border-t border-slate-700 z-40">
+          <div className="max-w-7xl mx-auto px-6 py-4">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <p className="text-sm text-slate-200 flex-1">
+                ARENA משתמשת בקוקיס כדי לשפר את חוויית השימוש ולזכור את העדפותיך. ניתן להסיר בכל עת.{' '}
+                <a href={createPageUrl('PrivacyPolicy')} className="text-sky-400 hover:text-sky-300 underline">
+                  למידע נוסף
+                </a>
+              </p>
+              <button
+                onClick={() => {
+                  localStorage.setItem('arena_cookie_consent', 'acknowledged');
+                  setShowCookieBanner(false);
+                }}
+                className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+              >
+                הבנתי
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

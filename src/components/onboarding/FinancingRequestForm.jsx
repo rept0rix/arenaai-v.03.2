@@ -13,18 +13,19 @@ export default function FinancingRequestForm({ onClose, onSuccess }) {
     full_name: '',
     phone: '',
     email: '',
-    consent_marketing: false,
-    consent_terms: false
+    consent_terms: false,
+    consent_advisor_share: false,
+    consent_marketing: false
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.consent_terms) {
+    if (!formData.consent_terms || !formData.consent_advisor_share) {
       toast({
         title: 'שגיאה',
-        description: 'יש לאשר את תנאי השימוש',
+        description: 'יש לאשר את תנאי השימוש והסכמה להעברת פרטים ליועץ המימון',
         variant: 'destructive'
       });
       return;
@@ -46,7 +47,10 @@ export default function FinancingRequestForm({ onClose, onSuccess }) {
         consent_timestamp: new Date().toISOString(),
         consent_ip: 'client_ip',
         additional_info: {
-          profile_data: sessionInfo.data?.profile_vector || {}
+          profile_data: sessionInfo.data?.profile_vector || {},
+          consent_advisor_share: formData.consent_advisor_share,
+          consent_text_terms: 'אישור תנאי שימוש ומדיניות פרטיות',
+          consent_text_advisor: 'אישור העברת פרטים ליועץ המימון/בנק לצורך בדיקת זכאות למימון בלבד'
         }
       });
 
@@ -136,7 +140,18 @@ export default function FinancingRequestForm({ onClose, onSuccess }) {
                 id="consent_terms"
               />
               <label htmlFor="consent_terms" className="text-sm text-slate-600 cursor-pointer">
-                אני מאשר/ת את <a href="/TermsOfService" target="_blank" className="text-sky-600 hover:underline">תנאי השימוש</a> ומסכים/ה שהפרטים יועברו ליועץ המימון *
+                אני מאשר/ת את <a href="/TermsOfService" target="_blank" className="text-sky-600 hover:underline">תנאי השימוש</a> ו<a href="/PrivacyPolicy" target="_blank" className="text-sky-600 hover:underline">מדיניות הפרטיות</a> *
+              </label>
+            </div>
+
+            <div className="flex items-start gap-2">
+              <Checkbox
+                checked={formData.consent_advisor_share}
+                onCheckedChange={(checked) => setFormData({ ...formData, consent_advisor_share: checked })}
+                id="consent_advisor_share"
+              />
+              <label htmlFor="consent_advisor_share" className="text-sm text-slate-600 cursor-pointer">
+                אני מאשר/ת להעביר את פרטיי ליועץ המימון/בנק לצורך בדיקת זכאות למימון בלבד *
               </label>
             </div>
 
@@ -147,7 +162,7 @@ export default function FinancingRequestForm({ onClose, onSuccess }) {
                 id="consent_marketing"
               />
               <label htmlFor="consent_marketing" className="text-sm text-slate-600 cursor-pointer">
-                אני מעוניין/ת לקבל עדכונים על מוצרי מימון ושירותים נוספים
+                אני מעוניין/ת לקבל עדכונים על מוצרי מימון ושירותים נוספים (אופציונלי)
               </label>
             </div>
           </div>

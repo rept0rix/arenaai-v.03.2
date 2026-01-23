@@ -46,7 +46,9 @@ export default function ArenaClubForm({ onClose, onSuccess }) {
         consent_timestamp: new Date().toISOString(),
         consent_ip: 'client_ip',
         additional_info: {
-          club_benefits: 'premium_access'
+          club_benefits: 'premium_access',
+          consent_text_terms: 'אישור תנאי שימוש ומדיניות פרטיות',
+          consent_text_marketing: 'אישור opt-in לקבלת עדכונים שיווקיים על נכסים חדשים והטבות'
         }
       });
 
@@ -143,7 +145,7 @@ export default function ArenaClubForm({ onClose, onSuccess }) {
                 id="consent_terms"
               />
               <label htmlFor="consent_terms" className="text-sm text-slate-600 cursor-pointer">
-                אני מאשר/ת את <a href="/TermsOfService" target="_blank" className="text-sky-600 hover:underline">תקנון המועדון</a> ומסכים/ה לקבל הטבות בלעדיות *
+                אני מאשר/ת את <a href="/TermsOfService" target="_blank" className="text-sky-600 hover:underline">תנאי השימוש</a> ו<a href="/PrivacyPolicy" target="_blank" className="text-sky-600 hover:underline">מדיניות הפרטיות</a> *
               </label>
             </div>
 
@@ -154,7 +156,7 @@ export default function ArenaClubForm({ onClose, onSuccess }) {
                 id="consent_marketing"
               />
               <label htmlFor="consent_marketing" className="text-sm text-slate-600 cursor-pointer">
-                אני מעוניין/ת לקבל עדכונים על נכסים חדשים והטבות נוספות
+                אני מעוניין/ת לקבל עדכונים שיווקיים על נכסים חדשים, הטבות והזמנות לאירועים בלעדיים (אופציונלי)
               </label>
             </div>
           </div>
