@@ -796,13 +796,13 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
 
                 {/* Floor Plan and Technical Specs */}
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-3">תכנית דירה ומפרט מפורט</h3>
+                  <h3 className="text-lg font-bold text-slate-900 mb-3 text-right">תכנית דירה ומפרט מפורט</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Floor Plan */}
                     <div className="border-2 border-sky-200 rounded-lg overflow-hidden bg-slate-50 p-4">
-                      <div className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
-                        <Eye className="w-4 h-4" />
+                      <div className="text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2 justify-end">
                         תכנית דירה
+                        <Eye className="w-4 h-4" />
                       </div>
                       <div className="aspect-square bg-white rounded border flex items-center justify-center">
                         <div className="text-center text-slate-400">
@@ -814,11 +814,11 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
 
                     {/* Technical Specifications */}
                     <div className="border-2 border-purple-200 rounded-lg overflow-hidden bg-purple-50 p-4">
-                      <div className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
-                        <Box className="w-4 h-4" />
+                      <div className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2 justify-end">
                         מפרט טכני מפורט
+                        <Box className="w-4 h-4" />
                       </div>
-                      <div className="space-y-2 text-xs">
+                      <div className="space-y-2 text-xs text-right">
                         <div className="bg-white p-2 rounded">
                           <span className="font-semibold">רצפה:</span> קרמיקה פורצלן 60x60
                         </div>
