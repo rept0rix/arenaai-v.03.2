@@ -248,44 +248,44 @@ export default function DeveloperCRM() {
         return (
             <div className="space-y-6">
                 {/* סטטיסטיקות ראשיות */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6" dir="rtl">
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">סה"כ יזמים</CardTitle>
+                        <CardHeader className="flex flex-row-reverse items-center justify-between pb-2">
                             <Users className="w-4 h-4 text-slate-500" />
+                            <CardTitle className="text-sm font-medium text-right">סה"כ יזמים</CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="text-right">
                             <div className="text-3xl font-bold">{totalDevelopers}</div>
                         </CardContent>
                     </Card>
 
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">סה"כ פרויקטים</CardTitle>
+                        <CardHeader className="flex flex-row-reverse items-center justify-between pb-2">
                             <FolderKanban className="w-4 h-4 text-slate-500" />
+                            <CardTitle className="text-sm font-medium text-right">סה"כ פרויקטים</CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="text-right">
                             <div className="text-3xl font-bold">{totalProjects}</div>
                         </CardContent>
                     </Card>
 
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">סה"כ חשיפות</CardTitle>
+                        <CardHeader className="flex flex-row-reverse items-center justify-between pb-2">
                             <Eye className="w-4 h-4 text-slate-500" />
+                            <CardTitle className="text-sm font-medium text-right">סה"כ חשיפות</CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="text-right">
                             <div className="text-3xl font-bold">{totalViews}</div>
                             <p className="text-xs text-slate-500 mt-1">+ {totalInquiries} פניות</p>
                         </CardContent>
                     </Card>
 
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-sm font-medium">המרה ליד→פגישה</CardTitle>
+                        <CardHeader className="flex flex-row-reverse items-center justify-between pb-2">
                             <TrendingUp className="w-4 h-4 text-slate-500" />
+                            <CardTitle className="text-sm font-medium text-right">המרה ליד→פגישה</CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="text-right">
                             <div className="text-3xl font-bold">{conversionRate}%</div>
                             <p className="text-xs text-slate-500 mt-1">{meetings.length} מתוך {leads.length} לידים</p>
                         </CardContent>
@@ -295,7 +295,7 @@ export default function DeveloperCRM() {
                 {/* פרויקטים מובילים */}
                 <Card>
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
+                        <CardTitle className="flex items-center gap-2 text-right">
                             <Target className="w-5 h-5 text-sky-600" />
                             פרויקטים מובילים (לפי צפיות)
                         </CardTitle>
@@ -311,13 +311,13 @@ export default function DeveloperCRM() {
                                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center text-white font-bold">
                                                 {index + 1}
                                             </div>
-                                            <div>
+                                            <div className="text-right">
                                                 <div className="font-medium">{project.name_he}</div>
                                                 <div className="text-sm text-slate-500">{getDeveloperName(project.developerId)} • {project.city}</div>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-4">
-                                            <div className="text-left">
+                                            <div className="text-right">
                                                 <div className="text-2xl font-bold text-sky-600">{views}</div>
                                                 <div className="text-xs text-slate-500">צפיות</div>
                                             </div>
@@ -340,7 +340,7 @@ export default function DeveloperCRM() {
                     {/* יזמים מובילים */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
+                            <CardTitle className="flex items-center gap-2 text-right">
                                 <Award className="w-5 h-5 text-amber-600" />
                                 יזמים מובילים
                             </CardTitle>
@@ -360,12 +360,12 @@ export default function DeveloperCRM() {
                                                 }`}>
                                                     {index + 1}
                                                 </div>
-                                                <div>
+                                                <div className="text-right">
                                                     <div className="font-medium">{developer.name_he}</div>
                                                     <div className="text-xs text-slate-500">{projects} פרויקטים</div>
                                                 </div>
                                             </div>
-                                            <div className="text-left">
+                                            <div className="text-right">
                                                 <div className="text-lg font-bold text-amber-600">{views}</div>
                                                 <div className="text-xs text-slate-500">{leads} לידים</div>
                                             </div>
@@ -379,7 +379,7 @@ export default function DeveloperCRM() {
                     {/* דירות מומלצות */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
+                            <CardTitle className="flex items-center gap-2 text-right">
                                 <Star className="w-5 h-5 text-purple-600" />
                                 דירות/נכסים מומלצים ביותר
                             </CardTitle>
@@ -395,12 +395,12 @@ export default function DeveloperCRM() {
                                                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold">
                                                     {index + 1}
                                                 </div>
-                                                <div>
+                                                <div className="text-right">
                                                     <div className="font-medium">נכס #{propertyId.substring(0, 8)}</div>
                                                     <div className="text-xs text-slate-500">מזהה נכס</div>
                                                 </div>
                                             </div>
-                                            <div className="text-left">
+                                            <div className="text-right">
                                                 <div className="text-2xl font-bold text-purple-600">{inquiries}</div>
                                                 <div className="text-xs text-slate-500">פניות</div>
                                             </div>
@@ -415,7 +415,7 @@ export default function DeveloperCRM() {
                 {/* משפך לידים */}
                 <Card>
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
+                        <CardTitle className="flex items-center gap-2 text-right">
                             <Zap className="w-5 h-5 text-green-600" />
                             משפך לידים - כל המערכת
                         </CardTitle>
@@ -446,7 +446,7 @@ export default function DeveloperCRM() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
+                            <CardTitle className="flex items-center gap-2 text-right">
                                 <BarChart3 className="w-5 h-5 text-indigo-600" />
                                 מקורות לידים
                             </CardTitle>
@@ -480,7 +480,7 @@ export default function DeveloperCRM() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
+                            <CardTitle className="flex items-center gap-2 text-right">
                                 <Target className="w-5 h-5 text-pink-600" />
                                 פילוח גיאוגרפי
                             </CardTitle>
@@ -510,7 +510,7 @@ export default function DeveloperCRM() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
+                            <CardTitle className="flex items-center gap-2 text-right">
                                 <TrendingUp className="w-5 h-5 text-emerald-600" />
                                 סטטוס פרויקטים
                             </CardTitle>
@@ -537,16 +537,16 @@ export default function DeveloperCRM() {
                 {/* פרויקטים אחרונים */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>פרויקטים אחרונים</CardTitle>
+                        <CardTitle className="text-right">פרויקטים אחרונים</CardTitle>
                     </CardHeader>
                     <CardContent>
                         {recentProjects.length === 0 ? (
-                            <p className="text-slate-500 text-sm">אין פרויקטים עדיין</p>
+                            <p className="text-slate-500 text-sm text-right">אין פרויקטים עדיין</p>
                         ) : (
                             <div className="space-y-3">
                                 {recentProjects.map(project => (
                                     <div key={project.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-slate-50">
-                                        <div>
+                                        <div className="text-right">
                                             <div className="font-medium">{project.name_he}</div>
                                             <div className="text-sm text-slate-500">יזם: {getDeveloperName(project.developerId)}</div>
                                         </div>
@@ -571,9 +571,9 @@ export default function DeveloperCRM() {
         return (
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle>רשימת יזמים</CardTitle>
-                    <Button onClick={handleAddDeveloper}>
-                        <Plus className="w-4 h-4 ml-2" /> הוסף יזם חדש
+                    <CardTitle className="text-right">רשימת יזמים</CardTitle>
+                    <Button onClick={handleAddDeveloper} className="flex-row-reverse">
+                        <Plus className="w-4 h-4 mr-2" /> הוסף יזם חדש
                     </Button>
                 </CardHeader>
                 <CardContent>
@@ -589,7 +589,7 @@ export default function DeveloperCRM() {
                                         <th className="text-right p-3 font-semibold">אתר</th>
                                         <th className="text-right p-3 font-semibold">מספר פרויקטים</th>
                                         <th className="text-right p-3 font-semibold">תאריך יצירה</th>
-                                        <th className="text-left p-3 font-semibold">פעולות</th>
+                                        <th className="text-right p-3 font-semibold">פעולות</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -623,7 +623,7 @@ export default function DeveloperCRM() {
                                                     {new Date(dev.created_date).toLocaleDateString('he-IL')}
                                                 </td>
                                                 <td className="p-3">
-                                                    <div className="flex items-center justify-end gap-2">
+                                                    <div className="flex items-center justify-start gap-2">
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
@@ -657,9 +657,9 @@ export default function DeveloperCRM() {
         return (
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle>רשימת פרויקטים</CardTitle>
-                    <Button onClick={handleAddProject}>
-                        <Plus className="w-4 h-4 ml-2" /> הוסף פרויקט חדש
+                    <CardTitle className="text-right">רשימת פרויקטים</CardTitle>
+                    <Button onClick={handleAddProject} className="flex-row-reverse">
+                        <Plus className="w-4 h-4 mr-2" /> הוסף פרויקט חדש
                     </Button>
                 </CardHeader>
                 <CardContent>
@@ -675,7 +675,7 @@ export default function DeveloperCRM() {
                                         <th className="text-right p-3 font-semibold">יזם</th>
                                         <th className="text-right p-3 font-semibold">עיר</th>
                                         <th className="text-right p-3 font-semibold">תאריך יצירה</th>
-                                        <th className="text-left p-3 font-semibold">פעולות</th>
+                                        <th className="text-right p-3 font-semibold">פעולות</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -699,7 +699,7 @@ export default function DeveloperCRM() {
                                                 {new Date(project.created_date).toLocaleDateString('he-IL')}
                                             </td>
                                             <td className="p-3">
-                                                <div className="flex items-center justify-end gap-2">
+                                                <div className="flex items-center justify-start gap-2">
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"
@@ -740,22 +740,22 @@ export default function DeveloperCRM() {
         <div className="min-h-screen bg-slate-50" dir="rtl">
             <div className="p-8">
                 <TopNavigation currentPage="DeveloperCRM" />
-                <header className="mb-8">
+                <header className="mb-8 text-right">
                     <h1 className="text-4xl font-bold text-slate-900">מערכת ניהול יזמים ופרויקטים</h1>
                     <p className="text-slate-600 mt-2">דשבורד ניהול מרכזי ליזמים ופרויקטים</p>
                 </header>
 
-                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                    <TabsList className="mb-6">
-                        <TabsTrigger value="dashboard" className="gap-2">
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full" dir="rtl">
+                    <TabsList className="mb-6 flex justify-start">
+                        <TabsTrigger value="dashboard" className="gap-2 flex-row-reverse">
                             <TrendingUp className="w-4 h-4" />
                             דשבורד
                         </TabsTrigger>
-                        <TabsTrigger value="developers" className="gap-2">
+                        <TabsTrigger value="developers" className="gap-2 flex-row-reverse">
                             <Users className="w-4 h-4" />
                             יזמים
                         </TabsTrigger>
-                        <TabsTrigger value="projects" className="gap-2">
+                        <TabsTrigger value="projects" className="gap-2 flex-row-reverse">
                             <FolderKanban className="w-4 h-4" />
                             פרויקטים
                         </TabsTrigger>
