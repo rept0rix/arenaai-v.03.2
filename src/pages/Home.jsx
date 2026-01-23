@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { base44 } from '@/api/base44Client';
 import TopNavigation from '../components/TopNavigation';
-import ReturningUserPrompt from '../components/onboarding/ReturningUserPrompt';
 import { SessionManager } from '../components/utils/sessionManager';
 
 const quickStartOptions = [
@@ -24,7 +23,7 @@ export default function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [user, setUser] = useState(null);
-  const [showReturningPrompt, setShowReturningPrompt] = useState(false);
+  const [isReturningUser, setIsReturningUser] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -41,10 +40,12 @@ export default function HomePage() {
       SessionManager.getOrCreateSessionId();
       SessionManager.getOrCreateDeviceId();
 
-      // Check if returning user (anonymous) - after initialization
+      // Check if returning user (anonymous) - but don't show modal
       const sessionData = SessionManager.getSessionData();
-      if (sessionData && sessionData.purpose && !searchParams.get('skip_prompt')) {
-        setShowReturningPrompt(true);
+      if (sessionData && sessionData.purpose) {
+        setIsReturningUser(true);
+        // Auto-restore their purpose without prompting
+        setSelectedPurpose(sessionData.purpose);
       }
 
       // Check URL purpose
@@ -103,41 +104,26 @@ export default function HomePage() {
     handleSearch(option);
   };
 
-  const handleReturningContinue = () => {
-    setShowReturningPrompt(false);
-    const sessionData = SessionManager.getSessionData();
-    if (sessionData?.purpose) {
-      setSelectedPurpose(sessionData.purpose);
-    }
-  };
 
-  const handleReturningNew = () => {
-    SessionManager.clearAllData();
-    setShowReturningPrompt(false);
-    SessionManager.getOrCreateSessionId();
-  };
-
-  const handleReturningDelete = () => {
-    SessionManager.clearAllData();
-    setShowReturningPrompt(false);
-    window.location.href = createPageUrl('Landing');
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
-      {showReturningPrompt && (
-        <ReturningUserPrompt
-          onContinue={handleReturningContinue}
-          onStartNew={handleReturningNew}
-          onDelete={handleReturningDelete}
-        />
-      )}
-
       <TopNavigation currentPage="Home" />
       
       {/* Main Content */}
       <div className="flex-1 w-full flex flex-col items-center justify-center p-4 bg-slate-50">
         <div className="max-w-3xl w-full flex flex-col items-center">
+          
+          {/* Returning User Badge - Subtle and Non-intrusive */}
+          {isReturningUser && (
+            <div className="w-full max-w-2xl mb-4">
+              <div className="bg-sky-50 border border-sky-200 rounded-lg px-4 py-2 flex items-center justify-center gap-2">
+                <span className="text-sky-700 text-sm font-medium">
+                  חזרתם להמשך החיפוש שלכם
+                </span>
+              </div>
+            </div>
+          )}
           
           <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg border border-slate-200/80 mb-8">
             {/* Chat Bubble with Logo - Replaced existing "Top part: Arena Chat" */}
