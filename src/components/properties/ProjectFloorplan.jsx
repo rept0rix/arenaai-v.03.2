@@ -408,10 +408,10 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
               ))}
             </div>
           </div>
-        </div>
-      </motion.div>
+          </div>
+          </div>
 
-      {/* Compare Mode Bar */}
+          {/* Compare Mode Bar */}
       <AnimatePresence>
         {isCompareMode && (
           <motion.div
