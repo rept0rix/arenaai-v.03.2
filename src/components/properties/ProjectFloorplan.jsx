@@ -761,7 +761,7 @@ export default function ProjectFloorplan({ projectId, properties, userFilters })
       <Dialog open={!!selectedType} onOpenChange={(open) => {
         if (!open) setSelectedType(null);
       }}>
-        <DialogContent className="max-w-3xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
           {selectedType && assetTypeInfo[selectedType] && (
             <>
               <DialogHeader>
