@@ -9,9 +9,16 @@ export default function Landing() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showCookieBanner, setShowCookieBanner] = useState(false);
 
   useEffect(() => {
     // Simplified - no auth check for now
+    
+    // Check if cookie banner should be shown
+    const cookieConsent = localStorage.getItem('arena_cookie_consent');
+    if (!cookieConsent) {
+      setShowCookieBanner(true);
+    }
   }, []);
 
   const handleLogin = () => {
@@ -464,6 +471,58 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/* Cookie Banner */}
+      {showCookieBanner && (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-50">
+          <div className="max-w-7xl mx-auto px-6 py-5">
+            <div className="flex items-start justify-between gap-6 flex-wrap">
+              <div className="flex-1 min-w-[250px]">
+                <p className="text-sm text-slate-700 leading-relaxed mb-1">
+                  בלחיצה על "אפשר הכל", אתה מסכים לאחסון קוקיס במכשירך כדי לשפר את ניווט האתר, לנתח שימוש באתר ולסייע במאמצי השיווק שלנו.
+                </p>
+                <p className="text-sm text-slate-600">
+                  למידע נוסף, בקר ב
+                  <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 underline mx-1">
+                    מדיניות הפרטיות
+                  </a>
+                  שלנו.
+                </p>
+              </div>
+              <div className="flex gap-3 items-center flex-wrap">
+                <Button
+                  onClick={() => {
+                    localStorage.setItem('arena_cookie_consent', 'all');
+                    setShowCookieBanner(false);
+                  }}
+                  className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap shadow-sm"
+                >
+                  אפשר הכל
+                </Button>
+                <Button
+                  onClick={() => {
+                    localStorage.setItem('arena_cookie_consent', 'rejected');
+                    setShowCookieBanner(false);
+                  }}
+                  variant="outline"
+                  className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+                >
+                  דחה הכל
+                </Button>
+                <button
+                  onClick={() => {
+                    localStorage.setItem('arena_cookie_consent', 'custom');
+                    setShowCookieBanner(false);
+                  }}
+                  className="px-5 py-2.5 text-sky-600 hover:text-sky-700 text-sm font-medium whitespace-nowrap underline"
+                >
+                  התאמה אישית
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
