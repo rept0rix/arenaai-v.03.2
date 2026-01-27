@@ -121,8 +121,70 @@ export default function ProjectComparisonTable({ properties, onParameterClick })
     return property[row.key] === bestValue;
   };
 
+  const getContributionColor = (contribution) => {
+    if (contribution >= 0.6) {
+      return { bg: '#E8F4F2', text: '#1F6F6A', border: '#1F6F6A' }; // חיזוק משמעותי
+    } else if (contribution <= -0.4) {
+      return { bg: '#F6E9EE', text: '#7A2E3A', border: '#7A2E3A' }; // נקודת חולשה
+    }
+    return { bg: 'transparent', text: '#4A5D73', border: 'transparent' }; // ניטרלי
+  };
+
+  const handleParameterClick = (paramLabel, property) => {
+    if (onParameterClick) {
+      onParameterClick(paramLabel, property);
+    }
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
+      {/* Header with Help Bubble */}
+      <div className="relative">
+        <div className="text-right mb-2">
+          <div className="flex items-center justify-start gap-3">
+            <Popover open={helpOpen} onOpenChange={setHelpOpen}>
+              <PopoverTrigger asChild>
+                <button 
+                  className="flex items-center gap-2 text-sm text-sky-600 hover:text-sky-700 transition-colors group"
+                  onMouseEnter={() => setHelpOpen(true)}
+                  onMouseLeave={() => setHelpOpen(false)}
+                >
+                  <div className="w-5 h-5 rounded-full bg-sky-100 flex items-center justify-center">
+                    <HelpCircle className="w-3.5 h-3.5" />
+                  </div>
+                  <span className="group-hover:underline">רוצה להבין איך לקרוא את ההשוואה?</span>
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-96 text-right" side="bottom" align="start">
+                <div className="space-y-3">
+                  <h4 className="font-bold text-slate-900">איך לקרוא את ההשוואה הזו</h4>
+                  <div className="space-y-2 text-sm text-slate-700">
+                    <div>
+                      <strong>1. אחוז ההתאמה</strong>
+                      <p className="text-slate-600 mt-1">מראה עד כמה הנכס מתאים למה שסיפרת ל-Arena בשיחה ובבחירות שלך.</p>
+                    </div>
+                    <div>
+                      <strong>2. ההבדלים בין הנכסים</strong>
+                      <p className="text-slate-600 mt-1">כל שורה מדגישה מה חיזק או החליש את ההתאמה של כל נכס ביחס לאחרים.</p>
+                    </div>
+                    <div>
+                      <strong>3. רוצה להבין למה?</strong>
+                      <p className="text-slate-600 mt-1">אפשר ללחוץ על כל פריט ו-Arena תסביר בצ׳אט למה זה מתאים - או פחות.</p>
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+            <h2 className="text-2xl font-bold text-slate-900">השוואה לפי מה שחשוב לך</h2>
+          </div>
+          <p className="text-sm text-slate-600 mt-2 leading-relaxed">
+            הקריטריונים שמוצגים כאן הם אלו שהשפיעו הכי הרבה על ציון ההתאמה שלך.<br />
+            הערכים בטבלה הם נתונים אמיתיים של כל נכס.<br />
+            רוצה להבין למה? לחיצה על כל פרמטר פותחת הסבר אישי בשיחה עם Arena.
+          </p>
+        </div>
+      </div>
+
       {/* Property Headers */}
       <div className="grid gap-4" style={{ gridTemplateColumns: `200px repeat(${properties.length}, 1fr)` }}>
         <div></div>
