@@ -9,17 +9,7 @@ export default function Landing() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [showCookieBanner, setShowCookieBanner] = useState(false);
-
-  useEffect(() => {
-    // Simplified - no auth check for now
-    
-    // Check if cookie banner should be shown
-    const cookieConsent = localStorage.getItem('arena_cookie_consent');
-    if (!cookieConsent) {
-      setShowCookieBanner(true);
-    }
-  }, []);
+  const [showCookieBanner, setShowCookieBanner] = useState(true);
 
   const handleLogin = () => {
     navigate(createPageUrl('Home'));
