@@ -214,9 +214,9 @@ export default function Landing() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
-          <ChevronDown className="w-16 h-16 text-purple-700 animate-bounce" />
-          <span className="text-purple-700 text-xs font-medium">גלול למטה</span>
+        <div className="absolute bottom-24 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1">
+          <span className="text-slate-600 text-xs font-medium">גלול למטה</span>
+          <ChevronDown className="w-10 h-10 text-slate-600 animate-bounce" />
         </div>
       </div>
 
@@ -475,7 +475,7 @@ export default function Landing() {
 
       {/* Cookie Banner */}
       {showCookieBanner && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-50">
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-[100]">
           <div className="max-w-7xl mx-auto px-6 py-5">
             <div className="flex items-start justify-between gap-6 flex-wrap">
               <div className="flex-1 min-w-[250px]">
