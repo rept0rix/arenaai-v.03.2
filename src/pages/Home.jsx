@@ -114,61 +114,13 @@ export default function HomePage() {
       <div className="flex-1 w-full flex flex-col items-center justify-center p-4 bg-slate-50">
         <div className="max-w-3xl w-full flex flex-col items-center">
           
-          {/* Returning User Welcome */}
+          {/* Returning User Badge - Subtle and Non-intrusive */}
           {isReturningUser && (
-            <div className="w-full max-w-2xl mb-8">
-              <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
-                <h2 className="text-3xl font-bold text-slate-900 mb-4 text-center">שוב שלום! 👋</h2>
-                <p className="text-slate-600 text-center mb-6">רוצה להמשיך מאיפה שעצרת או להתחיל חיפוש חדש?</p>
-
-                <div className="flex flex-col gap-3 mb-6">
-                  <Button
-                    onClick={() => {
-                      const sessionData = SessionManager.getSessionData();
-                      if (sessionData && sessionData.last_query) {
-                        handleSearch(sessionData.last_query);
-                      } else {
-                        navigate(createPageUrl(`Chat?purpose=${selectedPurpose}`));
-                      }
-                    }}
-                    size="lg"
-                    className="bg-[#5F3A93] hover:bg-[#4a2d75] text-white"
-                  >
-                    המשך מאיפה שעצרת
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      SessionManager.clearSessionData();
-                      setIsReturningUser(false);
-                      setSelectedPurpose('');
-                    }}
-                    size="lg"
-                    variant="outline"
-                    className="border-slate-300"
-                  >
-                    התחל חיפוש חדש
-                  </Button>
-                </div>
-
-                <div className="pt-4 border-t border-slate-200">
-                  <p className="text-sm text-slate-600 mb-2 text-center">או שנה את ההקשר:</p>
-                  <div className="flex gap-3 justify-center">
-                    <Button
-                      variant={selectedPurpose === 'living' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => setSelectedPurpose('living')}
-                      className={selectedPurpose === 'living' ? "bg-sky-500" : ""}>
-                      למגורים
-                    </Button>
-                    <Button
-                      variant={selectedPurpose === 'investment' ? 'default' : 'outline'}
-                      size="sm"
-                      onClick={() => setSelectedPurpose('investment')}
-                      className={selectedPurpose === 'investment' ? "bg-sky-500" : ""}>
-                      להשקעה
-                    </Button>
-                  </div>
-                </div>
+            <div className="w-full max-w-2xl mb-4">
+              <div className="bg-sky-50 border border-sky-200 rounded-lg px-4 py-2 flex items-center justify-center gap-2">
+                <span className="text-sky-700 text-sm font-medium">
+                  חזרתם להמשך החיפוש שלכם
+                </span>
               </div>
             </div>
           )}
