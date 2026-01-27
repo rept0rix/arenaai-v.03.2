@@ -13,6 +13,14 @@ export default function ProjectComparison() {
   const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const handleParameterClick = (paramLabel, property) => {
+    // In real app, this would open chat with explanation
+    alert(`הסבר על ${paramLabel} עבור דירה ${property.id}:\n\nArena תסביר כאן למה הפרמטר הזה מתאים או פחות מתאים עבורך בהתבסס על העדפותיך בשיחה.`);
+    
+    // TODO: Integrate with chat interface
+    // openChatWithExplanation(paramLabel, property);
+  };
+
   useEffect(() => {
     const ids = searchParams.get('ids');
     const projectId = searchParams.get('projectId');
@@ -58,25 +66,25 @@ export default function ProjectComparison() {
   const projectName = properties[0]?.project_name || 'הפרויקט';
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50" dir="rtl">
       {/* Header */}
       <div className="bg-white border-b border-slate-200 px-6 py-4 shadow-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <TopNavigation currentPage="ProjectComparison" />
           <Button
             variant="ghost"
             onClick={() => navigate(-1)}
-            className="gap-2"
+            className="gap-2 flex-row-reverse"
           >
             <ArrowRight className="w-4 h-4" />
             חזרה לפרויקט
           </Button>
-          <TopNavigation currentPage="ProjectComparison" />
         </div>
       </div>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-6">
+        <div className="mb-6 text-right">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
             השוואת דירות ב{projectName}
           </h1>
@@ -85,7 +93,10 @@ export default function ProjectComparison() {
           </p>
         </div>
 
-        <ProjectComparisonTable properties={properties} />
+        <ProjectComparisonTable 
+          properties={properties} 
+          onParameterClick={handleParameterClick}
+        />
       </div>
     </div>
   );
