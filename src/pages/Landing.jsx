@@ -150,7 +150,7 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section with Background Image */}
-      <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100">
+      <div className="relative h-[75vh] flex items-center justify-center bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100">
         <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/77d5dcf6a_HEROBG.jpg')"}}></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-white/40"></div>
         
@@ -214,8 +214,9 @@ export default function Landing() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-32 left-1/2 transform -translate-x-1/2">
-          <ChevronDown className="w-8 h-8 text-slate-700/80 animate-bounce" />
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+          <ChevronDown className="w-16 h-16 text-purple-700 animate-bounce" />
+          <span className="text-purple-700 text-xs font-medium">גלול למטה</span>
         </div>
       </div>
 
