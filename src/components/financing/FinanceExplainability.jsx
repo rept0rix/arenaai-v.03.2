@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, XCircle, AlertTriangle, TrendingUp, DollarSign, Info } from 'lucide-react';
+import { CheckCircle, Info as InfoIcon, AlertTriangle, TrendingUp, DollarSign, Info, RefreshCcw, Phone } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 
@@ -59,6 +59,12 @@ export default function FinanceExplainability({ financingData, onBack }) {
 
     if (!result) return null;
 
+    const bankLogos = [
+        { id: 'leumi', name: 'בנק לאומי', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/45ac49117_leumi.png' },
+        { id: 'hapoalim', name: 'בנק הפועלים', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/d32f7a086_hapoalim.png' },
+        { id: 'private', name: 'יועץ משכנתאות', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/134407b46_private-advisor-icon.png' },
+    ];
+
     return (
         <div className="space-y-6">
             {/* א. מצב הבקשה */}
@@ -67,24 +73,24 @@ export default function FinanceExplainability({ financingData, onBack }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <Card className={`border-2 ${result.isApproved ? 'border-green-400 bg-green-50' : 'border-red-400 bg-red-50'}`}>
+                <Card className={`border-2 ${result.isApproved ? 'border-green-400 bg-green-50' : 'border-orange-300 bg-orange-50'}`}>
                     <CardHeader>
                         <div className="flex items-center gap-3">
                             {result.isApproved ? (
                                 <CheckCircle className="w-8 h-8 text-green-600" />
                             ) : (
-                                <XCircle className="w-8 h-8 text-red-600" />
+                                <InfoIcon className="w-8 h-8 text-orange-600" />
                             )}
                             <div>
-                                <CardTitle className={`text-2xl ${result.isApproved ? 'text-green-700' : 'text-red-700'}`}>
-                                    {result.isApproved ? '✔️ מאושר' : '❌ לא מאושר'}
+                                <CardTitle className={`text-2xl ${result.isApproved ? 'text-green-700' : 'text-orange-700'}`}>
+                                    {result.isApproved ? 'מצוין! קיבלת הערכה ראשונית למשכנתא' : 'בתנאים הנוכחיים – יש דרכים אחרות להתקדם'}
                                 </CardTitle>
                             </div>
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <p className={`text-lg ${result.isApproved ? 'text-green-800' : 'text-red-800'}`}>
-                            {result.statusMessage}
+                        <p className={`text-lg ${result.isApproved ? 'text-green-800' : 'text-orange-800'}`}>
+                            {result.isApproved ? result.statusMessage : 'על פי הנתונים שמסרת, ההערכה האוטומטית לא אישרה משכנתא, אבל יש עדיין אפשרויות להתקדם.'}
                         </p>
                     </CardContent>
                 </Card>
@@ -138,12 +144,93 @@ export default function FinanceExplainability({ financingData, onBack }) {
                 </Card>
             </motion.div>
 
-            {/* כפתור חזרה */}
-            <div className="flex justify-center">
-                <Button onClick={onBack} variant="outline" size="lg">
-                    חזור לשינוי פרטים
-                </Button>
-            </div>
+            {/* מה כן אפשר? - רק במקרה של דחייה */}
+            {!result.isApproved && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                    <Card className="border-sky-300 bg-sky-50">
+                        <CardHeader>
+                            <div className="flex items-center gap-3">
+                                <RefreshCcw className="w-6 h-6 text-sky-600" />
+                                <CardTitle className="text-xl text-sky-900">מה כן אפשר?</CardTitle>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <p className="text-slate-700">
+                                בשלב זה אין לנו הצעה מאושרת אוטומטית בתנאים אחרים. השלב הבא המומלץ הוא בדיקה אישית מול גורם פיננסי.
+                            </p>
+                            
+                            <div className="bg-white p-4 rounded-lg border border-sky-200">
+                                <p className="text-sm text-slate-600 mb-3 font-medium">יועצים שיכולים לעזור:</p>
+                                <div className="flex flex-wrap gap-4 items-center">
+                                    {bankLogos.map((bank) => (
+                                        <div key={bank.id} className="flex flex-col items-center gap-2 p-3 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors">
+                                            <img src={bank.logo} alt={bank.name} className="h-10" />
+                                            <span className="text-xs text-slate-600">{bank.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                                <p className="text-sm text-amber-800">
+                                    <strong>💡 טיפ:</strong> ייעוץ אישי עם יועץ משכנתאות או גוף בנקאי יכול לפתוח אפשרויות נוספות – כמו שינוי אחוז מימון, פריסת תקופה אחרת, או הלוואה משלימה.
+                                </p>
+                            </div>
+                            
+                            <Button 
+                                onClick={onBack} 
+                                variant="outline" 
+                                size="lg"
+                                className="w-full"
+                            >
+                                <RefreshCcw className="w-4 h-4 ml-2" />
+                                נסה שוב עם נתונים אחרים
+                            </Button>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+            )}
+
+            {/* אפשרויות מימון נוספות - בקרוב */}
+            {!result.isApproved && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                    <Card className="border-slate-200 bg-slate-50 opacity-60">
+                        <CardHeader>
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <Phone className="w-6 h-6 text-slate-500" />
+                                    <CardTitle className="text-xl text-slate-700">אפשרויות מימון נוספות</CardTitle>
+                                </div>
+                                <Badge variant="outline" className="bg-white border-slate-300 text-slate-600">
+                                    בקרוב
+                                </Badge>
+                            </div>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-slate-600">
+                                בקרוב נציע לך חלופות מימון נוספות, כולל הלוואות משלימות, הון פרטי, ועוד.
+                            </p>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+            )}
+
+            {/* כפתור חזרה - רק במקרה של אישור */}
+            {result.isApproved && (
+                <div className="flex justify-center">
+                    <Button onClick={onBack} variant="outline" size="lg">
+                        חזור לשינוי פרטים
+                    </Button>
+                </div>
+            )}
         </div>
     );
 }
