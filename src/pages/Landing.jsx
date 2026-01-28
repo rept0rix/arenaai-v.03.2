@@ -198,7 +198,7 @@ export default function Landing() {
           </div>
 
           {/* Quick Options */}
-          <div className="flex flex-wrap justify-center items-center gap-3 mb-8">
+          <div className="flex flex-wrap justify-center items-center gap-3 mb-12">
             <span className="text-slate-800 text-sm font-medium">או התחילו עם:</span>
             {["דירת 4 חדרים", "בית פרטי", "נכס להשקעה", "דירה בתל אביב"].map((option, index) => (
               <button
@@ -209,20 +209,6 @@ export default function Landing() {
                 {option}
               </button>
             ))}
-          </div>
-
-          {/* Bank Logos */}
-          <div className="flex justify-center items-center gap-6 mb-12">
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/bda6f0022_image.png" 
-              alt="בנק הפועלים" 
-              className="h-10 opacity-80"
-            />
-            <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/43bca02c9_image.png" 
-              alt="בנק לאומי" 
-              className="h-10 opacity-80"
-            />
           </div>
 
         </div>
