@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { base44 } from '@/api/base44Client';
 import TopNavigation from '../components/TopNavigation';
 import { SessionManager } from '../components/utils/sessionManager';
+import ReturningUserWelcome from '../components/onboarding/ReturningUserWelcome';
 
 const quickStartOptions = [
 "פריסייל חדש בתל אביב - לפני כולם",
@@ -24,6 +25,8 @@ export default function HomePage() {
   const [selectedPurpose, setSelectedPurpose] = useState('');
   const [user, setUser] = useState(null);
   const [isReturningUser, setIsReturningUser] = useState(false);
+  const [showReturningUserModal, setShowReturningUserModal] = useState(false);
+  const [savedSessionData, setSavedSessionData] = useState(null);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -40,12 +43,12 @@ export default function HomePage() {
       SessionManager.getOrCreateSessionId();
       SessionManager.getOrCreateDeviceId();
 
-      // Check if returning user (anonymous) - but don't show modal
+      // Check if returning user - show modal
       const sessionData = SessionManager.getSessionData();
       if (sessionData && sessionData.purpose) {
         setIsReturningUser(true);
-        // Auto-restore their purpose without prompting
-        setSelectedPurpose(sessionData.purpose);
+        setSavedSessionData(sessionData);
+        setShowReturningUserModal(true);
       }
 
       // Check URL purpose
@@ -104,26 +107,52 @@ export default function HomePage() {
     handleSearch(option);
   };
 
+  const handleContinueFromLast = () => {
+    if (savedSessionData) {
+      setSelectedPurpose(savedSessionData.purpose);
+      if (savedSessionData.last_query) {
+        handleSearch(savedSessionData.last_query);
+      } else {
+        setShowReturningUserModal(false);
+      }
+    }
+  };
+
+  const handleStartNew = () => {
+    SessionManager.clearSessionData();
+    setShowReturningUserModal(false);
+    setIsReturningUser(false);
+    setSavedSessionData(null);
+    setSelectedPurpose('');
+  };
+
+  const handleChangePurpose = () => {
+    setShowReturningUserModal(false);
+    // Keep session data but allow user to select new purpose
+  };
+
 
 
   return (
     <div className="min-h-screen flex flex-col">
       <TopNavigation currentPage="Home" />
       
+      {/* Returning User Welcome Modal */}
+      {showReturningUserModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <ReturningUserWelcome
+            userName={user?.full_name?.split(' ')[0]}
+            lastPurpose={savedSessionData?.purpose}
+            onContinue={handleContinueFromLast}
+            onStartNew={handleStartNew}
+            onChangePurpose={handleChangePurpose}
+          />
+        </div>
+      )}
+      
       {/* Main Content */}
       <div className="flex-1 w-full flex flex-col items-center justify-center p-4 bg-slate-50">
         <div className="max-w-3xl w-full flex flex-col items-center">
-          
-          {/* Returning User Badge - Subtle and Non-intrusive */}
-          {isReturningUser && (
-            <div className="w-full max-w-2xl mb-4">
-              <div className="bg-sky-50 border border-sky-200 rounded-lg px-4 py-2 flex items-center justify-center gap-2">
-                <span className="text-sky-700 text-sm font-medium">
-                  חזרתם להמשך החיפוש שלכם
-                </span>
-              </div>
-            </div>
-          )}
           
           <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg border border-slate-200/80 mb-8">
             {/* Chat Bubble with Logo - Replaced existing "Top part: Arena Chat" */}
