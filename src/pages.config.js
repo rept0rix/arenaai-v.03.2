@@ -15,6 +15,8 @@ import Financing from './pages/Financing';
 import FinancingConfirmation from './pages/FinancingConfirmation';
 import ForDevelopers from './pages/ForDevelopers';
 import History from './pages/History';
+import Home from './pages/Home';
+import Landing from './pages/Landing';
 import LeadDetails from './pages/LeadDetails';
 import PetahTikvaLanding from './pages/PetahTikvaLanding';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -33,8 +35,6 @@ import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
-import Home from './pages/Home';
-import Landing from './pages/Landing';
 import __Layout from './Layout.jsx';
 
 
@@ -56,6 +56,8 @@ export const PAGES = {
     "FinancingConfirmation": FinancingConfirmation,
     "ForDevelopers": ForDevelopers,
     "History": History,
+    "Home": Home,
+    "Landing": Landing,
     "LeadDetails": LeadDetails,
     "PetahTikvaLanding": PetahTikvaLanding,
     "PrivacyPolicy": PrivacyPolicy,
@@ -74,8 +76,6 @@ export const PAGES = {
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
     "YourBack": YourBack,
-    "Home": Home,
-    "Landing": Landing,
 }
 
 export const pagesConfig = {
