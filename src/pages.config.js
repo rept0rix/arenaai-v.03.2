@@ -76,6 +76,7 @@ import ProjectLeads from './pages/ProjectLeads';
 import PropertyComparison from './pages/PropertyComparison';
 import PropertyComparisonInfo from './pages/PropertyComparisonInfo';
 import PropertyDetails from './pages/PropertyDetails';
+import ReturningUserWelcome from './pages/ReturningUserWelcome';
 import SavedProperties from './pages/SavedProperties';
 import ScheduleMeeting from './pages/ScheduleMeeting';
 import Settings from './pages/Settings';
@@ -84,7 +85,7 @@ import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
-import ReturningUserWelcome from './pages/ReturningUserWelcome';
+import ProjectInterested from './pages/ProjectInterested';
 import __Layout from './Layout.jsx';
 
 
@@ -118,6 +119,7 @@ export const PAGES = {
     "PropertyComparison": PropertyComparison,
     "PropertyComparisonInfo": PropertyComparisonInfo,
     "PropertyDetails": PropertyDetails,
+    "ReturningUserWelcome": ReturningUserWelcome,
     "SavedProperties": SavedProperties,
     "ScheduleMeeting": ScheduleMeeting,
     "Settings": Settings,
@@ -126,7 +128,7 @@ export const PAGES = {
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
     "YourBack": YourBack,
-    "ReturningUserWelcome": ReturningUserWelcome,
+    "ProjectInterested": ProjectInterested,
 }
 
 export const pagesConfig = {
