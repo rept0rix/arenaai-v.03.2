@@ -214,7 +214,7 @@ export default function Landing() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-[60px] left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1">
+        <div className="absolute bottom-[30px] left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1">
           <span className="text-slate-600 text-xs font-medium">גלול למטה</span>
           <ChevronDown className="w-10 h-10 text-slate-600 animate-bounce" />
         </div>
