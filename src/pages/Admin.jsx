@@ -12,6 +12,7 @@ import PropertyManagement from "../components/admin/PropertyManagement";
 import QuestionManagement from "../components/admin/QuestionManagement";
 import UserManagement from "../components/admin/UserManagement";
 import UserStatisticsDashboard from "../components/admin/UserStatisticsDashboard";
+import LeadManagement from "../components/admin/LeadManagement";
 import { toast } from "sonner";
 
 export default function Admin() {
@@ -190,10 +191,11 @@ export default function Admin() {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4 max-w-3xl">
+            <TabsList className="grid w-full grid-cols-5 max-w-4xl">
               <TabsTrigger value="properties">ניהול נכסים</TabsTrigger>
               <TabsTrigger value="questions">ניהול שאלות</TabsTrigger>
               <TabsTrigger value="users">ניהול משתמשים</TabsTrigger>
+              <TabsTrigger value="leads">לידים</TabsTrigger>
               <TabsTrigger value="user-statistics">סטטיסטיקת משתמשים</TabsTrigger>
             </TabsList>
 
@@ -216,6 +218,13 @@ export default function Admin() {
             <TabsContent value="users">
               <UserManagement
                 users={users}
+                onRefresh={refreshData}
+                isLoading={isLoading}
+              />
+            </TabsContent>
+
+            <TabsContent value="leads">
+              <LeadManagement
                 onRefresh={refreshData}
                 isLoading={isLoading}
               />
