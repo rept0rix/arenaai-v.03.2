@@ -86,6 +86,7 @@ import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
 import ProjectInterested from './pages/ProjectInterested';
+import DeveloperStatistics from './pages/DeveloperStatistics';
 import __Layout from './Layout.jsx';
 
 
@@ -129,6 +130,7 @@ export const PAGES = {
     "VirtualTours": VirtualTours,
     "YourBack": YourBack,
     "ProjectInterested": ProjectInterested,
+    "DeveloperStatistics": DeveloperStatistics,
 }
 
 export const pagesConfig = {
