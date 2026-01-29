@@ -58,6 +58,7 @@ import Contact from './pages/Contact';
 import CustomLogin from './pages/CustomLogin';
 import DeveloperCRM from './pages/DeveloperCRM';
 import DeveloperDashboard from './pages/DeveloperDashboard';
+import DeveloperStatistics from './pages/DeveloperStatistics';
 import DeveloperThankYou from './pages/DeveloperThankYou';
 import Filters from './pages/Filters';
 import Financing from './pages/Financing';
@@ -72,6 +73,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import ProjectAnalytics from './pages/ProjectAnalytics';
 import ProjectComparison from './pages/ProjectComparison';
 import ProjectDetails from './pages/ProjectDetails';
+import ProjectInterested from './pages/ProjectInterested';
 import ProjectLeads from './pages/ProjectLeads';
 import PropertyComparison from './pages/PropertyComparison';
 import PropertyComparisonInfo from './pages/PropertyComparisonInfo';
@@ -85,8 +87,6 @@ import TermsOfServiceDevelopers from './pages/TermsOfServiceDevelopers';
 import UserProfile from './pages/UserProfile';
 import VirtualTours from './pages/VirtualTours';
 import YourBack from './pages/YourBack';
-import ProjectInterested from './pages/ProjectInterested';
-import DeveloperStatistics from './pages/DeveloperStatistics';
 import __Layout from './Layout.jsx';
 
 
@@ -102,6 +102,7 @@ export const PAGES = {
     "CustomLogin": CustomLogin,
     "DeveloperCRM": DeveloperCRM,
     "DeveloperDashboard": DeveloperDashboard,
+    "DeveloperStatistics": DeveloperStatistics,
     "DeveloperThankYou": DeveloperThankYou,
     "Filters": Filters,
     "Financing": Financing,
@@ -116,6 +117,7 @@ export const PAGES = {
     "ProjectAnalytics": ProjectAnalytics,
     "ProjectComparison": ProjectComparison,
     "ProjectDetails": ProjectDetails,
+    "ProjectInterested": ProjectInterested,
     "ProjectLeads": ProjectLeads,
     "PropertyComparison": PropertyComparison,
     "PropertyComparisonInfo": PropertyComparisonInfo,
@@ -129,8 +131,6 @@ export const PAGES = {
     "UserProfile": UserProfile,
     "VirtualTours": VirtualTours,
     "YourBack": YourBack,
-    "ProjectInterested": ProjectInterested,
-    "DeveloperStatistics": DeveloperStatistics,
 }
 
 export const pagesConfig = {

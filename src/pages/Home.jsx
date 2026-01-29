@@ -245,24 +245,24 @@ export default function HomePage() {
               </Button>
               <Button
               variant="outline"
+              onClick={() => navigate(createPageUrl('Financing'))}
+              className="flex flex-col items-center justify-center h-24 bg-white hover:bg-slate-50 border-slate-200">
+                <Settings className="w-6 h-6 mb-2 text-slate-600" />
+                <span className="text-sm">אפשרויות מימון</span>
+              </Button>
+              <Button
+              variant="outline"
+              onClick={() => navigate(createPageUrl('SavedProperties'))}
+              className="flex flex-col items-center justify-center h-24 bg-white hover:bg-slate-50 border-slate-200">
+                <UserIcon className="w-6 h-6 mb-2 text-slate-600" />
+                <span className="text-sm">האזור האישי שלי</span>
+              </Button>
+              <Button
+              variant="outline"
               onClick={() => navigate(createPageUrl('History'))}
               className="flex flex-col items-center justify-center h-24 bg-white hover:bg-slate-50 border-slate-200">
                 <History className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">היסטוריה</span>
-              </Button>
-              <Button
-              variant="outline"
-              onClick={handleGuidedJourney}
-              className="flex flex-col items-center justify-center h-24 bg-white hover:bg-slate-50 border-slate-200">
-                <Compass className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">חיפוש מכובד</span>
-              </Button>
-              <Button
-              variant="outline"
-              onClick={() => navigate(createPageUrl('Settings'))}
-              className="flex flex-col items-center justify-center h-24 bg-white hover:bg-slate-50 border-slate-200">
-                <Settings className="w-6 h-6 mb-2 text-slate-600" />
-                <span className="text-sm">סיוע מתקדם</span>
+                <span className="text-sm">היסטוריית שיחות</span>
               </Button>
             </div>
           }
