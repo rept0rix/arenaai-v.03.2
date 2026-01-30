@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { ChevronDown, User, LogOut, UserCircle, Settings, Shield, Heart, History } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { ChevronDown, User, LogOut, UserCircle, Settings, Shield, Heart, History, Compass, ArrowUp } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 
 export default function Landing() {
@@ -287,88 +288,77 @@ export default function Landing() {
 
       {/* CTA Section - שנתחיל? */}
       <section className="relative py-16 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg">שנתחיל?</h2>
+        <div className="relative z-10 max-w-4xl mx-auto px-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg text-center">שנתחיל?</h2>
           
-          {/* Two main purpose buttons */}
-          <div className="flex gap-4 justify-center mb-8 max-w-xl mx-auto">
-            <button 
-              onClick={() => handleGetStarted('living')}
-              className="bg-white/95 backdrop-blur-sm text-purple-700 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 flex-1 font-bold transform hover:scale-105"
-            >
-              <span className="text-2xl">🏡</span>
-              <span>מגורים</span>
-            </button>
-            <button 
-              onClick={() => handleGetStarted('investment')}
-              className="bg-white/95 backdrop-blur-sm text-purple-700 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center gap-2 flex-1 font-bold transform hover:scale-105"
-            >
-              <span className="text-2xl">💸</span>
-              <span>השקעה</span>
-            </button>
-          </div>
-
-          {/* Chat Interface Preview */}
-          <div className="bg-white rounded-3xl p-8 max-w-3xl mx-auto shadow-2xl">
-            <div className="flex items-start gap-6 mb-6">
+          {/* Home Component Style */}
+          <div className="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-200/80">
+            {/* Chat Bubble with Logo */}
+            <div className="bg-white/90 backdrop-blur-sm rounded-t-2xl p-6 border-b border-slate-200/80 flex items-center gap-6">
               <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c276074aac6e6711db72a6/fefa17145_logoarena3d.png"
                 alt="Arena AI Logo"
-                className="w-20 h-20 flex-shrink-0"
+                className="w-10 h-10 flex-shrink-0"
               />
-              <div className="text-right flex-1 space-y-3">
-                <p className="text-xl font-bold text-slate-800">
+              <div className="text-right flex-1">
+                <p className="text-lg font-semibold mb-2 text-slate-800">
                   היי! אני ארנה, יועצת הנדל"ן החכמה שלך.
                 </p>
-                <p className="text-lg text-slate-700">
-                  בואו נמצא את הבית הבא שלכם.
+                <p className="text-slate-700 mb-3">
+                  בוא נמצא את הבית הבא עבורך.
                 </p>
-                <p className="text-base text-slate-600">
-                  לאיזו מטרה אתם מחפשים נכס?
-                </p>
+                
+                <div className="space-y-3">
+                  <p className="text-slate-800 font-medium">
+                    לאיזו מטרה את/ה מחפש/ת נכס?
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <Button
+                      onClick={() => handleGetStarted('living')}
+                      className="bg-sky-500 hover:bg-sky-600 text-white"
+                      size="sm"
+                    >
+                      נכס למגורים
+                    </Button>
+                    <Button
+                      onClick={() => handleGetStarted('investment')}
+                      className="bg-sky-500 hover:bg-sky-600 text-white"
+                      size="sm"
+                    >
+                      נכס להשקעה
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Quick Start Options */}
-            <div className="space-y-3 mb-6">
-              <button 
-                onClick={() => handleGetStarted('living')}
-                className="w-full bg-sky-50 hover:bg-sky-100 border-2 border-sky-200 hover:border-sky-400 rounded-xl p-4 text-right transition-all"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">🏡</span>
-                  <div className="flex-1">
-                    <div className="font-bold text-slate-900">נכס למגורים</div>
-                    <div className="text-sm text-slate-600">מסע מודרך או שיחה חופשית</div>
-                  </div>
-                </div>
-              </button>
-              
-              <button 
-                onClick={() => handleGetStarted('investment')}
-                className="w-full bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 hover:border-purple-400 rounded-xl p-4 text-right transition-all"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-2xl">💸</span>
-                  <div className="flex-1">
-                    <div className="font-bold text-slate-900">נכס להשקעה</div>
-                    <div className="text-sm text-slate-600">ניתוח תשואה והמלצות חכמות</div>
-                  </div>
-                </div>
-              </button>
-            </div>
-
-            {/* Example prompt */}
-            <div className="bg-slate-50 rounded-2xl p-6 text-right border border-slate-200">
-              <div className="flex items-start gap-3">
-                <button className="w-10 h-10 bg-slate-700 text-white rounded-lg flex items-center justify-center hover:bg-slate-800 transition-colors flex-shrink-0">
-                  <span className="text-xl">↑</span>
-                </button>
-                <div className="flex-1">
-                  <p className="text-slate-700 leading-relaxed mb-2 text-sm">
-                    לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי עד 4.5 מיליון...
-                  </p>
-                  <span className="text-xs text-slate-500">📝 מסע מודרך</span>
+            
+            {/* Bottom part: Form */}
+            <div className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
+              <div className="relative">
+                <Textarea
+                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
+                  className="bg-white text-right px-4 py-4 pb-12 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
+                  rows={5}
+                  readOnly
+                />
+                
+                <div className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-4">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleGetStarted('')}
+                    className="text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm"
+                  >
+                    <Compass className="w-4 h-4" />
+                    מסע מודרך
+                  </Button>
+                  <Button
+                    size="icon"
+                    className="bg-slate-900 hover:bg-black text-white rounded-lg"
+                    onClick={() => handleGetStarted('')}
+                  >
+                    <ArrowUp className="w-5 h-5" />
+                  </Button>
                 </div>
               </div>
             </div>
