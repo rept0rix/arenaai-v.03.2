@@ -65,7 +65,7 @@ export default function DeveloperDashboard() {
             דאשבורד יזם
           </h1>
           <p className="text-slate-600">
-            ניהול לידים, פרויקטים ופגישות
+            ניהול מתעניינים בפרויקטים, פרויקטים ופגישות
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export default function DeveloperDashboard() {
             </TabsTrigger>
             <TabsTrigger value="leads" className="flex items-center gap-2">
               <Users className="w-4 h-4" />
-              <span>לידים</span>
+              <span>מתעניינים</span>
             </TabsTrigger>
             <TabsTrigger value="projects" className="flex items-center gap-2">
               <Building2 className="w-4 h-4" />
