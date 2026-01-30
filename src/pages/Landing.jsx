@@ -205,7 +205,7 @@ export default function Landing() {
         {/* Background Skyline Image */}
         <div className="absolute bottom-0 left-0 right-0 h-48 opacity-30">
           <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/5723ff26b_image.png"
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/0ce171a24_image.png"
             alt="Skyline"
             className="w-full h-full object-cover object-bottom"
           />
