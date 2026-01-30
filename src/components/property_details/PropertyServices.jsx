@@ -14,10 +14,19 @@ export default function PropertyServices({ property, onContactClick, onFinancing
           <CardTitle className="text-xl text-center">מעוניינים בפרטים נוספים?</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="space-y-3">
+            <Input placeholder="שם מלא" className="bg-slate-50 border-0" />
+            <Input placeholder="טלפון" className="bg-slate-50 border-0" />
+            <Input placeholder="אימייל" type="email" className="bg-slate-50 border-0" />
+          </div>
+          
           <div className="flex flex-col gap-2">
-            <Button className="w-full text-lg py-6" onClick={onContactClick}>
-              <MessageSquare className="w-5 h-5 ml-2" />
-              שליחת פנייה / קביעת פגישה
+            <Button className="w-full text-lg py-5 bg-sky-600 hover:bg-sky-700" onClick={onContactClick}>
+              פנה ליזם
+            </Button>
+            <Button variant="outline" className="w-full text-lg py-5" onClick={onContactClick}>
+              <Calendar className="w-4 h-4 ml-2" />
+              קבע פגישה
             </Button>
           </div>
         </CardContent>

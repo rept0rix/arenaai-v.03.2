@@ -365,12 +365,6 @@ export default function PropertyDetails() {
                             {/* Right Sidebar */}
                             <div className="col-span-12 lg:col-span-4">
                                 <div className="sticky top-4 space-y-4">
-                                    <Button
-                                        onClick={() => setShowInquiryForm(true)}
-                                        className="w-full bg-sky-600 hover:bg-sky-700 text-white py-6 text-lg font-semibold"
-                                    >
-                                        פנה ליזם
-                                    </Button>
                                     <PropertyServices 
                                         property={property}
                                         onContactClick={() => setShowInquiryForm(true)}
