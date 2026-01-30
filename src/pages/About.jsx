@@ -1,4 +1,3 @@
-
 import React from 'react';
 import TopNavigation from '../components/TopNavigation';
 import { ArrowLeft, BrainCircuit, Users, Building, Linkedin, CheckCircle, TrendingUp, FileText, BarChart3, Target } from 'lucide-react';
@@ -199,6 +198,65 @@ export default function About() {
                 
                 {/* Advisors Section */}
                 <div className="py-16 sm:py-24">
+                </div>
+
+                {/* FAQ Section */}
+                <div className="mb-20 max-w-4xl mx-auto">
+                    <h2 className="text-3xl font-bold text-slate-900 mb-3 text-center">שאלות נפוצות</h2>
+                    <p className="text-center text-slate-600 mb-8">יש לך שאלה ל-Arena? אולי כבר שאלו אותה לפניך</p>
+
+                    <div className="space-y-3">
+                        <details className="bg-white rounded-2xl p-6 shadow-sm group">
+                            <summary className="font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
+                                <span>מי זו ארנה?</span>
+                                <span className="text-slate-400 group-open:rotate-180 transition-transform text-sm">▼</span>
+                            </summary>
+                            <div className="mt-6 text-slate-700 leading-relaxed space-y-3 text-right">
+                                <p>
+                                    ארנה היא יועצת הנדל"ן האישית שלך - אובייקטיבית, אמינה, ומותאמת בדיוק אליך.
+                                </p>
+                                <p>
+                                    היא לא עוד מוכרת או משווקת נדל"ן מטעם קבלן, אלא מלווה אותך בצד שלך בלבד.
+                                </p>
+                                <p>
+                                    בניגוד ללוחות נדל"ן שהם לוח מודעות קר וסטטי, ארנה מבינה אותך. היא לומדת מה חשוב לך באמת ומוצאת עבורך את הדירה שתהפוך לבית.
+                                </p>
+                                <p className="text-sky-600 font-medium">
+                                    👉 עם ארנה, לא צריך לנחש, לא צריך להתפשר.
+                                </p>
+                            </div>
+                        </details>
+
+                        <details className="bg-white rounded-2xl p-6 shadow-sm group">
+                            <summary className="font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
+                                <span>איך ארנה מתאימה לי דירות?</span>
+                                <span className="text-slate-400 group-open:rotate-180 transition-transform text-sm">▼</span>
+                            </summary>
+                            <div className="mt-6 text-slate-700 leading-relaxed space-y-3 text-right">
+                                <p>
+                                    בזמן שלוחות מודעות רגילים מציעים לסנן לפי חדרים, מחיר או שכונה, ארנה פועלת אחרת: היא מתחילה משיחה איתך, מבינה מי אתה ומה באמת חשוב לך.
+                                </p>
+                                <p className="text-sky-600 font-medium">
+                                    👉 לא פילטרים גנריים - אלא דיסקברי אישי שמותאם לחיים שלך.
+                                </p>
+                            </div>
+                        </details>
+
+                        <details className="bg-white rounded-2xl p-6 shadow-sm group">
+                            <summary className="font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
+                                <span>האם השימוש בארנה כרוך בתשלום?</span>
+                                <span className="text-slate-400 group-open:rotate-180 transition-transform text-sm">▼</span>
+                            </summary>
+                            <div className="mt-6 text-slate-700 leading-relaxed space-y-3 text-right">
+                                <p>
+                                    לא. השירות חינמי לחלוטין עבורך כרוכש פוטנציאלי.
+                                </p>
+                                <p className="text-sky-600 font-medium">
+                                    👉 אתה מקבל יועצת אישית בלי לשלם שקל.
+                                </p>
+                            </div>
+                        </details>
+                    </div>
                 </div>
 
                 {/* Vision Section */}
