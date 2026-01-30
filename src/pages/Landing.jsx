@@ -201,60 +201,88 @@ export default function Landing() {
       </div>
 
       {/* CTA Section - שנתחיל? */}
-      <section className="relative py-16 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
-        {/* Subtle pattern overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px'}}></div>
+      <section className="relative py-20 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
+        {/* Background Skyline Image */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 opacity-30">
+          <img
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/5723ff26b_image.png"
+            alt="Skyline"
+            className="w-full h-full object-cover object-bottom"
+          />
         </div>
         
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg">שנתחיל?</h2>
           
-          {/* Two main buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-8 max-w-2xl mx-auto">
-            <Button 
+          {/* Two main tab-style buttons */}
+          <div className="flex gap-4 justify-center mb-8 max-w-xl mx-auto">
+            <button 
               onClick={() => handleGetStarted('living')}
-              className="bg-white text-purple-600 hover:bg-purple-50 text-xl py-6 px-10 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all flex items-center justify-center gap-3 flex-1"
+              className="bg-white/90 backdrop-blur-sm text-purple-600 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 flex-1"
             >
-              <span className="text-3xl">🏡</span>
+              <span className="text-2xl">🏡</span>
               <span className="font-bold">מגורים</span>
-            </Button>
-            <Button 
+            </button>
+            <button 
               onClick={() => handleGetStarted('investment')}
-              className="bg-white text-purple-600 hover:bg-purple-50 text-xl py-6 px-10 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all flex items-center justify-center gap-3 flex-1"
+              className="bg-white/90 backdrop-blur-sm text-purple-600 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 flex-1"
             >
-              <span className="text-3xl">💸</span>
+              <span className="text-2xl">💸</span>
               <span className="font-bold">השקעה</span>
-            </Button>
+            </button>
           </div>
 
-          {/* Chat Bubble with Logo */}
-          <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 max-w-2xl mx-auto shadow-2xl border border-white/60">
-            <div className="flex items-center gap-6">
+          {/* Chat Bubble Container - White Card with Logo and Text */}
+          <div className="bg-white rounded-3xl p-8 max-w-3xl mx-auto shadow-2xl">
+            <div className="flex items-start gap-6 mb-6">
               <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png"
                 alt="Arena AI Logo"
-                className="w-16 h-16 flex-shrink-0"
+                className="w-20 h-20 flex-shrink-0"
               />
-              <div className="text-right flex-1">
-                <p className="text-lg font-semibold text-slate-800">
-                  היי, אני ארנה, יועצת הנדל"ן החכמה שלך.
+              <div className="text-right flex-1 space-y-3">
+                <p className="text-xl font-bold text-slate-800">
+                  היי סופר! אני ארנה, יועצת הנדל"ן החכמה שלך.
+                </p>
+                <p className="text-lg text-slate-700">
+                  בוא ונמצא את הבית הבא עבורך.
+                </p>
+                <p className="text-base text-slate-600">
+                  לאיזו מטרה את/ה מחפש/ת נכס?
                 </p>
               </div>
             </div>
             
-            {/* Quick Options */}
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
-              <span className="text-slate-600 text-sm font-medium w-full mb-2">או התחילו עם:</span>
-              {["דירת 4 חדרים", "בית פרטי", "נכס להשקעה", "דירה בתל אביב"].map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleGetStarted('')}
-                  className="bg-slate-100 hover:bg-sky-100 text-slate-700 hover:text-sky-700 px-4 py-2 rounded-full text-sm border border-slate-200 hover:border-sky-300 transition-all"
-                >
-                  {option}
+            {/* Action Buttons */}
+            <div className="flex gap-4 justify-center mb-4">
+              <button
+                onClick={() => handleGetStarted('living')}
+                className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md hover:shadow-lg"
+              >
+                נכס למגורים
+              </button>
+              <button
+                onClick={() => handleGetStarted('investment')}
+                className="bg-white hover:bg-slate-50 text-slate-700 font-medium py-3 px-8 rounded-xl border border-slate-300 transition-all"
+              >
+                נכס להשקעה
+              </button>
+            </div>
+
+            {/* Example Message */}
+            <div className="bg-slate-50 rounded-2xl p-6 text-right border border-slate-200">
+              <div className="flex items-start gap-3 mb-4">
+                <button className="w-10 h-10 bg-slate-600 text-white rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors flex-shrink-0">
+                  <span className="text-xl">↑</span>
                 </button>
-              ))}
+                <p className="text-slate-700 leading-relaxed flex-1">
+                  לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של חן אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים...
+                </p>
+              </div>
+              
+              <div className="text-left">
+                <span className="text-sm text-slate-500">📝 מסע מודרך</span>
+              </div>
             </div>
           </div>
         </div>
