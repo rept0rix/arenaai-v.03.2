@@ -200,93 +200,6 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* CTA Section - שנתחיל? */}
-      <section className="relative py-20 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
-        {/* Background Skyline Image */}
-        <div className="absolute bottom-0 left-0 right-0 h-48 opacity-30">
-          <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/0ce171a24_image.png"
-            alt="Skyline"
-            className="w-full h-full object-cover object-bottom"
-          />
-        </div>
-        
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg">שנתחיל?</h2>
-          
-          {/* Two main tab-style buttons */}
-          <div className="flex gap-4 justify-center mb-8 max-w-xl mx-auto">
-            <button 
-              onClick={() => handleGetStarted('living')}
-              className="bg-white/90 backdrop-blur-sm text-purple-600 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 flex-1"
-            >
-              <span className="text-2xl">🏡</span>
-              <span className="font-bold">מגורים</span>
-            </button>
-            <button 
-              onClick={() => handleGetStarted('investment')}
-              className="bg-white/90 backdrop-blur-sm text-purple-600 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 flex-1"
-            >
-              <span className="text-2xl">💸</span>
-              <span className="font-bold">השקעה</span>
-            </button>
-          </div>
-
-          {/* Chat Bubble Container - White Card with Logo and Text */}
-          <div className="bg-white rounded-3xl p-8 max-w-3xl mx-auto shadow-2xl">
-            <div className="flex items-start gap-6 mb-6">
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png"
-                alt="Arena AI Logo"
-                className="w-20 h-20 flex-shrink-0"
-              />
-              <div className="text-right flex-1 space-y-3">
-                <p className="text-xl font-bold text-slate-800">
-                  היי סופר! אני ארנה, יועצת הנדל"ן החכמה שלך.
-                </p>
-                <p className="text-lg text-slate-700">
-                  בוא ונמצא את הבית הבא עבורך.
-                </p>
-                <p className="text-base text-slate-600">
-                  לאיזו מטרה את/ה מחפש/ת נכס?
-                </p>
-              </div>
-            </div>
-            
-            {/* Action Buttons */}
-            <div className="flex gap-4 justify-center mb-6">
-              <button
-                onClick={() => handleGetStarted('living')}
-                className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md hover:shadow-lg"
-              >
-                נכס למגורים
-              </button>
-              <button
-                onClick={() => handleGetStarted('investment')}
-                className="bg-white hover:bg-slate-50 text-slate-700 font-medium py-3 px-8 rounded-xl border border-slate-300 transition-all"
-              >
-                נכס להשקעה
-              </button>
-            </div>
-
-            {/* Example Message */}
-            <div className="bg-slate-50 rounded-2xl p-6 text-right border border-slate-200">
-              <div className="flex items-start gap-3">
-                <button className="w-10 h-10 bg-slate-600 text-white rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors flex-shrink-0">
-                  <span className="text-xl">↑</span>
-                </button>
-                <div className="flex-1">
-                  <p className="text-slate-700 leading-relaxed mb-3">
-                    לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים...
-                  </p>
-                  <span className="text-sm text-slate-500">📝 מסע מודרך</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* איך עובדים עם ARENA - New Onboarding Section */}
       <section className="relative py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6">
@@ -480,6 +393,68 @@ export default function Landing() {
                 </p>
                 <div className="font-bold text-slate-900">שירה לוי</div>
                 <div className="text-sm text-slate-500">זוג צעיר, רוכשת ראשונה</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - שנתחיל? */}
+      <section className="relative py-20 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg">שנתחיל?</h2>
+          
+          {/* Two main tab-style buttons */}
+          <div className="flex gap-4 justify-center mb-8 max-w-xl mx-auto">
+            <button 
+              onClick={() => handleGetStarted('living')}
+              className="bg-white/90 backdrop-blur-sm text-purple-600 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 flex-1"
+            >
+              <span className="text-2xl">🏡</span>
+              <span className="font-bold">מגורים</span>
+            </button>
+            <button 
+              onClick={() => handleGetStarted('investment')}
+              className="bg-white/90 backdrop-blur-sm text-purple-600 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 flex-1"
+            >
+              <span className="text-2xl">💸</span>
+              <span className="font-bold">השקעה</span>
+            </button>
+          </div>
+
+          {/* Chat Bubble Container - White Card with Logo and Text */}
+          <div className="bg-white rounded-3xl p-8 max-w-3xl mx-auto shadow-2xl">
+            <div className="flex items-start gap-6 mb-6">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png"
+                alt="Arena AI Logo"
+                className="w-20 h-20 flex-shrink-0"
+              />
+              <div className="text-right flex-1 space-y-3">
+                <p className="text-xl font-bold text-slate-800">
+                  היי סופר! אני ארנה, יועצת הנדל"ן החכמה שלך.
+                </p>
+                <p className="text-lg text-slate-700">
+                  בוא ונמצא את הבית הבא עבורך.
+                </p>
+                <p className="text-base text-slate-600">
+                  לאיזו מטרה את/ה מחפש/ת נכס?
+                </p>
+              </div>
+            </div>
+
+            {/* Example Message */}
+            <div className="bg-slate-50 rounded-2xl p-6 text-right border border-slate-200">
+              <div className="flex items-start gap-3">
+                <button className="w-10 h-10 bg-slate-600 text-white rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors flex-shrink-0">
+                  <span className="text-xl">↑</span>
+                </button>
+                <div className="flex-1">
+                  <p className="text-slate-700 leading-relaxed mb-3">
+                    לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים...
+                  </p>
+                  <span className="text-sm text-slate-500">📝 מסע מודרך</span>
+                </div>
               </div>
             </div>
           </div>
