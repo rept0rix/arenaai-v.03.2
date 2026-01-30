@@ -197,7 +197,7 @@ export default function Landing() {
           <img 
             src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/fd401a462_image.png"
             alt="Background"
-            className="w-full h-full object-cover"
+            className="w-full h-full"
           />
         </div>
         
