@@ -373,27 +373,6 @@ export default function FinanceExplainability({ financingData, onBack }) {
                 </Card>
             </motion.div>
 
-            {/* הודעת אזהרה */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-            >
-                <Card className="border-sky-200 bg-sky-50/50">
-                    <CardContent className="p-4">
-                        <div className="flex items-start gap-2">
-                            <InfoIcon className="w-5 h-5 text-sky-600 flex-shrink-0 mt-0.5" />
-                            <div>
-                                <h4 className="font-semibold text-slate-800 mb-1 text-sm">בתנאים הנוכחיים – יש דרכים אחרות להתקדם</h4>
-                                <p className="text-xs text-slate-700">
-                                    על פי הנתונים שמסרת, ההערכה האוטומטית לא אישרה משכנתא, אבל יש עדיין אפשרויות להתקדם.
-                                </p>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
-            </motion.div>
-
             {/* דיסקליימר משפטי */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
