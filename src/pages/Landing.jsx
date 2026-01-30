@@ -169,15 +169,19 @@ export default function Landing() {
 
       {/* Hero Section - Shorter & More Focused */}
       <div className="relative h-[75vh] flex items-center justify-center overflow-hidden">
-        {/* Background Gradient - Lighter */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-300 via-sky-200 to-purple-100"></div>
+        {/* Video Background */}
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://assets.grok.com/users/d19ec812-ca24-464a-b234-6f6fbd258649/generated/0a0c7491-ff6d-49e7-bc03-cb6fa4bdf97d/generated_video.mp4?cache=1" type="video/mp4" />
+        </video>
         
-        {/* Animated Clouds */}
-        <div className="absolute inset-0 overflow-hidden opacity-20">
-          <div className="absolute top-20 right-10 w-32 h-16 bg-white/40 rounded-full blur-xl animate-float"></div>
-          <div className="absolute top-40 left-20 w-40 h-20 bg-white/30 rounded-full blur-xl animate-float-delayed"></div>
-          <div className="absolute top-32 right-1/3 w-36 h-18 bg-white/35 rounded-full blur-xl animate-float" style={{animationDelay: '2s'}}></div>
-        </div>
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-400/30 via-sky-300/20 to-purple-200/30"></div>
         
         {/* Skyline SVG at bottom - Subtle Line Art */}
         <div className="absolute bottom-0 left-0 right-0 h-32 opacity-15">
