@@ -169,29 +169,6 @@ export default function FinanceExplainability({ financingData, onBack }) {
                     </Card>
                 </motion.div>
 
-                {/* דיסקליימר */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                >
-                    <Card className="bg-slate-50 border-slate-200">
-                        <CardContent className="p-4">
-                            <div className="flex items-start gap-2">
-                                <AlertTriangle className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
-                                <div>
-                                    <h4 className="font-semibold text-slate-800 mb-2 text-sm">❗ חשוב לדעת:</h4>
-                                    <div className="text-xs text-slate-600 space-y-1.5 leading-relaxed">
-                                        <p>המידע המוצג מבוסס על אלגוריתם חישוב כללי, המבוסס על ריבית משכנתא משוערת של 4% וכללי בנקאות מקובלים, ואינו מהווה ואינו מחליף ייעוץ משכנתאות, ייעוץ פיננסי או המלצה רשמית.</p>
-                                        <p>ARENA אינה יועצת מוסמכת ואינה מחזיקה ברישיון ייעוץ פיננסי או משכנתאות לפי חוק.</p>
-                                        <p>קבלת משכנתא בפועל כפופה לבדיקת הבנקים, לרבות דירוג אשראי, הכנסות, התחייבויות ונתונים נוספים.</p>
-                                        <p>אנו ממליצים להיוועץ בגורם מוסמך לפני קבלת החלטה פיננסית.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </motion.div>
             </div>
         );
     }
