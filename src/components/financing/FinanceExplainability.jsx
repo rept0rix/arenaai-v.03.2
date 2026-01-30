@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Info as InfoIcon, AlertTriangle, TrendingUp, DollarSign, Info, RefreshCcw, Phone } from 'lucide-react';
+import { CheckCircle, Info as InfoIcon, AlertTriangle, TrendingUp, Calculator, Info, RefreshCcw, Phone, Home, Calendar } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 
@@ -66,38 +66,164 @@ export default function FinanceExplainability({ financingData, onBack }) {
         { id: 'private', name: 'יועץ משכנתאות חיצוני', logo: null },
     ];
 
+    // If approved - show approved view
+    if (result.isApproved) {
+        return (
+            <div className="space-y-6">
+                {/* מצב אישור */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <Card className="border-2 border-green-400 bg-gradient-to-br from-green-50 to-emerald-50">
+                        <CardContent className="p-8 text-center">
+                            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <CheckCircle className="w-12 h-12 text-green-600" />
+                            </div>
+                            <h2 className="text-3xl font-bold text-green-700 mb-3">
+                                מצוין! קיבלת הערכה ראשונית למשכנתא
+                            </h2>
+                            <p className="text-lg text-green-800 max-w-2xl mx-auto">
+                                על פי הנתונים שמסרת, אלו האפשרויות המשוערות שלך:
+                            </p>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+
+                {/* סיכום הנתונים שהוזנו */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                    <Card className="border-slate-200">
+                        <CardHeader>
+                            <CardTitle className="text-xl text-slate-900">הנתונים שהוזנו</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div className="text-center p-4 bg-slate-50 rounded-lg">
+                                    <Home className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                                    <p className="text-sm text-slate-600 mb-1">מחיר הנכס</p>
+                                    <p className="text-lg font-bold text-slate-900">
+                                        ₪{financingData.propertyPrice.toLocaleString()}
+                                    </p>
+                                </div>
+                                <div className="text-center p-4 bg-slate-50 rounded-lg">
+                                    <Calculator className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                                    <p className="text-sm text-slate-600 mb-1">מקדמה</p>
+                                    <p className="text-lg font-bold text-slate-900">
+                                        ₪{financingData.downPayment.toLocaleString()}
+                                    </p>
+                                </div>
+                                <div className="text-center p-4 bg-slate-50 rounded-lg">
+                                    <TrendingUp className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                                    <p className="text-sm text-slate-600 mb-1">הכנסה חודשית</p>
+                                    <p className="text-lg font-bold text-slate-900">
+                                        ₪{financingData.monthlyIncome.toLocaleString()}
+                                    </p>
+                                </div>
+                                <div className="text-center p-4 bg-slate-50 rounded-lg">
+                                    <Calendar className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                                    <p className="text-sm text-slate-600 mb-1">תקופת פירעון</p>
+                                    <p className="text-lg font-bold text-slate-900">
+                                        25 שנים
+                                    </p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+
+                {/* הגורם המרכזי - למה אושרה */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                    <Card className="border-green-200 bg-green-50">
+                        <CardHeader>
+                            <CardTitle className="text-xl text-green-900">למה זה עובד?</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="bg-white p-6 rounded-lg border border-green-200">
+                                <p className="text-lg text-slate-800 leading-relaxed mb-4">
+                                    {result.limitingFactorExplanation}
+                                </p>
+                                
+                                <div className="grid grid-cols-2 gap-4 mt-4">
+                                    <div className="text-center p-4 bg-green-50 rounded-lg">
+                                        <p className="text-sm text-green-700 mb-1">החזר חודשי משוער</p>
+                                        <p className="text-2xl font-bold text-green-900">
+                                            ₪{result.calculatedData.monthlyPayment.toLocaleString()}
+                                        </p>
+                                    </div>
+                                    <div className="text-center p-4 bg-green-50 rounded-lg">
+                                        <p className="text-sm text-green-700 mb-1">יחס החזר (DTI)</p>
+                                        <p className="text-2xl font-bold text-green-900">
+                                            {result.calculatedData.dti}%
+                                        </p>
+                                        <p className="text-xs text-green-600 mt-1">בטווח התקין</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+
+                {/* דיסקליימר */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                    <Card className="bg-slate-50 border-slate-200">
+                        <CardContent className="p-4">
+                            <div className="flex items-start gap-2">
+                                <AlertTriangle className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
+                                <div>
+                                    <h4 className="font-semibold text-slate-800 mb-2 text-sm">❗ חשוב לדעת:</h4>
+                                    <div className="text-xs text-slate-600 space-y-1.5 leading-relaxed">
+                                        <p>המידע המוצג מבוסס על אלגוריתם חישוב כללי, המבוסס על ריבית משכנתא משוערת של 4% וכללי בנקאות מקובלים, ואינו מהווה ואינו מחליף ייעוץ משכנתאות, ייעוץ פיננסי או המלצה רשמית.</p>
+                                        <p>ARENA אינה יועצת מוסמכת ואינה מחזיקה ברישיון ייעוץ פיננסי או משכנתאות לפי חוק.</p>
+                                        <p>קבלת משכנתא בפועל כפופה לבדיקת הבנקים, לרבות דירוג אשראי, הכנסות, התחייבויות ונתונים נוספים.</p>
+                                        <p>אנו ממליצים להיוועץ בגורם מוסמך לפני קבלת החלטה פיננסית.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+            </div>
+        );
+    }
+
+    // If NOT approved - show rejection view
     return (
         <div className="space-y-6">
-            {/* א. מצב הבקשה */}
+            {/* שינוי קטן - יכול לפתוח אפשרויות חדשות */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <Card className={`border-2 ${result.isApproved ? 'border-green-400 bg-green-50' : 'border-orange-300 bg-orange-50'}`}>
-                    <CardHeader>
-                        <div className="flex items-center gap-3">
-                            {result.isApproved ? (
-                                <CheckCircle className="w-8 h-8 text-green-600" />
-                            ) : (
-                                <InfoIcon className="w-8 h-8 text-orange-600" />
-                            )}
-                            <div>
-                                <CardTitle className={`text-2xl ${result.isApproved ? 'text-green-700' : 'text-orange-700'}`}>
-                                    {result.isApproved ? 'מצוין! קיבלת הערכה ראשונית למשכנתא' : 'בתנאים הנוכחיים – יש דרכים אחרות להתקדם'}
-                                </CardTitle>
-                            </div>
+                <Card className="border-2 border-orange-300 bg-gradient-to-br from-orange-50 to-amber-50">
+                    <CardContent className="p-8 text-center">
+                        <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <InfoIcon className="w-12 h-12 text-orange-600" />
                         </div>
-                    </CardHeader>
-                    <CardContent>
-                        <p className={`text-lg ${result.isApproved ? 'text-green-800' : 'text-orange-800'}`}>
-                            {result.isApproved ? result.statusMessage : 'על פי הנתונים שמסרת, ההערכה האוטומטית לא אישרה משכנתא, אבל יש עדיין אפשרויות להתקדם.'}
+                        <h2 className="text-3xl font-bold text-orange-700 mb-3">
+                            שינוי קטן - יכול לפתוח אפשרויות חדשות
+                        </h2>
+                        <p className="text-lg text-orange-800 max-w-2xl mx-auto">
+                            על פי הנתונים שמסרת, ההערכה האוטומטית לא אישרה משכנתא, אבל יש עדיין אפשרויות להתקדם.
                         </p>
                     </CardContent>
                 </Card>
             </motion.div>
 
-            {/* ב. המספר המגביל */}
+            {/* סיכום הנתונים שהוזנו */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -105,39 +231,72 @@ export default function FinanceExplainability({ financingData, onBack }) {
             >
                 <Card className="border-slate-200">
                     <CardHeader>
-                        <div className="flex items-center gap-3">
-                            <TrendingUp className="w-6 h-6 text-sky-600" />
-                            <CardTitle className="text-xl">הגורם המרכזי</CardTitle>
-                        </div>
+                        <CardTitle className="text-xl text-slate-900">הנתונים שהוזנו</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="space-y-4">
-                            <div className="bg-slate-50 p-4 rounded-lg">
-                                <p className="text-lg text-slate-800 font-medium">
-                                    {result.limitingFactorExplanation}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div className="text-center p-4 bg-slate-50 rounded-lg">
+                                <Home className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                                <p className="text-sm text-slate-600 mb-1">מחיר הנכס</p>
+                                <p className="text-lg font-bold text-slate-900">
+                                    ₪{financingData.propertyPrice.toLocaleString()}
                                 </p>
                             </div>
+                            <div className="text-center p-4 bg-slate-50 rounded-lg">
+                                <Calculator className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                                <p className="text-sm text-slate-600 mb-1">מקדמה</p>
+                                <p className="text-lg font-bold text-slate-900">
+                                    ₪{financingData.downPayment.toLocaleString()}
+                                </p>
+                            </div>
+                            <div className="text-center p-4 bg-slate-50 rounded-lg">
+                                <TrendingUp className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                                <p className="text-sm text-slate-600 mb-1">הכנסה חודשית</p>
+                                <p className="text-lg font-bold text-slate-900">
+                                    ₪{financingData.monthlyIncome.toLocaleString()}
+                                </p>
+                            </div>
+                            <div className="text-center p-4 bg-slate-50 rounded-lg">
+                                <Calendar className="w-6 h-6 text-slate-600 mx-auto mb-2" />
+                                <p className="text-sm text-slate-600 mb-1">תקופת פירעון</p>
+                                <p className="text-lg font-bold text-slate-900">
+                                    25 שנים
+                                </p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            </motion.div>
+
+            {/* הגורם המגביל */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+            >
+                <Card className="border-orange-200 bg-orange-50">
+                    <CardHeader>
+                        <CardTitle className="text-xl text-orange-900">למה לא אושרה?</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="bg-white p-6 rounded-lg border border-orange-200">
+                            <p className="text-lg text-slate-800 leading-relaxed mb-4">
+                                {result.limitingFactorExplanation}
+                            </p>
                             
-                            {/* פירוט המספרים */}
-                            <div className="grid grid-cols-2 gap-4 mt-6">
-                                <div className="bg-white p-4 rounded-lg border border-slate-200">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <DollarSign className="w-5 h-5 text-slate-600" />
-                                        <span className="text-sm text-slate-600">החזר חודשי משוער</span>
-                                    </div>
-                                    <p className="text-2xl font-bold text-slate-900">
+                            <div className="grid grid-cols-2 gap-4 mt-4">
+                                <div className="text-center p-4 bg-orange-50 rounded-lg">
+                                    <p className="text-sm text-orange-700 mb-1">החזר חודשי משוער</p>
+                                    <p className="text-2xl font-bold text-orange-900">
                                         ₪{result.calculatedData.monthlyPayment.toLocaleString()}
                                     </p>
                                 </div>
-                                
-                                <div className="bg-white p-4 rounded-lg border border-slate-200">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <Info className="w-5 h-5 text-slate-600" />
-                                        <span className="text-sm text-slate-600">יחס החזר (DTI)</span>
-                                    </div>
-                                    <p className="text-2xl font-bold text-slate-900">
+                                <div className="text-center p-4 bg-orange-50 rounded-lg">
+                                    <p className="text-sm text-orange-700 mb-1">יחס החזר (DTI)</p>
+                                    <p className="text-2xl font-bold text-orange-900">
                                         {result.calculatedData.dti}%
                                     </p>
+                                    <p className="text-xs text-orange-600 mt-1">מעל התקן המקובל</p>
                                 </div>
                             </div>
                         </div>
@@ -145,108 +304,107 @@ export default function FinanceExplainability({ financingData, onBack }) {
                 </Card>
             </motion.div>
 
-            {/* מה כן אפשר? - רק במקרה של דחייה */}
-            {!result.isApproved && (
-                <>
-                    {/* המקסימום האפשרי בפועל - Key Insight */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                    >
-                        <Card className="border-sky-300 bg-sky-50">
-                            <CardHeader>
-                                <div className="flex items-center gap-3">
-                                    <TrendingUp className="w-6 h-6 text-sky-600" />
-                                    <CardTitle className="text-xl text-sky-900">המקסימום האפשרי בפועל</CardTitle>
-                                </div>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="bg-white p-6 rounded-lg border border-sky-200">
-                                    <p className="text-lg text-slate-800 leading-relaxed mb-4">
-                                        לפי כושר ההחזר שלך, תוכל לעמוד בהחזר חודשי של עד כ־<span className="font-bold text-sky-700">₪{result.calculatedData.monthlyPayment.toLocaleString()}</span>,
-                                        המשקף משכנתא של עד כ־<span className="font-bold text-sky-700">₪{result.calculatedData.maxAffordableLoan?.toLocaleString() || '1,260,000'}</span>.
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-
-                    {/* כיוון פעולה - What next */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                    >
-                        <Card className="border-slate-200">
-                            <CardHeader>
-                                <CardTitle className="text-xl text-slate-900">כיוון פעולה</CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4">
-                                <div className="space-y-3 text-slate-700">
-                                    <p className="text-lg">
-                                        <strong>זה לא סוף הדרך</strong> – אלא נקודת כיוון.
-                                    </p>
-                                    <p className="text-lg">
-                                        <strong>שינוי קטן</strong> - יכול לפתוח אפשרויות חדשות.
-                                    </p>
-                                </div>
-
-                                <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-6">
-                                    <p className="text-slate-800 font-medium mb-4">
-                                        תרצה להתייעץ עם יועץ משכנתאות על האפשרויות שלך?
-                                    </p>
-                                    
-                                    {!showAdvisors ? (
-                                        <Button 
-                                            onClick={() => setShowAdvisors(true)}
-                                            className="w-full bg-sky-600 hover:bg-sky-700"
-                                        >
-                                            כן, רוצה להתייעץ
-                                        </Button>
-                                    ) : (
-                                        <div className="space-y-4">
-                                            <div className="grid grid-cols-1 gap-3">
-                                                {bankLogos.map((advisor) => (
-                                                    <button
-                                                        key={advisor.id}
-                                                        className="flex items-center gap-4 p-4 border-2 border-slate-200 rounded-lg hover:border-sky-400 hover:bg-sky-50 transition-all"
-                                                    >
-                                                        {advisor.logo ? (
-                                                            <img src={advisor.logo} alt={advisor.name} className="h-10" />
-                                                        ) : (
-                                                            <div className="h-10 w-10 bg-slate-200 rounded-full flex items-center justify-center">
-                                                                <Phone className="w-5 h-5 text-slate-600" />
-                                                            </div>
-                                                        )}
-                                                        <div className="flex-1 text-right">
-                                                            <span className="font-medium text-slate-800">{advisor.name}</span>
-                                                            <p className="text-sm text-slate-600">לתיאום פגישה</p>
-                                                        </div>
-                                                    </button>
-                                                ))}
-                                            </div>
-                                            <Button 
-                                                onClick={() => setShowAdvisors(false)}
-                                                variant="ghost"
-                                                className="w-full"
-                                            >
-                                                לא תודה
-                                            </Button>
-                                        </div>
-                                    )}
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
-                </>
-            )}
-
-            {/* דיסקליימר משפטי - תמיד */}
+            {/* המקסימום האפשרי */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: result.isApproved ? 0.2 : 0.4 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+            >
+                <Card className="border-sky-300 bg-sky-50">
+                    <CardHeader>
+                        <CardTitle className="text-xl text-sky-900">המקסימום האפשרי בפועל</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="bg-white p-6 rounded-lg border border-sky-200">
+                            <p className="text-lg text-slate-800 leading-relaxed">
+                                לפי כושר ההחזר שלך, תוכל לעמוד בהחזר חודשי של עד כ־<span className="font-bold text-sky-700 text-xl">₪{result.calculatedData.monthlyPayment.toLocaleString()}</span>,
+                                המשקף משכנתא של עד כ־<span className="font-bold text-sky-700 text-xl">₪{result.calculatedData.maxAffordableLoan?.toLocaleString() || '1,260,000'}</span>.
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </motion.div>
+
+            {/* כיוון פעולה */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+            >
+                <Card className="border-slate-200">
+                    <CardHeader>
+                        <CardTitle className="text-xl text-center text-slate-900">
+                            תרצה להתייעץ עם ייעוץ משכנתאות על האפשרויות שלך?
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        {!showAdvisors ? (
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-1 gap-3">
+                                    {bankLogos.map((advisor) => (
+                                        <button
+                                            key={advisor.id}
+                                            onClick={() => setShowAdvisors(true)}
+                                            className="flex items-center justify-between gap-4 p-5 border-2 border-slate-200 rounded-xl hover:border-sky-400 hover:bg-sky-50 transition-all"
+                                        >
+                                            <div className="flex items-center gap-4">
+                                                {advisor.logo ? (
+                                                    <img src={advisor.logo} alt={advisor.name} className="h-12" />
+                                                ) : (
+                                                    <div className="h-12 w-12 bg-slate-200 rounded-full flex items-center justify-center">
+                                                        <Phone className="w-6 h-6 text-slate-600" />
+                                                    </div>
+                                                )}
+                                                <div className="text-right">
+                                                    <span className="font-medium text-slate-800 text-lg block">{advisor.name}</span>
+                                                    <p className="text-sm text-slate-600">לתיאום פגישה</p>
+                                                </div>
+                                            </div>
+                                            {advisor.id === 'leumi' && (
+                                                <Badge className="bg-red-500 text-white">בחירה מומלצת</Badge>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                                <Button 
+                                    variant="ghost"
+                                    className="w-full text-slate-600"
+                                    onClick={onBack}
+                                >
+                                    לא תודה
+                                </Button>
+                            </div>
+                        ) : null}
+                    </CardContent>
+                </Card>
+            </motion.div>
+
+            {/* הודעת אזהרה */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+            >
+                <Card className="border-orange-200 bg-orange-50">
+                    <CardContent className="p-6">
+                        <div className="flex items-start gap-3">
+                            <InfoIcon className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
+                            <div>
+                                <h4 className="font-semibold text-orange-800 mb-2">בתנאים הנוכחיים – יש דרכים אחרות להתקדם</h4>
+                                <p className="text-sm text-orange-700">
+                                    על פי הנתונים שמסרת, ההערכה האוטומטית לא אישרה משכנתא, אבל יש עדיין אפשרויות להתקדם.
+                                </p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+            </motion.div>
+
+            {/* דיסקליימר משפטי */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
             >
                 <Card className="bg-slate-50 border-slate-200">
                     <CardContent className="p-4">
@@ -255,33 +413,16 @@ export default function FinanceExplainability({ financingData, onBack }) {
                             <div>
                                 <h4 className="font-semibold text-slate-800 mb-2 text-sm">❗ חשוב לדעת:</h4>
                                 <div className="text-xs text-slate-600 space-y-1.5 leading-relaxed">
-                                    <p>
-                                        המידע המוצג מבוסס על אלגוריתם חישוב כללי, המבוסס על ריבית משכנתא משוערת של 4% וכללי בנקאות מקובלים, ואינו מהווה ואינו מחליף ייעוץ משכנתאות, ייעוץ פיננסי או המלצה רשמית.
-                                    </p>
-                                    <p>
-                                        ARENA אינה יועצת מוסמכת ואינה מחזיקה ברישיון ייעוץ פיננסי או משכנתאות לפי חוק.
-                                    </p>
-                                    <p>
-                                        קבלת משכנתא בפועל כפופה לבדיקת הבנקים, לרבות דירוג אשראי, הכנסות, התחייבויות ונתונים נוספים.
-                                    </p>
-                                    <p>
-                                        אנו ממליצים להיוועץ בגורם מוסמך לפני קבלת החלטה פיננסית.
-                                    </p>
+                                    <p>המידע המוצג מבוסס על אלגוריתם חישוב כללי, המבוסס על ריבית משכנתא משוערת של 4% וכללי בנקאות מקובלים, ואינו מהווה ואינו מחליף ייעוץ משכנתאות, ייעוץ פיננסי או המלצה רשמית.</p>
+                                    <p>ARENA אינה יועצת מוסמכת ואינה מחזיקה ברישיון ייעוץ פיננסי או משכנתאות לפי חוק.</p>
+                                    <p>קבלת משכנתא בפועל כפופה לבדיקת הבנקים, לרבות דירוג אשראי, הכנסות, התחייבויות ונתונים נוספים.</p>
+                                    <p>אנו ממליצים להיוועץ בגורם מוסמך לפני קבלת החלטה פיננסית.</p>
                                 </div>
                             </div>
                         </div>
                     </CardContent>
                 </Card>
             </motion.div>
-
-            {/* כפתור חזרה - רק במקרה של אישור */}
-            {result.isApproved && (
-                <div className="flex justify-center">
-                    <Button onClick={onBack} variant="outline" size="lg">
-                        חזור לשינוי פרטים
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }
