@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Calculator, PiggyBank, CreditCard, TrendingUp } from 'lucide-react';
 
-export default function FinancingCalculator({ property }) {
+export default function FinancingCalculator({ property, onFinancingClick }) {
   const [downPayment, setDownPayment] = useState(30);
   const [loanTerm, setLoanTerm] = useState(25);
   const [interestRate, setInterestRate] = useState(4.5);
@@ -128,7 +128,7 @@ export default function FinancingCalculator({ property }) {
 
         {/* CTA */}
         <div className="text-center">
-          <Button className="w-full md:w-auto">
+          <Button className="w-full md:w-auto" onClick={onFinancingClick}>
             <CreditCard className="w-4 h-4 ml-2" />
             קבל הצעת מימון מותאמת
           </Button>
