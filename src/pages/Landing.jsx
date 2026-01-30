@@ -301,14 +301,14 @@ export default function Landing() {
                   <div className="flex flex-wrap gap-3">
                     <Button
                       onClick={() => setSelectedPurpose('living')}
-                      className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 border border-slate-200"}
+                      className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"}
                       size="sm"
                     >
                       נכס למגורים
                     </Button>
                     <Button
                       onClick={() => setSelectedPurpose('investment')}
-                      className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 border border-slate-200"}
+                      className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"}
                       size="sm"
                     >
                       נכס להשקעה
