@@ -200,53 +200,6 @@ export default function Landing() {
         </div>
       </div>
 
-      {/* איך עובדים עם ARENA - New Onboarding Section */}
-      <section className="relative py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">איך עובדים עם ARENA?</h2>
-            <p className="text-xl text-slate-600">
-              אנרנה כלים מתקדמים שיובילו אותך לידיעת החלטות
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* מסע מודרך */}
-            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-cyan-300">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center text-4xl">
-                🌀
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">מסע מודרך</h3>
-              <p className="text-slate-600 leading-relaxed">
-                ARENA שואלת שאלות קצרות, בונה פרופיל ומציגה נכסים מתאימים.
-              </p>
-            </div>
-
-            {/* שיחה פתוחה */}
-            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-purple-300">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full flex items-center justify-center text-4xl">
-                💬
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">שיחה פתוחה</h3>
-              <p className="text-slate-600 leading-relaxed">
-                אפשר לדבר עם ARENA בצ'אט, לבקש נכסים, לשאול שאלות ולקבל הצעות.
-              </p>
-            </div>
-
-            {/* ציון התאמה */}
-            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-orange-300">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-4xl">
-                🔍
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">ציון התאמה והסבר</h3>
-              <p className="text-slate-600 leading-relaxed">
-                לכל נכס יש ציון התאמה. לחיצה על סימן השאלה תציג בצ'אט הסבר אישי למה הוא מתאים לך.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section - שנתחיל? */}
       <section className="relative py-16 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
         {/* Subtle pattern overlay */}
@@ -302,6 +255,53 @@ export default function Landing() {
                   {option}
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* איך עובדים עם ARENA - New Onboarding Section */}
+      <section className="relative py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">איך עובדים עם ARENA?</h2>
+            <p className="text-xl text-slate-600">
+              אנרנה כלים מתקדמים שיובילו אותך לידיעת החלטות
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* מסע מודרך */}
+            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-cyan-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center text-4xl">
+                🌀
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">מסע מודרך</h3>
+              <p className="text-slate-600 leading-relaxed">
+                ARENA שואלת שאלות קצרות, בונה פרופיל ומציגה נכסים מתאימים.
+              </p>
+            </div>
+
+            {/* שיחה פתוחה */}
+            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-purple-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full flex items-center justify-center text-4xl">
+                💬
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">שיחה פתוחה</h3>
+              <p className="text-slate-600 leading-relaxed">
+                אפשר לדבר עם ARENA בצ'אט, לבקש נכסים, לשאול שאלות ולקבל הצעות.
+              </p>
+            </div>
+
+            {/* ציון התאמה */}
+            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-orange-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-4xl">
+                🔍
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">ציון התאמה והסבר</h3>
+              <p className="text-slate-600 leading-relaxed">
+                לכל נכס יש ציון התאמה. לחיצה על סימן השאלה תציג בצ'אט הסבר אישי למה הוא מתאים לך.
+              </p>
             </div>
           </div>
         </div>
