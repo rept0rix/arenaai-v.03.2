@@ -139,7 +139,7 @@ export default function ProjectLeads() {
             </Button>
             <div>
               <h1 className="text-3xl font-bold text-slate-900">{project.name_he}</h1>
-              <p className="text-slate-600">לידים מהפרויקט</p>
+              <p className="text-slate-600">מתעניינים בפרויקט</p>
             </div>
           </div>
           <Button 
@@ -157,7 +157,7 @@ export default function ProjectLeads() {
             <CardContent className="pt-6">
               <div className="text-center">
                 <div className="text-3xl font-bold text-slate-900">{stats.total}</div>
-                <div className="text-sm text-slate-600 mt-1">סה"כ לידים</div>
+                <div className="text-sm text-slate-600 mt-1">סה"כ מתעניינים</div>
               </div>
             </CardContent>
           </Card>
@@ -241,7 +241,7 @@ export default function ProjectLeads() {
             <Card>
               <CardContent className="py-12 text-center">
                 <Filter className="w-12 h-12 mx-auto text-slate-300 mb-4" />
-                <p className="text-slate-600">לא נמצאו לידים</p>
+                <p className="text-slate-600">לא נמצאו מתעניינים</p>
               </CardContent>
             </Card>
           ) : (

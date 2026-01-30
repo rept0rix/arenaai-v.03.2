@@ -52,7 +52,7 @@ export default function LeadManagement({ onRefresh, isLoading }) {
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-sky-200 border-t-sky-600 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-600">טוען לידים...</p>
+          <p className="text-slate-600">טוען מתעניינים...</p>
         </div>
       </div>
     );
@@ -101,11 +101,11 @@ export default function LeadManagement({ onRefresh, isLoading }) {
       {/* Leads Table */}
       {filteredLeads.length === 0 ? (
         <Card className="p-12 text-center">
-          <p className="text-slate-500 mb-2">לא נמצאו לידים</p>
+          <p className="text-slate-500 mb-2">לא נמצאו מתעניינים</p>
           <p className="text-sm text-slate-400">
             {searchTerm || filterStatus !== 'all' 
               ? 'נסה לשנות את הסינון או החיפוש'
-              : 'ברגע שיהיו לידים במערכת, הם יופיעו כאן'}
+              : 'ברגע שיהיו מתעניינים במערכת, הם יופיעו כאן'}
           </p>
         </Card>
       ) : (
@@ -197,7 +197,7 @@ export default function LeadManagement({ onRefresh, isLoading }) {
       {leads.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <Card className="p-4">
-            <p className="text-xs text-slate-600 mb-1">סה"כ לידים</p>
+            <p className="text-xs text-slate-600 mb-1">סה"כ מתעניינים</p>
             <p className="text-2xl font-bold text-slate-900">{leads.length}</p>
           </Card>
           <Card className="p-4">

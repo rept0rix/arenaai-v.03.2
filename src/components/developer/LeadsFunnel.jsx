@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Zap } from 'lucide-react';
 
-export default function LeadsFunnel({ leads = [], meetings = [], title = "משפך לידים" }) {
+export default function LeadsFunnel({ leads = [], meetings = [], title = "מסע מתעניינים" }) {
     const newLeads = leads.filter(l => l.status === 'new').length;
     const interested = leads.filter(l => l.status === 'interested').length;
     const scheduledMeetings = meetings.filter(m => m.status === 'scheduled').length;
@@ -20,19 +20,19 @@ export default function LeadsFunnel({ leads = [], meetings = [], title = "משפ
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                         <div className="text-3xl font-bold text-blue-600">{newLeads}</div>
-                        <div className="text-sm text-slate-600 mt-1 font-medium">לידים חדשים</div>
+                        <div className="text-sm text-slate-600 mt-1 font-medium">התחילו מסע</div>
                     </div>
                     <div className="text-center p-4 bg-sky-50 rounded-lg border-2 border-sky-200">
                         <div className="text-3xl font-bold text-sky-600">{interested}</div>
-                        <div className="text-sm text-slate-600 mt-1 font-medium">מתעניינים</div>
+                        <div className="text-sm text-slate-600 mt-1 font-medium">בהשוואה</div>
                     </div>
                     <div className="text-center p-4 bg-amber-50 rounded-lg border-2 border-amber-200">
                         <div className="text-3xl font-bold text-amber-600">{scheduledMeetings}</div>
-                        <div className="text-sm text-slate-600 mt-1 font-medium">פגישות מתוזמנות</div>
+                        <div className="text-sm text-slate-600 mt-1 font-medium">ביקשו קשר</div>
                     </div>
                     <div className="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
                         <div className="text-3xl font-bold text-green-600">{closedWon}</div>
-                        <div className="text-sm text-slate-600 mt-1 font-medium">נסגרו בהצלחה</div>
+                        <div className="text-sm text-slate-600 mt-1 font-medium">סגרו עסקה</div>
                     </div>
                 </div>
             </CardContent>

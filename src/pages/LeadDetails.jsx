@@ -122,7 +122,7 @@ export default function LeadDetails() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-slate-600 mb-4">ליד לא נמצא</p>
+          <p className="text-slate-600 mb-4">מתעניין לא נמצא</p>
           <Button onClick={() => navigate(createPageUrl('DeveloperDashboard'))}>
             חזרה לדאשבורד
           </Button>
@@ -279,7 +279,7 @@ export default function LeadDetails() {
               </CardHeader>
               <CardContent>
                 <Textarea
-                  placeholder="הוסף הערות על הליד..."
+                  placeholder="הוסף הערות על המתעניין..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={5}
@@ -304,7 +304,7 @@ export default function LeadDetails() {
                   <div className="flex items-start gap-3">
                     <div className="w-2 h-2 bg-sky-500 rounded-full mt-2" />
                     <div>
-                      <div className="font-medium">ליד נוצר</div>
+                      <div className="font-medium">התעניין בפרויקט</div>
                       <div className="text-slate-600">
                         {new Date(lead.created_date).toLocaleDateString('he-IL')}
                       </div>

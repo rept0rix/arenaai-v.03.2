@@ -140,7 +140,7 @@ export default function DeveloperLeadsList() {
         {filteredLeads.length === 0 ? (
           <Card>
             <CardContent className="text-center py-12">
-              <p className="text-slate-500">לא נמצאו לידים</p>
+              <p className="text-slate-500">לא נמצאו מתעניינים</p>
             </CardContent>
           </Card>
         ) : (

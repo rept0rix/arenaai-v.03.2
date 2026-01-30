@@ -448,7 +448,7 @@ export default function DeveloperCRM() {
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-right">
                                 <BarChart3 className="w-5 h-5 text-indigo-600" />
-                                מקורות לידים
+                                מקורות מתעניינים
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-2">
@@ -474,7 +474,7 @@ export default function DeveloperCRM() {
                                     </div>
                                 ) : null;
                             })}
-                            {leads.length === 0 && <p className="text-sm text-slate-500 text-center py-4">אין לידים עדיין</p>}
+                            {leads.length === 0 && <p className="text-sm text-slate-500 text-center py-4">אין מתעניינים עדיין</p>}
                         </CardContent>
                     </Card>
 
