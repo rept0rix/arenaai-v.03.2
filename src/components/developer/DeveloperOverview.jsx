@@ -121,12 +121,17 @@ export default function DeveloperOverview() {
 
   return (
     <div className="space-y-6">
-      <LeadsFunnel leads={leads} meetings={meetings} title="משפך לידים - כל היזם" />
+      <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 mb-6">
+        <p className="text-sm text-slate-700">
+          💡 <strong>הנתונים במסך זה מסוננים לפרויקטים של היזם בלבד</strong> - מציג קונים פוטנציאליים שהתעניינו בפרויקטים שלך
+        </p>
+      </div>
+      <LeadsFunnel leads={leads} meetings={meetings} title="מסע קונים - פרויקטים שלי" />
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-slate-600">סך הכל לידים</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-600">התחילו מסע</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between">
@@ -138,7 +143,7 @@ export default function DeveloperOverview() {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-slate-600">לידים חדשים השבוע</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-600">הגיעו להשוואה</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between">
@@ -162,7 +167,7 @@ export default function DeveloperOverview() {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-slate-600">לידים חמים</CardTitle>
+            <CardTitle className="text-sm font-medium text-slate-600">ביקשו קשר</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center justify-between">
@@ -228,7 +233,7 @@ export default function DeveloperOverview() {
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-orange-600" />
-                לידים חמים
+                מתעניינים מוכנים
               </CardTitle>
               <Button 
                 variant="outline" 
@@ -243,7 +248,7 @@ export default function DeveloperOverview() {
             {hotLeads.length === 0 ? (
               <div className="text-center py-8 text-slate-500">
                 <Users className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                <p>אין לידים חמים כרגע</p>
+                <p>אין מתעניינים מוכנים כרגע</p>
               </div>
             ) : (
               <div className="space-y-3">

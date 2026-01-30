@@ -98,14 +98,17 @@ export default function DeveloperLeads() {
   return (
     <div className="p-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">ניהול לידים</h1>
-        <p className="text-slate-600">כל הלידים שהתקבלו מהמערכת עם פרופיל מלא</p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">מתעניינים בפרויקטים</h1>
+        <p className="text-slate-600">קונים פוטנציאליים שהתעניינו בפרויקטים שלך</p>
+        <p className="text-sm text-slate-500 mt-2 bg-blue-50 p-3 rounded-lg border border-blue-200">
+          💡 הנתונים במסך זה מסוננים לפרויקטים של היזם בלבד
+        </p>
       </div>
 
       {/* Leads Table */}
       <Card>
         <CardHeader>
-          <CardTitle>רשימת לידים</CardTitle>
+          <CardTitle>רשימת מתעניינים</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -127,9 +130,16 @@ export default function DeveloperLeads() {
                       <Badge className={getStatusColor(lead.status)}>
                         {getStatusLabel(lead.status)}
                       </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        {lead.status === 'hot' ? 'השאיר פרטים' : 
+                         lead.status === 'considering' ? 'צפה בנכסים' : 'התחיל חיפוש'}
+                      </Badge>
                     </div>
                     <p className="text-sm text-slate-600">{lead.project}</p>
-                    <p className="text-xs text-slate-500">{lead.date}</p>
+                    <p className="text-xs text-slate-500">
+                      {lead.date} • {lead.status === 'hot' ? 'ביקש הסבר התאמה' : 
+                       lead.status === 'considering' ? '3 נכסים נשמרו' : 'מקור: חיפוש בצ\'אט'}
+                    </p>
                   </div>
                 </div>
 
@@ -173,7 +183,7 @@ export default function DeveloperLeads() {
         <Dialog open={!!selectedLead} onOpenChange={() => setSelectedLead(null)}>
           <DialogContent className="max-w-2xl" dir="rtl">
             <DialogHeader>
-              <DialogTitle>פרופיל ליד: {selectedLead.name}</DialogTitle>
+              <DialogTitle>פרופיל קונה: {selectedLead.name}</DialogTitle>
             </DialogHeader>
             
             <div className="space-y-6">

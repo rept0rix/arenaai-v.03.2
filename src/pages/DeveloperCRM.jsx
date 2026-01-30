@@ -417,26 +417,26 @@ export default function DeveloperCRM() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2 text-right">
                             <Zap className="w-5 h-5 text-green-600" />
-                            משפך לידים - כל המערכת
+                            מסע קונים - כל המערכת
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
                                 <div className="text-3xl font-bold text-blue-600">{leads.filter(l => l.status === 'new').length}</div>
-                                <div className="text-sm text-slate-600 mt-1 font-medium">לידים חדשים</div>
+                                <div className="text-sm text-slate-600 mt-1 font-medium">התחילו מסע</div>
                             </div>
                             <div className="text-center p-4 bg-sky-50 rounded-lg border-2 border-sky-200">
                                 <div className="text-3xl font-bold text-sky-600">{leads.filter(l => l.status === 'interested').length}</div>
-                                <div className="text-sm text-slate-600 mt-1 font-medium">מתעניינים</div>
+                                <div className="text-sm text-slate-600 mt-1 font-medium">הגיעו להשוואה</div>
                             </div>
                             <div className="text-center p-4 bg-amber-50 rounded-lg border-2 border-amber-200">
                                 <div className="text-3xl font-bold text-amber-600">{meetings.filter(m => m.status === 'scheduled').length}</div>
-                                <div className="text-sm text-slate-600 mt-1 font-medium">פגישות מתוזמנות</div>
+                                <div className="text-sm text-slate-600 mt-1 font-medium">ביקשו קשר</div>
                             </div>
                             <div className="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
                                 <div className="text-3xl font-bold text-green-600">{leads.filter(l => l.status === 'closed_won').length}</div>
-                                <div className="text-sm text-slate-600 mt-1 font-medium">נסגרו בהצלחה</div>
+                                <div className="text-sm text-slate-600 mt-1 font-medium">סגרו עסקה</div>
                             </div>
                         </div>
                     </CardContent>
