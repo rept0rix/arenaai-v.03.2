@@ -195,7 +195,7 @@ export default function Admin() {
               <TabsTrigger value="properties">ניהול נכסים</TabsTrigger>
               <TabsTrigger value="questions">ניהול שאלות</TabsTrigger>
               <TabsTrigger value="users">ניהול משתמשים</TabsTrigger>
-              <TabsTrigger value="leads">לידים</TabsTrigger>
+              <TabsTrigger value="leads">מתעניינים</TabsTrigger>
               <TabsTrigger value="user-statistics">סטטיסטיקת משתמשים</TabsTrigger>
             </TabsList>
 
