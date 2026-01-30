@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Building2, Star, Users, Award, Phone, Mail } from 'lucide-react';
 
-export default function CompanyInfo({ property }) {
+export default function CompanyInfo({ property, onContactClick }) {
   const companyData = {
     name: "חברת הבנייה הישראלית",
     logo: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=100&q=80",
@@ -12,6 +12,7 @@ export default function CompanyInfo({ property }) {
     reviews: 156,
     projects: 23,
     experience: 15,
+    website: "https://example.com",
     description: "חברת בנייה מובילה עם ניסיון של 15 שנה בתחום הבנייה האיכותית. מתמחים בבנייה ירוקה ובטכנולוגיות מתקדמות.",
     achievements: [
       "פרס איכות הבנייה 2023",
@@ -84,15 +85,15 @@ export default function CompanyInfo({ property }) {
         </div>
 
         {/* Contact */}
-        <div className="grid grid-cols-2 gap-3">
-          <Button variant="outline" className="flex-1">
-            <Phone className="w-4 h-4 ml-2" />
-            התקשר
+        <div className="flex flex-col gap-3">
+          <Button variant="outline" className="w-full" onClick={onContactClick}>
+            פנה ליזם
           </Button>
-          <Button variant="outline" className="flex-1">
-            <Mail className="w-4 h-4 ml-2" />
-            שלח מייל
-          </Button>
+          {companyData.website && (
+            <Button variant="outline" className="w-full" onClick={() => window.open(companyData.website, '_blank')}>
+              אתר החברה
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

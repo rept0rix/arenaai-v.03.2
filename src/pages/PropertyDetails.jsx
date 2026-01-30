@@ -30,6 +30,7 @@ import { ChatQuestion } from '@/entities/ChatQuestion';
 import { User as UserEntity } from '@/entities/User';
 import { mockProperties } from '../components/properties/mockPropertiesData';
 import PropertyInquiryForm from '../components/onboarding/PropertyInquiryForm';
+import FinancingRequestForm from '../components/onboarding/FinancingRequestForm';
 
 // This transformation function might become redundant if the Property entity handles it internally.
 // However, as it's not explicitly removed in the outline, we keep it.
@@ -69,6 +70,7 @@ export default function PropertyDetails() {
     const [questions, setQuestions] = useState([]);
     const [user, setUser] = useState(null);
     const [showInquiryForm, setShowInquiryForm] = useState(false);
+    const [showFinancingForm, setShowFinancingForm] = useState(false);
 
     useEffect(() => {
         checkUser();
@@ -219,12 +221,34 @@ export default function PropertyDetails() {
         );
     }
 
+    const handleShareClick = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: property.title,
+                text: `בואו לראות את ${property.title}`,
+                url: window.location.href
+            });
+        } else {
+            navigator.clipboard.writeText(window.location.href);
+            alert('הקישור הועתק ללוח');
+        }
+    };
+
     return (
         <div className="h-screen w-full flex flex-col bg-slate-50">
             {showInquiryForm && (
                 <PropertyInquiryForm
                     property={property}
                     onClose={() => setShowInquiryForm(false)}
+                    onSuccess={() => {
+                        // Optional: track conversion
+                    }}
+                />
+            )}
+            
+            {showFinancingForm && (
+                <FinancingRequestForm
+                    onClose={() => setShowFinancingForm(false)}
                     onSuccess={() => {
                         // Optional: track conversion
                     }}
@@ -284,7 +308,13 @@ export default function PropertyDetails() {
                         </div>
                     )}
 
-                    <PropertyHeader property={property} />
+                    <PropertyHeader 
+                        property={property} 
+                        viewCount={viewCount}
+                        onContactClick={() => setShowInquiryForm(true)}
+                        onScheduleClick={() => setShowInquiryForm(true)}
+                        onShareClick={handleShareClick}
+                    />
                     
                     <div className="max-w-7xl mx-auto px-4 py-8">
                         <div className="grid grid-cols-12 gap-8">
@@ -321,8 +351,14 @@ export default function PropertyDetails() {
                                     <PropertyFeatures property={property} />
                                     <LocationMap property={property} />
                                     <PriceAnalysis property={property} />
-                                    <FinancingCalculator property={property} />
-                                    <CompanyInfo property={property} />
+                                    <FinancingCalculator 
+                                        property={property}
+                                        onFinancingClick={() => setShowFinancingForm(true)}
+                                    />
+                                    <CompanyInfo 
+                                        property={property}
+                                        onContactClick={() => setShowInquiryForm(true)}
+                                    />
                                 </div>
                             </div>
                             
@@ -335,7 +371,11 @@ export default function PropertyDetails() {
                                     >
                                         פנה ליזם
                                     </Button>
-                                    <PropertyServices property={property} />
+                                    <PropertyServices 
+                                        property={property}
+                                        onContactClick={() => setShowInquiryForm(true)}
+                                        onFinancingClick={() => setShowFinancingForm(true)}
+                                    />
                                 </div>
                             </div>
                         </div>

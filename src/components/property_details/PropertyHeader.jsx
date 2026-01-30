@@ -7,7 +7,7 @@ import { createPageUrl } from '@/utils';
 import { User } from '@/entities/User';
 import { toast } from "sonner";
 
-export default function PropertyHeader({ property, viewCount }) {
+export default function PropertyHeader({ property, viewCount, onContactClick, onScheduleClick, onShareClick }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -88,12 +88,7 @@ export default function PropertyHeader({ property, viewCount }) {
             <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">{property.title}</h1>
             <p className="text-slate-600 mt-2 mb-4">{property.location}</p>
             
-            <div className="flex items-center gap-4 text-sm text-slate-500">
-              <div className="flex items-center gap-1.5">
-                <Eye className="w-4 h-4" />
-                <span>{viewCount} צפיות השבוע</span>
-              </div>
-            </div>
+
           </div>
           
           <div className="flex items-center gap-3">
@@ -110,15 +105,15 @@ export default function PropertyHeader({ property, viewCount }) {
               <Heart className={`w-4 h-4 ml-2 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
               {isLoading ? 'שומר...' : isFavorite ? 'נשמר' : 'שמור'}
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={onShareClick}>
               <Share2 className="w-4 h-4 ml-2" />
               שתף
             </Button>
-            <Button>
+            <Button onClick={onContactClick}>
               <Phone className="w-4 h-4 ml-2" />
               התקשר עכשיו
             </Button>
-            <Button variant="secondary">
+            <Button variant="secondary" onClick={onScheduleClick}>
               <Calendar className="w-4 h-4 ml-2" />
               קבע פגישה
             </Button>
