@@ -728,48 +728,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Cookie Banner - Enhanced */}
-      {showCookieBanner && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-slate-300 shadow-2xl z-[100]">
-          <div className="max-w-7xl mx-auto px-6 py-6">
-            <div className="flex items-start justify-between gap-6 flex-wrap">
-              <div className="flex-1 min-w-[250px]">
-                <h3 className="text-lg font-bold text-slate-900 mb-2">🍪 אנחנו משתמשים בעוגיות</h3>
-                <p className="text-base text-slate-700 leading-relaxed mb-2">
-                  בלחיצה על "הבנתי", אתה מסכים לאחסון קוקיס במכשירך כדי לשפר את ניווט האתר, לנתח שימוש באתר ולסייע במאמצי השיווק שלנו.
-                </p>
-                <p className="text-sm text-slate-600">
-                  למידע נוסף, בקר ב
-                  <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 underline mx-1 font-medium">
-                    מדיניות הפרטיות
-                  </a>
-                  שלנו.
-                </p>
-              </div>
-              <div className="flex gap-3 items-center flex-wrap">
-                <button
-                  onClick={() => {
-                    localStorage.setItem('arena_cookie_consent', 'all');
-                    setShowCookieBanner(false);
-                  }}
-                  className="px-8 py-3 bg-sky-600 hover:bg-sky-700 text-white text-base font-bold rounded-xl transition-all whitespace-nowrap shadow-lg hover:shadow-xl transform hover:scale-105"
-                >
-                  הבנתי
-                </button>
-                <button
-                  onClick={() => {
-                    localStorage.setItem('arena_cookie_consent', 'rejected');
-                    setShowCookieBanner(false);
-                  }}
-                  className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-base font-medium rounded-xl transition-colors whitespace-nowrap"
-                >
-                  דחה
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 }
