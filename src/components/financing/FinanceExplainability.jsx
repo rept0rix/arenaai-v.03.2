@@ -202,21 +202,18 @@ export default function FinanceExplainability({ financingData, onBack }) {
     // If NOT approved - show rejection view
     return (
         <div className="space-y-6">
-            {/* שינוי קטן - יכול לפתוח אפשרויות חדשות */}
+            {/* הערכה ראשונית */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <Card className="border-2 border-slate-300 bg-slate-50">
-                    <CardContent className="p-8 text-center">
-                        <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <InfoIcon className="w-12 h-12 text-slate-600" />
-                        </div>
-                        <h2 className="text-3xl font-bold text-slate-900 mb-3">
-                            שינוי קטן - יכול לפתוח אפשרויות חדשות
-                        </h2>
-                        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
+                <Card className="border-slate-200">
+                    <CardHeader>
+                        <CardTitle className="text-2xl text-slate-900">הערכה ראשונית למשכנתא</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p className="text-slate-700">
                             על פי הנתונים שמסרת, ההערכה האוטומטית לא אישרה משכנתא, אבל יש עדיין אפשרויות להתקדם.
                         </p>
                     </CardContent>
