@@ -150,78 +150,165 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section with Background Image */}
-      <div className="relative h-[75vh] flex items-center justify-center bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100">
-        <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/77d5dcf6a_HEROBG.jpg')"}}></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-white/40"></div>
+      <div className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-400 via-sky-300 to-purple-200"></div>
+        
+        {/* Skyline SVG at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 opacity-20">
+          <svg className="w-full h-full" viewBox="0 0 1200 200" preserveAspectRatio="none">
+            <g stroke="white" strokeWidth="2" fill="none">
+              {/* Buildings with varying heights */}
+              <rect x="50" y="80" width="60" height="120" />
+              <rect x="120" y="100" width="50" height="100" />
+              <rect x="180" y="60" width="70" height="140" />
+              <rect x="260" y="90" width="55" height="110" />
+              <rect x="325" y="70" width="65" height="130" />
+              <rect x="400" y="110" width="50" height="90" />
+              <rect x="460" y="50" width="80" height="150" />
+              <rect x="550" y="95" width="60" height="105" />
+              <rect x="620" y="85" width="55" height="115" />
+              <rect x="685" y="65" width="75" height="135" />
+              <rect x="770" y="100" width="50" height="100" />
+              <rect x="830" y="75" width="70" height="125" />
+              <rect x="910" y="90" width="60" height="110" />
+              <rect x="980" y="55" width="85" height="145" />
+              <rect x="1075" y="95" width="55" height="105" />
+            </g>
+          </svg>
+        </div>
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           
           {/* Hero Text */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white" style={{textShadow: '0 2px 10px rgba(0,0,0,0.2)'}}>
-            בית <span className="text-slate-800">החלומות</span> שלך
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+            בית <span className="text-slate-900">החלומות</span> שלך
           </h1>
           
-          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-slate-800 font-medium">
+          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-white drop-shadow-md font-medium">
             ארנה AI מאפשרת לך למצוא את הנכס המושלם באמצעות טכנולוגיה מתקדמת וייעוץ אישי
           </p>
 
-          {/* Chat Bubble with Logo */}
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-6 max-w-xl mx-auto mb-8 border border-white/40 shadow-lg flex items-center gap-6">
-            <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png"
-              alt="Arena AI Logo"
-              className="w-20 h-20 flex-shrink-0"
-            />
-            <div className="text-right flex-1">
-              <p className="text-lg font-semibold mb-4 text-slate-800">
-                היי, אני ארנה, יועצת הנדל"ן החכמה שלך.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button 
-                  onClick={() => handleGetStarted('living')}
-                  variant="outline"
-                  className="border-[#5F3A93] text-[#5F3A93] hover:bg-[#5F3A93] hover:text-white flex-1 rounded-xl flex items-center justify-center gap-2 transition-colors duration-300"
-                >
-                  <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/185d11183_key.png" alt="למגורים" className="w-5 h-5" />
-                  למגורים
-                </Button>
-                <Button 
-                  onClick={() => handleGetStarted('investment')}
-                   variant="outline"
-                  className="border-[#5F3A93] text-[#5F3A93] hover:bg-[#5F3A93] hover:text-white flex-1 rounded-xl flex items-center justify-center gap-2 transition-colors duration-300"
-                >
-                  <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/61b166f5c_Layer_2.png" alt="להשקעה" className="w-5 h-5" />
-                  להשקעה
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Options */}
-          <div className="flex flex-wrap justify-center items-center gap-3 mb-12">
-            <span className="text-slate-800 text-sm font-medium">או התחילו עם:</span>
-            {["דירת 4 חדרים", "בית פרטי", "נכס להשקעה", "דירה בתל אביב"].map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleGetStarted('')}
-                className="bg-white/20 hover:bg-white/30 text-slate-800 px-4 py-2 rounded-full text-sm border border-slate-400/30 transition-colors backdrop-blur-sm"
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-[30px] left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1">
-          <span className="text-slate-600 text-xs font-medium">גלול למטה</span>
-          <ChevronDown className="w-10 h-10 text-slate-600 animate-bounce" />
+        {/* Scroll indicator - Enhanced */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 z-20">
+          <span className="text-slate-800 text-sm font-semibold drop-shadow">גלול למטה</span>
+          <div className="bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all hover:scale-110 cursor-pointer">
+            <ChevronDown className="w-6 h-6 text-sky-600 animate-bounce" />
+          </div>
         </div>
       </div>
 
+      {/* איך עובדים עם ARENA - New Onboarding Section */}
+      <section className="relative py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">איך עובדים עם ARENA?</h2>
+            <p className="text-xl text-slate-600">
+              אנרנה כלים מתקדמים שיובילו אותך לידיעת החלטות
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* מסע מודרך */}
+            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-cyan-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center text-4xl">
+                🌀
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">מסע מודרך</h3>
+              <p className="text-slate-600 leading-relaxed">
+                ARENA שואלת שאלות קצרות, בונה פרופיל ומציגה נכסים מתאימים.
+              </p>
+            </div>
+
+            {/* שיחה פתוחה */}
+            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-purple-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full flex items-center justify-center text-4xl">
+                💬
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">שיחה פתוחה</h3>
+              <p className="text-slate-600 leading-relaxed">
+                אפשר לדבר עם ARENA בצ'אט, לבקש נכסים, לשאול שאלות ולקבל הצעות.
+              </p>
+            </div>
+
+            {/* ציון התאמה */}
+            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-orange-300">
+              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-4xl">
+                🔍
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">ציון התאמה והסבר</h3>
+              <p className="text-slate-600 leading-relaxed">
+                לכל נכס יש ציון התאמה. לחיצה על סימן השאלה תציג בצ'אט הסבר אישי למה הוא מתאים לך.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - שנתחיל? */}
+      <section className="relative py-16 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
+        {/* Subtle pattern overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px'}}></div>
+        </div>
+        
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg">שנתחיל?</h2>
+          
+          {/* Two main buttons */}
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-8 max-w-2xl mx-auto">
+            <Button 
+              onClick={() => handleGetStarted('living')}
+              className="bg-white text-purple-600 hover:bg-purple-50 text-xl py-6 px-10 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all flex items-center justify-center gap-3 flex-1"
+            >
+              <span className="text-3xl">🏡</span>
+              <span className="font-bold">מגורים</span>
+            </Button>
+            <Button 
+              onClick={() => handleGetStarted('investment')}
+              className="bg-white text-purple-600 hover:bg-purple-50 text-xl py-6 px-10 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all flex items-center justify-center gap-3 flex-1"
+            >
+              <span className="text-3xl">💸</span>
+              <span className="font-bold">השקעה</span>
+            </Button>
+          </div>
+
+          {/* Chat Bubble with Logo */}
+          <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 max-w-2xl mx-auto shadow-2xl border border-white/60">
+            <div className="flex items-center gap-6">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png"
+                alt="Arena AI Logo"
+                className="w-16 h-16 flex-shrink-0"
+              />
+              <div className="text-right flex-1">
+                <p className="text-lg font-semibold text-slate-800">
+                  היי, אני ארנה, יועצת הנדל"ן החכמה שלך.
+                </p>
+              </div>
+            </div>
+            
+            {/* Quick Options */}
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <span className="text-slate-600 text-sm font-medium w-full mb-2">או התחילו עם:</span>
+              {["דירת 4 חדרים", "בית פרטי", "נכס להשקעה", "דירה בתל אביב"].map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleGetStarted('')}
+                  className="bg-slate-100 hover:bg-sky-100 text-slate-700 hover:text-sky-700 px-4 py-2 rounded-full text-sm border border-slate-200 hover:border-sky-300 transition-all"
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* איך ארנה עוזרת לך */}
-      <section id="features-section" className="relative z-10 py-20 bg-white">
+      <section id="features-section" className="relative z-10 py-16 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">איך ארנה עוזרת לך?</h2>
@@ -473,18 +560,19 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Cookie Banner */}
+      {/* Cookie Banner - Enhanced */}
       {showCookieBanner && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-[100]">
-          <div className="max-w-7xl mx-auto px-6 py-5">
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-slate-300 shadow-2xl z-[100]">
+          <div className="max-w-7xl mx-auto px-6 py-6">
             <div className="flex items-start justify-between gap-6 flex-wrap">
               <div className="flex-1 min-w-[250px]">
-                <p className="text-sm text-slate-700 leading-relaxed mb-1">
-                  בלחיצה על "אפשר הכל", אתה מסכים לאחסון קוקיס במכשירך כדי לשפר את ניווט האתר, לנתח שימוש באתר ולסייע במאמצי השיווק שלנו.
+                <h3 className="text-lg font-bold text-slate-900 mb-2">🍪 אנחנו משתמשים בעוגיות</h3>
+                <p className="text-base text-slate-700 leading-relaxed mb-2">
+                  בלחיצה על "הבנתי", אתה מסכים לאחסון קוקיס במכשירך כדי לשפר את ניווט האתר, לנתח שימוש באתר ולסייע במאמצי השיווק שלנו.
                 </p>
                 <p className="text-sm text-slate-600">
                   למידע נוסף, בקר ב
-                  <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 underline mx-1">
+                  <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 underline mx-1 font-medium">
                     מדיניות הפרטיות
                   </a>
                   שלנו.
@@ -496,27 +584,18 @@ export default function Landing() {
                     localStorage.setItem('arena_cookie_consent', 'all');
                     setShowCookieBanner(false);
                   }}
-                  className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap shadow-sm"
+                  className="px-8 py-3 bg-sky-600 hover:bg-sky-700 text-white text-base font-bold rounded-xl transition-all whitespace-nowrap shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
-                  אפשר הכל
+                  הבנתי
                 </button>
                 <button
                   onClick={() => {
                     localStorage.setItem('arena_cookie_consent', 'rejected');
                     setShowCookieBanner(false);
                   }}
-                  className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+                  className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-base font-medium rounded-xl transition-colors whitespace-nowrap"
                 >
-                  דחה הכל
-                </button>
-                <button
-                  onClick={() => {
-                    localStorage.setItem('arena_cookie_consent', 'custom');
-                    setShowCookieBanner(false);
-                  }}
-                  className="px-5 py-2.5 text-sky-600 hover:text-sky-700 text-sm font-medium whitespace-nowrap underline"
-                >
-                  התאמה אישית
+                  דחה
                 </button>
               </div>
             </div>
