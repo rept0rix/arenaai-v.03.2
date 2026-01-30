@@ -176,13 +176,13 @@ export default function Landing() {
           loop 
           muted 
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
         >
           <source src="https://assets.grok.com/users/d19ec812-ca24-464a-b234-6f6fbd258649/generated/0a0c7491-ff6d-49e7-bc03-cb6fa4bdf97d/generated_video.mp4?cache=1" type="video/mp4" />
         </video>
         
         {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-400/30 via-sky-300/20 to-purple-200/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-sky-400/40 via-sky-300/35 to-purple-300/40"></div>
         
         {/* Skyline SVG at bottom - Subtle Line Art */}
         <div className="absolute bottom-0 left-0 right-0 h-32 opacity-15">
@@ -287,7 +287,7 @@ export default function Landing() {
       </section>
 
       {/* CTA Section - שנתחיל? */}
-      <section className="relative py-16 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
+      <section className="relative py-16 bg-gradient-to-l from-sky-300 via-sky-400 to-purple-300 overflow-hidden">
         <div className="relative z-10 max-w-4xl mx-auto px-6">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg text-center">שנתחיל?</h2>
           
