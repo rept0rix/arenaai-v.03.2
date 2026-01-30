@@ -393,27 +393,23 @@ export default function Layout({ children, currentPageName }) {
 
       {showCookieBanner && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-40">
-          <div className="max-w-7xl mx-auto px-6 py-5">
-            <div className="flex items-start justify-between gap-6 flex-wrap">
-              <div className="flex-1 min-w-[250px]">
-                <p className="text-sm text-slate-700 leading-relaxed mb-1">
+          <div className="max-w-7xl mx-auto px-4 py-3">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex-1 min-w-[200px]">
+                <p className="text-xs text-slate-700 leading-snug">
                   בלחיצה על "אפשר הכל", אתה מסכים לאחסון קוקיס במכשירך כדי לשפר את ניווט האתר, לנתח שימוש באתר ולסייע במאמצי השיווק שלנו.
-                </p>
-                <p className="text-sm text-slate-600">
-                  למידע נוסף, בקר ב
-                  <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 underline mx-1">
+                  <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 underline mr-1">
                     מדיניות הפרטיות
                   </a>
-                  שלנו.
                 </p>
               </div>
-              <div className="flex gap-3 items-center flex-wrap">
+              <div className="flex gap-2 items-center">
                 <button
                   onClick={() => {
                     localStorage.setItem('arena_cookie_consent', 'all');
                     setShowCookieBanner(false);
                   }}
-                  className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap shadow-sm"
+                  className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs font-medium rounded-lg transition-colors whitespace-nowrap"
                 >
                   אפשר הכל
                 </button>
@@ -422,13 +418,13 @@ export default function Layout({ children, currentPageName }) {
                     localStorage.setItem('arena_cookie_consent', 'rejected');
                     setShowCookieBanner(false);
                   }}
-                  className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
+                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-lg transition-colors whitespace-nowrap"
                 >
                   דחה הכל
                 </button>
                 <button
                   onClick={() => setShowCookieCustomization(true)}
-                  className="px-5 py-2.5 text-sky-600 hover:text-sky-700 text-sm font-medium whitespace-nowrap underline"
+                  className="px-3 py-2 text-sky-600 hover:text-sky-700 text-xs font-medium whitespace-nowrap underline"
                 >
                   התאמה אישית
                 </button>

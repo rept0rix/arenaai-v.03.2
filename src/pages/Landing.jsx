@@ -11,6 +11,8 @@ export default function Landing() {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showCookieBanner, setShowCookieBanner] = useState(false);
+  const [selectedPurpose, setSelectedPurpose] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     // Simplified - no auth check for now
@@ -27,7 +29,27 @@ export default function Landing() {
   };
 
   const handleGetStarted = (purpose = '') => {
-    navigate(createPageUrl('Home'));
+    if (purpose) {
+      setSelectedPurpose(purpose);
+    }
+    if (searchTerm.trim()) {
+      const chatUrl = createPageUrl(`Chat?purpose=${purpose || selectedPurpose}&q=${encodeURIComponent(searchTerm)}`);
+      navigate(chatUrl);
+    } else {
+      navigate(createPageUrl('Home'));
+    }
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (!selectedPurpose) {
+      alert('אנא בחר מטרת חיפוש לפני תחילת השיחה');
+      return;
+    }
+    if (searchTerm.trim()) {
+      const chatUrl = createPageUrl(`Chat?purpose=${selectedPurpose}&q=${encodeURIComponent(searchTerm)}`);
+      navigate(chatUrl);
+    }
   };
 
   const handleLogout = async () => {
@@ -184,28 +206,7 @@ export default function Landing() {
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-sky-400/40 via-sky-300/35 to-purple-300/40"></div>
         
-        {/* Skyline SVG at bottom - More Visible */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 opacity-40">
-          <svg className="w-full h-full" viewBox="0 0 1200 200" preserveAspectRatio="none">
-            <g stroke="white" strokeWidth="2.5" fill="white" fillOpacity="0.3">
-              <rect x="50" y="80" width="60" height="120" />
-              <rect x="120" y="100" width="50" height="100" />
-              <rect x="180" y="60" width="70" height="140" />
-              <rect x="260" y="90" width="55" height="110" />
-              <rect x="325" y="70" width="65" height="130" />
-              <rect x="400" y="110" width="50" height="90" />
-              <rect x="460" y="50" width="80" height="150" />
-              <rect x="550" y="95" width="60" height="105" />
-              <rect x="620" y="85" width="55" height="115" />
-              <rect x="685" y="65" width="75" height="135" />
-              <rect x="770" y="100" width="50" height="100" />
-              <rect x="830" y="75" width="70" height="125" />
-              <rect x="910" y="90" width="60" height="110" />
-              <rect x="980" y="55" width="85" height="145" />
-              <rect x="1075" y="95" width="55" height="105" />
-            </g>
-          </svg>
-        </div>
+
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           {/* Hero Text */}
@@ -229,17 +230,7 @@ export default function Landing() {
 
       {/* איך עובדים עם ARENA - Onboarding Section */}
       <section className="relative py-12 bg-white">
-        {/* Subtle skyline continuation */}
-        <div className="absolute top-0 left-0 right-0 h-16 opacity-25">
-          <svg className="w-full h-full" viewBox="0 0 1200 100" preserveAspectRatio="none">
-            <g stroke="currentColor" strokeWidth="2" fill="currentColor" fillOpacity="0.15" className="text-sky-400">
-              <rect x="50" y="20" width="40" height="80" />
-              <rect x="100" y="40" width="35" height="60" />
-              <rect x="145" y="10" width="45" height="90" />
-              <rect x="200" y="30" width="38" height="70" />
-            </g>
-          </svg>
-        </div>
+
 
         <div className="max-w-6xl mx-auto px-6 relative z-10">
           <div className="text-center mb-10">
@@ -314,15 +305,15 @@ export default function Landing() {
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <Button
-                      onClick={() => handleGetStarted('living')}
-                      className="bg-sky-500 hover:bg-sky-600 text-white"
+                      onClick={() => setSelectedPurpose('living')}
+                      className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 border border-slate-200"}
                       size="sm"
                     >
                       נכס למגורים
                     </Button>
                     <Button
-                      onClick={() => handleGetStarted('investment')}
-                      className="bg-sky-500 hover:bg-sky-600 text-white"
+                      onClick={() => setSelectedPurpose('investment')}
+                      className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 border border-slate-200"}
                       size="sm"
                     >
                       נכס להשקעה
@@ -334,33 +325,42 @@ export default function Landing() {
             
             {/* Bottom part: Form */}
             <div className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
-              <div className="relative">
+              <form onSubmit={handleFormSubmit} className="relative">
                 <Textarea
                   placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
                   className="bg-white text-right px-4 py-4 pb-12 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
                   rows={5}
-                  readOnly
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 
                 <div className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-4">
                   <Button
+                    type="button"
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleGetStarted('')}
+                    onClick={() => {
+                      if (!selectedPurpose) {
+                        alert('אנא בחר מטרת חיפוש לפני תחילת המסע המודרך');
+                        return;
+                      }
+                      navigate(createPageUrl(`Chat?purpose=${selectedPurpose}&guided=true`));
+                    }}
                     className="text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm"
                   >
                     <Compass className="w-4 h-4" />
                     מסע מודרך
                   </Button>
                   <Button
+                    type="submit"
                     size="icon"
                     className="bg-slate-900 hover:bg-black text-white rounded-lg"
-                    onClick={() => handleGetStarted('')}
+                    disabled={!searchTerm.trim()}
                   >
                     <ArrowUp className="w-5 h-5" />
                   </Button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
