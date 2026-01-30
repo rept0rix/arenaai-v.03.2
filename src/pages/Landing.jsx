@@ -150,105 +150,78 @@ export default function Landing() {
       </nav>
 
       {/* Hero Section with Background Image */}
-      <div className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Background Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-400 via-sky-300 to-purple-200"></div>
-        
-        {/* Skyline SVG at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 opacity-20">
-          <svg className="w-full h-full" viewBox="0 0 1200 200" preserveAspectRatio="none">
-            <g stroke="white" strokeWidth="2" fill="none">
-              {/* Buildings with varying heights */}
-              <rect x="50" y="80" width="60" height="120" />
-              <rect x="120" y="100" width="50" height="100" />
-              <rect x="180" y="60" width="70" height="140" />
-              <rect x="260" y="90" width="55" height="110" />
-              <rect x="325" y="70" width="65" height="130" />
-              <rect x="400" y="110" width="50" height="90" />
-              <rect x="460" y="50" width="80" height="150" />
-              <rect x="550" y="95" width="60" height="105" />
-              <rect x="620" y="85" width="55" height="115" />
-              <rect x="685" y="65" width="75" height="135" />
-              <rect x="770" y="100" width="50" height="100" />
-              <rect x="830" y="75" width="70" height="125" />
-              <rect x="910" y="90" width="60" height="110" />
-              <rect x="980" y="55" width="85" height="145" />
-              <rect x="1075" y="95" width="55" height="105" />
-            </g>
-          </svg>
-        </div>
+      <div className="relative h-[75vh] flex items-center justify-center bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100">
+        <div className="absolute inset-0 bg-cover bg-center opacity-40" style={{backgroundImage: "url('https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/77d5dcf6a_HEROBG.jpg')"}}></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/20 to-white/40"></div>
         
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
           
           {/* Hero Text */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
-            בית <span className="text-slate-900">החלומות</span> שלך
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white" style={{textShadow: '0 2px 10px rgba(0,0,0,0.2)'}}>
+            בית <span className="text-slate-800">החלומות</span> שלך
           </h1>
           
-          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-white drop-shadow-md font-medium">
+          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-slate-800 font-medium">
             ארנה AI מאפשרת לך למצוא את הנכס המושלם באמצעות טכנולוגיה מתקדמת וייעוץ אישי
           </p>
 
+          {/* Chat Bubble with Logo */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-6 max-w-xl mx-auto mb-8 border border-white/40 shadow-lg flex items-center gap-6">
+            <img
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png"
+              alt="Arena AI Logo"
+              className="w-20 h-20 flex-shrink-0"
+            />
+            <div className="text-right flex-1">
+              <p className="text-lg font-semibold mb-4 text-slate-800">
+                היי, אני ארנה, יועצת הנדל"ן החכמה שלך.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button 
+                  onClick={() => handleGetStarted('living')}
+                  variant="outline"
+                  className="border-[#5F3A93] text-[#5F3A93] hover:bg-[#5F3A93] hover:text-white flex-1 rounded-xl flex items-center justify-center gap-2 transition-colors duration-300"
+                >
+                  <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/185d11183_key.png" alt="למגורים" className="w-5 h-5" />
+                  למגורים
+                </Button>
+                <Button 
+                  onClick={() => handleGetStarted('investment')}
+                   variant="outline"
+                  className="border-[#5F3A93] text-[#5F3A93] hover:bg-[#5F3A93] hover:text-white flex-1 rounded-xl flex items-center justify-center gap-2 transition-colors duration-300"
+                >
+                  <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/61b166f5c_Layer_2.png" alt="להשקעה" className="w-5 h-5" />
+                  להשקעה
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Options */}
+          <div className="flex flex-wrap justify-center items-center gap-3 mb-12">
+            <span className="text-slate-800 text-sm font-medium">או התחילו עם:</span>
+            {["דירת 4 חדרים", "בית פרטי", "נכס להשקעה", "דירה בתל אביב"].map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleGetStarted('')}
+                className="bg-white/20 hover:bg-white/30 text-slate-800 px-4 py-2 rounded-full text-sm border border-slate-400/30 transition-colors backdrop-blur-sm"
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+
         </div>
 
-        {/* Scroll indicator - Enhanced */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 z-20">
-          <span className="text-slate-800 text-sm font-semibold drop-shadow">גלול למטה</span>
-          <div className="bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg hover:bg-white transition-all hover:scale-110 cursor-pointer">
-            <ChevronDown className="w-6 h-6 text-sky-600 animate-bounce" />
-          </div>
+        {/* Scroll indicator */}
+        <div className="absolute bottom-[30px] left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-1">
+          <span className="text-slate-600 text-xs font-medium">גלול למטה</span>
+          <ChevronDown className="w-10 h-10 text-slate-600 animate-bounce" />
         </div>
       </div>
 
-      {/* איך עובדים עם ARENA - New Onboarding Section */}
-      <section className="relative py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">איך עובדים עם ARENA?</h2>
-            <p className="text-xl text-slate-600">
-              אנרנה כלים מתקדמים שיובילו אותך לידיעת החלטות
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* מסע מודרך */}
-            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-cyan-300">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center text-4xl">
-                🌀
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">מסע מודרך</h3>
-              <p className="text-slate-600 leading-relaxed">
-                ARENA שואלת שאלות קצרות, בונה פרופיל ומציגה נכסים מתאימים.
-              </p>
-            </div>
-
-            {/* שיחה פתוחה */}
-            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-purple-300">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full flex items-center justify-center text-4xl">
-                💬
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">שיחה פתוחה</h3>
-              <p className="text-slate-600 leading-relaxed">
-                אפשר לדבר עם ARENA בצ'אט, לבקש נכסים, לשאול שאלות ולקבל הצעות.
-              </p>
-            </div>
-
-            {/* ציון התאמה */}
-            <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 text-center hover:shadow-xl transition-all hover:border-orange-300">
-              <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-4xl">
-                🔍
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">ציון התאמה והסבר</h3>
-              <p className="text-slate-600 leading-relaxed">
-                לכל נכס יש ציון התאמה. לחיצה על סימן השאלה תציג בצ'אט הסבר אישי למה הוא מתאים לך.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* איך ארנה עוזרת לך */}
-      <section id="features-section" className="relative z-10 py-16 bg-white">
+      <section id="features-section" className="relative z-10 py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">איך ארנה עוזרת לך?</h2>
@@ -399,246 +372,82 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* CTA Section - שנתחיל? */}
-      <section className="relative py-20 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400 overflow-hidden">
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg">שנתחיל?</h2>
-          
-          {/* Two main tab-style buttons */}
-          <div className="flex gap-4 justify-center mb-8 max-w-xl mx-auto">
-            <button 
-              onClick={() => handleGetStarted('living')}
-              className="bg-white/90 backdrop-blur-sm text-purple-600 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 flex-1"
-            >
-              <span className="text-2xl">🏡</span>
-              <span className="font-bold">מגורים</span>
-            </button>
-            <button 
-              onClick={() => handleGetStarted('investment')}
-              className="bg-white/90 backdrop-blur-sm text-purple-600 hover:bg-white text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 flex-1"
-            >
-              <span className="text-2xl">💸</span>
-              <span className="font-bold">השקעה</span>
-            </button>
-          </div>
-
-          {/* Chat Bubble Container - White Card with Logo and Text */}
-          <div className="bg-white rounded-3xl p-8 max-w-3xl mx-auto shadow-2xl">
-            <div className="flex items-start gap-6 mb-6">
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/826138143_a1d576606_a-icon-shadow1.png"
-                alt="Arena AI Logo"
-                className="w-20 h-20 flex-shrink-0"
-              />
-              <div className="text-right flex-1 space-y-3">
-                <p className="text-xl font-bold text-slate-800">
-                  היי סופר! אני ארנה, יועצת הנדל"ן החכמה שלך.
-                </p>
-                <p className="text-lg text-slate-700">
-                  בוא ונמצא את הבית הבא עבורך.
-                </p>
-                <p className="text-base text-slate-600">
-                  לאיזו מטרה את/ה מחפש/ת נכס?
-                </p>
-              </div>
-            </div>
-
-            {/* Example Message */}
-            <div className="bg-slate-50 rounded-2xl p-6 text-right border border-slate-200">
-              <div className="flex items-start gap-3">
-                <button className="w-10 h-10 bg-slate-600 text-white rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors flex-shrink-0">
-                  <span className="text-xl">↑</span>
-                </button>
-                <div className="flex-1">
-                  <p className="text-slate-700 leading-relaxed mb-3">
-                    לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים...
-                  </p>
-                  <span className="text-sm text-slate-500">📝 מסע מודרך</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* שאלות נפוצות */}
-      <section id="faq-section" className="py-20 bg-slate-50">
+      <section id="faq-section" className="py-20 bg-white">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">שאלות נפוצות</h2>
-            <p className="text-xl text-slate-600 flex items-center justify-center gap-2">
-              <span>💬</span>
-              יש לך שאלה ל-Arena? אולי כבר שאלו אותה לפנייך
+            <p className="text-xl text-slate-600">
+              יש לך שאלה? אולי כבר עברו לפניך 💬
             </p>
           </div>
 
           <div className="space-y-4">
-            {/* FAQ 1 - מי זו ארנה? */}
-            <details className="bg-white rounded-2xl p-6 shadow-sm group">
+            {/* FAQ 1 */}
+            <details className="bg-slate-50 rounded-2xl p-6 group">
               <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
                 <span>מי זו ארנה?</span>
                 <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
-                <p>
-                  ארנה היא יועצת הנדל"ן האישית שלך - אובייקטיבית, אמינה, ומותאמת בדיוק אליך.
+              <div className="mt-4 text-slate-600 leading-relaxed">
+                <p className="mb-4">
+                  ארנה היא יועצת הנדל"ן האישית שלך – אוכיקדיבת, אמינה, ומתקדמת בזיגה אליף.
+                  היא לא עוד מוכרת או משווקת נדל"ן מסם קבלן, אלא מלווה אותך בצד שלך בצבד.
                 </p>
-                <p>
-                  היא לא עוד מוכרת או משווקת נדל"ן מטעם קבלן, אלא מלווה אותך בצד שלך בלבד.
-                </p>
-                <p>
-                  בניגוד ללוחות נדל"ן שהם לוח מודעות קר וסטטי, ארנה מבינה אותך. היא לומדת מה חשוב לך באמת - ומוצאת עבורך את הדירה שתהפוך לבית.
+                <p className="mb-4">
+                  במעגד לזהות נדל"ן שנמק קורקוסט פר וטסטט, ארנה מניבה לך באמת – ומצאלת
+                  עבוור את הדירה שתתפוקר לבית.
                 </p>
                 <p className="text-sky-600 font-medium">
-                  👉 עם ארנה, לא צריך לנחש, לא צריך להתפשר.
+                  👉 עם ארנה, לא צריך לנמש, לא צריך להתפשר:
                 </p>
               </div>
             </details>
 
-            {/* FAQ 2 - איך ארנה מתאימה לי דירות? */}
-            <details className="bg-white rounded-2xl p-6 shadow-sm group">
+            {/* FAQ 2 */}
+            <details className="bg-slate-50 rounded-2xl p-6 group">
               <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
-                <span>איך ארנה מתאימה לי דירות?</span>
+                <span>איך ארנה מתאימה לי דירה?</span>
                 <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
+              <div className="mt-4 text-slate-600 leading-relaxed">
                 <p>
-                  בזמן שלוחות מודעות רגילים מציעים לסנן לפי חדרים, מחיר או שכונה, ארנה פועלת אחרת: היא מתחילה משיחה איתך, מבינה מי אתה ומה באמת חשוב לך – לא רק מה שאתה חושב שאתה מחפש.
+                  בזמן שלהקיות מידעות ודיליםים מציעים לסכן פר חדרים, מחיר או טקנה, ארנה פועלת אחרת: היא מתהילה משיחה
+                  איזה, מניבה מי אתה ומה, באמת הנוב לך – לא רק מה הוא, מה שאאתה הוומש המפש.
                 </p>
-                <p className="text-sky-600 font-medium">
-                  👉 לא פילטרים גנריים - אלא דיסקוורי אישי שמותאם לחיים שלך.
+                <p className="mt-4 text-sky-600 font-medium">
+                  👉 לא פילפרים גנריים – אלא דיסקווי! אישי שמתאומה לחיים שלו:
                 </p>
-                <p>
-                  המערכת לומדת אותך לעומק: החל ממטבח לאירוח חברים, דרך קרבה לבית ספר מסוים, ועד תחושת אור טבעי ונוף מהחלון.
-                </p>
-                <p>
-                  מעבר לזה, ארנה יודעת לחשוף צרכים חבויים – כמו תחבורה נוחה לעבודה עתידית, התאמה להגדלת משפחה, או חיבור לקהילה – ולגלות עבורך אפשרויות שלא בהכרח חשבת עליהן.
-                </p>
-                <p>
-                  מאחורי הקלעים פועל אלגוריתם חכם שמנתח פרופילים פסיכולוגיים, התנהגותיים, כלכליים ורגשיים, ומשווה אותם למאגר עצום של פרויקטים.
-                </p>
-                <p>
-                  התוצאה: לא עוד רשימה ארוכה של מודעות, אלא גילוי אמיתי של דירות שמתאימות באמת לחיים שלך.
-                </p>
-                <button className="text-sky-600 hover:text-sky-700 font-medium">סגור</button>
               </div>
             </details>
 
-            {/* FAQ 3 - איך מתחילים את תהליך בירור הצרכים? */}
-            <details className="bg-white rounded-2xl p-6 shadow-sm group">
+            {/* FAQ 3 */}
+            <details className="bg-slate-50 rounded-2xl p-6 group">
               <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
-                <span>איך מתחילים את תהליך בירור הצרכים?</span>
+                <span>איך מתחילים את התהליך ברארנה?</span>
                 <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
+              <div className="mt-4 text-slate-600 leading-relaxed">
                 <p>
-                  התהליך פשוט ומתחיל מהרגע הראשון שבו אתם מתחילים שיחה עם ארנה. תוכלו לבחור בין שתי דרכים עיקריות לגילוי הנכס הבא שלכם.
+                  ההתהליק פשווט ומתחיל מהרגאל שווססן שזב אזמן מתחיליםם שיאתה עם ארנה. תוכלו לבחאור בין שווש דרכים עדיריות
+                  לעליי: הנפןב חבא שלכם.
                 </p>
-                <p className="text-sky-600 font-medium">
-                  👉 בחירה שלך: מסע מודרך או שיחה חופשית.
+                <p className="mt-4 text-sky-600 font-medium">
+                  👉 בחרtaה שלף: מטס מווdri או שיחה חופשית:
                 </p>
-                <p>
-                  ב<strong>מסע המודרך</strong>, ארנה תוביל אותך צעד אחר צעד עם שאלות מפתח על תקציב, אזור, גודל ומאפיינים חשובים. זהו מסלול מצוין למי שרוצה לוודא שלא שכח שום פרט חשוב.
-                </p>
-                <p>
-                  ב<strong>שיחה הפתוחה</strong>, תוכלו פשוט לכתוב לארנה מה אתם מחפשים בשפה שלכם, והיא תבין אתכם, תשאל שאלות המשך, ותציג לכם נכסים בהתאם. זהו מסלול שמרגיש כמו שיחה עם יועץ אמיתי.
-                </p>
-                <button className="text-sky-600 hover:text-sky-700 font-medium">סגור</button>
               </div>
             </details>
 
-            {/* FAQ 4 - האם השימוש בארנה כרוך בתשלום? */}
-            <details className="bg-white rounded-2xl p-6 shadow-sm group">
+            {/* FAQ 4 */}
+            <details className="bg-slate-50 rounded-2xl p-6 group">
               <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
                 <span>האם השימוש בארנה כרוך בתשלום?</span>
                 <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
+              <div className="mt-4 text-slate-600 leading-relaxed">
                 <p>
-                  לא. השירות חינמי לחלוטין עבורך כרוכש פוטנציאלי.
+                  לא. השירות חוויתי ללהווחתי וערבי הרומיםים הווהיווואליי.
                 </p>
-                <p className="text-sky-600 font-medium">
-                  👉 אתה מקבל יועצת אישית בלי לשלם שקל.
-                </p>
-                <p>
-                  המודל העסקי של ארנה מבוסס על שיתופי פעולה עם יזמים וקבלנים שמעוניינים להציג את הפרויקטים שלהם בפני הקונים המתאימים. בנוסף, קיימים שיתופי פעולה עם בנקים למשכנתאות, יועצי משכנתאות, עורכי דין וחברות נוספות שמציעות שירותים ומוצרים רלוונטיים לרוכשי דירות.
-                </p>
-                <p>
-                  בזכות זה אתה נהנה מכל השירותים - בירור צרכים, חיפוש מותאם אישית, צ'אט חכם, הדמיות תלת־ממד וייעוץ במימון - ללא עלות וללא התחייבות.
-                </p>
-                <p>
-                  ולא פחות חשוב - לאחר חתימת עסקה, חברי מועדון ארנה מקבלים מתנת רכישה ייחודית שמתעדכנת מעת לעת.
-                </p>
-                <button className="text-sky-600 hover:text-sky-700 font-medium">סגור</button>
-              </div>
-            </details>
-
-            {/* FAQ 5 - מה לגבי הפרטיות שלי? */}
-            <details className="bg-white rounded-2xl p-6 shadow-sm group">
-              <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
-                <span>מה לגבי הפרטיות שלי?</span>
-                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
-                <p>
-                  הפרטיות שלך חשובה לנו מאוד.
-                </p>
-                <p className="text-sky-600 font-medium">
-                  👉 המידע שלך נשאר אצלך - ונמסר רק אם תרצה בכך.
-                </p>
-                <p>
-                  פרטיך יועברו ליזמים או נותני שירות רלוונטיים רק אם התעניינת בנכס מסוים או נמצא שהוא מתאים לך בבירור צרכים.
-                </p>
-                <p>
-                  אם לא נרשמת - פרטיך לא יועברו.
-                </p>
-                <p>
-                  יתכן שימוש במידע באופן אנונימי לשיפור המערכת, אך לעולם לא נמכור או נשתף פרטים מזהים אם לא הבעת הסכמה לכך.
-                </p>
-                <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 font-medium underline">
-                  לתנאי שימוש ומדיניות פרטיות
-                </a>
-                <button className="text-sky-600 hover:text-sky-700 font-medium block mt-2">סגור</button>
-              </div>
-            </details>
-
-            {/* FAQ 6 - מאיפה מגיע המידע בארנה? */}
-            <details className="bg-white rounded-2xl p-6 shadow-sm group">
-              <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
-                <span>מאיפה מגיע המידע בארנה?</span>
-                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
-              </summary>
-              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
-                <p>
-                  ארנה משלבת בין נתונים רשמיים, מידע מסחרי מהיזמים ומחקרי עומק שבוצעו על ידי הצוות.
-                </p>
-                <p className="text-sky-600 font-medium">
-                  👉 מידע ממשי על השוק לצד פרטים עדכניים על נכסים.
-                </p>
-                <p>במערכת מופיעים:</p>
-                <ul className="list-disc mr-6 space-y-2">
-                  <li>
-                    <strong>נתונים רשמיים מגופים כמו רשות המיסים, מנהל התכנון, הלמ"ס ומשרד התחבורה ועוד</strong> – שמאפשרים להבין עסקאות שבוצעו בפועל, תוכניות פיתוח עתידיות, תחבורה וחינוך.
-                  </li>
-                  <li>
-                    <strong>מידע שמספקים היזמים עצמם</strong> – מפרטים טכניים, תוכניות דירה, הדמיות, מחירים ותנאי רכישה.
-                  </li>
-                  <li>
-                    <strong>מחקרי עומק פנימיים של צוות ארנה</strong> – בשיתוף אנשי מקצוע, לצורך אפיון פרופילי רוכשים וקטגוריות נכסים.
-                  </li>
-                </ul>
-                <p>
-                  חשוב לדעת: ארנה עצמה אינה מוכרת דירות ואינה מתווכת – היא מציגה עבורך את המידע שנמסר מהגורמים השונים בצורה ברורה, מאורגנת ואובייקטיבית ככל האפשר.
-                </p>
-                <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 font-medium underline">
-                  לתנאי שימוש ומדיניות פרטיות
-                </a>
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
-                  <p className="text-sm text-amber-900">
-                    <span className="font-bold">⭐ לתשומת לבך:</span> המידע במערכת ארנה מוצג כפי שנמסר על ידי היזמים, לצד נתונים רשמיים ומחקרים שביצע צוות ארנה. המערכת אינה מעניקה שירותי תיווך ואינה צד לעסקאות נדל"ן – כל התקשרות נעשית ישירות מול היזם או הגורם הרלוונטי. השימוש במערכת כפוף לתקנון האתר ותנאי השימוש.
-                  </p>
-                </div>
-                <button className="text-sky-600 hover:text-sky-700 font-medium">סגור</button>
               </div>
             </details>
           </div>
@@ -656,28 +465,26 @@ export default function Landing() {
           </div>
 
           <div className="flex flex-wrap justify-center items-center gap-12 md:gap-16">
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/d929f767a_image.png" alt="אורה" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b980046be_image.png" alt="אפריקה ישראל" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/aa4c91ca1_image.png" alt="דמרי" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b1480d5dd_image.png" alt="סטרום" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/82a1e3cda_image.png" alt="הדהד" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d4f4dd75d87c3bfdbcb02f/dd1a9b15a_dimrilogo.png" alt="דמרי" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d4f4dd75d87c3bfdbcb02f/6c8ded50f_africaisraellogo.png" alt="אפריקה ישראל" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d4f4dd75d87c3bfdbcb02f/491b94b0d_auralogo.png" alt="אאורה" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d4f4dd75d87c3bfdbcb02f/0c9d8e70c_straomlogo.png" alt="סטרום" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
           </div>
         </div>
       </section>
 
-      {/* Cookie Banner - Enhanced */}
+      {/* Cookie Banner */}
       {showCookieBanner && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-slate-300 shadow-2xl z-[100]">
-          <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-[100]">
+          <div className="max-w-7xl mx-auto px-6 py-5">
             <div className="flex items-start justify-between gap-6 flex-wrap">
               <div className="flex-1 min-w-[250px]">
-                <h3 className="text-lg font-bold text-slate-900 mb-2">🍪 אנחנו משתמשים בעוגיות</h3>
-                <p className="text-base text-slate-700 leading-relaxed mb-2">
-                  בלחיצה על "הבנתי", אתה מסכים לאחסון קוקיס במכשירך כדי לשפר את ניווט האתר, לנתח שימוש באתר ולסייע במאמצי השיווק שלנו.
+                <p className="text-sm text-slate-700 leading-relaxed mb-1">
+                  בלחיצה על "אפשר הכל", אתה מסכים לאחסון קוקיס במכשירך כדי לשפר את ניווט האתר, לנתח שימוש באתר ולסייע במאמצי השיווק שלנו.
                 </p>
                 <p className="text-sm text-slate-600">
                   למידע נוסף, בקר ב
-                  <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 underline mx-1 font-medium">
+                  <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 underline mx-1">
                     מדיניות הפרטיות
                   </a>
                   שלנו.
@@ -689,18 +496,27 @@ export default function Landing() {
                     localStorage.setItem('arena_cookie_consent', 'all');
                     setShowCookieBanner(false);
                   }}
-                  className="px-8 py-3 bg-sky-600 hover:bg-sky-700 text-white text-base font-bold rounded-xl transition-all whitespace-nowrap shadow-lg hover:shadow-xl transform hover:scale-105"
+                  className="px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors whitespace-nowrap shadow-sm"
                 >
-                  הבנתי
+                  אפשר הכל
                 </button>
                 <button
                   onClick={() => {
                     localStorage.setItem('arena_cookie_consent', 'rejected');
                     setShowCookieBanner(false);
                   }}
-                  className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 text-base font-medium rounded-xl transition-colors whitespace-nowrap"
+                  className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors whitespace-nowrap"
                 >
-                  דחה
+                  דחה הכל
+                </button>
+                <button
+                  onClick={() => {
+                    localStorage.setItem('arena_cookie_consent', 'custom');
+                    setShowCookieBanner(false);
+                  }}
+                  className="px-5 py-2.5 text-sky-600 hover:text-sky-700 text-sm font-medium whitespace-nowrap underline"
+                >
+                  התאמה אישית
                 </button>
               </div>
             </div>
