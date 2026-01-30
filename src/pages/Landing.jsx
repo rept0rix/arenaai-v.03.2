@@ -192,27 +192,12 @@ export default function Landing() {
 
       {/* Hero Section - Shorter & More Focused */}
       <div className="relative h-[75vh] flex items-center justify-center overflow-hidden">
-        {/* Video Background */}
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-80"
-        >
-          <source src="https://assets.grok.com/users/d19ec812-ca24-464a-b234-6f6fbd258649/generated/0a0c7491-ff6d-49e7-bc03-cb6fa4bdf97d/generated_video.mp4?cache=1" type="video/mp4" />
-        </video>
-        
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sky-400/40 via-sky-300/35 to-purple-300/40"></div>
-        
-        {/* Skyline Image */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 opacity-20 pointer-events-none">
+        {/* Background Image */}
+        <div className="absolute inset-0">
           <img 
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/f33dc95ec_image.png"
-            alt="Skyline"
-            className="w-full h-full object-cover object-bottom"
-            style={{ objectFit: 'cover', objectPosition: 'center bottom' }}
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/fd401a462_image.png"
+            alt="Background"
+            className="w-full h-full object-cover"
           />
         </div>
         
