@@ -10,6 +10,7 @@ export default function FinanceExplainability({ financingData, onBack }) {
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showAdvisors, setShowAdvisors] = useState(false);
 
     useEffect(() => {
         calculateExplainability();
@@ -58,8 +59,6 @@ export default function FinanceExplainability({ financingData, onBack }) {
     }
 
     if (!result) return null;
-
-    const [showAdvisors, setShowAdvisors] = useState(false);
 
     const bankLogos = [
         { id: 'hapoalim', name: 'בנק הפועלים', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b8997d180_image.png' },
