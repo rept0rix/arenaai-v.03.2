@@ -460,81 +460,183 @@ export default function Landing() {
       </section>
 
       {/* שאלות נפוצות */}
-      <section id="faq-section" className="py-20 bg-white">
+      <section id="faq-section" className="py-20 bg-slate-50">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">שאלות נפוצות</h2>
-            <p className="text-xl text-slate-600">
-              יש לך שאלה? אולי כבר עברו לפניך 💬
+            <p className="text-xl text-slate-600 flex items-center justify-center gap-2">
+              <span>💬</span>
+              יש לך שאלה ל-Arena? אולי כבר שאלו אותה לפנייך
             </p>
           </div>
 
           <div className="space-y-4">
-            {/* FAQ 1 */}
-            <details className="bg-slate-50 rounded-2xl p-6 group">
+            {/* FAQ 1 - מי זו ארנה? */}
+            <details className="bg-white rounded-2xl p-6 shadow-sm group">
               <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
                 <span>מי זו ארנה?</span>
                 <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="mt-4 text-slate-600 leading-relaxed">
-                <p className="mb-4">
-                  ארנה היא יועצת הנדל"ן האישית שלך – אוכיקדיבת, אמינה, ומתקדמת בזיגה אליף.
-                  היא לא עוד מוכרת או משווקת נדל"ן מסם קבלן, אלא מלווה אותך בצד שלך בצבד.
+              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
+                <p>
+                  ארנה היא יועצת הנדל"ן האישית שלך - אובייקטיבית, אמינה, ומותאמת בדיוק אליך.
                 </p>
-                <p className="mb-4">
-                  במעגד לזהות נדל"ן שנמק קורקוסט פר וטסטט, ארנה מניבה לך באמת – ומצאלת
-                  עבוור את הדירה שתתפוקר לבית.
+                <p>
+                  היא לא עוד מוכרת או משווקת נדל"ן מטעם קבלן, אלא מלווה אותך בצד שלך בלבד.
+                </p>
+                <p>
+                  בניגוד ללוחות נדל"ן שהם לוח מודעות קר וסטטי, ארנה מבינה אותך. היא לומדת מה חשוב לך באמת - ומוצאת עבורך את הדירה שתהפוך לבית.
                 </p>
                 <p className="text-sky-600 font-medium">
-                  👉 עם ארנה, לא צריך לנמש, לא צריך להתפשר:
+                  👉 עם ארנה, לא צריך לנחש, לא צריך להתפשר.
                 </p>
               </div>
             </details>
 
-            {/* FAQ 2 */}
-            <details className="bg-slate-50 rounded-2xl p-6 group">
+            {/* FAQ 2 - איך ארנה מתאימה לי דירות? */}
+            <details className="bg-white rounded-2xl p-6 shadow-sm group">
               <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
-                <span>איך ארנה מתאימה לי דירה?</span>
+                <span>איך ארנה מתאימה לי דירות?</span>
                 <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="mt-4 text-slate-600 leading-relaxed">
+              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
                 <p>
-                  בזמן שלהקיות מידעות ודיליםים מציעים לסכן פר חדרים, מחיר או טקנה, ארנה פועלת אחרת: היא מתהילה משיחה
-                  איזה, מניבה מי אתה ומה, באמת הנוב לך – לא רק מה הוא, מה שאאתה הוומש המפש.
+                  בזמן שלוחות מודעות רגילים מציעים לסנן לפי חדרים, מחיר או שכונה, ארנה פועלת אחרת: היא מתחילה משיחה איתך, מבינה מי אתה ומה באמת חשוב לך – לא רק מה שאתה חושב שאתה מחפש.
                 </p>
-                <p className="mt-4 text-sky-600 font-medium">
-                  👉 לא פילפרים גנריים – אלא דיסקווי! אישי שמתאומה לחיים שלו:
+                <p className="text-sky-600 font-medium">
+                  👉 לא פילטרים גנריים - אלא דיסקוורי אישי שמותאם לחיים שלך.
                 </p>
+                <p>
+                  המערכת לומדת אותך לעומק: החל ממטבח לאירוח חברים, דרך קרבה לבית ספר מסוים, ועד תחושת אור טבעי ונוף מהחלון.
+                </p>
+                <p>
+                  מעבר לזה, ארנה יודעת לחשוף צרכים חבויים – כמו תחבורה נוחה לעבודה עתידית, התאמה להגדלת משפחה, או חיבור לקהילה – ולגלות עבורך אפשרויות שלא בהכרח חשבת עליהן.
+                </p>
+                <p>
+                  מאחורי הקלעים פועל אלגוריתם חכם שמנתח פרופילים פסיכולוגיים, התנהגותיים, כלכליים ורגשיים, ומשווה אותם למאגר עצום של פרויקטים.
+                </p>
+                <p>
+                  התוצאה: לא עוד רשימה ארוכה של מודעות, אלא גילוי אמיתי של דירות שמתאימות באמת לחיים שלך.
+                </p>
+                <button className="text-sky-600 hover:text-sky-700 font-medium">סגור</button>
               </div>
             </details>
 
-            {/* FAQ 3 */}
-            <details className="bg-slate-50 rounded-2xl p-6 group">
+            {/* FAQ 3 - איך מתחילים את תהליך בירור הצרכים? */}
+            <details className="bg-white rounded-2xl p-6 shadow-sm group">
               <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
-                <span>איך מתחילים את התהליך ברארנה?</span>
+                <span>איך מתחילים את תהליך בירור הצרכים?</span>
                 <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="mt-4 text-slate-600 leading-relaxed">
+              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
                 <p>
-                  ההתהליק פשווט ומתחיל מהרגאל שווססן שזב אזמן מתחיליםם שיאתה עם ארנה. תוכלו לבחאור בין שווש דרכים עדיריות
-                  לעליי: הנפןב חבא שלכם.
+                  התהליך פשוט ומתחיל מהרגע הראשון שבו אתם מתחילים שיחה עם ארנה. תוכלו לבחור בין שתי דרכים עיקריות לגילוי הנכס הבא שלכם.
                 </p>
-                <p className="mt-4 text-sky-600 font-medium">
-                  👉 בחרtaה שלף: מטס מווdri או שיחה חופשית:
+                <p className="text-sky-600 font-medium">
+                  👉 בחירה שלך: מסע מודרך או שיחה חופשית.
                 </p>
+                <p>
+                  ב<strong>מסע המודרך</strong>, ארנה תוביל אותך צעד אחר צעד עם שאלות מפתח על תקציב, אזור, גודל ומאפיינים חשובים. זהו מסלול מצוין למי שרוצה לוודא שלא שכח שום פרט חשוב.
+                </p>
+                <p>
+                  ב<strong>שיחה הפתוחה</strong>, תוכלו פשוט לכתוב לארנה מה אתם מחפשים בשפה שלכם, והיא תבין אתכם, תשאל שאלות המשך, ותציג לכם נכסים בהתאם. זהו מסלול שמרגיש כמו שיחה עם יועץ אמיתי.
+                </p>
+                <button className="text-sky-600 hover:text-sky-700 font-medium">סגור</button>
               </div>
             </details>
 
-            {/* FAQ 4 */}
-            <details className="bg-slate-50 rounded-2xl p-6 group">
+            {/* FAQ 4 - האם השימוש בארנה כרוך בתשלום? */}
+            <details className="bg-white rounded-2xl p-6 shadow-sm group">
               <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
                 <span>האם השימוש בארנה כרוך בתשלום?</span>
                 <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <div className="mt-4 text-slate-600 leading-relaxed">
+              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
                 <p>
-                  לא. השירות חוויתי ללהווחתי וערבי הרומיםים הווהיווואליי.
+                  לא. השירות חינמי לחלוטין עבורך כרוכש פוטנציאלי.
                 </p>
+                <p className="text-sky-600 font-medium">
+                  👉 אתה מקבל יועצת אישית בלי לשלם שקל.
+                </p>
+                <p>
+                  המודל העסקי של ארנה מבוסס על שיתופי פעולה עם יזמים וקבלנים שמעוניינים להציג את הפרויקטים שלהם בפני הקונים המתאימים. בנוסף, קיימים שיתופי פעולה עם בנקים למשכנתאות, יועצי משכנתאות, עורכי דין וחברות נוספות שמציעות שירותים ומוצרים רלוונטיים לרוכשי דירות.
+                </p>
+                <p>
+                  בזכות זה אתה נהנה מכל השירותים - בירור צרכים, חיפוש מותאם אישית, צ'אט חכם, הדמיות תלת־ממד וייעוץ במימון - ללא עלות וללא התחייבות.
+                </p>
+                <p>
+                  ולא פחות חשוב - לאחר חתימת עסקה, חברי מועדון ארנה מקבלים מתנת רכישה ייחודית שמתעדכנת מעת לעת.
+                </p>
+                <button className="text-sky-600 hover:text-sky-700 font-medium">סגור</button>
+              </div>
+            </details>
+
+            {/* FAQ 5 - מה לגבי הפרטיות שלי? */}
+            <details className="bg-white rounded-2xl p-6 shadow-sm group">
+              <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
+                <span>מה לגבי הפרטיות שלי?</span>
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
+                <p>
+                  הפרטיות שלך חשובה לנו מאוד.
+                </p>
+                <p className="text-sky-600 font-medium">
+                  👉 המידע שלך נשאר אצלך - ונמסר רק אם תרצה בכך.
+                </p>
+                <p>
+                  פרטיך יועברו ליזמים או נותני שירות רלוונטיים רק אם התעניינת בנכס מסוים או נמצא שהוא מתאים לך בבירור צרכים.
+                </p>
+                <p>
+                  אם לא נרשמת - פרטיך לא יועברו.
+                </p>
+                <p>
+                  יתכן שימוש במידע באופן אנונימי לשיפור המערכת, אך לעולם לא נמכור או נשתף פרטים מזהים אם לא הבעת הסכמה לכך.
+                </p>
+                <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 font-medium underline">
+                  לתנאי שימוש ומדיניות פרטיות
+                </a>
+                <button className="text-sky-600 hover:text-sky-700 font-medium block mt-2">סגור</button>
+              </div>
+            </details>
+
+            {/* FAQ 6 - מאיפה מגיע המידע בארנה? */}
+            <details className="bg-white rounded-2xl p-6 shadow-sm group">
+              <summary className="text-xl font-bold text-slate-900 cursor-pointer list-none flex justify-between items-center">
+                <span>מאיפה מגיע המידע בארנה?</span>
+                <span className="text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-6 text-slate-700 leading-relaxed space-y-4">
+                <p>
+                  ארנה משלבת בין נתונים רשמיים, מידע מסחרי מהיזמים ומחקרי עומק שבוצעו על ידי הצוות.
+                </p>
+                <p className="text-sky-600 font-medium">
+                  👉 מידע ממשי על השוק לצד פרטים עדכניים על נכסים.
+                </p>
+                <p>במערכת מופיעים:</p>
+                <ul className="list-disc mr-6 space-y-2">
+                  <li>
+                    <strong>נתונים רשמיים מגופים כמו רשות המיסים, מנהל התכנון, הלמ"ס ומשרד התחבורה ועוד</strong> – שמאפשרים להבין עסקאות שבוצעו בפועל, תוכניות פיתוח עתידיות, תחבורה וחינוך.
+                  </li>
+                  <li>
+                    <strong>מידע שמספקים היזמים עצמם</strong> – מפרטים טכניים, תוכניות דירה, הדמיות, מחירים ותנאי רכישה.
+                  </li>
+                  <li>
+                    <strong>מחקרי עומק פנימיים של צוות ארנה</strong> – בשיתוף אנשי מקצוע, לצורך אפיון פרופילי רוכשים וקטגוריות נכסים.
+                  </li>
+                </ul>
+                <p>
+                  חשוב לדעת: ארנה עצמה אינה מוכרת דירות ואינה מתווכת – היא מציגה עבורך את המידע שנמסר מהגורמים השונים בצורה ברורה, מאורגנת ואובייקטיבית ככל האפשר.
+                </p>
+                <a href={createPageUrl('PrivacyPolicy')} className="text-sky-600 hover:text-sky-700 font-medium underline">
+                  לתנאי שימוש ומדיניות פרטיות
+                </a>
+                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mt-4">
+                  <p className="text-sm text-amber-900">
+                    <span className="font-bold">⭐ לתשומת לבך:</span> המידע במערכת ארנה מוצג כפי שנמסר על ידי היזמים, לצד נתונים רשמיים ומחקרים שביצע צוות ארנה. המערכת אינה מעניקה שירותי תיווך ואינה צד לעסקאות נדל"ן – כל התקשרות נעשית ישירות מול היזם או הגורם הרלוונטי. השימוש במערכת כפוף לתקנון האתר ותנאי השימוש.
+                  </p>
+                </div>
+                <button className="text-sky-600 hover:text-sky-700 font-medium">סגור</button>
               </div>
             </details>
           </div>
