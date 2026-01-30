@@ -7,6 +7,13 @@ export default function Layout({ children, currentPageName }) {
   const [user, setUser] = React.useState(null);
   const [showAccessibilityButton, setShowAccessibilityButton] = React.useState(true);
   const [showCookieBanner, setShowCookieBanner] = React.useState(false);
+  const [showCookieCustomization, setShowCookieCustomization] = React.useState(false);
+  const [cookiePreferences, setCookiePreferences] = React.useState({
+    necessary: true, // Always true, can't be disabled
+    analytics: false,
+    marketing: false,
+    functional: false
+  });
 
   React.useEffect(() => {
     checkUser();
@@ -266,6 +273,124 @@ export default function Layout({ children, currentPageName }) {
         </div>
       )}
 
+      {showCookieCustomization && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-slate-900">הגדרות קוקיס</h3>
+              <button
+                onClick={() => setShowCookieCustomization(false)}
+                className="text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <p className="text-sm text-slate-600 mb-6">
+              בחר איזה סוגי קוקיס תרצה לאפשר. קוקיס חיוניים תמיד מופעלים כדי להבטיח את תקינות האתר.
+            </p>
+
+            <div className="space-y-4 mb-6">
+              {/* Necessary Cookies - Always enabled */}
+              <div className="flex items-start gap-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                <input
+                  type="checkbox"
+                  checked={true}
+                  disabled
+                  className="mt-1 w-4 h-4 cursor-not-allowed opacity-50"
+                />
+                <div className="flex-1">
+                  <h4 className="font-semibold text-slate-900 mb-1">קוקיס חיוניים</h4>
+                  <p className="text-sm text-slate-600">
+                    נדרשים לתפקוד בסיסי של האתר. לא ניתן לכבות.
+                  </p>
+                </div>
+              </div>
+
+              {/* Analytics Cookies */}
+              <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-200 hover:border-sky-300 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={cookiePreferences.analytics}
+                  onChange={(e) => setCookiePreferences({...cookiePreferences, analytics: e.target.checked})}
+                  className="mt-1 w-4 h-4 cursor-pointer accent-sky-600"
+                />
+                <div className="flex-1">
+                  <h4 className="font-semibold text-slate-900 mb-1">קוקיס אנליטיים</h4>
+                  <p className="text-sm text-slate-600">
+                    עוזרים לנו להבין כיצד המשתמשים משתמשים באתר ולשפר את חווית המשתמש.
+                  </p>
+                </div>
+              </div>
+
+              {/* Marketing Cookies */}
+              <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-200 hover:border-sky-300 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={cookiePreferences.marketing}
+                  onChange={(e) => setCookiePreferences({...cookiePreferences, marketing: e.target.checked})}
+                  className="mt-1 w-4 h-4 cursor-pointer accent-sky-600"
+                />
+                <div className="flex-1">
+                  <h4 className="font-semibold text-slate-900 mb-1">קוקיס שיווקיים</h4>
+                  <p className="text-sm text-slate-600">
+                    משמשים להצגת פרסומות רלוונטיות ולמעקב אחר יעילות מסעות פרסום.
+                  </p>
+                </div>
+              </div>
+
+              {/* Functional Cookies */}
+              <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-slate-200 hover:border-sky-300 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={cookiePreferences.functional}
+                  onChange={(e) => setCookiePreferences({...cookiePreferences, functional: e.target.checked})}
+                  className="mt-1 w-4 h-4 cursor-pointer accent-sky-600"
+                />
+                <div className="flex-1">
+                  <h4 className="font-semibold text-slate-900 mb-1">קוקיס פונקציונליים</h4>
+                  <p className="text-sm text-slate-600">
+                    מאפשרים תכונות משופרות כמו שמירת העדפות והתאמה אישית.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  localStorage.setItem('arena_cookie_consent', JSON.stringify({
+                    type: 'custom',
+                    preferences: cookiePreferences
+                  }));
+                  setShowCookieCustomization(false);
+                  setShowCookieBanner(false);
+                }}
+                className="flex-1 px-5 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-medium rounded-lg transition-colors shadow-sm"
+              >
+                שמור העדפות
+              </button>
+              <button
+                onClick={() => {
+                  setCookiePreferences({
+                    necessary: true,
+                    analytics: false,
+                    marketing: false,
+                    functional: false
+                  });
+                  localStorage.setItem('arena_cookie_consent', 'rejected');
+                  setShowCookieCustomization(false);
+                  setShowCookieBanner(false);
+                }}
+                className="flex-1 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors"
+              >
+                דחה הכל
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showCookieBanner && (
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-40">
           <div className="max-w-7xl mx-auto px-6 py-5">
@@ -302,11 +427,7 @@ export default function Layout({ children, currentPageName }) {
                   דחה הכל
                 </button>
                 <button
-                  onClick={() => {
-                    // TODO: Open customization modal
-                    localStorage.setItem('arena_cookie_consent', 'custom');
-                    setShowCookieBanner(false);
-                  }}
+                  onClick={() => setShowCookieCustomization(true)}
                   className="px-5 py-2.5 text-sky-600 hover:text-sky-700 text-sm font-medium whitespace-nowrap underline"
                 >
                   התאמה אישית
