@@ -71,6 +71,7 @@ export default function PropertyDetails() {
     const [user, setUser] = useState(null);
     const [showInquiryForm, setShowInquiryForm] = useState(false);
     const [showFinancingForm, setShowFinancingForm] = useState(false);
+    const [chatMessages, setChatMessages] = useState([]);
 
     useEffect(() => {
         checkUser();
@@ -234,6 +235,14 @@ export default function PropertyDetails() {
         }
     };
 
+    const handleFormSubmit = (message) => {
+        setChatMessages(prev => [...prev, {
+            type: 'system',
+            message: message,
+            timestamp: new Date()
+        }]);
+    };
+
     return (
         <div className="h-screen w-full flex flex-col bg-slate-50">
             {showInquiryForm && (
@@ -369,6 +378,7 @@ export default function PropertyDetails() {
                                         property={property}
                                         onContactClick={() => setShowInquiryForm(true)}
                                         onFinancingClick={() => setShowFinancingForm(true)}
+                                        onFormSubmit={handleFormSubmit}
                                     />
                                 </div>
                             </div>
@@ -402,23 +412,36 @@ export default function PropertyDetails() {
                                 <Loader2 className="w-8 h-8 animate-spin text-sky-500" />
                             </div>
                         ) : (
-                          <ChatInterface
-                            questions={questions}
-                            currentSession={chatSession}
-                            onUpdateAnswer={async () => chatSession}
-                            filteredCount={0}
-                            isMobile={false}
-                            isSelectionMode={false}
-                            setIsSelectionMode={() => {}}
-                            contextMessage={{
-                              type: 'property_view',
-                              title: `מסתכל עכשיו על: ${property.title}`,
-                              details: property.project_name 
-                                ? `${property.project_name} • קומה ${property.floor}${property.unit_type ? ` • טיפוס ${property.unit_type}` : ''}`
-                                : `קומה ${property.floor}`,
-                              message: 'אני כאן כדי לעזור לך להחליט!'
-                            }}
-                          />
+                          <div className="flex flex-col h-full">
+                            {chatMessages.length > 0 && (
+                              <div className="p-4 bg-slate-50 border-b border-slate-200">
+                                {chatMessages.map((msg, idx) => (
+                                  <div key={idx} className="mb-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                    <div className="text-sm text-green-800">{msg.message}</div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            <div className="flex-1 overflow-hidden">
+                              <ChatInterface
+                                questions={questions}
+                                currentSession={chatSession}
+                                onUpdateAnswer={async () => chatSession}
+                                filteredCount={0}
+                                isMobile={false}
+                                isSelectionMode={false}
+                                setIsSelectionMode={() => {}}
+                                contextMessage={{
+                                  type: 'property_view',
+                                  title: `מסתכל עכשיו על: ${property.title}`,
+                                  details: property.project_name 
+                                    ? `${property.project_name} • קומה ${property.floor}${property.unit_type ? ` • טיפוס ${property.unit_type}` : ''}`
+                                    : `קומה ${property.floor}`,
+                                  message: 'אני כאן כדי לעזור לך להחליט!'
+                                }}
+                              />
+                            </div>
+                          </div>
                         )}
                         </div>
                         </div>
