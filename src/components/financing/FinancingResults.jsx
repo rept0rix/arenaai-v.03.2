@@ -32,9 +32,9 @@ export default function FinancingResults({ data, onBackToChat, onStartOver }) {
     const navigate = useNavigate();
 
     const advisors = [
-        { id: 'hapoalim', name: 'בנק הפועלים', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/45ac49117_leumi.png' },
-        { id: 'leumi', name: 'בנק לאומי', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/d32f7a086_hapoalim.png' },
-        { id: 'private', name: 'יועץ פרטי', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/134407b46_private-advisor-icon.png' },
+        { id: 'hapoalim', name: 'בנק הפועלים', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b8997d180_image.png' },
+        { id: 'leumi', name: 'בנק לאומי', logo: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/9faccbfb2_image.png' },
+        { id: 'private', name: 'יועץ משכנתאות', logo: null },
     ];
 
     React.useEffect(() => {
@@ -289,7 +289,13 @@ export default function FinancingResults({ data, onBackToChat, onStartOver }) {
                                         onCheckedChange={() => handleAdvisorSelection(advisor.id)}
                                         className="absolute top-2 right-2"
                                     />
-                                    <img src={advisor.logo} alt={advisor.name} className="h-10 mb-2"/>
+                                    {advisor.logo ? (
+                                        <img src={advisor.logo} alt={advisor.name} className="h-10 mb-2"/>
+                                    ) : (
+                                        <div className="h-10 w-10 bg-slate-200 rounded-full flex items-center justify-center mb-2">
+                                            <Phone className="w-5 h-5 text-slate-600" />
+                                        </div>
+                                    )}
                                     <span className="font-semibold text-slate-800">{advisor.name}</span>
                                 </label>
                             ))}
@@ -316,18 +322,24 @@ export default function FinancingResults({ data, onBackToChat, onStartOver }) {
             </Card>
 
             {/* Legal Disclaimer */}
-            <Card className="bg-amber-50 border-amber-200">
-                <CardContent className="p-6">
-                    <div className="flex items-start gap-3">
-                        <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+            <Card className="bg-slate-50 border-slate-200">
+                <CardContent className="p-4">
+                    <div className="flex items-start gap-2">
+                        <AlertTriangle className="w-5 h-5 text-slate-500 flex-shrink-0 mt-0.5" />
                         <div>
-                            <h4 className="font-semibold text-amber-800 mb-3">חשוב לדעת</h4>
-                            <div className="text-sm text-amber-700 space-y-2 leading-relaxed">
+                            <h4 className="font-semibold text-slate-800 mb-2 text-sm">❗ חשוב לדעת:</h4>
+                            <div className="text-xs text-slate-600 space-y-1.5 leading-relaxed">
                                 <p>
-                                    זוהי הערכה ראשונית בלבד, המבוססת על המידע שמסרת. האישור הסופי למשכנתא כפוף לבדיקת הבנק ולעמידה בקריטריונים הנדרשים.
+                                    המידע המוצג מבוסס על אלגוריתם חישוב כללי, המבוסס על ריבית משכנתא משוערת של 4% וכללי בנקאות מקובלים, ואינו מהווה ואינו מחליף ייעוץ משכנתאות, ייעוץ פיננסי או המלצה רשמית.
                                 </p>
                                 <p>
-                                    המידע אינו מהווה ייעוץ פיננסי או התחייבות מצד Arena או הבנקים. מומלץ להיוועץ ביועץ משכנתאות מוסמך.
+                                    ARENA אינה יועצת מוסמכת ואינה מחזיקה ברישיון ייעוץ פיננסי או משכנתאות לפי חוק.
+                                </p>
+                                <p>
+                                    קבלת משכנתא בפועל כפופה לבדיקת הבנקים, לרבות דירוג אשראי, הכנסות, התחייבויות ונתונים נוספים.
+                                </p>
+                                <p>
+                                    אנו ממליצים להיוועץ בגורם מוסמך לפני קבלת החלטה פיננסית.
                                 </p>
                             </div>
                         </div>
