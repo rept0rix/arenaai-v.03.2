@@ -254,7 +254,7 @@ export default function Landing() {
             </div>
             
             {/* Action Buttons */}
-            <div className="flex gap-4 justify-center mb-4">
+            <div className="flex gap-4 justify-center mb-6">
               <button
                 onClick={() => handleGetStarted('living')}
                 className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-md hover:shadow-lg"
@@ -271,17 +271,16 @@ export default function Landing() {
 
             {/* Example Message */}
             <div className="bg-slate-50 rounded-2xl p-6 text-right border border-slate-200">
-              <div className="flex items-start gap-3 mb-4">
+              <div className="flex items-start gap-3">
                 <button className="w-10 h-10 bg-slate-600 text-white rounded-lg flex items-center justify-center hover:bg-slate-700 transition-colors flex-shrink-0">
                   <span className="text-xl">↑</span>
                 </button>
-                <p className="text-slate-700 leading-relaxed flex-1">
-                  לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של חן אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים...
-                </p>
-              </div>
-              
-              <div className="text-left">
-                <span className="text-sm text-slate-500">📝 מסע מודרך</span>
+                <div className="flex-1">
+                  <p className="text-slate-700 leading-relaxed mb-3">
+                    לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים...
+                  </p>
+                  <span className="text-sm text-slate-500">📝 מסע מודרך</span>
+                </div>
               </div>
             </div>
           </div>
