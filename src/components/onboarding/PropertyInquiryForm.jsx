@@ -92,7 +92,7 @@ export default function PropertyInquiryForm({ property, onClose, onSuccess }) {
         </button>
 
         <h3 className="text-xl font-bold text-slate-900 mb-2">
-          בקשת פרטים נוספים
+          שליחת פרטים ליזם
         </h3>
         <p className="text-sm text-slate-600 mb-4">
           {property.title}
@@ -156,7 +156,7 @@ export default function PropertyInquiryForm({ property, onClose, onSuccess }) {
                 id="consent_developer_share"
               />
               <label htmlFor="consent_developer_share" className="text-sm text-slate-600 cursor-pointer">
-                אני מאשר/ת להעביר את פרטיי ליזם הפרויקט לצורך קבלת מידע על הנכס בלבד *
+                אני מאשר/ת להעביר את פרטיי ליזם של נכס זה לצורך קבלת מידע בלבד *
               </label>
             </div>
 
@@ -183,7 +183,7 @@ export default function PropertyInquiryForm({ property, onClose, onSuccess }) {
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !formData.consent_terms || !formData.consent_developer_share}
               className="flex-1 bg-sky-600 hover:bg-sky-700"
             >
               {isSubmitting ? 'שולח...' : 'שלח פנייה'}

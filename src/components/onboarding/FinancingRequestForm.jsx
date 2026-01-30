@@ -87,7 +87,7 @@ export default function FinancingRequestForm({ onClose, onSuccess }) {
         </button>
 
         <h3 className="text-xl font-bold text-slate-900 mb-2">
-          בקשה ליעוץ מימון
+          בקשה לבדיקת מימון
         </h3>
         <p className="text-sm text-slate-600 mb-4">
           יועץ המימון שלנו יצור איתך קשר ויעזור לך למצוא את המסלול המתאים ביותר
@@ -151,7 +151,7 @@ export default function FinancingRequestForm({ onClose, onSuccess }) {
                 id="consent_advisor_share"
               />
               <label htmlFor="consent_advisor_share" className="text-sm text-slate-600 cursor-pointer">
-                אני מאשר/ת להעביר את פרטיי ליועץ המימון/בנק לצורך בדיקת זכאות למימון בלבד *
+                אני מאשר/ת להעביר את פרטיי לבנק / יועץ משכנתאות לצורך בדיקת מימון בלבד *
               </label>
             </div>
 
@@ -178,7 +178,7 @@ export default function FinancingRequestForm({ onClose, onSuccess }) {
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !formData.consent_terms || !formData.consent_advisor_share}
               className="flex-1 bg-sky-600 hover:bg-sky-700"
             >
               {isSubmitting ? 'שולח...' : 'שלח בקשה'}

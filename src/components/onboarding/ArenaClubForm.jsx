@@ -156,7 +156,7 @@ export default function ArenaClubForm({ onClose, onSuccess }) {
                 id="consent_marketing"
               />
               <label htmlFor="consent_marketing" className="text-sm text-slate-600 cursor-pointer">
-                אני מעוניין/ת לקבל עדכונים שיווקיים על נכסים חדשים, הטבות והזמנות לאירועים בלעדיים (אופציונלי)
+                אני מאשר/ת קבלת עדכונים ושיווק מ-ARENA (אופציונלי)
               </label>
             </div>
           </div>
@@ -172,7 +172,7 @@ export default function ArenaClubForm({ onClose, onSuccess }) {
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !formData.consent_terms}
               className="flex-1 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700"
             >
               {isSubmitting ? 'מצטרף...' : 'הצטרף למועדון'}

@@ -2,18 +2,20 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { User } from '@/entities/User';
 import { Property } from '@/entities/Property';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Heart, Search } from 'lucide-react';
+import { ArrowLeft, Heart, Search, Award } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import TopNavigation from '../components/TopNavigation';
 import PropertyCard from '../components/properties/PropertyCard';
 import { AnimatePresence, motion } from 'framer-motion';
 import { toast } from "sonner";
+import ArenaClubForm from '../components/onboarding/ArenaClubForm';
 
 export default function SavedProperties() {
     const [savedProperties, setSavedProperties] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const [showArenaClubForm, setShowArenaClubForm] = useState(false);
     const navigate = useNavigate();
 
     const loadSavedProperties = useCallback(async () => {
@@ -56,6 +58,14 @@ export default function SavedProperties() {
 
     return (
         <div className="min-h-screen bg-slate-50" dir="rtl">
+            {showArenaClubForm && (
+                <ArenaClubForm
+                    onClose={() => setShowArenaClubForm(false)}
+                    onSuccess={() => {
+                        toast.success("הצטרפת בהצלחה ל-Arena Club!");
+                    }}
+                />
+            )}
             <TopNavigation currentPage="SavedProperties" />
             
             <div className="max-w-7xl mx-auto p-4 sm:p-8">
@@ -91,10 +101,16 @@ export default function SavedProperties() {
                         <Heart className="w-16 h-16 text-slate-300 mx-auto mb-4" />
                         <h3 className="text-xl font-semibold text-slate-800 mb-2">עדיין לא שמרת נכסים</h3>
                         <p className="text-slate-600 mb-6">התחל לחפש ולסמן נכסים שאהבת כדי לראות אותם כאן.</p>
-                        <Button onClick={() => navigate(createPageUrl('Home'))}>
-                            <Search className="w-4 h-4 ml-2" />
-                            התחל חיפוש חדש
-                        </Button>
+                        <div className="flex flex-col sm:flex-row justify-center gap-4">
+                            <Button onClick={() => navigate(createPageUrl('Home'))}>
+                                <Search className="w-4 h-4 ml-2" />
+                                התחל חיפוש חדש
+                            </Button>
+                            <Button variant="outline" onClick={() => setShowArenaClubForm(true)}>
+                                <Award className="w-4 h-4 ml-2" />
+                                הצטרף ל-Arena Club
+                            </Button>
+                        </div>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
