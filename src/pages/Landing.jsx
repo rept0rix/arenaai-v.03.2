@@ -195,9 +195,9 @@ export default function Landing() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img 
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/fd401a462_image.png"
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/93843b8fb_image.png"
             alt="Background"
-            className="w-full h-full"
+            className="w-full h-full object-cover"
           />
         </div>
         
