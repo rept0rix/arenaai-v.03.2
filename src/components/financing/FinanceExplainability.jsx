@@ -70,21 +70,18 @@ export default function FinanceExplainability({ financingData, onBack }) {
     if (result.isApproved) {
         return (
             <div className="space-y-6">
-                {/* מצב אישור */}
+                {/* הערכה ראשונית */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <Card className="border-2 border-sky-400 bg-gradient-to-br from-sky-50 to-blue-50">
-                        <CardContent className="p-8 text-center">
-                            <div className="w-20 h-20 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <CheckCircle className="w-12 h-12 text-sky-600" />
-                            </div>
-                            <h2 className="text-3xl font-bold text-slate-900 mb-3">
-                                מצוין! קיבלת הערכה ראשונית למשכנתא
-                            </h2>
-                            <p className="text-lg text-slate-700 max-w-2xl mx-auto">
+                    <Card className="border-slate-200">
+                        <CardHeader>
+                            <CardTitle className="text-2xl text-slate-900">הערכה ראשונית למשכנתא</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-slate-700">
                                 על פי הנתונים שמסרת, אלו האפשרויות המשוערות שלך:
                             </p>
                         </CardContent>
