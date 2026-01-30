@@ -76,15 +76,15 @@ export default function FinanceExplainability({ financingData, onBack }) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    <Card className="border-2 border-green-400 bg-gradient-to-br from-green-50 to-emerald-50">
+                    <Card className="border-2 border-sky-400 bg-gradient-to-br from-sky-50 to-blue-50">
                         <CardContent className="p-8 text-center">
-                            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <CheckCircle className="w-12 h-12 text-green-600" />
+                            <div className="w-20 h-20 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <CheckCircle className="w-12 h-12 text-sky-600" />
                             </div>
-                            <h2 className="text-3xl font-bold text-green-700 mb-3">
+                            <h2 className="text-3xl font-bold text-slate-900 mb-3">
                                 מצוין! קיבלת הערכה ראשונית למשכנתא
                             </h2>
-                            <p className="text-lg text-green-800 max-w-2xl mx-auto">
+                            <p className="text-lg text-slate-700 max-w-2xl mx-auto">
                                 על פי הנתונים שמסרת, אלו האפשרויות המשוערות שלך:
                             </p>
                         </CardContent>
@@ -142,29 +142,29 @@ export default function FinanceExplainability({ financingData, onBack }) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                    <Card className="border-green-200 bg-green-50">
+                    <Card className="border-slate-200 bg-white">
                         <CardHeader>
-                            <CardTitle className="text-xl text-green-900">למה זה עובד?</CardTitle>
+                            <CardTitle className="text-xl text-slate-900">למה זה עובד?</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="bg-white p-6 rounded-lg border border-green-200">
+                            <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
                                 <p className="text-lg text-slate-800 leading-relaxed mb-4">
                                     {result.limitingFactorExplanation}
                                 </p>
                                 
                                 <div className="grid grid-cols-2 gap-4 mt-4">
-                                    <div className="text-center p-4 bg-green-50 rounded-lg">
-                                        <p className="text-sm text-green-700 mb-1">החזר חודשי משוער</p>
-                                        <p className="text-2xl font-bold text-green-900">
+                                    <div className="text-center p-4 bg-white rounded-lg border border-slate-200">
+                                        <p className="text-sm text-slate-600 mb-1">החזר חודשי משוער</p>
+                                        <p className="text-2xl font-bold text-slate-900">
                                             ₪{result.calculatedData.monthlyPayment.toLocaleString()}
                                         </p>
                                     </div>
-                                    <div className="text-center p-4 bg-green-50 rounded-lg">
-                                        <p className="text-sm text-green-700 mb-1">יחס החזר (DTI)</p>
-                                        <p className="text-2xl font-bold text-green-900">
+                                    <div className="text-center p-4 bg-white rounded-lg border border-slate-200">
+                                        <p className="text-sm text-slate-600 mb-1">יחס החזר (DTI)</p>
+                                        <p className="text-2xl font-bold text-slate-900">
                                             {result.calculatedData.dti}%
                                         </p>
-                                        <p className="text-xs text-green-600 mt-1">בטווח התקין</p>
+                                        <p className="text-xs text-sky-600 mt-1">בטווח התקין</p>
                                     </div>
                                 </div>
                             </div>
@@ -208,15 +208,15 @@ export default function FinanceExplainability({ financingData, onBack }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                <Card className="border-2 border-orange-300 bg-gradient-to-br from-orange-50 to-amber-50">
+                <Card className="border-2 border-slate-300 bg-slate-50">
                     <CardContent className="p-8 text-center">
-                        <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <InfoIcon className="w-12 h-12 text-orange-600" />
+                        <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <InfoIcon className="w-12 h-12 text-slate-600" />
                         </div>
-                        <h2 className="text-3xl font-bold text-orange-700 mb-3">
+                        <h2 className="text-3xl font-bold text-slate-900 mb-3">
                             שינוי קטן - יכול לפתוח אפשרויות חדשות
                         </h2>
-                        <p className="text-lg text-orange-800 max-w-2xl mx-auto">
+                        <p className="text-lg text-slate-700 max-w-2xl mx-auto">
                             על פי הנתונים שמסרת, ההערכה האוטומטית לא אישרה משכנתא, אבל יש עדיין אפשרויות להתקדם.
                         </p>
                     </CardContent>
@@ -274,29 +274,29 @@ export default function FinanceExplainability({ financingData, onBack }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
             >
-                <Card className="border-orange-200 bg-orange-50">
+                <Card className="border-slate-200 bg-white">
                     <CardHeader>
-                        <CardTitle className="text-xl text-orange-900">למה לא אושרה?</CardTitle>
+                        <CardTitle className="text-xl text-slate-900">למה לא אושרה?</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="bg-white p-6 rounded-lg border border-orange-200">
+                        <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
                             <p className="text-lg text-slate-800 leading-relaxed mb-4">
                                 {result.limitingFactorExplanation}
                             </p>
-                            
+
                             <div className="grid grid-cols-2 gap-4 mt-4">
-                                <div className="text-center p-4 bg-orange-50 rounded-lg">
-                                    <p className="text-sm text-orange-700 mb-1">החזר חודשי משוער</p>
-                                    <p className="text-2xl font-bold text-orange-900">
+                                <div className="text-center p-4 bg-white rounded-lg border border-slate-200">
+                                    <p className="text-sm text-slate-600 mb-1">החזר חודשי משוער</p>
+                                    <p className="text-2xl font-bold text-slate-900">
                                         ₪{result.calculatedData.monthlyPayment.toLocaleString()}
                                     </p>
                                 </div>
-                                <div className="text-center p-4 bg-orange-50 rounded-lg">
-                                    <p className="text-sm text-orange-700 mb-1">יחס החזר (DTI)</p>
-                                    <p className="text-2xl font-bold text-orange-900">
+                                <div className="text-center p-4 bg-white rounded-lg border border-slate-200">
+                                    <p className="text-sm text-slate-600 mb-1">יחס החזר (DTI)</p>
+                                    <p className="text-2xl font-bold text-slate-900">
                                         {result.calculatedData.dti}%
                                     </p>
-                                    <p className="text-xs text-orange-600 mt-1">מעל התקן המקובל</p>
+                                    <p className="text-xs text-slate-600 mt-1">מעל התקן המקובל</p>
                                 </div>
                             </div>
                         </div>
@@ -360,8 +360,8 @@ export default function FinanceExplainability({ financingData, onBack }) {
                                                     <p className="text-sm text-slate-600">לתיאום פגישה</p>
                                                 </div>
                                             </div>
-                                            {advisor.id === 'leumi' && (
-                                                <Badge className="bg-red-500 text-white">בחירה מומלצת</Badge>
+                                                            {advisor.id === 'leumi' && (
+                                                <Badge className="bg-sky-500 text-white">בחירה מומלצת</Badge>
                                             )}
                                         </button>
                                     ))}
@@ -385,13 +385,13 @@ export default function FinanceExplainability({ financingData, onBack }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
             >
-                <Card className="border-orange-200 bg-orange-50">
+                <Card className="border-slate-200 bg-slate-50">
                     <CardContent className="p-6">
                         <div className="flex items-start gap-3">
-                            <InfoIcon className="w-6 h-6 text-orange-600 flex-shrink-0 mt-1" />
+                            <InfoIcon className="w-6 h-6 text-slate-600 flex-shrink-0 mt-1" />
                             <div>
-                                <h4 className="font-semibold text-orange-800 mb-2">בתנאים הנוכחיים – יש דרכים אחרות להתקדם</h4>
-                                <p className="text-sm text-orange-700">
+                                <h4 className="font-semibold text-slate-800 mb-2">בתנאים הנוכחיים – יש דרכים אחרות להתקדם</h4>
+                                <p className="text-sm text-slate-700">
                                     על פי הנתונים שמסרת, ההערכה האוטומטית לא אישרה משכנתא, אבל יש עדיין אפשרויות להתקדם.
                                 </p>
                             </div>
