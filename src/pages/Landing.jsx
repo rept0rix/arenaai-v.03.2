@@ -184,10 +184,10 @@ export default function Landing() {
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-sky-400/40 via-sky-300/35 to-purple-300/40"></div>
         
-        {/* Skyline SVG at bottom - Subtle Line Art */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 opacity-15">
+        {/* Skyline SVG at bottom - More Visible */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 opacity-40">
           <svg className="w-full h-full" viewBox="0 0 1200 200" preserveAspectRatio="none">
-            <g stroke="white" strokeWidth="1.5" fill="none">
+            <g stroke="white" strokeWidth="2.5" fill="white" fillOpacity="0.3">
               <rect x="50" y="80" width="60" height="120" />
               <rect x="120" y="100" width="50" height="100" />
               <rect x="180" y="60" width="70" height="140" />
@@ -230,9 +230,9 @@ export default function Landing() {
       {/* איך עובדים עם ARENA - Onboarding Section */}
       <section className="relative py-12 bg-white">
         {/* Subtle skyline continuation */}
-        <div className="absolute top-0 left-0 right-0 h-16 opacity-5">
+        <div className="absolute top-0 left-0 right-0 h-16 opacity-25">
           <svg className="w-full h-full" viewBox="0 0 1200 100" preserveAspectRatio="none">
-            <g stroke="currentColor" strokeWidth="1" fill="none" className="text-sky-400">
+            <g stroke="currentColor" strokeWidth="2" fill="currentColor" fillOpacity="0.15" className="text-sky-400">
               <rect x="50" y="20" width="40" height="80" />
               <rect x="100" y="40" width="35" height="60" />
               <rect x="145" y="10" width="45" height="90" />
