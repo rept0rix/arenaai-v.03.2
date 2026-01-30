@@ -86,12 +86,59 @@ export default function FinancingRequestForm({ onClose, onSuccess }) {
           <X className="w-5 h-5" />
         </button>
 
-        <h3 className="text-xl font-bold text-slate-900 mb-2">
-          בקשה לבדיקת מימון
+        <h3 className="text-xl font-bold text-slate-900 mb-2 text-center">
+          מעוניין להמשיך?
         </h3>
-        <p className="text-sm text-slate-600 mb-4">
-          יועץ המימון שלנו יצור איתך קשר ויעזור לך למצוא את המסלול המתאים ביותר
+        <p className="text-sm text-slate-600 mb-4 text-center">
+          בחר עם איזו גורמים תרצה להתאם שיחת ייעוץ חינם, ונוכל לקבוע מועד שנוח לך.
         </p>
+        
+        {/* Bank/Advisor Selection */}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <button
+            type="button"
+            className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-sky-400 hover:bg-sky-50 transition-all"
+          >
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b8997d180_image.png" 
+              alt="בנק הפועלים" 
+              className="h-12 mb-2"
+            />
+            <span className="text-sm font-medium">בנק הפועלים</span>
+          </button>
+          
+          <button
+            type="button"
+            className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-sky-400 hover:bg-sky-50 transition-all"
+          >
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/9faccbfb2_image.png" 
+              alt="בנק לאומי" 
+              className="h-12 mb-2"
+            />
+            <span className="text-sm font-medium">בנק לאומי</span>
+          </button>
+          
+          <button
+            type="button"
+            className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-sky-400 hover:bg-sky-50 transition-all"
+          >
+            <div className="h-12 mb-2 flex items-center justify-center">
+              <span className="text-3xl">👤</span>
+            </div>
+            <span className="text-sm font-medium">יועץ פרטי</span>
+          </button>
+        </div>
+        
+        <div className="text-center mb-4">
+          <button 
+            type="button"
+            className="text-sky-600 hover:underline text-sm"
+            onClick={onClose}
+          >
+            בחר הכל
+          </button>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
