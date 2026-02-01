@@ -21,6 +21,7 @@ import BuildingComparison from '../components/property_details/BuildingCompariso
 import Demographics from '../components/property_details/Demographics';
 import EducationFacilities from '../components/property_details/EducationFacilities';
 import BuildingPermit from '../components/property_details/BuildingPermit';
+import PropertyDetailsAccordion from '../components/property_details/PropertyDetailsAccordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, MessageCircle, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -358,6 +359,13 @@ export default function PropertyDetails() {
                                     
                                     <PropertyDescription property={property} />
                                     <PropertyFeatures property={property} />
+                                    
+                                    {/* פרטים נוספים על הנכס */}
+                                    <div className="bg-slate-50 rounded-xl p-6">
+                                        <h2 className="text-2xl font-bold text-slate-900 mb-6">פרטים נוספים</h2>
+                                        <PropertyDetailsAccordion property={property} />
+                                    </div>
+                                    
                                     <LocationMap property={property} />
                                     <PriceAnalysis property={property} />
                                     <FinancingCalculator 
