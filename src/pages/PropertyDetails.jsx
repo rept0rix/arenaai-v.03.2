@@ -21,7 +21,7 @@ import BuildingComparison from '../components/property_details/BuildingCompariso
 import Demographics from '../components/property_details/Demographics';
 import EducationFacilities from '../components/property_details/EducationFacilities';
 import BuildingPermit from '../components/property_details/BuildingPermit';
-import PropertyDetailsAccordion from '../components/property_details/PropertyDetailsAccordion';
+import PropertyDetailsAccordion from '../components/property_details/PropertyDetailsAccordion.jsx';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, MessageCircle, X, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
