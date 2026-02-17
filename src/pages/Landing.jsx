@@ -62,7 +62,7 @@ export default function Landing() {
 
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50" dir="rtl" data-page="landing">
+    <div className="min-h-screen relative bg-white" dir="rtl" data-page="landing">
       {/* Custom CSS for animations */}
       <style>{`
         @keyframes scroll {
@@ -73,296 +73,338 @@ export default function Landing() {
           animation: scroll 30s linear infinite;
           will-change: transform;
         }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
+
+        @keyframes skylineDraw {
+          0% { opacity: 0; transform: translateY(20px); }
+          100% { opacity: 0.12; transform: translateY(0); }
         }
-        
-        @keyframes float-delayed {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-15px); }
-        }
-        
-        .animate-float {
-          animation: float 8s ease-in-out infinite;
-        }
-        
-        .animate-float-delayed {
-          animation: float-delayed 10s ease-in-out infinite;
+
+        .skyline-animation {
+          animation: skylineDraw 1.5s ease-out forwards;
         }
       `}</style>
 
-      {/* Top Navigation */}
-      <nav className="relative z-50 bg-white/60 backdrop-blur-sm border-b border-slate-200/30 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center">
-            <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/053b1be56_arenaailogo-new.png"
-              alt="Arena AI"
-              className="h-12"
-            />
-          </div>
-          
-          {/* User Section */}
-          <div className="flex items-center gap-3">
-            {isLoading ? (
-              <div className="w-8 h-8 animate-spin rounded-full border-2 border-slate-300 border-t-sky-500"></div>
-            ) : user ? (
-              /* Logged in user display with dropdown menu */
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="flex items-center gap-2 text-slate-700 hover:text-slate-900">
-                    <ChevronDown className="w-3 h-3" />
-                    <span className="font-medium">
-                      שלום, {user.full_name?.split(' ')[0] || 'משתמש'}
-                    </span>
-                    <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center">
-                      <User className="w-4 h-4 text-sky-600" />
-                    </div>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem onClick={() => navigate(createPageUrl('Home'))}>
-                    <UserCircle className="w-4 h-4 ml-2" />
-                    דף הבית
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate(createPageUrl('UserProfile'))}>
-                    <UserCircle className="w-4 h-4 ml-2" />
-                    פרופיל אישי
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate(createPageUrl('Settings'))}>
-                    <Settings className="w-4 h-4 ml-2" />
-                    הגדרות
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  
-                  {!user.is_developer && (
-                    <>
-                      <DropdownMenuItem onClick={() => navigate(createPageUrl('SavedProperties'))}>
-                        <Heart className="w-4 h-4 ml-2" />
-                        נכסים שמורים
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate(createPageUrl('History'))}>
-                        <History className="w-4 h-4 ml-2" />
-                        היסטוריית חיפושים
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                    </>
-                  )}
+      {/* Hero Section - Compact & Branded */}
+      <div className="relative h-[60vh] md:h-[55vh] flex items-center justify-center overflow-hidden">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-l from-sky-400 via-sky-500 to-purple-400"></div>
 
-                  {user.is_developer && (
-                    <>
-                      <DropdownMenuItem onClick={() => navigate(createPageUrl('DeveloperDashboard'))}>
-                        <Shield className="w-4 h-4 ml-2" />
-                        פאנל יזם
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                    </>
-                  )}
+        {/* Skyline - Line art, thin, low opacity, only in hero */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 skyline-animation">
+          <svg 
+            viewBox="0 0 1200 200" 
+            className="w-full h-full" 
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g stroke="white" strokeWidth="1.5" fill="none" opacity="0.15">
+              {/* Building 1 */}
+              <rect x="50" y="80" width="60" height="120" />
+              <line x1="65" y1="90" x2="65" y2="100" />
+              <line x1="80" y1="90" x2="80" y2="100" />
+              <line x1="95" y1="90" x2="95" y2="100" />
+              <line x1="65" y1="120" x2="65" y2="130" />
+              <line x1="80" y1="120" x2="80" y2="130" />
+              <line x1="95" y1="120" x2="95" y2="130" />
 
-                  {user.role === 'admin' && (
-                    <>
-                      <DropdownMenuItem onClick={() => navigate(createPageUrl('Admin'))}>
-                        <Shield className="w-4 h-4 ml-2" />
-                        ניהול מערכת
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                    </>
-                  )}
-                  
-                  <DropdownMenuItem onClick={handleLogout}>
-                    <LogOut className="w-4 h-4 ml-2" />
-                    התנתקות
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              /* Not logged in - show login button */
-              <Button 
-                onClick={handleLogin}
-                className="bg-white text-slate-900 hover:bg-white/90 rounded-full px-6"
-              >
-                התחברות
-              </Button>
-            )}
+              {/* Building 2 */}
+              <rect x="150" y="50" width="80" height="150" />
+              <line x1="170" y1="65" x2="170" y2="75" />
+              <line x1="190" y1="65" x2="190" y2="75" />
+              <line x1="210" y1="65" x2="210" y2="75" />
+              <line x1="170" y1="100" x2="170" y2="110" />
+              <line x1="190" y1="100" x2="190" y2="110" />
+              <line x1="210" y1="100" x2="210" y2="110" />
+
+              {/* Building 3 */}
+              <rect x="270" y="100" width="50" height="100" />
+              <line x1="285" y1="115" x2="285" y2="125" />
+              <line x1="305" y1="115" x2="305" y2="125" />
+
+              {/* Building 4 - Tall */}
+              <rect x="360" y="20" width="70" height="180" />
+              <line x1="380" y1="40" x2="380" y2="50" />
+              <line x1="400" y1="40" x2="400" y2="50" />
+              <line x1="410" y1="40" x2="410" y2="50" />
+
+              {/* Building 5 */}
+              <rect x="470" y="70" width="65" height="130" />
+              <line x1="490" y1="85" x2="490" y2="95" />
+              <line x1="510" y1="85" x2="510" y2="95" />
+
+              {/* Building 6 */}
+              <rect x="580" y="90" width="55" height="110" />
+
+              {/* Building 7 - Tall */}
+              <rect x="680" y="30" width="75" height="170" />
+              <line x1="700" y1="50" x2="700" y2="60" />
+              <line x1="720" y1="50" x2="720" y2="60" />
+              <line x1="740" y1="50" x2="740" y2="60" />
+
+              {/* Building 8 */}
+              <rect x="800" y="85" width="60" height="115" />
+
+              {/* Building 9 */}
+              <rect x="900" y="60" width="70" height="140" />
+              <line x1="920" y1="75" x2="920" y2="85" />
+              <line x1="940" y1="75" x2="940" y2="85" />
+              <line x1="960" y1="75" x2="960" y2="85" />
+
+              {/* Building 10 */}
+              <rect x="1010" y="95" width="50" height="105" />
+
+              {/* Building 11 */}
+              <rect x="1100" y="75" width="65" height="125" />
+            </g>
+          </svg>
+        </div>
+
+        {/* Logo and Login - inside hero */}
+        <div className="absolute top-6 left-0 right-0 z-20 px-6">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="/Landing" className="inline-block transition-opacity hover:opacity-80">
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68d4f4dd75d87c3bfdbcb02f/491ea62ed_logo-white.png"
+                alt="Arena AI"
+                className="h-10"
+              />
+            </a>
+
+            {/* User Section */}
+            <div className="flex items-center gap-3">
+              {isLoading ? (
+                <div className="w-8 h-8 animate-spin rounded-full border-2 border-white/30 border-t-white"></div>
+              ) : user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="flex items-center gap-2 text-white hover:text-white/90 hover:bg-white/10">
+                      <ChevronDown className="w-3 h-3" />
+                      <span className="font-medium">
+                        שלום, {user.full_name?.split(' ')[0] || 'משתמש'}
+                      </span>
+                      <div className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                        <User className="w-4 h-4 text-white" />
+                      </div>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuItem onClick={() => navigate(createPageUrl('Home'))}>
+                      <UserCircle className="w-4 h-4 ml-2" />
+                      דף הבית
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate(createPageUrl('UserProfile'))}>
+                      <UserCircle className="w-4 h-4 ml-2" />
+                      פרופיל אישי
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => navigate(createPageUrl('Settings'))}>
+                      <Settings className="w-4 h-4 ml-2" />
+                      הגדרות
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+
+                    {!user.is_developer && (
+                      <>
+                        <DropdownMenuItem onClick={() => navigate(createPageUrl('SavedProperties'))}>
+                          <Heart className="w-4 h-4 ml-2" />
+                          נכסים שמורים
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => navigate(createPageUrl('History'))}>
+                          <History className="w-4 h-4 ml-2" />
+                          היסטוריית חיפושים
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+
+                    {user.is_developer && (
+                      <>
+                        <DropdownMenuItem onClick={() => navigate(createPageUrl('DeveloperDashboard'))}>
+                          <Shield className="w-4 h-4 ml-2" />
+                          פאנל יזם
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+
+                    {user.role === 'admin' && (
+                      <>
+                        <DropdownMenuItem onClick={() => navigate(createPageUrl('Admin'))}>
+                          <Shield className="w-4 h-4 ml-2" />
+                          ניהול מערכת
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                      </>
+                    )}
+
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="w-4 h-4 ml-2" />
+                      התנתקות
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button 
+                  onClick={handleLogin}
+                  className="bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/20 rounded-full px-6"
+                >
+                  התחברות
+                </Button>
+              )}
+            </div>
           </div>
         </div>
-      </nav>
 
-      {/* Hero Section - Shorter & More Focused */}
-      <div className="relative h-[75vh] flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img 
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/fd401a462_image.png"
-            alt="Background"
-            className="w-full h-full"
-          />
-        </div>
-        
-
-        
+        {/* Hero Content - Title and Subtitle only */}
         <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-          {/* Hero Text */}
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl">
-            בית <span className="text-slate-800">החלומות</span> שלך
+            בית <span className="text-white/90">החלומות</span> שלך
           </h1>
-          
-          <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed text-white drop-shadow-lg font-medium">
+
+          <p className="text-lg md:text-xl max-w-3xl mx-auto leading-relaxed text-white/95 drop-shadow-lg font-medium">
             ארנה AI מאפשרת לך למצוא את הנכס המושלם באמצעות טכנולוגיה מתקדמת וייעוץ אישי
           </p>
         </div>
-
-        {/* Scroll indicator - More Prominent */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 z-20">
-          <span className="text-slate-900 text-sm font-bold drop-shadow-lg">גלול למטה</span>
-          <div className="bg-white backdrop-blur-sm rounded-full p-3 shadow-xl hover:bg-white hover:scale-110 transition-all cursor-pointer">
-            <ChevronDown className="w-6 h-6 text-sky-600 animate-bounce" />
-          </div>
-        </div>
       </div>
 
-      {/* איך עובדים עם ARENA - Onboarding Section */}
-      <section className="relative py-12 bg-white">
-
-
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">איך עובדים עם ARENA?</h2>
-            <p className="text-lg text-slate-600">
-              שלושה מסלולים לגילוי הנכס המושלם
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {/* מסע מודרך */}
-            <div className="bg-gradient-to-br from-cyan-50 to-white border-2 border-cyan-200 rounded-3xl p-8 text-center hover:shadow-2xl hover:border-cyan-400 transition-all transform hover:-translate-y-1">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center text-3xl shadow-lg">
-                🌀
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">מסע מודרך</h3>
-              <p className="text-slate-700 leading-relaxed text-sm">
-                ARENA שואלת שאלות קצרות, בונה פרופיל ומציגה נכסים מתאימים.
-              </p>
-            </div>
-
-            {/* שיחה פתוחה */}
-            <div className="bg-gradient-to-br from-purple-50 to-white border-2 border-purple-200 rounded-3xl p-8 text-center hover:shadow-2xl hover:border-purple-400 transition-all transform hover:-translate-y-1">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full flex items-center justify-center text-3xl shadow-lg">
-                💬
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">שיחה פתוחה</h3>
-              <p className="text-slate-700 leading-relaxed text-sm">
-                דברו עם ARENA בצ'אט, בקשו נכסים, שאלו שאלות וקבלו הצעות מותאמות.
-              </p>
-            </div>
-
-            {/* ציון התאמה */}
-            <div className="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 rounded-3xl p-8 text-center hover:shadow-2xl hover:border-orange-400 transition-all transform hover:-translate-y-1">
-              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-3xl shadow-lg">
-                🔍
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">ציון התאמה והסבר</h3>
-              <p className="text-slate-700 leading-relaxed text-sm">
-                לכל נכס ציון התאמה. לחצו על סימן השאלה להסבר אישי למה זה מתאים לכם.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section - שנתחיל? */}
-      <section className="relative py-16 bg-gradient-to-l from-sky-300 via-sky-400 to-purple-300 overflow-hidden">
-        <div className="relative z-10 max-w-4xl mx-auto px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg text-center">שנתחיל?</h2>
-          
-          {/* Home Component Style */}
-          <div className="w-full max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-200/80">
-            {/* Chat Bubble with Logo */}
-            <div className="bg-white/90 backdrop-blur-sm rounded-t-2xl p-6 border-b border-slate-200/80 flex items-center gap-6">
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c276074aac6e6711db72a6/fefa17145_logoarena3d.png"
-                alt="Arena AI Logo"
-                className="w-10 h-10 flex-shrink-0"
-              />
-              <div className="text-right flex-1">
-                <p className="text-lg font-semibold mb-2 text-slate-800">
-                  היי! אני ארנה, יועצת הנדל"ן החכמה שלך.
-                </p>
-                <p className="text-slate-700 mb-3">
-                  בוא נמצא את הבית הבא עבורך.
-                </p>
-                
-                <div className="space-y-3">
-                  <p className="text-slate-800 font-medium">
-                    לאיזו מטרה את/ה מחפש/ת נכס?
+      {/* Onboarding Interactive Section - Appears right below hero on desktop */}
+      <section className="relative py-12 bg-gradient-to-b from-sky-400/10 via-purple-400/5 to-transparent">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
+            {/* Chat Component - Same as Home page */}
+            <div className="w-full bg-white rounded-2xl shadow-2xl border border-slate-200/80">
+              {/* Chat Bubble with Logo */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-t-2xl p-6 border-b border-slate-200/80 flex items-center gap-6">
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/68c276074aac6e6711db72a6/fefa17145_logoarena3d.png"
+                  alt="Arena AI Logo"
+                  className="w-10 h-10 flex-shrink-0"
+                />
+                <div className="text-right flex-1">
+                  <p className="text-lg font-semibold mb-2 text-slate-800">
+                    היי! אני ארנה, יועצת הנדל"ן החכמה שלך.
                   </p>
-                  <div className="flex flex-wrap gap-3">
-                    <Button
-                      onClick={() => setSelectedPurpose('living')}
-                      className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"}
-                      size="sm"
-                    >
-                      נכס למגורים
-                    </Button>
-                    <Button
-                      onClick={() => setSelectedPurpose('investment')}
-                      className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"}
-                      size="sm"
-                    >
-                      נכס להשקעה
-                    </Button>
+                  <p className="text-slate-700 mb-3">
+                    בוא נמצא את הבית הבא עבורך.
+                  </p>
+
+                  <div className="space-y-3">
+                    <p className="text-slate-800 font-medium">
+                      לאיזו מטרה את/ה מחפש/ת נכס?
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      <Button
+                        onClick={() => setSelectedPurpose('living')}
+                        className={selectedPurpose === 'living' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"}
+                        size="sm"
+                      >
+                        נכס למגורים
+                      </Button>
+                      <Button
+                        onClick={() => setSelectedPurpose('investment')}
+                        className={selectedPurpose === 'investment' ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-white hover:bg-slate-50 text-slate-700 border border-slate-200"}
+                        size="sm"
+                      >
+                        נכס להשקעה
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Bottom part: Form */}
+              <div className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
+                <form onSubmit={handleFormSubmit} className="relative">
+                  <Textarea
+                    placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
+                    className="bg-white text-right px-4 py-4 pb-12 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
+                    rows={5}
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+
+                  <div className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-4">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        if (!selectedPurpose) {
+                          alert('אנא בחר מטרת חיפוש לפני תחילת המסע המודרך');
+                          return;
+                        }
+                        navigate(createPageUrl(`Chat?purpose=${selectedPurpose}&guided=true`));
+                      }}
+                      className="text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm"
+                    >
+                      <Compass className="w-4 h-4" />
+                      מסע מודרך
+                    </Button>
+                    <Button
+                      type="submit"
+                      size="icon"
+                      className="bg-slate-900 hover:bg-black text-white rounded-lg"
+                      disabled={!searchTerm.trim()}
+                    >
+                      <ArrowUp className="w-5 h-5" />
+                    </Button>
+                  </div>
+                </form>
+              </div>
             </div>
-            
-            {/* Bottom part: Form */}
-            <div className="bg-slate-50/70 p-4 rounded-b-2xl border-t border-slate-200/80">
-              <form onSubmit={handleFormSubmit} className="relative">
-                <Textarea
-                  placeholder="לדוגמה: אני מחפש דירת 4 חדרים מרווחת עם מרפסת שמש באזור שקט של תל אביב, קרוב לגינה ציבורית. התקציב שלי הוא עד 4.5 מיליון שקלים..."
-                  className="bg-white text-right px-4 py-4 pb-12 text-lg flex min-h-[80px] ring-offset-background focus-visible:outline-none focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl border-2 border-slate-200 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:border-sky-400 resize-none shadow-sm placeholder:text-slate-400"
-                  rows={5}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                
-                <div className="absolute bottom-4 left-0 right-0 flex items-center justify-between px-4">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => {
-                      if (!selectedPurpose) {
-                        alert('אנא בחר מטרת חיפוש לפני תחילת המסע המודרך');
-                        return;
-                      }
-                      navigate(createPageUrl(`Chat?purpose=${selectedPurpose}&guided=true`));
-                    }}
-                    className="text-slate-600 hover:text-slate-800 flex items-center gap-1 text-sm"
-                  >
-                    <Compass className="w-4 h-4" />
-                    מסע מודרך
-                  </Button>
-                  <Button
-                    type="submit"
-                    size="icon"
-                    className="bg-slate-900 hover:bg-black text-white rounded-lg"
-                    disabled={!searchTerm.trim()}
-                  >
-                    <ArrowUp className="w-5 h-5" />
-                  </Button>
+
+            {/* Three Cubes - Supporting the chat on the right */}
+            <div className="space-y-4">
+              {/* מסע מודרך */}
+              <div className="bg-gradient-to-br from-cyan-50 to-white border-2 border-cyan-200 rounded-2xl p-6 hover:shadow-xl hover:border-cyan-400 transition-all">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-400 to-cyan-500 rounded-full flex items-center justify-center text-2xl shadow-lg flex-shrink-0">
+                    🌀
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-slate-900 mb-1">מסע מודרך</h3>
+                    <p className="text-slate-700 text-sm leading-relaxed">
+                      ARENA שואלת שאלות קצרות, בונה פרופיל ומציגה נכסים מתאימים.
+                    </p>
+                  </div>
                 </div>
-              </form>
+              </div>
+
+              {/* שיחה פתוחה */}
+              <div className="bg-gradient-to-br from-purple-50 to-white border-2 border-purple-200 rounded-2xl p-6 hover:shadow-xl hover:border-purple-400 transition-all">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-500 rounded-full flex items-center justify-center text-2xl shadow-lg flex-shrink-0">
+                    💬
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-slate-900 mb-1">שיחה פתוחה</h3>
+                    <p className="text-slate-700 text-sm leading-relaxed">
+                      דברו עם ARENA בצ'אט, בקשו נכסים, שאלו שאלות וקבלו הצעות מותאמות.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* ציון התאמה */}
+              <div className="bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 rounded-2xl p-6 hover:shadow-xl hover:border-orange-400 transition-all">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-2xl shadow-lg flex-shrink-0">
+                    🔍
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-slate-900 mb-1">ציון התאמה והסבר</h3>
+                    <p className="text-slate-700 text-sm leading-relaxed">
+                      לכל נכס ציון התאמה. לחצו על סימן השאלה להסבר אישי למה זה מתאים לכם.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* איך ארנה עוזרת לך */}
-      <section id="features-section" className="relative z-10 py-12 bg-white">
+      <section id="features-section" className="relative z-10 py-12 bg-white" style={{ marginTop: '-2rem' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">איך ארנה עוזרת לך?</h2>
@@ -698,7 +740,7 @@ export default function Landing() {
       </section>
 
       {/* השותפים שלנו */}
-      <section className="py-12 bg-gradient-to-br from-slate-50 to-slate-100">
+      <section className="py-12 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">השותפים שלנו</h2>
@@ -707,17 +749,52 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-16">
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/d929f767a_image.png" alt="אורה" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b980046be_image.png" alt="אפריקה ישראל" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/aa4c91ca1_image.png" alt="דמרי" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b1480d5dd_image.png" alt="סטרום" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/82a1e3cda_image.png" alt="הדהד" className="h-16 opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+          <div className="relative">
+            <div className="flex gap-12 md:gap-16 animate-scroll">
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/d929f767a_image.png" alt="אורה" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b980046be_image.png" alt="אפריקה ישראל" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/aa4c91ca1_image.png" alt="דמרי" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b1480d5dd_image.png" alt="סטרום" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/82a1e3cda_image.png" alt="הדהד" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              {/* Duplicate for seamless loop */}
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/d929f767a_image.png" alt="אורה" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b980046be_image.png" alt="אפריקה ישראל" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/aa4c91ca1_image.png" alt="דמרי" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/b1480d5dd_image.png" alt="סטרום" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/695416b571bbbac7bcdb7ca0/82a1e3cda_image.png" alt="הדהד" className="h-16 hover:scale-110 transition-transform flex-shrink-0" />
+            </div>
           </div>
         </div>
       </section>
-
-
+{/* Cookie Banner */}
+{showCookieBanner && (
+  <div className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 border-t border-slate-700 shadow-2xl">
+    <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="flex items-center justify-between gap-6 flex-wrap md:flex-nowrap">
+        <div className="flex-1 min-w-[250px]">
+          <p className="text-sm text-white leading-relaxed">
+            אנחנו משתמשים בעוגיות כדי לשפר את חווית הגלישה שלך ולהבין כיצד המשתמשים משתמשים באתר.
+            <a href={createPageUrl('PrivacyPolicy')} className="text-sky-300 hover:text-sky-200 underline mr-1">
+              מדיניות פרטיות
+            </a>
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button
+            onClick={() => {
+              localStorage.setItem('arena_cookie_consent', 'accepted');
+              setShowCookieBanner(false);
+            }}
+            className="bg-white hover:bg-slate-100 text-slate-900 text-sm font-medium rounded-lg px-6 py-2 whitespace-nowrap shadow-lg"
+          >
+            הבנתי
+          </Button>
+        </div>
+      </div>
     </div>
-  );
+  </div>
+)}
+
+</div>
+);
 }
