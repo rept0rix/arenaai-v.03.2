@@ -1,0 +1,163 @@
+{
+  "name": "Property",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05d9\u05d9\u05d7\u05d5\u05d3\u05d9 \u05e9\u05dc \u05d4\u05e0\u05db\u05e1"
+    },
+    "title": {
+      "type": "string",
+      "description": "\u05db\u05d5\u05ea\u05e8\u05ea \u05d4\u05e0\u05db\u05e1"
+    },
+    "description": {
+      "type": "string",
+      "description": "\u05ea\u05d9\u05d0\u05d5\u05e8 \u05d4\u05e0\u05db\u05e1"
+    },
+    "price": {
+      "type": "number",
+      "description": "\u05de\u05d7\u05d9\u05e8 \u05d4\u05e0\u05db\u05e1 \u05d1\u05e9\u05e7\u05dc\u05d9\u05dd"
+    },
+    "location": {
+      "type": "string",
+      "description": "\u05de\u05d9\u05e7\u05d5\u05dd \u05d4\u05e0\u05db\u05e1"
+    },
+    "address": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05de\u05dc\u05d0\u05d4"
+    },
+    "city": {
+      "type": "string",
+      "description": "\u05e2\u05d9\u05e8"
+    },
+    "property_type": {
+      "type": "string",
+      "description": "\u05e1\u05d5\u05d2 \u05d4\u05e0\u05db\u05e1"
+    },
+    "rooms": {
+      "type": "number",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05d7\u05d3\u05e8\u05d9\u05dd"
+    },
+    "size": {
+      "type": "number",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05d1\u05de\"\u05e8"
+    },
+    "floor": {
+      "type": "number",
+      "description": "\u05e7\u05d5\u05de\u05d4"
+    },
+    "total_floors": {
+      "type": "number",
+      "description": "\u05e1\u05d4\"\u05db \u05e7\u05d5\u05de\u05d5\u05ea \u05d1\u05d1\u05e0\u05d9\u05d9\u05df"
+    },
+    "parking": {
+      "type": "boolean",
+      "description": "\u05d4\u05d0\u05dd \u05d9\u05e9 \u05d7\u05e0\u05d9\u05d4"
+    },
+    "parking_spots": {
+      "type": "number",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05de\u05e7\u05d5\u05de\u05d5\u05ea \u05d7\u05e0\u05d9\u05d4"
+    },
+    "elevator": {
+      "type": "boolean",
+      "description": "\u05d4\u05d0\u05dd \u05d9\u05e9 \u05de\u05e2\u05dc\u05d9\u05ea"
+    },
+    "balcony": {
+      "type": "boolean",
+      "description": "\u05d4\u05d0\u05dd \u05d9\u05e9 \u05de\u05e8\u05e4\u05e1\u05ea"
+    },
+    "balcony_size": {
+      "type": "number",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05de\u05e8\u05e4\u05e1\u05ea \u05d1\u05de\"\u05e8"
+    },
+    "storage": {
+      "type": "boolean",
+      "description": "\u05d4\u05d0\u05dd \u05d9\u05e9 \u05de\u05d7\u05e1\u05df"
+    },
+    "storage_size": {
+      "type": "number",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05de\u05d7\u05e1\u05df \u05d1\u05de\"\u05e8"
+    },
+    "condition": {
+      "type": "string",
+      "description": "\u05de\u05e6\u05d1 \u05d4\u05e0\u05db\u05e1"
+    },
+    "air_directions": {
+      "type": "string",
+      "description": "\u05db\u05d9\u05d5\u05d5\u05e0\u05d9 \u05d0\u05d5\u05d5\u05d9\u05e8"
+    },
+    "year_built": {
+      "type": "number",
+      "description": "\u05e9\u05e0\u05ea \u05d1\u05e0\u05d9\u05d9\u05d4"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05d4 \u05e8\u05d0\u05e9\u05d9\u05ea \u05e9\u05dc \u05d4\u05e0\u05db\u05e1"
+    },
+    "gallery_images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u05d2\u05dc\u05e8\u05d9\u05d9\u05ea \u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05e9\u05dc \u05d4\u05e0\u05db\u05e1"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u05de\u05d0\u05e4\u05d9\u05d9\u05e0\u05d9\u05dd \u05e0\u05d5\u05e1\u05e4\u05d9\u05dd"
+    },
+    "budget_min": {
+      "type": "number",
+      "description": "\u05ea\u05e7\u05e6\u05d9\u05d1 \u05de\u05d9\u05e0\u05d9\u05de\u05d5\u05dd \u05de\u05ea\u05d0\u05d9\u05dd"
+    },
+    "budget_max": {
+      "type": "number",
+      "description": "\u05ea\u05e7\u05e6\u05d9\u05d1 \u05de\u05e7\u05e1\u05d9\u05de\u05d5\u05dd \u05de\u05ea\u05d0\u05d9\u05dd"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "\u05e7\u05d5 \u05e8\u05d5\u05d7\u05d1 (\u05dc\u05de\u05e4\u05d4)"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "\u05e7\u05d5 \u05d0\u05d5\u05e8\u05da (\u05dc\u05de\u05e4\u05d4)"
+    },
+    "developer": {
+      "type": "string",
+      "description": "\u05d7\u05d1\u05e8\u05ea \u05d4\u05e4\u05d9\u05ea\u05d5\u05d7"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8"
+    },
+    "payment_terms": {
+      "type": "string",
+      "description": "\u05ea\u05e0\u05d0\u05d9 \u05ea\u05e9\u05dc\u05d5\u05dd"
+    },
+    "financing_available": {
+      "type": "boolean",
+      "description": "\u05d6\u05de\u05d9\u05e0\u05d5\u05ea \u05de\u05d9\u05de\u05d5\u05df"
+    },
+    "immediate_occupancy": {
+      "type": "boolean",
+      "description": "\u05d0\u05db\u05dc\u05d5\u05e1 \u05de\u05d9\u05d9\u05d3\u05d9"
+    }
+  },
+  "required": [
+    "title",
+    "price",
+    "location",
+    "property_type",
+    "rooms"
+  ],
+  "rls": {
+    "read": {},
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

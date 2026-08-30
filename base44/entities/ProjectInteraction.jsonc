@@ -1,0 +1,38 @@
+{
+  "name": "ProjectInteraction",
+  "type": "object",
+  "properties": {
+    "projectId": {
+      "type": "string"
+    },
+    "developerId": {
+      "type": "string"
+    },
+    "userId": {
+      "type": "string"
+    },
+    "userEmail": {
+      "type": "string"
+    },
+    "userFullName": {
+      "type": "string"
+    },
+    "interactionType": {
+      "type": "string",
+      "enum": [
+        "view",
+        "inquiry"
+      ]
+    }
+  },
+  "required": [
+    "projectId",
+    "developerId",
+    "userId",
+    "interactionType"
+  ],
+  "rls": {
+    "read": {},
+    "write": {}
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "name": "DeveloperSubscription",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05d4\u05de\u05e9\u05ea\u05de\u05e9 \u05e9\u05d1\u05d9\u05e6\u05e2 \u05d0\u05ea \u05d4\u05d4\u05e8\u05e9\u05de\u05d4"
+    },
+    "advertiserName": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05de\u05e6\u05d9\u05d2/\u05d4\u05de\u05e4\u05e8\u05e1\u05dd"
+    },
+    "companyNumber": {
+      "type": "string",
+      "description": "\u05de.\u05d7. / \u05d7.\u05e4."
+    },
+    "signatoryName": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05de\u05d5\u05e8\u05e9\u05d4 \u05d7\u05ea\u05d9\u05de\u05d4"
+    },
+    "signatoryId": {
+      "type": "string",
+      "description": "\u05ea.\u05d6. \u05de\u05d5\u05e8\u05e9\u05d4 \u05d7\u05ea\u05d9\u05de\u05d4"
+    },
+    "additionalSignatories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "\u05de\u05d5\u05e8\u05e9\u05d9 \u05d7\u05ea\u05d9\u05de\u05d4 \u05e0\u05d5\u05e1\u05e4\u05d9\u05dd"
+    },
+    "contactPerson": {
+      "type": "string",
+      "description": "\u05d0\u05d9\u05e9 \u05e7\u05e9\u05e8"
+    },
+    "contactPersonEmail": {
+      "type": "string",
+      "format": "email"
+    },
+    "contactPersonPhone": {
+      "type": "string"
+    },
+    "financialManager": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05de\u05e0\u05d4\u05dc \u05db\u05e1\u05e4\u05d9\u05dd"
+    },
+    "financialManagerEmail": {
+      "type": "string",
+      "format": "email"
+    },
+    "financialManagerPhone": {
+      "type": "string"
+    },
+    "subscriptionPeriod": {
+      "type": "string",
+      "description": "\u05ea\u05e7\u05d5\u05e4\u05ea \u05d4\u05de\u05e0\u05d5\u05d9 \u05e9\u05e0\u05d1\u05d7\u05e8\u05d4"
+    },
+    "projectCount": {
+      "type": "number",
+      "description": "\u05db\u05de\u05d5\u05ea \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8\u05d9\u05dd"
+    },
+    "paymentMethod": {
+      "type": "string",
+      "description": "\u05d0\u05d5\u05e4\u05df \u05d4\u05ea\u05e9\u05dc\u05d5\u05dd"
+    },
+    "arena_benefits_program": {
+      "type": "boolean",
+      "description": "\u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea \u05dc-ARENA CLUB"
+    },
+    "vip_exclusive": {
+      "type": "boolean",
+      "description": "\u05d4\u05e6\u05d8\u05e8\u05e4\u05d5\u05ea \u05dc\u05de\u05e0\u05d5\u05d9 VIP"
+    },
+    "monthlyFee": {
+      "type": "number",
+      "description": "\u05e2\u05dc\u05d5\u05ea \u05d7\u05d5\u05d3\u05e9\u05d9\u05ea \u05de\u05d7\u05d5\u05e9\u05d1\u05ea"
+    },
+    "totalPrice": {
+      "type": "number",
+      "description": "\u05d4\u05de\u05d7\u05d9\u05e8 \u05d4\u05e1\u05d5\u05e4\u05d9 \u05e9\u05d7\u05d5\u05e9\u05d1"
+    },
+    "downPayment": {
+      "type": "number",
+      "description": "\u05e1\u05db\u05d5\u05dd \u05d4\u05de\u05e7\u05d3\u05de\u05d4"
+    },
+    "discountPercentage": {
+      "type": "number",
+      "description": "\u05d0\u05d7\u05d5\u05d6 \u05d4\u05e0\u05d7\u05d4 \u05db\u05d5\u05dc\u05dc"
+    },
+    "commissionRate": {
+      "type": "number",
+      "description": "\u05e9\u05d9\u05e2\u05d5\u05e8 \u05e2\u05de\u05dc\u05ea \u05de\u05db\u05d9\u05e8\u05d5\u05ea"
+    },
+    "agreementDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "isSigned": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05d4\u05d0\u05dd \u05d4\u05d4\u05e1\u05db\u05dd \u05e0\u05d7\u05ea\u05dd \u05d3\u05d9\u05d2\u05d9\u05d8\u05dc\u05d9\u05ea"
+    },
+    "acceptTerms": {
+      "type": "boolean",
+      "default": false
+    },
+    "acceptPrivacyPolicy": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "userId",
+    "advertiserName",
+    "companyNumber",
+    "signatoryName",
+    "signatoryId",
+    "contactPerson",
+    "contactPersonEmail",
+    "contactPersonPhone",
+    "totalPrice",
+    "isSigned"
+  ],
+  "rls": {
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

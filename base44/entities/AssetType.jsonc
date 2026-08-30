@@ -1,0 +1,135 @@
+{
+  "name": "AssetType",
+  "type": "object",
+  "properties": {
+    "projectId": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8 \u05d4\u05de\u05e9\u05d5\u05d9\u05da"
+    },
+    "type_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05d8\u05d9\u05e4\u05d5\u05e1 (A, B, \u05e4\u05e0\u05d8\u05d4\u05d0\u05d5\u05d6)"
+    },
+    "apartment_plan_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05e7\u05d9\u05e9\u05d5\u05e8 \u05dc\u05ea\u05db\u05e0\u05d9\u05ea \u05d3\u05d9\u05e8\u05d4"
+    },
+    "interior_images": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05d4\u05d3\u05de\u05d9\u05d9\u05ea \u05e4\u05e0\u05d9\u05dd"
+    },
+    "exterior_images": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      },
+      "description": "\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05d4\u05d3\u05de\u05d9\u05d9\u05ea \u05d7\u05d5\u05e5"
+    },
+    "brochure_he_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "brochure_en_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "has_mamak": {
+      "type": "boolean",
+      "description": "\u05d4\u05d0\u05dd \u05d9\u05e9 \u05de\u05de\"\u05e7"
+    },
+    "has_mamad": {
+      "type": "boolean",
+      "description": "\u05d4\u05d0\u05dd \u05d9\u05e9 \u05de\u05de\"\u05d3"
+    },
+    "has_parking": {
+      "type": "boolean"
+    },
+    "parking_spots": {
+      "type": "number"
+    },
+    "parking_type": {
+      "type": "string",
+      "description": "\u05e1\u05d5\u05d2 \u05d7\u05e0\u05d9\u05d4 (\u05de\u05dc\u05dc \u05d7\u05d5\u05e4\u05e9\u05d9)"
+    },
+    "has_storage": {
+      "type": "boolean"
+    },
+    "storage_size": {
+      "type": "number",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05de\u05d7\u05e1\u05df \u05d1\u05de\"\u05e8"
+    },
+    "property_type": {
+      "type": "string",
+      "enum": [
+        "apartment",
+        "penthouse",
+        "garden_apartment",
+        "villa",
+        "duplex"
+      ]
+    },
+    "floor": {
+      "type": "number"
+    },
+    "total_floors_in_building": {
+      "type": "number",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05e7\u05d5\u05de\u05d5\u05ea \u05d1\u05de\u05d2\u05d3\u05dc"
+    },
+    "has_garbage_chute": {
+      "type": "boolean"
+    },
+    "has_solar_heater": {
+      "type": "boolean"
+    },
+    "network_infrastructure": {
+      "type": "boolean"
+    },
+    "size_sqm": {
+      "type": "number",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05d4\u05e0\u05db\u05e1 \u05d1\u05de\"\u05e8"
+    },
+    "room_count": {
+      "type": "number"
+    },
+    "kitchen_size_sqm": {
+      "type": "number"
+    },
+    "bedroom_count": {
+      "type": "number",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05d7\u05d3\u05e8\u05d9 \u05e9\u05d9\u05e0\u05d4"
+    },
+    "has_balcony": {
+      "type": "boolean"
+    },
+    "balcony_size_sqm": {
+      "type": "number"
+    },
+    "air_directions": {
+      "type": "string"
+    },
+    "technical_specifications": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "projectId",
+    "type_name"
+  ],
+  "rls": {
+    "read": {},
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

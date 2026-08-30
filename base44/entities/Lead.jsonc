@@ -1,0 +1,143 @@
+{
+  "name": "Lead",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05de\u05dc\u05d0 \u05e9\u05dc \u05d4\u05e7\u05d5\u05e0\u05d4"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "\u05d0\u05d9\u05de\u05d9\u05d9\u05dc"
+    },
+    "phone": {
+      "type": "string",
+      "description": "\u05d8\u05dc\u05e4\u05d5\u05df"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05e1\u05e9\u05df \u05d0\u05e0\u05d5\u05e0\u05d9\u05de\u05d9"
+    },
+    "chat_session_id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05e6'\u05d0\u05d8"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8 \u05e8\u05dc\u05d5\u05d5\u05e0\u05d8\u05d9"
+    },
+    "property_id": {
+      "type": "string",
+      "description": "\u05e0\u05db\u05e1 \u05e8\u05dc\u05d5\u05d5\u05e0\u05d8\u05d9"
+    },
+    "developer_id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05d9\u05d6\u05dd"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "interested",
+        "ready_for_meeting",
+        "in_meeting",
+        "closed_won",
+        "closed_lost"
+      ],
+      "default": "new",
+      "description": "\u05e1\u05d8\u05d8\u05d5\u05e1 \u05d4\u05dc\u05d9\u05d3"
+    },
+    "maturity_level": {
+      "type": "string",
+      "enum": [
+        "curiosity",
+        "comparison",
+        "ready"
+      ],
+      "description": "\u05e8\u05de\u05ea \u05d1\u05e9\u05dc\u05d5\u05ea"
+    },
+    "buyer_profile_summary": {
+      "type": "object",
+      "description": "\u05ea\u05e7\u05e6\u05d9\u05e8 \u05e4\u05e8\u05d5\u05e4\u05d9\u05dc \u05e7\u05d5\u05e0\u05d4 \u05e9\u05d4\u05d5\u05e4\u05e7 \u05e2\u05f4\u05d9 AI",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "motivations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "maturity": {
+          "type": "string"
+        },
+        "top_3_preferences": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "project_explainability": {
+          "type": "string"
+        }
+      }
+    },
+    "conversation_summary": {
+      "type": "object",
+      "description": "\u05e1\u05d9\u05db\u05d5\u05dd \u05e9\u05d9\u05d7\u05d4 \u05e9\u05d4\u05d5\u05e4\u05e7 \u05e2\u05f4\u05d9 AI",
+      "properties": {
+        "what_searched": {
+          "type": "string"
+        },
+        "what_liked": {
+          "type": "string"
+        },
+        "what_blocked": {
+          "type": "string"
+        },
+        "next_recommended_step": {
+          "type": "string"
+        }
+      }
+    },
+    "sales_person_assigned": {
+      "type": "string",
+      "description": "\u05d0\u05d9\u05e9 \u05de\u05db\u05d9\u05e8\u05d5\u05ea \u05de\u05e9\u05d5\u05d9\u05da"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "property_inquiry",
+        "financing_request",
+        "arena_club",
+        "social_signin",
+        "chat"
+      ],
+      "description": "\u05de\u05e7\u05d5\u05e8 \u05d4\u05dc\u05d9\u05d3"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u05d4\u05e2\u05e8\u05d5\u05ea \u05e0\u05d5\u05e1\u05e4\u05d5\u05ea"
+    }
+  },
+  "required": [
+    "full_name",
+    "email",
+    "phone",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

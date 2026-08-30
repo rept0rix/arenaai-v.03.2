@@ -1,0 +1,277 @@
+{
+  "name": "Project",
+  "type": "object",
+  "properties": {
+    "developerId": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05d4\u05d9\u05d6\u05dd \u05d4\u05de\u05e9\u05d5\u05d9\u05da"
+    },
+    "name_he": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "name_en": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "website_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05dc\u05d9\u05e0\u05e7 \u05dc\u05d0\u05ea\u05e8 \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8"
+    },
+    "slogan_he": {
+      "type": "string",
+      "description": "\u05e1\u05dc\u05d5\u05d2\u05df \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8 \u05d1\u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "slogan_en": {
+      "type": "string",
+      "description": "\u05e1\u05dc\u05d5\u05d2\u05df \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about": {
+      "type": "string",
+      "description": "\u05d0\u05d5\u05d3\u05d5\u05ea \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8 - \u05d8\u05e7\u05e1\u05d8 \u05d7\u05d5\u05e4\u05e9\u05d9"
+    },
+    "city": {
+      "type": "string",
+      "description": "\u05e2\u05d9\u05e8"
+    },
+    "street": {
+      "type": "string",
+      "description": "\u05e8\u05d7\u05d5\u05d1"
+    },
+    "street_number": {
+      "type": "string",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05d1\u05d9\u05ea"
+    },
+    "neighborhood": {
+      "type": "string",
+      "description": "\u05e9\u05db\u05d5\u05e0\u05d4"
+    },
+    "address": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05de\u05dc\u05d0\u05d4 (\u05e0\u05d5\u05e6\u05e8\u05ea \u05d0\u05d5\u05d8\u05d5\u05de\u05d8\u05d9\u05ea)"
+    },
+    "sales_office_hours": {
+      "type": "string",
+      "description": "\u05de\u05d5\u05e2\u05d3\u05d9 \u05e4\u05e2\u05d9\u05dc\u05d5\u05ea \u05de\u05e9\u05e8\u05d3\u05d9 \u05de\u05db\u05d9\u05e8\u05d5\u05ea"
+    },
+    "sales_office_address": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05de\u05e9\u05e8\u05d3 \u05d4\u05de\u05db\u05d9\u05e8\u05d5\u05ea"
+    },
+    "occupancy_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u05de\u05d5\u05e2\u05d3 \u05d0\u05db\u05dc\u05d5\u05e1 \u05de\u05e9\u05d5\u05e2\u05e8"
+    },
+    "has_model_apartment": {
+      "type": "boolean",
+      "description": "\u05d4\u05d0\u05dd \u05e0\u05d9\u05ea\u05df \u05dc\u05e8\u05d0\u05d5\u05ea \u05d3\u05d9\u05e8\u05d4 \u05dc\u05d3\u05d5\u05d2\u05de\u05d0?"
+    },
+    "environment_description": {
+      "type": "string",
+      "description": "\u05ea\u05d9\u05d0\u05d5\u05e8\u05d9\u05dd \u05de\u05d9\u05d5\u05d7\u05d3\u05d9\u05dd \u05e2\u05dc \u05e1\u05d1\u05d9\u05d1\u05ea \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8"
+    },
+    "accompanying_bank": {
+      "type": "string",
+      "description": "\u05d1\u05e0\u05e7 \u05de\u05dc\u05d5\u05d5\u05d4"
+    },
+    "project_type": {
+      "type": "string",
+      "enum": [
+        "regular",
+        "tama",
+        "pinui_binui"
+      ],
+      "description": "\u05e1\u05d5\u05d2 \u05e4\u05e8\u05d5\u05d9\u05e7\u05d8"
+    },
+    "tama_type": {
+      "type": "string",
+      "description": "\u05d0\u05d9\u05d6\u05d5 \u05ea\u05de\u05f4\u05d0? (\u05e0\u05e4\u05ea\u05d7 \u05e8\u05e7 \u05d0\u05dd \u05d1\u05d7\u05e8 \u05ea\u05de\u05f4\u05d0)"
+    },
+    "law_firm": {
+      "type": "string",
+      "description": "\u05de\u05e9\u05e8\u05d3 \u05e2\u05d5\u05e8\u05db\u05d9 \u05d3\u05d9\u05df \u05e9\u05dc \u05d4\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8"
+    },
+    "contractor": {
+      "type": "string",
+      "description": "\u05d4\u05e7\u05d1\u05dc\u05df \u05d4\u05de\u05d1\u05e6\u05e2"
+    },
+    "simulation_video_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05e7\u05d9\u05e9\u05d5\u05e8 \u05dc\u05e1\u05e8\u05d8\u05d5\u05df \u05d4\u05d3\u05de\u05d9\u05d4"
+    },
+    "testimonials_video_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05e7\u05d9\u05e9\u05d5\u05e8 \u05dc\u05e1\u05e8\u05d8\u05d5\u05df '\u05de\u05d4 \u05dc\u05e7\u05d5\u05d7\u05d5\u05ea \u05d7\u05d5\u05e9\u05d1\u05d9\u05dd'"
+    },
+    "story_video_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05e7\u05d9\u05e9\u05d5\u05e8 \u05dc\u05e1\u05e8\u05d8\u05d5\u05df \u05db\u05ea\u05d1\u05d4"
+    },
+    "amenities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u05e9\u05d9\u05e8\u05d5\u05ea\u05d9\u05dd (\u05d7\u05d3\"\u05db, \u05d1\u05e8\u05d9\u05db\u05d4, \u05e9\u05d5\u05de\u05e8 \u05d5\u05db\u05d5')"
+    },
+    "apartment_plans_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05ea\u05d5\u05db\u05e0\u05d9\u05d5\u05ea \u05d3\u05d9\u05e8\u05d4 - \u05dc\u05e4\u05d9 \u05d8\u05d9\u05e4\u05d5\u05e1\u05d9\u05dd A B C D E F"
+    },
+    "interior_renders_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05d4\u05d3\u05de\u05d9\u05d9\u05ea \u05e4\u05e0\u05d9\u05dd"
+    },
+    "exterior_renders_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05d5\u05ea \u05d4\u05d3\u05de\u05d9\u05d9\u05ea \u05d7\u05d5\u05e5"
+    },
+    "brochure_he_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05d1\u05e8\u05d5\u05e9\u05d5\u05e8 PDF - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "brochure_en_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05d1\u05e8\u05d5\u05e9\u05d5\u05e8 PDF - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "architectural_plan_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05ea\u05db\u05e0\u05d9\u05ea \u05d0\u05d3\u05e8\u05d9\u05db\u05dc\u05d9\u05ea (FBX/DAE)"
+    },
+    "bim_model_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05de\u05d5\u05d3\u05dc BIM (Revit)"
+    },
+    "cad_plan_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05ea\u05d5\u05db\u05e0\u05d9\u05d5\u05ea CAD"
+    },
+    "view_description": {
+      "type": "string",
+      "description": "\u05e0\u05d5\u05e3 \u05dc\u05d9\u05dd/\u05d0\u05d5\u05e8\u05d1\u05e0\u05d9/\u05d9\u05e8\u05d5\u05e7/\u05d2\u05dd"
+    },
+    "starting_price_per_meter": {
+      "type": "number",
+      "description": "\u05de\u05d7\u05d9\u05e8 \u05d4\u05ea\u05d7\u05dc\u05ea\u05d9 \u05dc\u05de\"\u05e8"
+    },
+    "starting_price_by_type": {
+      "type": "string",
+      "description": "\u05de\u05d7\u05d9\u05e8 \u05d4\u05ea\u05d7\u05dc\u05ea\u05d9 \u05dc\u05e4\u05d9 \u05e1\u05d5\u05d2 \u05d3\u05d9\u05e8\u05d4 \u05d1\u05e4\u05e8\u05d5\u05d9\u05e7\u05d8 (\u05d8\u05e7\u05e1\u05d8 \u05d7\u05d5\u05e4\u05e9\u05d9)"
+    },
+    "is_price_indexed": {
+      "type": "boolean",
+      "description": "\u05d4\u05de\u05d7\u05d9\u05e8 \u05e6\u05de\u05d5\u05d3 \u05dc\u05de\u05d3\u05d3?"
+    },
+    "payment_terms": {
+      "type": "string",
+      "description": "\u05ea\u05e0\u05d0\u05d9 \u05ea\u05e9\u05dc\u05d5\u05dd"
+    },
+    "min_down_payment": {
+      "type": "number",
+      "description": "\u05de\u05e7\u05d3\u05de\u05d4 \u05de\u05d9\u05e0\u05d9\u05de\u05dc\u05d9\u05ea"
+    },
+    "down_payment_discount_info": {
+      "type": "string",
+      "description": "\u05de\u05d9\u05d3\u05e2 \u05e2\u05dc \u05d4\u05e0\u05d7\u05d4 \u05e2\u05d1\u05d5\u05e8 \u05de\u05e7\u05d3\u05de\u05d4 \u05d2\u05d3\u05d5\u05dc\u05d4"
+    },
+    "bulk_purchase_discount_info": {
+      "type": "string",
+      "description": "\u05de\u05d9\u05d3\u05e2 \u05e2\u05dc \u05d4\u05e0\u05d7\u05d4 \u05e2\u05d1\u05d5\u05e8 \u05e8\u05db\u05d9\u05e9\u05d4 \u05de\u05e8\u05d5\u05d1\u05d4"
+    },
+    "reservation_fee_ils": {
+      "type": "number",
+      "description": "\u05d3\u05de\u05d9 \u05e8\u05d9\u05e9\u05d5\u05dd \u05d1\u05e9\"\u05d7"
+    },
+    "reservation_fee_usd": {
+      "type": "number",
+      "description": "\u05d3\u05de\u05d9 \u05e8\u05d9\u05e9\u05d5\u05dd \u05d1\u05d3\u05d5\u05dc\u05e8\u05d9\u05dd"
+    },
+    "has_developer_loan": {
+      "type": "boolean",
+      "description": "\u05d9\u05e9 \u05d4\u05dc\u05d5\u05d5\u05d0\u05ea \u05e7\u05d1\u05dc\u05df?"
+    },
+    "special_offers": {
+      "type": "string",
+      "description": "\u05d4\u05e0\u05d7\u05d5\u05ea/\u05d4\u05d8\u05d1\u05d5\u05ea \u05de\u05d9\u05d5\u05d7\u05d3\u05d5\u05ea"
+    },
+    "yield_percentage": {
+      "type": "number",
+      "description": "\u05d0\u05d7\u05d5\u05d6 \u05ea\u05e9\u05d5\u05d0\u05d4 \u05d1\u05d0\u05d6\u05d5\u05e8"
+    },
+    "avg_rent_price": {
+      "type": "number",
+      "description": "\u05de\u05d7\u05d9\u05e8 \u05e9\u05db\u05d9\u05e8\u05d5\u05ea \u05de\u05de\u05d5\u05e6\u05e2 \u05d1\u05d0\u05d6\u05d5\u05e8"
+    },
+    "inventory_list_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "\u05e7\u05d9\u05e9\u05d5\u05e8 \u05dc\u05de\u05dc\u05d0\u05d9 \u05d3\u05d9\u05e8\u05d5\u05ea \u05d5\u05de\u05d7\u05d9\u05e8\u05d5\u05df"
+    },
+    "sales_person_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d0\u05d9\u05e9 \u05d4\u05de\u05db\u05d9\u05e8\u05d5\u05ea"
+    },
+    "sales_phone": {
+      "type": "string"
+    },
+    "sales_sms": {
+      "type": "string"
+    },
+    "sales_whatsapp": {
+      "type": "string"
+    },
+    "sales_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "calendly_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "registration_form_he_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "agreement_he_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "registration_form_en_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "agreement_en_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "crm_integration_url": {
+      "type": "string",
+      "format": "uri"
+    }
+  },
+  "required": [
+    "developerId",
+    "name_he"
+  ],
+  "rls": {
+    "read": {},
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
